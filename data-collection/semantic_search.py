@@ -21,7 +21,7 @@ def search_semantic_scholar(query, offset=0, limit=10, fields=[]):
     return response.json()
 
 # Call the function
-result = search_semantic_scholar("carbon capture", offset=10, limit=10, fields=["title", "citationCount", "abstract", "url", "year", "isOpenAccess", "fieldsOfStudy", "tldr"])
+result = search_semantic_scholar("carbon capture", offset=10, limit=10, fields=["title", "citationCount", "abstract", "url", "year", "isOpenAccess", "fieldsOfStudy", "embedding", "tldr"])
 
 # Open the file in append mode
 with open('output.txt', 'w') as file:
