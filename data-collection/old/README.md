@@ -1,0 +1,1 @@
+This was an attempt to scrape Google Scholar, but it didn't really work out because of JSON encoding and in particular decoding problems.
