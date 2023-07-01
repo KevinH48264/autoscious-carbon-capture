@@ -21,7 +21,7 @@ def search_semantic_scholar(query, offset=0, limit=10, fields=[]):
     return response.json()
 
 # Call the function
-result = search_semantic_scholar("carbon capture", offset=10, limit=10, fields=["title", "citationCount", "abstract", "url", "year", "isOpenAccess", "fieldsOfStudy", "tldr", "embedding"]) # embedding
+result = search_semantic_scholar("carbon capture", offset=10, limit=100, fields=["title", "citationCount", "abstract", "url", "year", "isOpenAccess", "fieldsOfStudy", "tldr", "embedding"]) # embedding
 
 # Convert to Latent Lab keys
 def preprocess_latent_lab(data):
@@ -36,7 +36,7 @@ def preprocess_latent_lab(data):
     return new_json_string
 
 # Open the file in append mode
-with open('output.json', 'w') as file:
-    # json_string = json.dumps(result['data'], indent=2)
-    json_string = preprocess_latent_lab(result['data'])
+with open('output_100.json', 'w') as file:
+    json_string = json.dumps(result['data'], indent=2)
+    # json_string = preprocess_latent_lab(result['data'])
     file.write(json_string + '\n')
