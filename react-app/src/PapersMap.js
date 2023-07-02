@@ -33,7 +33,7 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
     viewport.sortableChildren = true;
     viewport.moveCenter(0, 0);
     viewport.drag().pinch().wheel().decelerate()
-      .clampZoom({ minWidth: 50, maxWidth: 5000})
+      // .clampZoom({ minWidth: 50, maxWidth: 5000})
       .setZoom(0.25)
       .moveCenter(0, 0);
     app.stage.addChild(viewport);
@@ -48,11 +48,11 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
     const scaleX = (d) => ((d - minX) / (maxX - minX)) * viewport.worldWidth;
     const scaleY = (d) => ((d - minY) / (maxY - minY)) * viewport.worldHeight;
 
-    console.log("topicsData", topicsData)
+    // console.log("topicsData", topicsData)
     let paperNodes = papersData.map(({title, x, y, citationCount}) => ({title, x, y, citationCount}))
     let topicNodes = topicsData.map(({topic, x, y, citationCount}) => ({title: topic, x, y, citationCount}))
     let nodes = paperNodes.concat(topicNodes);
-    console.log("nodes", nodes)
+    // console.log("nodes", nodes)
 
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, viewport) => {
@@ -97,7 +97,7 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
       const viewport_bounds = viewport.getVisibleBounds();
 			viewport_bounds.pad(viewport_bounds.width * 0.2);
       let vis_nodes = nodes.filter((node) =>
-				viewport_bounds.contains(node.x, node.y)
+				viewport_bounds.contains(scaleX(node.x), scaleY(node.y))
 			)
 
       // Take the top 15 visible nodes
@@ -105,8 +105,6 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
 				return b.citationCount - a.citationCount;
 			});
       vis_nodes = vis_nodes.slice(0, 15);
-
-      // console.log("vis_nodes 2", vis_nodes)
 
       // Update visibility of nodes and labels
       drawNodes(vis_nodes, viewport);
