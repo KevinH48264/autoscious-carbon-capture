@@ -20,8 +20,8 @@ def search_semantic_scholar(query, offset=0, limit=10, fields=[]):
     
     return response.json()
 
-# Call the function
-result = search_semantic_scholar("carbon capture", offset=10, limit=100, fields=["title", "citationCount", "abstract", "url", "year", "isOpenAccess", "fieldsOfStudy", "tldr", "embedding"]) # embedding
+# Call the function, fields found here: https://api.semanticscholar.org/api-docs/graph#tag/Paper-Data/operation/post_graph_get_papers
+result = search_semantic_scholar("carbon capture", offset=10, limit=100, fields=["title", "citationCount", "abstract", "url", "year", "isOpenAccess", "fieldsOfStudy", "tldr", "citations", "references", "embedding"]) 
 
 # Convert to Latent Lab keys
 def preprocess_latent_lab(data):
