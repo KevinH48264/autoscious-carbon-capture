@@ -3,9 +3,17 @@ import * as PIXI from 'pixi.js';
 import { Viewport } from 'pixi-viewport';
 import { Delaunay } from 'd3-delaunay';
 import { randomDarkModeColor } from './util';
+import { rectIntersectsRect } from './util';
 
 const ResearchPaperPlot = ({ papersData, topicsData }) => {
   const pixiContainer = useRef();
+
+  PIXI.BitmapFont.from("TitleFont", {
+    fill: 0xF8F8F8,
+    fontSize: 80,
+  }, {
+    chars: PIXI.BitmapFont.ASCII.concat(['∀']),
+  });
 
   useEffect(() => {
     const app = new PIXI.Application({
@@ -55,33 +63,10 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
     let paperNodes = papersData.map(({title, x, y, citationCount}) => ({title, x, y, citationCount}))
     let topicNodes = topicsData.map(({topic, x, y, citationCount}) => ({title: topic, x, y, citationCount}))
     let nodes = paperNodes.concat(topicNodes);
-    console.log(scaleX(maxX), scaleX(minX), scaleY(maxY), scaleY(minY))
-    // console.log("nodes", nodes)
-
-    // const tooltip = document.getElementById('tooltip');
-  
-    // // Track the mouse and update the tooltip
-    // const onMouseMove = (event) => {
-    //   tooltip.style.left = `${event.data.global.x}px`;
-    //   tooltip.style.top = `${event.data.global.y}px`;
-
-    //   for (let node of topicNodes) {
-    //     if (node.region.containsPoint(event.data.global)) {
-    //       tooltip.textContent = node.title;
-    //       tooltip.style.display = 'block';
-    //       return;
-    //     }
-    //   }
-
-    //   tooltip.style.display = 'none';
-    // }
-
-    // app.stage.interactive = true;
-    // app.stage.on('mousemove', onMouseMove);
 
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, viewport) => {
-      // Voronoi diagram?
+      // Handling topics
       const delaunay = Delaunay.from(topicNodes.map((node) => [scaleX(node.x), scaleY(node.y)]));
       const voronoi = delaunay.voronoi([0, 0, viewport.worldWidth, viewport.worldHeight]);
 
@@ -95,22 +80,6 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
           polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
           polygon.endFill();
 
-          // polygon.interactive = true;
-          // polygon.on('mouseover', (event) => {
-          //   // TODO: Maybe this can just be displayed on the top left corner? Or render it faster, I'm not sure
-          //   console.log("MOUSEOVER", node.title)
-          //   const tooltip = document.getElementById('tooltip');
-          //   tooltip.style.display = 'block';
-          //   tooltip.style.left = `${event.global.x}px`;
-          //   tooltip.style.top = `${event.global.y}px`;
-          //   tooltip.textContent = node.title;
-          // });
-          // polygon.on('mouseout', () => {
-          //   console.log("MOUSEOUT", node.title)
-          //   const tooltip = document.getElementById('tooltip');
-          //   tooltip.style.display = 'hidden';
-          // });
-
           node.region = polygon;
           viewport.addChild(polygon);
         } else {
@@ -118,29 +87,76 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
         }
       });
 
-      nodes.forEach((node) => {
+      // Handling papers
+
+      // display in order of popularity without overlap
+      const bounds = viewport.getVisibleBounds();
+      let min_font_size = bounds.width < bounds.height
+          ? bounds.width / 17
+          : bounds.height / 30;
+      const max_font_size = min_font_size * 1.7;
+      const min_scale = Math.min(...nodes.map((node) => Math.sqrt(node.citationCount))) - 0.0001;
+      const max_scale = Math.max(...nodes.map((node) => Math.sqrt(node.citationCount)));
+
+      nodes.forEach((node, i) => {
+        const circleHeight = 5
         if(!node.circle) {
             node.circle = new PIXI.Graphics();
-            node.circle.beginFill(0xff0000);
-            node.circle.drawCircle(scaleX(node.x), scaleY(node.y), 5);
+            node.circle.beginFill(0xb9f2ff);
+            node.circle.drawCircle(scaleX(node.x), scaleY(node.y), circleHeight);
             node.circle.endFill();
             viewport.addChild(node.circle);
         } else {
             node.circle.visible = true; // make it visible if it already exists
         }
 
+        // Handling Node text, draw labels
+        const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
+        const fontSize = min_font_size + (max_font_size - min_font_size) * lambda;
         if(!node.text) {
-            node.text = new PIXI.Text(node.title, {
+            // TODO: this can be done in preprocessing
+            let words = node.title.split(' ');
+            let lines = [];
+            let currentLine = '';
+            
+            for (let word of words) {
+                if ((currentLine + ' ' + word).length > 30) {
+                    lines.push(currentLine);
+                    currentLine = word;
+                } else {
+                    currentLine += ' ' + word;
+                }
+            }
+            lines.push(currentLine);
+            
+            let multilineTitle = lines.join('\n').trim();
+          
+
+            node.text = new PIXI.BitmapText(multilineTitle, {
               fontFamily: 'Arial',
-              fontSize: 12,
+              fontSize: fontSize,
+              fontName: "TitleFont",
               fill: 0xffffff,
-              align: 'center',
+              align: 'left',
+              visible: true,
+              zIndex: 10,
             });
-            node.text.position.set(scaleX(node.x), scaleY(node.y));
-            node.text.visible = false; // Initially hide all text
+            node.text.position.set(scaleX(node.x) + circleHeight, scaleY(node.y) + circleHeight);
+            node.text.anchor.set(0.5, 0);
             viewport.addChild(node.text);
         } else {
+            node.text.fontSize = fontSize;
             node.text.visible = true; // make it visible if it already exists
+
+            // Remove overlap between text, I think getBounds can get approximated if it's too slow
+            const node_bound = node.text.getBounds();
+            for (let j = 0; j < i; j++) {
+                const other = nodes[j];
+                if (other.text.visible && rectIntersectsRect(node_bound, other.text.getBounds())) {
+                    node.text.visible = false;
+                    break;
+                }
+            }
         }
       });
     }
@@ -170,7 +186,7 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
       vis_nodes.sort((a, b) => {
 				return b.citationCount - a.citationCount;
 			});
-      vis_nodes = vis_nodes.slice(0, 12);
+      vis_nodes = vis_nodes.slice(0, 20);
 
       // Update visibility of nodes and labels
       drawNodes(vis_nodes, viewport);
@@ -181,7 +197,28 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
 
   }, [papersData, topicsData]);
 
-  return <div className="pixiContainer" style={{ padding: "0px", margin: "0", overflow: "hidden", display: "flex" }} ref={pixiContainer} />;
+  return <div className="pixiContainer" style={{ display: "flex" }} ref={pixiContainer} />;
 };
 
 export default ResearchPaperPlot;
+
+// const tooltip = document.getElementById('tooltip');
+  
+    // // Track the mouse and update the tooltip
+    // const onMouseMove = (event) => {
+    //   tooltip.style.left = `${event.data.global.x}px`;
+    //   tooltip.style.top = `${event.data.global.y}px`;
+
+    //   for (let node of topicNodes) {
+    //     if (node.region.containsPoint(event.data.global)) {
+    //       tooltip.textContent = node.title;
+    //       tooltip.style.display = 'block';
+    //       return;
+    //     }
+    //   }
+
+    //   tooltip.style.display = 'none';
+    // }
+
+    // app.stage.interactive = true;
+    // app.stage.on('mousemove', onMouseMove);
