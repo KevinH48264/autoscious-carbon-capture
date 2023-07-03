@@ -23,6 +23,20 @@ const App = () => {
 
   return (
     <div className="App">
+      <div 
+        id="tooltip" 
+        style={{
+          position: 'absolute', 
+          display: 'none', 
+          backgroundColor: 'white', 
+          color: 'black', 
+          padding: '10px', 
+          borderRadius: '5px', 
+          zIndex: 1000,
+          pointerEvents: 'none',
+          userSelect: 'none'
+        }} 
+      />
       {topicsData.length > 0 && <ResearchPaperPlot papersData={papersData} topicsData={topicsData}/>}
     </div>
   );

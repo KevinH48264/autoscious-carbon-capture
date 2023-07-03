@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import * as PIXI from 'pixi.js';
 import { Viewport } from 'pixi-viewport';
+import { Delaunay } from 'd3-delaunay';
+import { randomDarkModeColor } from './util';
 
 const ResearchPaperPlot = ({ papersData, topicsData }) => {
   const pixiContainer = useRef();
@@ -54,8 +56,65 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
     let nodes = paperNodes.concat(topicNodes);
     // console.log("nodes", nodes)
 
+    const tooltip = document.getElementById('tooltip');
+  
+    // Track the mouse and update the tooltip
+    const onMouseMove = (event) => {
+      tooltip.style.left = `${event.data.global.x}px`;
+      tooltip.style.top = `${event.data.global.y}px`;
+
+      for (let node of topicNodes) {
+        if (node.region.containsPoint(event.data.global)) {
+          tooltip.textContent = node.title;
+          tooltip.style.display = 'block';
+          return;
+        }
+      }
+
+      tooltip.style.display = 'none';
+    }
+
+    app.stage.interactive = true;
+    app.stage.on('mousemove', onMouseMove);
+
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, viewport) => {
+      // Voronoi diagram?
+      const delaunay = Delaunay.from(topicNodes.map((node) => [scaleX(node.x), scaleY(node.y)]));
+      const voronoi = delaunay.voronoi([0, 0, viewport.worldWidth, viewport.worldHeight]);
+
+      topicNodes.forEach((node, i) => {
+        if(!node.region) {
+          const region = voronoi.cellPolygon(i);
+          const polygon = new PIXI.Graphics();
+
+          polygon.beginFill(PIXI.utils.string2hex(randomDarkModeColor()), 0.5);
+          polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
+          polygon.endFill();
+
+          // polygon.interactive = true;
+          // polygon.on('mouseover', (event) => {
+          //   // TODO: Maybe this can just be displayed on the top left corner? Or render it faster, I'm not sure
+          //   console.log("MOUSEOVER", node.title)
+          //   const tooltip = document.getElementById('tooltip');
+          //   tooltip.style.display = 'block';
+          //   tooltip.style.left = `${event.global.x}px`;
+          //   tooltip.style.top = `${event.global.y}px`;
+          //   tooltip.textContent = node.title;
+          // });
+          // polygon.on('mouseout', () => {
+          //   console.log("MOUSEOUT", node.title)
+          //   const tooltip = document.getElementById('tooltip');
+          //   tooltip.style.display = 'hidden';
+          // });
+
+          node.region = polygon;
+          viewport.addChild(polygon);
+        } else {
+          node.region.visible = true; // make it visible if it already exists
+        }
+      });
+
       nodes.forEach((node) => {
         if(!node.circle) {
             node.circle = new PIXI.Graphics();
@@ -92,6 +151,10 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
         if (node.circle) { node.circle.visible = false };
         if (node.text) { node.text.visible = false };
 			}
+      // Reset all region graphics
+      for (const node of topicNodes) {
+        if (node.region) node.region.visible = false;
+      }
 
       // get the current field of view
       const viewport_bounds = viewport.getVisibleBounds();
@@ -104,7 +167,7 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
       vis_nodes.sort((a, b) => {
 				return b.citationCount - a.citationCount;
 			});
-      vis_nodes = vis_nodes.slice(0, 15);
+      vis_nodes = vis_nodes.slice(0, 12);
 
       // Update visibility of nodes and labels
       drawNodes(vis_nodes, viewport);
