@@ -23,21 +23,25 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
       pixiContainer.current.appendChild(app.view);
     }
 
+    // For now, make the world square and even for better circle parsing
+    const worldWidth = Math.min(window.innerWidth, window.innerHeight)
+    const worldHeight = Math.min(window.innerWidth, window.innerHeight)
+
     const viewport = new Viewport({
       screenWidth: window.innerWidth,
       screenHeight: window.innerHeight,
-      worldWidth: window.innerWidth,
-      worldHeight: window.innerHeight,
+      worldWidth: worldWidth,
+      worldHeight: worldHeight,
       ticker: app.ticker,
       events: app.renderer.events,
       stopPropagation: true,
     });
     viewport.sortableChildren = true;
-    viewport.moveCenter(0, 0);
+    let maxDist = Math.max(viewport.worldWidth, viewport.worldHeight);
     viewport.drag().pinch().wheel().decelerate()
       // .clampZoom({ minWidth: 50, maxWidth: 5000})
-      .setZoom(0.25)
-      .moveCenter(0, 0);
+      .setZoom(0.5)
+      .moveCenter(maxDist / 2, maxDist / 2); // not centering just yet for debugging
     app.stage.addChild(viewport);
 
     // Calculate the min and max values just once
@@ -54,6 +58,8 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
     let paperNodes = papersData.map(({title, x, y, citationCount}) => ({title, x, y, citationCount}))
     let topicNodes = topicsData.map(({topic, x, y, citationCount}) => ({title: topic, x, y, citationCount}))
     let nodes = paperNodes.concat(topicNodes);
+    console.log(viewport.worldWidth, viewport.worldHeight, maxDist, maxDist / Math.sqrt(2))
+    console.log(scaleX(maxX), scaleX(minX), scaleY(maxY), scaleY(minY))
     // console.log("nodes", nodes)
 
     const tooltip = document.getElementById('tooltip');
@@ -77,15 +83,25 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
     app.stage.interactive = true;
     app.stage.on('mousemove', onMouseMove);
 
+    // First, create a PIXI.Graphics object representing your circular region
+    const worldCircle = new PIXI.Graphics();
+    const worldRadius = maxDist / Math.sqrt(2); // change this to reflect the farthest point later
+    worldCircle.beginFill(0xFFFFFF, 0.5);  // color doesn't matter
+    worldCircle.drawCircle(maxDist / 2, maxDist / 2, worldRadius);  // center at origin
+    worldCircle.endFill();
+    viewport.addChild(worldCircle);
+    viewport.mask = worldCircle;
+
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, viewport) => {
       // Voronoi diagram?
       const delaunay = Delaunay.from(topicNodes.map((node) => [scaleX(node.x), scaleY(node.y)]));
-      const voronoi = delaunay.voronoi([0, 0, viewport.worldWidth, viewport.worldHeight]);
+      const voronoi = delaunay.voronoi([(maxDist / 2) - worldRadius, (maxDist / 2) - worldRadius, viewport.worldWidth + (worldRadius - (maxDist / 2)), viewport.worldHeight + (worldRadius - (maxDist / 2))]);
 
       topicNodes.forEach((node, i) => {
         if(!node.region) {
           const region = voronoi.cellPolygon(i);
+          console.log(i, region)
           const polygon = new PIXI.Graphics();
 
           polygon.beginFill(PIXI.utils.string2hex(randomDarkModeColor()), 0.5);
