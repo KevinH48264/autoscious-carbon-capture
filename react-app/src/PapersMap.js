@@ -10,7 +10,7 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
   useEffect(() => {
     const app = new PIXI.Application({
       width: window.innerWidth,
-      height: window.innerHeight,
+      height: window.innerHeight - 1000,
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
       backgroundColor: 0x121212,
@@ -24,24 +24,21 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
     }
 
     // For now, make the world square and even for better circle parsing
-    const worldWidth = Math.min(window.innerWidth, window.innerHeight)
-    const worldHeight = Math.min(window.innerWidth, window.innerHeight)
-
     const viewport = new Viewport({
       screenWidth: window.innerWidth,
       screenHeight: window.innerHeight,
-      worldWidth: worldWidth,
-      worldHeight: worldHeight,
+      worldWidth: window.innerWidth,
+      worldHeight: window.innerHeight,
       ticker: app.ticker,
       events: app.renderer.events,
       stopPropagation: true,
     });
     viewport.sortableChildren = true;
-    let maxDist = Math.max(viewport.worldWidth, viewport.worldHeight);
     viewport.drag().pinch().wheel().decelerate()
-      // .clampZoom({ minWidth: 50, maxWidth: 5000})
+      .clamp({direction: 'all'})
+      .clampZoom({ maxHeight: viewport.worldHeight, maxWidth: viewport.worldWidth})
       .setZoom(0.5)
-      .moveCenter(maxDist / 2, maxDist / 2); // not centering just yet for debugging
+      .moveCenter(viewport.worldWidth / 2, viewport.worldHeight / 2);
     app.stage.addChild(viewport);
 
     // Calculate the min and max values just once
@@ -58,45 +55,35 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
     let paperNodes = papersData.map(({title, x, y, citationCount}) => ({title, x, y, citationCount}))
     let topicNodes = topicsData.map(({topic, x, y, citationCount}) => ({title: topic, x, y, citationCount}))
     let nodes = paperNodes.concat(topicNodes);
-    console.log(viewport.worldWidth, viewport.worldHeight, maxDist, maxDist / Math.sqrt(2))
     console.log(scaleX(maxX), scaleX(minX), scaleY(maxY), scaleY(minY))
     // console.log("nodes", nodes)
 
-    const tooltip = document.getElementById('tooltip');
+    // const tooltip = document.getElementById('tooltip');
   
-    // Track the mouse and update the tooltip
-    const onMouseMove = (event) => {
-      tooltip.style.left = `${event.data.global.x}px`;
-      tooltip.style.top = `${event.data.global.y}px`;
+    // // Track the mouse and update the tooltip
+    // const onMouseMove = (event) => {
+    //   tooltip.style.left = `${event.data.global.x}px`;
+    //   tooltip.style.top = `${event.data.global.y}px`;
 
-      for (let node of topicNodes) {
-        if (node.region.containsPoint(event.data.global)) {
-          tooltip.textContent = node.title;
-          tooltip.style.display = 'block';
-          return;
-        }
-      }
+    //   for (let node of topicNodes) {
+    //     if (node.region.containsPoint(event.data.global)) {
+    //       tooltip.textContent = node.title;
+    //       tooltip.style.display = 'block';
+    //       return;
+    //     }
+    //   }
 
-      tooltip.style.display = 'none';
-    }
+    //   tooltip.style.display = 'none';
+    // }
 
-    app.stage.interactive = true;
-    app.stage.on('mousemove', onMouseMove);
-
-    // First, create a PIXI.Graphics object representing your circular region
-    const worldCircle = new PIXI.Graphics();
-    const worldRadius = maxDist / Math.sqrt(2); // change this to reflect the farthest point later
-    worldCircle.beginFill(0xFFFFFF, 0.5);  // color doesn't matter
-    worldCircle.drawCircle(maxDist / 2, maxDist / 2, worldRadius);  // center at origin
-    worldCircle.endFill();
-    viewport.addChild(worldCircle);
-    viewport.mask = worldCircle;
+    // app.stage.interactive = true;
+    // app.stage.on('mousemove', onMouseMove);
 
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, viewport) => {
       // Voronoi diagram?
       const delaunay = Delaunay.from(topicNodes.map((node) => [scaleX(node.x), scaleY(node.y)]));
-      const voronoi = delaunay.voronoi([(maxDist / 2) - worldRadius, (maxDist / 2) - worldRadius, viewport.worldWidth + (worldRadius - (maxDist / 2)), viewport.worldHeight + (worldRadius - (maxDist / 2))]);
+      const voronoi = delaunay.voronoi([0, 0, viewport.worldWidth, viewport.worldHeight]);
 
       topicNodes.forEach((node, i) => {
         if(!node.region) {
@@ -194,7 +181,7 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
 
   }, [papersData, topicsData]);
 
-  return <div ref={pixiContainer} />;
+  return <div className="pixiContainer" style={{ padding: "0px", margin: "0", overflow: "hidden", display: "flex" }} ref={pixiContainer} />;
 };
 
 export default ResearchPaperPlot;
