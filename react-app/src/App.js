@@ -22,8 +22,8 @@ const App = () => {
   }, []);
 
   return (
-    <div className="App">
-      <div 
+    <div className="App" style={{ padding: "0px", margin: "0", overflow: "hidden" }}>
+      {/* <div 
         id="tooltip" 
         style={{
           position: 'absolute', 
@@ -36,7 +36,7 @@ const App = () => {
           pointerEvents: 'none',
           userSelect: 'none'
         }} 
-      />
+      /> */}
       {topicsData.length > 0 && <ResearchPaperPlot papersData={papersData} topicsData={topicsData}/>}
     </div>
   );
