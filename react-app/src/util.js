@@ -8,3 +8,11 @@ export const randomDarkModeColor = () => {
     
     return `hsla(${hue},${saturation}%,${lightness}%, 1)`;
 }
+
+export const rectIntersectsRect = (a, b) => {
+    if (a.x > b.x + b.width || a.x + a.width < b.x)
+        return false;
+    if (a.y > b.y + b.height || a.y + a.height < b.y)
+        return false;
+    return true;
+}
