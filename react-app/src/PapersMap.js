@@ -2,10 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import * as PIXI from 'pixi.js';
 import { Viewport } from 'pixi-viewport';
 import { Delaunay } from 'd3-delaunay';
-import { randomDarkModeColor } from './util';
-import { rectIntersectsRect } from './util';
+import { randomDarkModeColor, rectIntersectsRect, sortPoints  } from './util';
 
-const ResearchPaperPlot = ({ papersData, topicsData }) => {
+const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
   const pixiContainer = useRef();
 
   PIXI.BitmapFont.from("TitleFont", {
@@ -64,15 +63,125 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
     let topicNodes = topicsData.map(({topic, x, y, citationCount}) => ({title: topic, x, y, citationCount}))
     let nodes = paperNodes.concat(topicNodes);
 
+    // creating clusters
+    function getLeafClusters(clusterData) {
+      let clusterNodes = [];
+    
+      function recurse(cluster) {
+        cluster.voronoiPoints = [];
+
+        const {cluster_id, layer, centroid_x, centroid_y, polygonPoints} = cluster;
+    
+        if (typeof cluster.content[0] === 'object' && cluster.content[0] !== null) {
+          cluster.content.forEach(recurse);
+        } else {
+          clusterNodes.push({cluster_id, layer, centroid_x, centroid_y, polygonPoints});
+        }
+      }
+
+      console.log("clusterData in recurse", clusterData)
+    
+      clusterData.forEach(recurse);
+    
+      return clusterNodes;
+    }
+    
+    let leafClusters = getLeafClusters(clusterData);
+    console.log("leafClusters", leafClusters)
+    
+    // Creating voronoi from leaf nodes
+    const delaunay = Delaunay.from(leafClusters.map((node) => [scaleX(node.centroid_x), scaleY(node.centroid_y)]));
+    const voronoi = delaunay.voronoi([0, 0, viewport.worldWidth, viewport.worldHeight]);
+
+    console.log("voronoi", voronoi)
+    for (let i = 0; i < leafClusters.length; i++) {
+      console.log(`Voronoi cell for index ${i}:`, voronoi.cellPolygon(i));
+    }
+    console.log(" 1 voronoi.cellPolygon(0)", voronoi.cellPolygon(0))
+
+    // Assigning Voronoi points to clusters
+    function flattenClusters(clusterData, voronoi) {
+      console.log("STARTING FLATTEN CLUSTER SANTA CLAUS")
+      let clusterNodes = [];
+
+      function recurse(cluster) {
+        const {cluster_id, layer, centroid_x, centroid_y} = cluster;
+        const leafClusterIndex = leafClusters.findIndex(leafCluster => leafCluster.cluster_id === cluster_id);
+
+        console.log("cluster", cluster, "leafClusterIndex", leafClusterIndex)
+
+        // if it's a leaf cluster with Voronoi points
+        if (leafClusterIndex !== -1) {
+          console.log(" 2 voronoi.cellPolygon(0)", voronoi.cellPolygon(0))
+          const cellPolygon = voronoi.cellPolygon(leafClusterIndex);
+
+          if (cellPolygon) {
+            cluster.voronoiPoints = cellPolygon;
+          } else {
+            cluster.voronoiPoints = [];
+          }
+          
+          console.log("cluster.cluster_id", cluster.cluster_id, "ALLPOINTS", cellPolygon)
+        }
+
+        // otherwise it's a parent cluster
+        else {
+          cluster.content.forEach(recurse);
+
+          // If it's a parent cluster, gather Voronoi points from child clusters
+          let allPoints = cluster.content.flatMap(child => child.voronoiPoints);
+          console.log("cluster.cluster_id", cluster.cluster_id, "ALLPOINTS", allPoints)
+
+          if (allPoints[0] === []) {
+            cluster.voronoiPoints = []
+          } else {
+            let centerX = allPoints.reduce((sum, point) => sum + point[0], 0) / allPoints.length;
+            let centerY = allPoints.reduce((sum, point) => sum + point[1], 0) / allPoints.length;
+
+            cluster.voronoiPoints = sortPoints(allPoints, centerX, centerY);
+          }
+        } 
+
+        console.log("pushing!")
+        clusterNodes.push({cluster_id, layer, centroid_x, centroid_y, voronoiPoints: cluster.voronoiPoints});
+        // console.log("done pushing!")
+      }
+
+      console.log("clusterData", clusterData)
+      clusterData.forEach(recurse);
+      console.log("DONE RECURSING!", "clusterNodes", clusterNodes)
+
+      return clusterNodes;
+    }
+
+    let voronoiNodes = flattenClusters(clusterData, voronoi);
+    console.log("VORONOI NODES!", voronoiNodes)
+
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, viewport) => {
-      // Handling topics
-      const delaunay = Delaunay.from(topicNodes.map((node) => [scaleX(node.x), scaleY(node.y)]));
-      const voronoi = delaunay.voronoi([0, 0, viewport.worldWidth, viewport.worldHeight]);
+      // voronoiNodes.forEach((node, i) => {
+      //   if(!node.region) {
+      //     const region = voronoi.cellPolygon(i);
+      //     const polygon = new PIXI.Graphics();
+      //     const lineWidth = 2;
+      //     const lineColor = 0x000000; // black
 
-      topicNodes.forEach((node, i) => {
+      //     polygon.beginFill(PIXI.utils.string2hex(randomDarkModeColor()), 0.5);
+      //     polygon.lineStyle(lineWidth, lineColor); // Add this line to draw the border
+        
+      //     polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
+      //     polygon.endFill();
+
+      //     node.region = polygon;
+      //     viewport.addChild(polygon);
+      //   } else {
+      //     node.region.visible = true; // make it visible if it already exists
+      //   }
+      // });
+
+      voronoiNodes.forEach((node, i) => {
         if(!node.region) {
-          const region = voronoi.cellPolygon(i);
+          console.log("node", node)
           const polygon = new PIXI.Graphics();
           const lineWidth = 2;
           const lineColor = 0x000000; // black
@@ -80,7 +189,7 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
           polygon.beginFill(PIXI.utils.string2hex(randomDarkModeColor()), 0.5);
           polygon.lineStyle(lineWidth, lineColor); // Add this line to draw the border
         
-          polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
+          polygon.drawPolygon(node.voronoiPoints.map(([x, y]) => new PIXI.Point(x, y)));
           polygon.endFill();
 
           node.region = polygon;
