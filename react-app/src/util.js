@@ -16,3 +16,10 @@ export const rectIntersectsRect = (a, b) => {
         return false;
     return true;
 }
+
+// Sort points in counterclockwise order
+export const sortPoints = (points, centerX, centerY) => {
+    return points.sort((a, b) => {
+    return Math.atan2(a[1] - centerY, a[0] - centerX) - Math.atan2(b[1] - centerY, b[0] - centerX);
+    });
+}
