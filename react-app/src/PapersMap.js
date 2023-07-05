@@ -73,10 +73,13 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
       topicNodes.forEach((node, i) => {
         if(!node.region) {
           const region = voronoi.cellPolygon(i);
-          console.log(i, region)
           const polygon = new PIXI.Graphics();
+          const lineWidth = 2;
+          const lineColor = 0x000000; // black
 
           polygon.beginFill(PIXI.utils.string2hex(randomDarkModeColor()), 0.5);
+          polygon.lineStyle(lineWidth, lineColor); // Add this line to draw the border
+        
           polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
           polygon.endFill();
 
@@ -99,7 +102,11 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
       const max_scale = Math.max(...nodes.map((node) => Math.sqrt(node.citationCount)));
 
       nodes.forEach((node, i) => {
-        const circleHeight = 5
+        // Handling Node text, draw labels
+        const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
+        const fontSize = min_font_size + (max_font_size - min_font_size) * lambda;
+        const circleHeight = 1 + 4 * lambda;
+
         if(!node.circle) {
             node.circle = new PIXI.Graphics();
             node.circle.beginFill(0xb9f2ff);
@@ -110,11 +117,8 @@ const ResearchPaperPlot = ({ papersData, topicsData }) => {
             node.circle.visible = true; // make it visible if it already exists
         }
 
-        // Handling Node text, draw labels
-        const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
-        const fontSize = min_font_size + (max_font_size - min_font_size) * lambda;
         if(!node.text) {
-            // TODO: this can be done in preprocessing
+            // TODO: multiline, this can be done in preprocessing
             let words = node.title.split(' ');
             let lines = [];
             let currentLine = '';
