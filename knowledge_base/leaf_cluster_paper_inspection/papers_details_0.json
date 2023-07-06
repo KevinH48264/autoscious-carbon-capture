@@ -1,0 +1,51 @@
+[
+    {
+        "paperId":"3f5bb3499d220af8edd68577d6a5272176a5cda1",
+        "title":"Carbon Capture and Conversion.",
+        "abstract":null,
+        "s2FieldsOfStudy":[
+            {
+                "category":"Chemistry",
+                "source":"external"
+            },
+            {
+                "category":"Medicine",
+                "source":"external"
+            }
+        ]
+    },
+    {
+        "paperId":"ee7a73f2e7ce3068b7131c7cf659483586f3621c",
+        "title":"Adsorption of Carbon Dioxide for Post-combustion Capture: A Review",
+        "abstract":null,
+        "s2FieldsOfStudy":[
+            {
+                "category":"Materials Science",
+                "source":"external"
+            },
+            {
+                "category":"Engineering",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"33207eacd35608ca724e4df7817825cad96b36e2",
+        "title":"MINIMIZING CARBON FOOTPRINT VIA MICROALGAE AS A BIOLOGICAL CAPTURE",
+        "abstract":null,
+        "s2FieldsOfStudy":[
+            {
+                "category":"Engineering",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"18ab538db0d693e981e3955bf3f30ebceec4085d",
+        "title":"Carbon Capture",
+        "abstract":null,
+        "s2FieldsOfStudy":[
+
+        ]
+    }
+]
