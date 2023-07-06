@@ -5,11 +5,11 @@
         "content": [
             {
                 "cluster_id": 105,
-                "layer": 3,
+                "layer": 1,
                 "content": [
                     {
                         "cluster_id": 4,
-                        "layer": 5,
+                        "layer": 2,
                         "content": [
                             "7bb530adabf37316089b13690cf060c1b156b787",
                             "0d3587d6d71cf7ae8e6dbfce01c29adc5cbcd569",
@@ -42,7 +42,7 @@
                     },
                     {
                         "cluster_id": 10,
-                        "layer": 5,
+                        "layer": 2,
                         "content": [
                             "17a3eb5c5fe7d6d90cde7098b5fceead18ae2d33",
                             "eff38e9fd207de2256d78aa3a1a8bfba019095c5",
@@ -277,7 +277,7 @@
                                                 "content": [
                                                     {
                                                         "cluster_id": 7,
-                                                        "layer": 7,
+                                                        "layer": 6,
                                                         "content": [
                                                             "95db37be4a69d404f191eed2c7a1f3893eb555ef",
                                                             "2ae008c4b0c0d11e3333c1685f9c12cf4dd60d76",
@@ -307,7 +307,7 @@
                                                     },
                                                     {
                                                         "cluster_id": 0,
-                                                        "layer": 7,
+                                                        "layer": 6,
                                                         "content": [
                                                             "3f5bb3499d220af8edd68577d6a5272176a5cda1",
                                                             "ee7a73f2e7ce3068b7131c7cf659483586f3621c",
@@ -584,7 +584,7 @@
                                                     },
                                                     {
                                                         "cluster_id": 9,
-                                                        "layer": 9,
+                                                        "layer": 6,
                                                         "content": [
                                                             "c5d58c42f6af877a3b99a98114c1c633674928af",
                                                             "06722bd8b09142c753410125641688556d2cebbc",
@@ -845,7 +845,7 @@
                                         "content": [
                                             {
                                                 "cluster_id": 15,
-                                                "layer": 6,
+                                                "layer": 5,
                                                 "content": [
                                                     "054fa9dd6cd640002c9ffcd1292ac14b9840db6b",
                                                     "76a20bec8e313ced0faf8010e6ecbe3965a9e305",
@@ -886,11 +886,11 @@
                                                 "content": [
                                                     {
                                                         "cluster_id": 124,
-                                                        "layer": 7,
+                                                        "layer": 6,
                                                         "content": [
                                                             {
                                                                 "cluster_id": 8,
-                                                                "layer": 8,
+                                                                "layer": 7,
                                                                 "content": [
                                                                     "5b190c555003e154bb9038844899014425236273",
                                                                     "9496966a27c7a9176ec0a8ff6a04781caa42b7bb",
@@ -927,7 +927,7 @@
                                                             },
                                                             {
                                                                 "cluster_id": 5,
-                                                                "layer": 8,
+                                                                "layer": 7,
                                                                 "content": [
                                                                     "620999ecca4608a89bd69cbe97ab752ce1e62161",
                                                                     "57eec80dc233eb48b42b6ef4299acbc565a32f72",
@@ -1019,11 +1019,11 @@
                                                     },
                                                     {
                                                         "cluster_id": 128,
-                                                        "layer": 7,
+                                                        "layer": 6,
                                                         "content": [
                                                             {
                                                                 "cluster_id": 13,
-                                                                "layer": 9,
+                                                                "layer": 7,
                                                                 "content": [
                                                                     "cb6524d36de77775de630af0541f1d2b1291d449",
                                                                     "deff0e3386caac160ecf968815a2938a542e34f0",
@@ -1052,7 +1052,7 @@
                                                             },
                                                             {
                                                                 "cluster_id": 11,
-                                                                "layer": 9,
+                                                                "layer": 7,
                                                                 "content": [
                                                                     "65edec1eed534fb0b88c5d1a9f829bf00303b454",
                                                                     "816a28470df9ea3e60ba8f6924e9b2eeee20e654",
