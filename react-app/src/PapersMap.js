@@ -14,6 +14,13 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
     chars: PIXI.BitmapFont.ASCII.concat(['∀']),
   });
 
+  PIXI.BitmapFont.from("TopicFont", {
+    fill: 0x000000,
+    fontSize: 80,
+  }, {
+    chars: PIXI.BitmapFont.ASCII.concat(['∀']),
+  });
+
   useEffect(() => {
     fetch('output_100_tsne.json')
       .then(response => response.json())
@@ -77,7 +84,6 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
     const voronoi = delaunay.voronoi([0, 0, viewport.worldWidth, viewport.worldHeight]);
 
     // This is code for extracting category data into leaf clusters from paperIds
-    console.log("papersData HERE", papersData)
     const papersDataMap = papersData.reduce((acc, paper) => {
       acc[paper.paperId] = paper;
       return acc;
@@ -85,14 +91,11 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
 
     leafClusters.forEach(cluster => {
       const paperIds = cluster.content;
-      console.log("paperIds", paperIds, "cluster", cluster)
-      console.log("papersDataMap", papersDataMap)
 
       // Get papers for this cluster from papersData.
       const papersForCluster = paperIds.map(paperId => papersDataMap[paperId]);
 
       // Extract categories from the papers.
-      console.log("papersForCluster", papersForCluster)
       const categories = papersForCluster.flatMap(paper => 
         paper.s2FieldsOfStudy.map(field => field.category)
       );
@@ -109,8 +112,6 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
 
     console.log("LEAFCLUSTERSSSS", leafClusters)
     console.log("papers data", papersData)
-
-    // need to add topics to all cluster based on each paper
 
     
 
@@ -178,9 +179,9 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
       });
 
       // // And the top category for each leafCluster without a parent
-      // leafClusterCategoryMap.forEach((topCategory, clusterId) => {
-      //   console.log(`Top category for leafCluster ${clusterId}: ${topCategory}`);
-      // });
+      leafClusterCategoryMap.forEach((topCategory, clusterId) => {
+        console.log(`Top category for leafCluster ${clusterId}: ${topCategory}`);
+      });
 
       // Obtaining top category: Iterate through leaf clusters again
       leafClusters.forEach(node => {
@@ -238,17 +239,32 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
                 topCategory = Object.keys(parentCategoryMap.get(parentId)).reduce((a, b) => parentCategoryMap.get(parentId)[a] > parentCategoryMap.get(parentId)[b] ? a : b);
               }
               else{
-                topCategory = Object.keys(leafClusterCategoryMap.get(node.cluster_id)).reduce((a, b) => leafClusterCategoryMap.get(node.cluster_id)[a] > leafClusterCategoryMap.get(node.cluster_id)[b] ? a : b);
+                topCategory = leafClusterCategoryMap.get(node.cluster_id);
               }
-              
-              const categoryText = new PIXI.Text(topCategory, {fontFamily : 'Arial', fontSize: 24, fill : 0xffffff, align : 'center'});
+
+              // Check if node.text already exists
+              if (node.text) {
+                viewport.removeChild(node.text);
+              }
+
+              // Create new text
+              node.text = new PIXI.BitmapText(topCategory, {
+                fontFamily: 'Arial',
+                fontSize: 24,
+                fontName: "TopicFont",
+                fill: 0x000000,
+                align: 'left',
+                visible: true,
+                zIndex: 10,
+              });
               
               // Position the text at the centroid of the region
-              categoryText.x = scaleX(node.centroid_x);
-              categoryText.y = scaleY(node.centroid_y);
+              node.text.position.set(scaleX(node.centroid_x), scaleY(node.centroid_y));
+
+              node.text.anchor.set(0.5, 0);
 
               // Add the text to the viewport
-              viewport.addChild(categoryText);
+              viewport.addChild(node.text);
             // } else {
             //   node.region.fillColor = fillColor;
             //   node.region.visible = true; // make it visible if it already exists
@@ -303,7 +319,7 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
             
             let multilineTitle = lines.join('\n').trim();
           
-
+            
             node.text = new PIXI.BitmapText(multilineTitle, {
               fontFamily: 'Arial',
               fontSize: fontSize,
