@@ -5,6 +5,8 @@ import { Delaunay } from 'd3-delaunay';
 import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, flattenClusters } from './util';
 
 const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
+
+  console.log("cluster Data", clusterData)
   const pixiContainer = useRef();
 
   PIXI.BitmapFont.from("TitleFont", {
@@ -113,7 +115,17 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
     console.log("LEAFCLUSTERSSSS", leafClusters)
     console.log("papers data", papersData)
 
-    
+    const clusterMap = new Map();
+    function traverseCluster(cluster) {
+        clusterMap.set(cluster.cluster_id, cluster.GPT_topics);
+
+        // Check if this cluster has child clusters.
+        if (cluster.content && typeof cluster.content[0] === 'object') {
+            cluster.content.forEach(childCluster => traverseCluster(childCluster));
+        }
+    }
+    clusterData.forEach(cluster => traverseCluster(cluster));
+    console.log("CLUSTERMAP", clusterMap)
 
 
     // Generate a color sequence
@@ -145,13 +157,15 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
       leafClusters.forEach(node => {
         const parentId = node.parents[zoomLevel];
 
-        // If there is a parent ID, aggregate categories
+        // FOR COLOR PER TOPIC
         if (parentId) {
           if (!parentColorMap.has(parentId)) {
               parentColorMap.set(parentId, colorSequence[parentId % 301]);
           }
+        }
 
-          // FOR TOPICS
+        // FOR TOPICS
+        if (parentId) {
           // If the map already contains the parentId, aggregate categories
           if (parentCategoryMap.has(parentId)) {
             const existingCategories = parentCategoryMap.get(parentId);
