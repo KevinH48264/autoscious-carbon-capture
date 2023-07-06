@@ -1,0 +1,70 @@
+[
+    {
+        "paperId":"95db37be4a69d404f191eed2c7a1f3893eb555ef",
+        "title":"Porous Organic Polymers for Post\u2010Combustion Carbon Capture",
+        "abstract":"One of the most pressing environmental concerns of our age is the escalating level of atmospheric CO2. Intensive efforts have been made to investigate advanced porous materials, especially porous organic polymers (POPs), as one type of the most promising candidates for carbon capture due to their extremely high porosity, structural diversity, and physicochemical stability. This review provides a critical and in\u2010depth analysis of recent POP research as it pertains to carbon capture. The definitions and terminologies commonly used to evaluate the performance of POPs for carbon capture, including CO2 capacity, enthalpy, selectivity, and regeneration strategies, are summarized. A detailed correlation study between the structural and chemical features of POPs and their adsorption capacities is discussed, mainly focusing on the physical interactions and chemical reactions. Finally, a concise outlook for utilizing POPs for carbon capture is discussed, noting areas in which further work is needed to develop the next\u2010generation POPs for practical applications.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Medicine",
+                "source":"external"
+            },
+            {
+                "category":"Materials Science",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"2ae008c4b0c0d11e3333c1685f9c12cf4dd60d76",
+        "title":"Valuing Metal\u2013Organic Frameworks for Postcombustion Carbon Capture: A Benchmark Study for Evaluating Physical Adsorbents",
+        "abstract":"The development of practical solutions for the energy\u2010efficient capture of carbon dioxide is of prime importance and continues to attract intensive research interest. Conceivably, the implementation of adsorption\u2010based processes using different cycling modes, e.g., pressure\u2010swing adsorption or temperature\u2010swing adsorption, offers great prospects to address this challenge. Practically, the successful deployment of practical adsorption\u2010based technologies depends on the development of made\u2010to\u2010order adsorbents expressing mutually two compulsory requisites: i) high selectivity\/affinity for CO2 and ii) excellent chemical stability in the presence of impurities. This study presents a new comprehensive experimental protocol apposite for assessing the prospects of a given physical adsorbent for carbon capture under flue gas stream conditions. The protocol permits: i) the baseline performance of commercial adsorbents such as zeolite 13X, activated carbon versus liquid amine scrubbing to be ascertained, and ii) a standardized evaluation of the best reported metal\u2013organic framework (MOF) materials for carbon dioxide capture from flue gas to be undertaken. This extensive study corroborates the exceptional CO2 capture performance of the recently isolated second\u2010generation fluorinated MOF material, NbOFFIVE\u20101\u2010Ni, concomitant with an impressive chemical stability and a low energy for regeneration. Essentially, the NbOFFIVE\u20101\u2010Ni adsorbent presents the best compromise by satisfying all the required metrics for efficient CO2 scrubbing.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Medicine",
+                "source":"external"
+            },
+            {
+                "category":"Materials Science",
+                "source":"external"
+            },
+            {
+                "category":"Engineering",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"1c3da688d9d5357665bfe9a74ac68d45ce0338b8",
+        "title":"Biomass derived porous carbon for CO2 capture",
+        "abstract":null,
+        "s2FieldsOfStudy":[
+            {
+                "category":"Materials Science",
+                "source":"external"
+            },
+            {
+                "category":"Engineering",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"763dd2f8ee4f0d8ba65b8e57a583c39691686f89",
+        "title":"Biochar-based adsorbents for carbon dioxide capture: A critical review",
+        "abstract":null,
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Agricultural And Food Sciences",
+                "source":"s2-fos-model"
+            }
+        ]
+    }
+]
