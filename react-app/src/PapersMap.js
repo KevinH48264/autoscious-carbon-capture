@@ -70,7 +70,17 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
 
     const leafClusterIds = leafClusters.map((node) => node.cluster_id);
     let voronoiNodes = flattenClusters(clusterData, voronoi, leafClusters);
-    console.log("voronoiNodes", voronoiNodes, "leafClustersIds", leafClusterIds)
+    console.log("LEAFCLUSTERSSSS", leafClusters)
+
+    // Generate a color sequence
+    function generateColorSequence(length) {
+      let colorSequence = [];
+      for (let i = 0; i < length; i++) {
+          colorSequence.push(PIXI.utils.string2hex(randomDarkModeColor()));
+      }
+      return colorSequence;
+    }
+    const colorSequence = generateColorSequence(301);
 
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, viewport) => {
@@ -80,30 +90,61 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
       console.log("zoom level 2", zoomLevel)
       zoomLevel = Math.round(zoomLevel)
 
-      voronoiNodes.forEach((node, i) => {
-        if (node.region && node.layer !== zoomLevel && !(node.layer < zoomLevel && node.cluster_id in leafClusterIds)) {
-          node.region.visible = false;
-        } else {
-          if(!node.region) {
-            // console.log("node", node)
-            const polygon = new PIXI.Graphics();
-            const lineWidth = 2;
-            const lineColor = 0x000000; // black
+      let parentColorMap = new Map();
 
-            polygon.beginFill(PIXI.utils.string2hex(randomDarkModeColor()), 0.5);
-            polygon.lineStyle(lineWidth, lineColor); // Add this line to draw the border
-          
-            polygon.drawPolygon(node.voronoiPoints.map(([x, y]) => new PIXI.Point(x, y)));
-            polygon.endFill();
+      if (!leafClusters || !nodes) {
+        return
+      }
 
-            node.region = polygon;
-            viewport.addChild(polygon);
-          } else {
-            node.region.visible = true; // make it visible if it already exists
-          }
+      leafClusters.forEach(node => {
+        const parentId = node.parents[zoomLevel];
+        if (!parentColorMap.has(parentId)) {
+            parentColorMap.set(parentId, colorSequence[parentId % 301]);
         }
-        
       });
+      
+      if (leafClusters) {
+        leafClusters.forEach((node, i) => {
+          // if (node.region && node.layer !== zoomLevel && !(node.layer < zoomLevel && node.cluster_id in leafClusterIds)) {
+          //   node.region.visible = false;
+          // } else {
+
+            const parentId = node.parents[zoomLevel];
+            let fillColor = colorSequence[node.cluster_id % 301]
+            if (parentId) {
+              fillColor = parentColorMap.get(parentId);
+            }
+
+            if (node.cluster_id === 4) {
+              console.log("parentId", parentId, "fillColor", fillColor, "zoomLevel", zoomLevel, "node.parents", node.parents)
+            }
+
+            if (node.region) {
+              node.region.clear()
+            }
+
+            // if(!node.region) {
+              // console.log("node", node)
+              const region = voronoi.cellPolygon(i);
+              const lineWidth = 2;
+              const lineColor = 0x000000; // black
+              const polygon = new PIXI.Graphics();
+
+              polygon.beginFill(fillColor, 0.5);
+              polygon.lineStyle(lineWidth, lineColor); // Add this line to draw the border
+              polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
+              polygon.endFill();
+
+              node.region = polygon;
+              viewport.addChild(polygon);
+            // } else {
+            //   node.region.fillColor = fillColor;
+            //   node.region.visible = true; // make it visible if it already exists
+            // }
+          // }
+          
+        });
+      }
 
       // Handling papers
 
@@ -122,17 +163,17 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
         const fontSize = min_font_size + (max_font_size - min_font_size) * lambda;
         const circleHeight = 1 + 4 * lambda;
 
-        if(!node.circle) {
+        // if(!node.circle) {
             node.circle = new PIXI.Graphics();
             node.circle.beginFill(0xb9f2ff);
             node.circle.drawCircle(scaleX(node.x), scaleY(node.y), circleHeight);
             node.circle.endFill();
             viewport.addChild(node.circle);
-        } else {
-            node.circle.visible = true; // make it visible if it already exists
-        }
+        // } else {
+        //     node.circle.visible = true; // make it visible if it already exists
+        // }
 
-        if(!node.text) {
+        // if(!node.text) {
             // TODO: multiline, this can be done in preprocessing
             let words = node.title.split(' ');
             let lines = [];
@@ -163,11 +204,11 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
             node.text.position.set(scaleX(node.x) + circleHeight, scaleY(node.y) + circleHeight);
             node.text.anchor.set(0.5, 0);
             viewport.addChild(node.text);
-        } else {
-            node.text.fontSize = fontSize;
-            node.text.visible = true; // make it visible if it already exists
+        // } else {
+        //     node.text.fontSize = fontSize;
+        //     node.text.visible = true; // make it visible if it already exists
 
-            // Remove overlap between text, I think getBounds can get approximated if it's too slow
+        //     // Remove overlap between text, I think getBounds can get approximated if it's too slow
             const node_bound = node.text.getBounds();
             for (let j = 0; j < i; j++) {
                 const other = nodes[j];
@@ -176,7 +217,7 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
                     break;
                 }
             }
-        }
+        // }
       });
     }
 
