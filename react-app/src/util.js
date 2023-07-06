@@ -23,3 +23,80 @@ export const sortPoints = (points, centerX, centerY) => {
     return Math.atan2(a[1] - centerY, a[0] - centerX) - Math.atan2(b[1] - centerY, b[0] - centerX);
     });
 }
+
+// creating clusters
+export function getLeafClusters(clusterData) {
+    let clusterNodes = [];
+  
+    function recurse(cluster) {
+      cluster.voronoiPoints = [];
+
+      const {cluster_id, layer, centroid_x, centroid_y, polygonPoints} = cluster;
+  
+      if (typeof cluster.content[0] === 'object' && cluster.content[0] !== null) {
+        cluster.content.forEach(recurse);
+      } else {
+        clusterNodes.push({cluster_id, layer, centroid_x, centroid_y, polygonPoints});
+      }
+    }
+  
+    clusterData.forEach(recurse);
+  
+    return clusterNodes;
+  }
+  
+
+  // Assigning Voronoi points to clusters
+  export function flattenClusters(clusterData, voronoi, leafClusters) {
+    console.log("STARTING FLATTEN CLUSTER SANTA CLAUS")
+    let clusterNodes = [];
+
+    function recurse(cluster) {
+      const {cluster_id, layer, centroid_x, centroid_y} = cluster;
+      const leafClusterIndex = leafClusters.findIndex(leafCluster => leafCluster.cluster_id === cluster_id);
+
+      console.log("cluster", cluster, "leafClusterIndex", leafClusterIndex)
+
+      // if it's a leaf cluster with Voronoi points
+      if (leafClusterIndex !== -1) {
+        console.log(" 2 voronoi.cellPolygon(0)", voronoi.cellPolygon(0))
+        const cellPolygon = voronoi.cellPolygon(leafClusterIndex);
+
+        if (cellPolygon) {
+          cluster.voronoiPoints = cellPolygon;
+        } else {
+          cluster.voronoiPoints = [];
+        }
+        
+        console.log("cluster.cluster_id", cluster.cluster_id, "ALLPOINTS", cellPolygon)
+      }
+
+      // otherwise it's a parent cluster
+      else {
+        cluster.content.forEach(recurse);
+
+        // If it's a parent cluster, gather Voronoi points from child clusters
+        let allPoints = cluster.content.flatMap(child => child.voronoiPoints);
+        console.log("cluster.cluster_id", cluster.cluster_id, "ALLPOINTS", allPoints)
+
+        if (allPoints[0] === []) {
+          cluster.voronoiPoints = []
+        } else {
+          let centerX = allPoints.reduce((sum, point) => sum + point[0], 0) / allPoints.length;
+          let centerY = allPoints.reduce((sum, point) => sum + point[1], 0) / allPoints.length;
+
+          cluster.voronoiPoints = sortPoints(allPoints, centerX, centerY);
+        }
+      } 
+
+      console.log("pushing!")
+      clusterNodes.push({cluster_id, layer, centroid_x, centroid_y, voronoiPoints: cluster.voronoiPoints});
+      // console.log("done pushing!")
+    }
+
+    console.log("clusterData", clusterData)
+    clusterData.forEach(recurse);
+    console.log("DONE RECURSING!", "clusterNodes", clusterNodes)
+
+    return clusterNodes;
+  }
