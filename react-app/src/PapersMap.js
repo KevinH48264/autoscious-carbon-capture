@@ -15,6 +15,14 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
   });
 
   useEffect(() => {
+    fetch('output_100_tsne.json')
+      .then(response => response.json())
+      .then(json => {
+        papersData = json;
+        console.log("Papers manual data:", json);
+      }).then(() => {
+
+    console.log("PAPERSDATA", papersData, topicsData, clusterData)
     const app = new PIXI.Application({
       width: window.innerWidth,
       height: window.innerHeight - 1000,
@@ -68,9 +76,44 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
     const delaunay = Delaunay.from(leafClusters.map((node) => [scaleX(node.centroid_x), scaleY(node.centroid_y)]));
     const voronoi = delaunay.voronoi([0, 0, viewport.worldWidth, viewport.worldHeight]);
 
-    const leafClusterIds = leafClusters.map((node) => node.cluster_id);
-    let voronoiNodes = flattenClusters(clusterData, voronoi, leafClusters);
+    // This is code for extracting category data into leaf clusters from paperIds
+    console.log("papersData HERE", papersData)
+    const papersDataMap = papersData.reduce((acc, paper) => {
+      acc[paper.paperId] = paper;
+      return acc;
+    }, {});
+
+    leafClusters.forEach(cluster => {
+      const paperIds = cluster.content;
+      console.log("paperIds", paperIds, "cluster", cluster)
+      console.log("papersDataMap", papersDataMap)
+
+      // Get papers for this cluster from papersData.
+      const papersForCluster = paperIds.map(paperId => papersDataMap[paperId]);
+
+      // Extract categories from the papers.
+      console.log("papersForCluster", papersForCluster)
+      const categories = papersForCluster.flatMap(paper => 
+        paper.s2FieldsOfStudy.map(field => field.category)
+      );
+
+      // Count categories.
+      const categoryCounts = categories.reduce((acc, category) => {
+        acc[category] = (acc[category] || 0) + 1;
+        return acc;
+      }, {});
+
+      // Add categories to the cluster.
+      cluster.categories = categoryCounts;
+    });
+
     console.log("LEAFCLUSTERSSSS", leafClusters)
+    console.log("papers data", papersData)
+
+    // need to add topics to all cluster based on each paper
+
+    
+
 
     // Generate a color sequence
     function generateColorSequence(length) {
@@ -87,22 +130,77 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
       // let zoomLevel = (viewport.scaled - 1) * 100;
       
       let zoomLevel = (viewport.scaled - 0.95) * 8
-      console.log("zoom level 2", zoomLevel)
+      // console.log("zoom level 2", zoomLevel)
       zoomLevel = Math.round(zoomLevel)
 
       let parentColorMap = new Map();
+      const parentCategoryMap = new Map();
+      const leafClusterCategoryMap = new Map();
 
-      if (!leafClusters || !nodes) {
+      if (!leafClusters[0] || !nodes[0]) {
         return
       }
 
       leafClusters.forEach(node => {
         const parentId = node.parents[zoomLevel];
-        if (!parentColorMap.has(parentId)) {
-            parentColorMap.set(parentId, colorSequence[parentId % 301]);
+
+        // If there is a parent ID, aggregate categories
+        if (parentId) {
+          if (!parentColorMap.has(parentId)) {
+              parentColorMap.set(parentId, colorSequence[parentId % 301]);
+          }
+
+          // this is for topics
+          // If the map already contains the parentId, aggregate categories
+          if (parentCategoryMap.has(parentId)) {
+            const existingCategories = parentCategoryMap.get(parentId);
+
+            // Merge the categories
+            Object.keys(node.categories).forEach(category => {
+              existingCategories[category] = (existingCategories[category] || 0) + node.categories[category];
+            });
+
+          } else {
+            // If the map doesn't contain the parentId, add a new entry
+            parentCategoryMap.set(parentId, { ...node.categories });
+          }
+        } else {
+          // If there's no parent, just take the top category of the node
+          let topCategory = Object.keys(node.categories).reduce((a, b) => node.categories[a] > node.categories[b] ? a : b);
+          leafClusterCategoryMap.set(node.cluster_id, topCategory);
         }
       });
-      
+
+       // Now, you can retrieve the top category for each parent
+      parentCategoryMap.forEach((categories, parentId) => {
+        let topCategory = Object.keys(categories).reduce((a, b) => categories[a] > categories[b] ? a : b);
+        // console.log(`Top category for parent ${parentId}: ${topCategory}`);
+      });
+
+      // // And the top category for each leafCluster without a parent
+      // leafClusterCategoryMap.forEach((topCategory, clusterId) => {
+      //   console.log(`Top category for leafCluster ${clusterId}: ${topCategory}`);
+      // });
+
+      // Obtaining top category: Iterate through leaf clusters again
+      leafClusters.forEach(node => {
+        let topCategory;
+
+        // Check if node has a parent
+        const parentId = node.parents[zoomLevel];
+        if (parentId) {
+          // Retrieve categories of the parent
+          const parentCategories = parentCategoryMap.get(parentId);
+
+          // Find the top category of the parent
+          topCategory = Object.keys(parentCategories).reduce((a, b) => parentCategories[a] > parentCategories[b] ? a : b);
+        } else {
+          // If there's no parent, get the top category of the node itself
+          topCategory = leafClusterCategoryMap.get(node.cluster_id);
+        }
+      })
+
+            
       if (leafClusters) {
         leafClusters.forEach((node, i) => {
           // if (node.region && node.layer !== zoomLevel && !(node.layer < zoomLevel && node.cluster_id in leafClusterIds)) {
@@ -113,10 +211,6 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
             let fillColor = colorSequence[node.cluster_id % 301]
             if (parentId) {
               fillColor = parentColorMap.get(parentId);
-            }
-
-            if (node.cluster_id === 4) {
-              console.log("parentId", parentId, "fillColor", fillColor, "zoomLevel", zoomLevel, "node.parents", node.parents)
             }
 
             if (node.region) {
@@ -137,6 +231,24 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
 
               node.region = polygon;
               viewport.addChild(polygon);
+
+              // Create text for top category
+              let topCategory = "undefined";
+              if(parentId){
+                topCategory = Object.keys(parentCategoryMap.get(parentId)).reduce((a, b) => parentCategoryMap.get(parentId)[a] > parentCategoryMap.get(parentId)[b] ? a : b);
+              }
+              else{
+                topCategory = Object.keys(leafClusterCategoryMap.get(node.cluster_id)).reduce((a, b) => leafClusterCategoryMap.get(node.cluster_id)[a] > leafClusterCategoryMap.get(node.cluster_id)[b] ? a : b);
+              }
+              
+              const categoryText = new PIXI.Text(topCategory, {fontFamily : 'Arial', fontSize: 24, fill : 0xffffff, align : 'center'});
+              
+              // Position the text at the centroid of the region
+              categoryText.x = scaleX(node.centroid_x);
+              categoryText.y = scaleY(node.centroid_y);
+
+              // Add the text to the viewport
+              viewport.addChild(categoryText);
             // } else {
             //   node.region.fillColor = fillColor;
             //   node.region.visible = true; // make it visible if it already exists
@@ -255,6 +367,7 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
     // Update nodes based on ticker
     app.ticker.add(updateNodes)
 
+    })
   }, [papersData, topicsData, clusterData]);
 
   return <div className="pixiContainer" style={{ display: "flex" }} ref={pixiContainer} />;
