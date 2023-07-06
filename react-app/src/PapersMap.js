@@ -151,7 +151,7 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
               parentColorMap.set(parentId, colorSequence[parentId % 301]);
           }
 
-          // this is for topics
+          // FOR TOPICS
           // If the map already contains the parentId, aggregate categories
           if (parentCategoryMap.has(parentId)) {
             const existingCategories = parentCategoryMap.get(parentId);
@@ -172,36 +172,6 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
         }
       });
 
-       // Now, you can retrieve the top category for each parent
-      parentCategoryMap.forEach((categories, parentId) => {
-        let topCategory = Object.keys(categories).reduce((a, b) => categories[a] > categories[b] ? a : b);
-        // console.log(`Top category for parent ${parentId}: ${topCategory}`);
-      });
-
-      // // And the top category for each leafCluster without a parent
-      leafClusterCategoryMap.forEach((topCategory, clusterId) => {
-        console.log(`Top category for leafCluster ${clusterId}: ${topCategory}`);
-      });
-
-      // Obtaining top category: Iterate through leaf clusters again
-      leafClusters.forEach(node => {
-        let topCategory;
-
-        // Check if node has a parent
-        const parentId = node.parents[zoomLevel];
-        if (parentId) {
-          // Retrieve categories of the parent
-          const parentCategories = parentCategoryMap.get(parentId);
-
-          // Find the top category of the parent
-          topCategory = Object.keys(parentCategories).reduce((a, b) => parentCategories[a] > parentCategories[b] ? a : b);
-        } else {
-          // If there's no parent, get the top category of the node itself
-          topCategory = leafClusterCategoryMap.get(node.cluster_id);
-        }
-      })
-
-            
       if (leafClusters) {
         leafClusters.forEach((node, i) => {
           // if (node.region && node.layer !== zoomLevel && !(node.layer < zoomLevel && node.cluster_id in leafClusterIds)) {
