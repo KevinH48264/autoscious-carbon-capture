@@ -55,7 +55,7 @@
                             "Germany",
                             "Policy implications"
                         ],
-                        "main_topic": "[Public acceptance of carbon capture and storage]"
+                        "main_topic": "[Public acceptance]"
                     },
                     {
                         "cluster_id": 10,
@@ -116,7 +116,7 @@
                             "Policy frameworks",
                             "Sustainable biomass production"
                         ],
-                        "main_topic": "[Climate change mitigation]"
+                        "main_topic": "[Decade-long challenges]"
                     }
                 ],
                 "centroid_x": 3.1863972862433334,
@@ -202,7 +202,7 @@
                     "Policy frameworks",
                     "Sustainable biomass production"
                 ],
-                "main_topic": "[Climate change mitigation]"
+                "main_topic": "[Policy implications]"
             },
             {
                 "cluster_id": 102,
@@ -260,7 +260,7 @@
                             "Carbon capture",
                             "Separation"
                         ],
-                        "main_topic": "[Carbon capture]"
+                        "main_topic": "[Material design]"
                     },
                     {
                         "cluster_id": 110,
@@ -332,7 +332,7 @@
                                     "Legislation",
                                     "Funding"
                                 ],
-                                "main_topic": "[Carbon capture and utilization]"
+                                "main_topic": "[Policy and governance]"
                             },
                             {
                                 "cluster_id": 16,
@@ -450,7 +450,7 @@
                                     "Process optimization",
                                     "Carbon dioxide separation"
                                 ],
-                                "main_topic": "[Carbon capture and storage]"
+                                "main_topic": "[Membrane-based materials]"
                             },
                             {
                                 "cluster_id": 112,
@@ -511,7 +511,7 @@
                                                             "Adsorption",
                                                             "Critical review"
                                                         ],
-                                                        "main_topic": "[Carbon capture and adsorption-based processes]"
+                                                        "main_topic": "[Next-generation materials]"
                                                     },
                                                     {
                                                         "cluster_id": 0,
@@ -564,7 +564,7 @@
                                                             "Carbon storage technologies",
                                                             "Environmental sustainability"
                                                         ],
-                                                        "main_topic": "[Carbon capture and storage technologies]"
+                                                        "main_topic": "[Environmental sustainability]"
                                                     }
                                                 ],
                                                 "centroid_x": -2.7179811448,
@@ -641,7 +641,7 @@
                                                     "Carbon storage technologies",
                                                     "Environmental sustainability"
                                                 ],
-                                                "main_topic": "[Main topic: Carbon capture and adsorption-based processes using porous materials and metal-organic frameworks (MOFs) for sustainable energy and climate change mitigation]"
+                                                "main_topic": "[Next-generation materials]"
                                             },
                                             {
                                                 "cluster_id": 118,
@@ -721,7 +721,7 @@
                                                                     "Storage and Utilisation Technologies",
                                                                     "Life cycle environmental impacts"
                                                                 ],
-                                                                "main_topic": "[Carbon Capture and Storage (CCS)]"
+                                                                "main_topic": "[Life Cycle Assessment (LCA)]"
                                                             },
                                                             {
                                                                 "cluster_id": 3,
