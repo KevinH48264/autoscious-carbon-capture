@@ -50,7 +50,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     viewport.sortableChildren = true;
     viewport.drag().pinch().wheel().decelerate()
       // .clamp({direction: 'all'})
-      .clampZoom({ minWidth: 50, maxHeight: viewport.worldHeight * 1.5, maxWidth: viewport.worldWidth * 1.5})
+      // .clampZoom({ minWidth: 50, maxHeight: viewport.worldHeight * 1.5, maxWidth: viewport.worldWidth * 1.5})
       .setZoom(0.5)
       .moveCenter(viewport.worldWidth / 2, viewport.worldHeight / 2);
     app.stage.addChild(viewport);
@@ -101,7 +101,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     });
 
     console.log("LEAFCLUSTERSSSS", leafClusters)
-    console.log("paperNOdes", paperNodes)
+    console.log("paperNodes OG", paperNodes)
 
     // Creates a map from cluster_id to main_topic
     const clusterMap = new Map();
@@ -127,8 +127,9 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     const colorSequence = generateColorSequence(301);
 
     // Compute force-directed layout of PaperNodes
-    paperNodes = computeLayout(paperNodes, edgesData, leafClusters);
-    console.log("LAYOUT PAPERNODES", paperNodes)
+    console.log("PRE-LAYOUT PAPERNODES", paperNodes[0])
+    paperNodes = computeLayout(paperNodes, edgesData, leafClusters, minX, minY, maxX, maxY);
+    console.log("POST-LAYOUT PAPERNODES", paperNodes[0])
 
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, viewport) => {
@@ -242,7 +243,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
         leafClusterNodes.forEach((node, i) => {  
           // Handling Node text, draw labels
-          const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
+          const debug_factor = 10
+          const lambda = debug_factor * (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
           const fontSize = min_font_size + (max_font_size - min_font_size) * lambda;
           const circleHeight = 1 + 4 * lambda;
 
