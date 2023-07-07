@@ -117,7 +117,7 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
 
     const clusterMap = new Map();
     function traverseCluster(cluster) {
-        clusterMap.set(cluster.cluster_id, cluster.GPT_topics);
+        clusterMap.set(cluster.cluster_id, cluster.main_topic);
 
         // Check if this cluster has child clusters.
         if (cluster.content && typeof cluster.content[0] === 'object') {
@@ -125,7 +125,7 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
         }
     }
     clusterData.forEach(cluster => traverseCluster(cluster));
-    console.log("CLUSTERMAP", clusterMap)
+    console.log("CLUSTERMAP", clusterMap, clusterMap.get(100))
 
 
     // Generate a color sequence
@@ -146,6 +146,15 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
       // console.log("zoom level 2", zoomLevel)
       zoomLevel = Math.round(zoomLevel)
 
+      // Font size
+      const bounds = viewport.getVisibleBounds();
+      let min_font_size = bounds.width < bounds.height
+          ? bounds.width / (17 * 2)
+          : bounds.height / (30 * 2);
+      const max_font_size = min_font_size * 1.7;
+      const min_scale = Math.min(...nodes.map((node) => Math.sqrt(node.citationCount))) - 0.0001;
+      const max_scale = Math.max(...nodes.map((node) => Math.sqrt(node.citationCount)));
+
       let parentColorMap = new Map();
       const parentCategoryMap = new Map();
       const leafClusterCategoryMap = new Map();
@@ -154,6 +163,7 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
         return
       }
 
+      // for voronoi cluster diagram
       leafClusters.forEach(node => {
         const parentId = node.parents[zoomLevel];
 
@@ -187,11 +197,8 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
       });
 
       if (leafClusters) {
+        // Add the polygons to the viewport
         leafClusters.forEach((node, i) => {
-          // if (node.region && node.layer !== zoomLevel && !(node.layer < zoomLevel && node.cluster_id in leafClusterIds)) {
-          //   node.region.visible = false;
-          // } else {
-
             const parentId = node.parents[zoomLevel];
             let fillColor = colorSequence[node.cluster_id % 301]
             if (parentId) {
@@ -201,30 +208,33 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
             if (node.region) {
               node.region.clear()
             }
-
-            // if(!node.region) {
-              // console.log("node", node)
               const region = voronoi.cellPolygon(i);
               const lineWidth = 2;
               const lineColor = 0x000000; // black
               const polygon = new PIXI.Graphics();
 
               polygon.beginFill(fillColor, 0.5);
-              polygon.lineStyle(lineWidth, lineColor); // Add this line to draw the border
+              // polygon.lineStyle(lineWidth, lineColor); // Add this line to draw the border
               polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
               polygon.endFill();
 
               node.region = polygon;
               viewport.addChild(polygon);
+        });
+
+        // Add the text to the viewport
+        leafClusters.forEach((node, i) => {
+            const parentId = node.parents[zoomLevel];
 
               // Create text for top category
-              let topCategory = "undefined";
+              let topCategory = "Unknown";
               if(parentId){
-                topCategory = Object.keys(parentCategoryMap.get(parentId)).reduce((a, b) => parentCategoryMap.get(parentId)[a] > parentCategoryMap.get(parentId)[b] ? a : b);
+                topCategory = clusterMap.get(parentId)
               }
               else{
-                topCategory = leafClusterCategoryMap.get(node.cluster_id);
+                topCategory = clusterMap.get(node.cluster_id);
               }
+              topCategory = topCategory.slice(1, -1);
 
               // Check if node.text already exists
               if (node.text) {
@@ -234,9 +244,9 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
               // Create new text
               node.text = new PIXI.BitmapText(topCategory, {
                 fontFamily: 'Arial',
-                fontSize: 24,
+                fontSize: max_font_size,
                 fontName: "TopicFont",
-                fill: 0x000000,
+                fill: 0xFFD700,
                 align: 'left',
                 visible: true,
                 zIndex: 10,
@@ -259,16 +269,6 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
       }
 
       // Handling papers
-
-      // display in order of popularity without overlap
-      const bounds = viewport.getVisibleBounds();
-      let min_font_size = bounds.width < bounds.height
-          ? bounds.width / 17
-          : bounds.height / 30;
-      const max_font_size = min_font_size * 1.7;
-      const min_scale = Math.min(...nodes.map((node) => Math.sqrt(node.citationCount))) - 0.0001;
-      const max_scale = Math.max(...nodes.map((node) => Math.sqrt(node.citationCount)));
-
       nodes.forEach((node, i) => {
         // Handling Node text, draw labels
         const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
