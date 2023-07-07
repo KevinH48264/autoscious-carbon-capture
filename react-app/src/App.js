@@ -14,19 +14,19 @@ const App = () => {
           console.log("Papers data:", json);
       })
 
-    fetch('pruned_tree_w_main_topic.json')
-      .then(response => response.json())
-      .then(json => {
-        setClusterData(json);
-          console.log("Tree data:", json);
-      })
-
     fetch('edges.json')
       .then(response => response.json())
       .then(json => {
         setEdgesData(json);
           console.log("Edges data:", json);
       })
+
+    fetch('pruned_tree_w_main_topic.json')
+      .then(response => response.json())
+      .then(json => {
+        setClusterData(json);
+          console.log("Tree data:", json);
+      })    
   }, []);
 
   return (
