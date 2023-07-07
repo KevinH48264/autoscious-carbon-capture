@@ -54,7 +54,7 @@ export function computeLayout(paperNodes, edgesData, leafClusters, minX, minY, m
 
   let simulation = forceSimulation()
     .nodes(paperNodes) // Set nodes
-    .force("charge", forceManyBody().strength(-100))
+    .force("charge", forceManyBody().strength(-10))
     .force("link", forceLink().id(d => d.paperId)) // This is how we access the id of each node
     .force("center", forceCenter(0, 0)) // Initial center, this will be updated for each leaf cluster
     .force("collision", forceCollide().radius(function(d) {
@@ -89,7 +89,7 @@ export function computeLayout(paperNodes, edgesData, leafClusters, minX, minY, m
       links.push({
         source: paperId,
         target: "center_" + cluster.cluster_id,
-        weight: 1000 // Large weight to keep them close
+        weight: 1000000 // Large weight to keep them close
       });
     });
 
@@ -102,7 +102,7 @@ export function computeLayout(paperNodes, edgesData, leafClusters, minX, minY, m
   simulation.force("link").links(links);
 
   // Manually iterate the simulation
-  for (var i = 0; i < 300; ++i) simulation.tick();
+  for (var i = 0; i < 500; ++i) simulation.tick();
 
   // Remove the dummy 'center' nodes before returning
   paperNodes = paperNodes.filter(node => !node.paperId.startsWith("center_"));
