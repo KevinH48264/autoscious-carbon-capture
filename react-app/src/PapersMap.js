@@ -3,6 +3,7 @@ import * as PIXI from 'pixi.js';
 import { Viewport } from 'pixi-viewport';
 import { Delaunay } from 'd3-delaunay';
 import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, flattenClusters } from './util';
+import { computeLayout } from './layout';
 
 const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
   const pixiContainer = useRef();
@@ -125,6 +126,10 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     }
     const colorSequence = generateColorSequence(301);
 
+    // Compute force-directed layout of PaperNodes
+    paperNodes = computeLayout(paperNodes, edgesData, leafClusters);
+    console.log("LAYOUT PAPERNODES", paperNodes)
+
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, viewport) => {
       // let zoomLevel = (viewport.scaled - 1) * 100;
@@ -231,6 +236,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         // }
 
         // paperNodes.forEach((node, i) => {
+        
         let contentSet = new Set(cluster.content);
         let leafClusterNodes = paperNodes.filter(node => contentSet.has(node.paperId));
 
