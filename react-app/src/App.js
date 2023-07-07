@@ -14,7 +14,7 @@ const App = () => {
           console.log("Papers data:", json);
       })
 
-    fetch('pruned_tree.json')
+    fetch('pruned_tree_w_main_topic.json')
       .then(response => response.json())
       .then(json => {
         setClusterData(json);
