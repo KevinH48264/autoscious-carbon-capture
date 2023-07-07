@@ -31,7 +31,7 @@ const App = () => {
 
   return (
     <div className="App" style={{ padding: "0px", margin: "0", overflow: "hidden" }}>
-      {edgesData.length > 0 && <ResearchPaperPlot papersData={papersData} edgesData={edgesData} clusterData={clusterData} />}
+      {papersData.length > 0 && edgesData.length > 0 && clusterData.length > 0 && <ResearchPaperPlot papersData={papersData} edgesData={edgesData} clusterData={clusterData} />}
     </div>
   );
 };
