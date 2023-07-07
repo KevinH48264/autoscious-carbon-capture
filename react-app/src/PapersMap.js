@@ -4,18 +4,14 @@ import { Viewport } from 'pixi-viewport';
 import { Delaunay } from 'd3-delaunay';
 import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, flattenClusters } from './util';
 
-const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
-
-  console.log("cluster Data", clusterData)
+const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
   const pixiContainer = useRef();
-
   PIXI.BitmapFont.from("TitleFont", {
     fill: 0xF8F8F8,
     fontSize: 80,
   }, {
     chars: PIXI.BitmapFont.ASCII.concat(['∀']),
   });
-
   PIXI.BitmapFont.from("TopicFont", {
     fill: 0x000000,
     fontSize: 80,
@@ -31,7 +27,7 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
         console.log("Papers manual data:", json);
       }).then(() => {
 
-    console.log("PAPERSDATA", papersData, topicsData, clusterData)
+    console.log("DATA", papersData, edgesData, clusterData)
     const app = new PIXI.Application({
       width: window.innerWidth,
       height: window.innerHeight - 1000,
@@ -58,27 +54,24 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
       stopPropagation: true,
     });
     viewport.sortableChildren = true;
-    viewport.drag().pinch().wheel().decelerate()
-      .clamp({direction: 'all'})
-      .clampZoom({ minWidth: 50, maxHeight: viewport.worldHeight, maxWidth: viewport.worldWidth})
+    viewport.drag().pinch().wheel().decelerate().clamp({direction: 'all'})
+      .clampZoom({ minWidth: 50, maxHeight: viewport.worldHeight * 1.5, maxWidth: viewport.worldWidth * 1.5})
       .setZoom(0.5)
       .moveCenter(viewport.worldWidth / 2, viewport.worldHeight / 2);
     app.stage.addChild(viewport);
 
     // Calculate the min and max values just once
-    const minX = Math.min(...papersData.map((paper) => paper.x), ...topicsData.map((topic) => topic.x));
-    const maxX = Math.max(...papersData.map((paper) => paper.x), ...topicsData.map((topic) => topic.x));
-    const minY = Math.min(...papersData.map((paper) => paper.y), ...topicsData.map((topic) => topic.y));
-    const maxY = Math.max(...papersData.map((paper) => paper.y), ...topicsData.map((topic) => topic.y));
+    const minX = Math.min(...papersData.map((paper) => paper.x));
+    const maxX = Math.max(...papersData.map((paper) => paper.x));
+    const minY = Math.min(...papersData.map((paper) => paper.y));
+    const maxY = Math.max(...papersData.map((paper) => paper.y));
 
     // scale the data to fit within the worldWidth and worldHeight
     const scaleX = (d) => ((d - minX) / (maxX - minX)) * viewport.worldWidth;
     const scaleY = (d) => ((d - minY) / (maxY - minY)) * viewport.worldHeight;
 
-    // console.log("topicsData", topicsData)
     let paperNodes = papersData.map(({title, x, y, citationCount}) => ({title, x, y, citationCount}))
-    let topicNodes = topicsData.map(({topic, x, y, citationCount}) => ({title: topic, x, y, citationCount}))
-    let nodes = paperNodes.concat(topicNodes);
+    let nodes = paperNodes;
 
     // Creating voronoi from leaf nodes
     let leafClusters = getLeafClusters(clusterData);
@@ -91,6 +84,7 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
       return acc;
     }, {});
 
+    // Add categories to the leaf clusters.
     leafClusters.forEach(cluster => {
       const paperIds = cluster.content;
 
@@ -113,8 +107,8 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
     });
 
     console.log("LEAFCLUSTERSSSS", leafClusters)
-    console.log("papers data", papersData)
 
+    // Creates a map from cluster_id to main_topic
     const clusterMap = new Map();
     function traverseCluster(cluster) {
         clusterMap.set(cluster.cluster_id, cluster.main_topic);
@@ -126,7 +120,6 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
     }
     clusterData.forEach(cluster => traverseCluster(cluster));
     console.log("CLUSTERMAP", clusterMap, clusterMap.get(100))
-
 
     // Generate a color sequence
     function generateColorSequence(length) {
@@ -142,9 +135,7 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
     const drawNodes = (nodes, viewport) => {
       // let zoomLevel = (viewport.scaled - 1) * 100;
       
-      let zoomLevel = (viewport.scaled - 0.95) * 8
-      // console.log("zoom level 2", zoomLevel)
-      zoomLevel = Math.round(zoomLevel)
+      let zoomLevel = Math.round((viewport.scaled - 0.95) * 8)
 
       // Font size
       const bounds = viewport.getVisibleBounds();
@@ -156,48 +147,19 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
       const max_scale = Math.max(...nodes.map((node) => Math.sqrt(node.citationCount)));
 
       let parentColorMap = new Map();
-      const parentCategoryMap = new Map();
-      const leafClusterCategoryMap = new Map();
 
-      if (!leafClusters[0] || !nodes[0]) {
-        return
-      }
-
-      // for voronoi cluster diagram
+      // Setting parent cluster colors by cluster_id
       leafClusters.forEach(node => {
         const parentId = node.parents[zoomLevel];
-
-        // FOR COLOR PER TOPIC
         if (parentId) {
           if (!parentColorMap.has(parentId)) {
               parentColorMap.set(parentId, colorSequence[parentId % 301]);
           }
         }
-
-        // FOR TOPICS
-        if (parentId) {
-          // If the map already contains the parentId, aggregate categories
-          if (parentCategoryMap.has(parentId)) {
-            const existingCategories = parentCategoryMap.get(parentId);
-
-            // Merge the categories
-            Object.keys(node.categories).forEach(category => {
-              existingCategories[category] = (existingCategories[category] || 0) + node.categories[category];
-            });
-
-          } else {
-            // If the map doesn't contain the parentId, add a new entry
-            parentCategoryMap.set(parentId, { ...node.categories });
-          }
-        } else {
-          // If there's no parent, just take the top category of the node
-          let topCategory = Object.keys(node.categories).reduce((a, b) => node.categories[a] > node.categories[b] ? a : b);
-          leafClusterCategoryMap.set(node.cluster_id, topCategory);
-        }
       });
 
       if (leafClusters) {
-        // Add the polygons to the viewport
+        // Adding cluster polygons to the viewport
         leafClusters.forEach((node, i) => {
             const parentId = node.parents[zoomLevel];
             let fillColor = colorSequence[node.cluster_id % 301]
@@ -222,7 +184,7 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
               viewport.addChild(polygon);
         });
 
-        // Add the text to the viewport
+        // Adding the cluster text to viewport
         leafClusters.forEach((node, i) => {
             const parentId = node.parents[zoomLevel];
 
@@ -264,28 +226,27 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
             //   node.region.visible = true; // make it visible if it already exists
             // }
           // }
-          
         });
       }
 
-      // Handling papers
+      // Adding paper nodes to viewport
       nodes.forEach((node, i) => {
         // Handling Node text, draw labels
         const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
         const fontSize = min_font_size + (max_font_size - min_font_size) * lambda;
         const circleHeight = 1 + 4 * lambda;
 
-        // if(!node.circle) {
+        if(!node.circle) {
             node.circle = new PIXI.Graphics();
             node.circle.beginFill(0xb9f2ff);
             node.circle.drawCircle(scaleX(node.x), scaleY(node.y), circleHeight);
             node.circle.endFill();
             viewport.addChild(node.circle);
-        // } else {
-        //     node.circle.visible = true; // make it visible if it already exists
-        // }
+        } else {
+            node.circle.visible = true; // make it visible if it already exists
+        }
 
-        // if(!node.text) {
+        if(!node.text) {
             // TODO: multiline, this can be done in preprocessing
             let words = node.title.split(' ');
             let lines = [];
@@ -316,11 +277,11 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
             node.text.position.set(scaleX(node.x) + circleHeight, scaleY(node.y) + circleHeight);
             node.text.anchor.set(0.5, 0);
             viewport.addChild(node.text);
-        // } else {
-        //     node.text.fontSize = fontSize;
-        //     node.text.visible = true; // make it visible if it already exists
+        } else {
+            node.text.fontSize = fontSize;
+            node.text.visible = true; // make it visible if it already exists
 
-        //     // Remove overlap between text, I think getBounds can get approximated if it's too slow
+            // Remove overlap between text, I think getBounds can get approximated if it's too slow
             const node_bound = node.text.getBounds();
             for (let j = 0; j < i; j++) {
                 const other = nodes[j];
@@ -329,7 +290,7 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
                     break;
                 }
             }
-        // }
+        }
       });
     }
 
@@ -342,10 +303,6 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
         if (node.circle) { node.circle.visible = false };
         if (node.text) { node.text.visible = false };
 			}
-      // Reset all region graphics
-      for (const node of topicNodes) {
-        if (node.region) node.region.visible = false;
-      }
 
       // get the current field of view
       const viewport_bounds = viewport.getVisibleBounds();
@@ -368,30 +325,9 @@ const ResearchPaperPlot = ({ papersData, topicsData, clusterData }) => {
     app.ticker.add(updateNodes)
 
     })
-  }, [papersData, topicsData, clusterData]);
+  }, [papersData, edgesData, clusterData]);
 
   return <div className="pixiContainer" style={{ display: "flex" }} ref={pixiContainer} />;
 };
 
 export default ResearchPaperPlot;
-
-// const tooltip = document.getElementById('tooltip');
-  
-    // // Track the mouse and update the tooltip
-    // const onMouseMove = (event) => {
-    //   tooltip.style.left = `${event.data.global.x}px`;
-    //   tooltip.style.top = `${event.data.global.y}px`;
-
-    //   for (let node of topicNodes) {
-    //     if (node.region.containsPoint(event.data.global)) {
-    //       tooltip.textContent = node.title;
-    //       tooltip.style.display = 'block';
-    //       return;
-    //     }
-    //   }
-
-    //   tooltip.style.display = 'none';
-    // }
-
-    // app.stage.interactive = true;
-    // app.stage.on('mousemove', onMouseMove);

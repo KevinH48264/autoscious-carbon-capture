@@ -3,7 +3,7 @@ import ResearchPaperPlot from './PapersMap';
 
 const App = () => {
   const [papersData, setPapersData] = useState([]);
-  const [topicsData, setTopicsData] = useState([]);
+  const [edgesData, setEdgesData] = useState([]);
   const [clusterData, setClusterData] = useState([]);
 
   useEffect(() => {
@@ -21,31 +21,17 @@ const App = () => {
           console.log("Tree data:", json);
       })
 
-    fetch('topic_100_tsne.json')
+    fetch('edges.json')
       .then(response => response.json())
       .then(json => {
-        setTopicsData(json);
-          console.log("Topics data:", json);
+        setEdgesData(json);
+          console.log("Edges data:", json);
       })
   }, []);
 
   return (
     <div className="App" style={{ padding: "0px", margin: "0", overflow: "hidden" }}>
-      {/* <div 
-        id="tooltip" 
-        style={{
-          position: 'absolute', 
-          display: 'none', 
-          backgroundColor: 'white', 
-          color: 'black', 
-          padding: '10px', 
-          borderRadius: '5px', 
-          zIndex: 1000,
-          pointerEvents: 'none',
-          userSelect: 'none'
-        }} 
-      /> */}
-      {topicsData.length > 0 && <ResearchPaperPlot papersData={papersData} topicsData={topicsData} clusterData={clusterData} />}
+      {edgesData.length > 0 && <ResearchPaperPlot papersData={papersData} edgesData={edgesData} clusterData={clusterData} />}
     </div>
   );
 };
