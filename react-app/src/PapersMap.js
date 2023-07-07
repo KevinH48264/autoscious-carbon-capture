@@ -51,7 +51,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     viewport.drag().pinch().wheel().decelerate()
       // .clamp({direction: 'all'})
       // .clampZoom({ minWidth: 50, maxHeight: viewport.worldHeight * 1.5, maxWidth: viewport.worldWidth * 1.5})
-      .setZoom(0.5)
+      .setZoom(0.2)
       .moveCenter(viewport.worldWidth / 2, viewport.worldHeight / 2);
     app.stage.addChild(viewport);
 
@@ -244,7 +244,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         leafClusterNodes.forEach((node, i) => {  
           // Handling Node text, draw labels
           const debug_factor = 10
-          const lambda = debug_factor * (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
+          const lambda = debug_factor
+          // const lambda = debug_factor * (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
           const fontSize = min_font_size + (max_font_size - min_font_size) * lambda;
           const circleHeight = 1 + 4 * lambda;
 
