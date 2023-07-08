@@ -50,16 +50,16 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     viewport.sortableChildren = true;
     viewport.drag().pinch().wheel().decelerate()
       // .clamp({direction: 'all'})
-      // .clampZoom({ minWidth: 50, maxHeight: viewport.worldHeight * 1.5, maxWidth: viewport.worldWidth * 1.5})
-      .setZoom(0.5)
-      .moveCenter(viewport.worldWidth / 2, viewport.worldHeight / 2);
+      .clampZoom({ minWidth: 50, maxHeight: viewport.worldHeight, maxWidth: viewport.worldWidth})
+      .setZoom(1)
+      .moveCenter(0, 0);
     app.stage.addChild(viewport);
 
     // Calculate the min and max values just once
-    const minX = Math.min(...papersData.map((paper) => paper.x));
-    const maxX = Math.max(...papersData.map((paper) => paper.x));
-    const minY = Math.min(...papersData.map((paper) => paper.y));
-    const maxY = Math.max(...papersData.map((paper) => paper.y));
+    var minX = Math.min(...papersData.map((paper) => paper.x));
+    var maxX = Math.max(...papersData.map((paper) => paper.x));
+    var minY = Math.min(...papersData.map((paper) => paper.y));
+    var maxY = Math.max(...papersData.map((paper) => paper.y));
     console.log("minX", minX, "maxX", maxX, "minY", minY, "maxY", maxY)
 
     // scale the data to fit within the worldWidth and worldHeight, (minX, minY) => (0, 0)
@@ -72,8 +72,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     // Creating voronoi from leaf nodes
     let leafClusters = getLeafClusters(clusterData);
     // leafClusters = leafClusters.map(({cluster_id, layer, centroid_x, centroid_y, content, polygonPoints, parents}) => ({cluster_id, layer, centroid_x: scaleX(centroid_x), centroid_y: scaleY(centroid_y), content, polygonPoints, parents}));
-    // const delaunay = Delaunay.from(leafClusters.map((node) => [scaleX(node.centroid_x), scaleY(node.centroid_y)]));
-    // const voronoi = delaunay.voronoi([0, 0, viewport.worldWidth, viewport.worldHeight]);
 
     console.log("LEAFCLUSTERSSSS", leafClusters)
     console.log("paperNodes OG", paperNodes)
@@ -106,11 +104,79 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     console.log("PRE-LAYOUT PAPERNODES", paperNodes, leafClusters)
     const layout = computeLayout(paperNodes, edgesData, leafClusters, minX, minY, maxX, maxY);
     paperNodes = layout.paperNodes;
+    const centerNodes = layout.centerNodes;
     console.log("POST-LAYOUT PAPERNODES", paperNodes, layout.centerNodes)
 
     const min_scale = Math.min(...paperNodes.map((node) => Math.sqrt(node.citationCount))) + 1;
     const max_scale = Math.max(...paperNodes.map((node) => Math.sqrt(node.citationCount)));
     console.log("min_scale", min_scale, "max_scale", max_scale)
+
+    // Hardcoding (10 layers) a parent cluster mapping for voronois
+    let parentColorMap = new Map();
+    for (let i = 0; i < 10; ++i) {
+      // Setting parent cluster colors by cluster_id
+      leafClusters.forEach(node => {
+        let parentId = node.parents[i];
+        if (parentId) {
+          if (!parentColorMap.has(parentId)) {
+              parentColorMap.set(parentId, colorSequence[parentId % 301]);
+          }
+        }
+      });
+    }
+
+    // Create dummy 'center' nodes and links to them for each leafCluster
+    let centroidNodes = []
+    leafClusters.forEach(cluster => {
+      // Link all nodes in the cluster to the 'center' node
+      let sumX = 0;
+      let sumY = 0;
+      let count = 0;
+    
+      cluster.content.forEach(paperId => {
+        // Find the paperNode with the same paperId
+        let paperNode = paperNodes.find(node => node.paperId === paperId);
+        if (paperNode) {
+          sumX += paperNode.x;
+          sumY += paperNode.y;
+          count++;
+        }
+      });
+    
+      // Calculate and set the centroid for this cluster
+      let centroidX = count > 0 ? sumX / count : undefined;
+      let centroidY = count > 0 ? sumY / count : undefined;
+    
+      cluster.centroid_x = centroidX;
+      cluster.centroid_y = centroidY;
+
+      centroidNodes.push({x: centroidX, y: centroidY, cluster_id: cluster.cluster_id, citationCount: cluster.citationCount, main_topic: cluster.main_topic})
+    });    
+    
+    const extendFactor = 100 // hardcoding for circle design
+    const delaunay = Delaunay.from(centroidNodes.map((node) => [node.x, node.y]));
+    minX = Math.min(...paperNodes.map((paper) => paper.x));
+    maxX = Math.max(...paperNodes.map((paper) => paper.x));
+    minY = Math.min(...paperNodes.map((paper) => paper.y));
+    maxY = Math.max(...paperNodes.map((paper) => paper.y));
+    const voronoi = delaunay.voronoi([minX - extendFactor, minY - extendFactor, maxX + extendFactor, maxY + extendFactor]);
+
+    // Adding a circle mask
+    let farthestDistance = 0;
+    paperNodes.forEach(node => {
+      let distance = Math.sqrt(Math.pow(node.x, 2) + Math.pow(node.y, 2));
+      if (distance > farthestDistance) {
+        farthestDistance = distance;
+      }
+    });
+
+    // Creating a circle mask
+    let circleMask = new PIXI.Graphics();
+    circleMask.beginFill(0x000000); // You can fill with any color
+    circleMask.drawCircle(0, 0, farthestDistance + 10);
+    circleMask.endFill();
+    viewport.mask = circleMask;
+    viewport.addChild(circleMask);
 
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, viewport) => {
@@ -125,42 +191,31 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           : bounds.height / (30 * 2);
       const max_font_size = min_font_size * 1.7;
 
-      let parentColorMap = new Map();
+      // Adding cluster polygons to the viewport
+      leafClusters.forEach((node, i) => {
+          const parentId = node.parents[zoomLevel];
+          let fillColor = colorSequence[node.cluster_id % 301]
+          if (parentId) {
+            fillColor = parentColorMap.get(parentId);
+          }
 
-      // // Setting parent cluster colors by cluster_id
-      // leafClusters.forEach(node => {
-      //   const parentId = node.parents[zoomLevel];
-      //   if (parentId) {
-      //     if (!parentColorMap.has(parentId)) {
-      //         parentColorMap.set(parentId, colorSequence[parentId % 301]);
-      //     }
-      //   }
-      // });
+          if (node.region) {
+            node.region.clear()
+          } 
+            const region = voronoi.cellPolygon(i);
 
-      // // Adding cluster polygons to the viewport
-      // leafClusters.forEach((node, i) => {
-      //     const parentId = node.parents[zoomLevel];
-      //     let fillColor = colorSequence[node.cluster_id % 301]
-      //     if (parentId) {
-      //       fillColor = parentColorMap.get(parentId);
-      //     }
+            const lineWidth = 2;
+            const lineColor = 0x000000; // black
+            const polygon = new PIXI.Graphics();
 
-      //     if (node.region) {
-      //       node.region.clear()
-      //     }
-      //       const region = voronoi.cellPolygon(i);
-      //       const lineWidth = 2;
-      //       const lineColor = 0x000000; // black
-      //       const polygon = new PIXI.Graphics();
+            polygon.beginFill(fillColor, 0.5);
+            // polygon.lineStyle(lineWidth, lineColor); // Add this line to draw the border
+            polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
+            polygon.endFill();
 
-      //       polygon.beginFill(fillColor, 0.5);
-      //       // polygon.lineStyle(lineWidth, lineColor); // Add this line to draw the border
-      //       polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
-      //       polygon.endFill();
-
-      //       node.region = polygon;
-      //       viewport.addChild(polygon);
-      // });
+            node.region = polygon;
+            viewport.addChild(polygon);
+      });
 
       // // Adding the cluster text to viewport
       // leafClusters.forEach((node, i) => {
