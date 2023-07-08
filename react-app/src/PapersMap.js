@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import * as PIXI from 'pixi.js';
 import { Viewport } from 'pixi-viewport';
 import { Delaunay } from 'd3-delaunay';
-import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, flattenClusters } from './util';
+import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, flattenClusters, colorSequence } from './util';
 import { computeLayout } from './layout';
 
 const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
@@ -51,7 +51,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     viewport.drag().pinch().wheel().decelerate()
       // .clamp({direction: 'all'})
       // .clampZoom({ minWidth: 50, maxHeight: viewport.worldHeight * 1.5, maxWidth: viewport.worldWidth * 1.5})
-      .setZoom(0.2)
+      .setZoom(0.5)
       .moveCenter(viewport.worldWidth / 2, viewport.worldHeight / 2);
     app.stage.addChild(viewport);
 
@@ -60,45 +60,20 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     const maxX = Math.max(...papersData.map((paper) => paper.x));
     const minY = Math.min(...papersData.map((paper) => paper.y));
     const maxY = Math.max(...papersData.map((paper) => paper.y));
+    console.log("minX", minX, "maxX", maxX, "minY", minY, "maxY", maxY)
 
-    // scale the data to fit within the worldWidth and worldHeight
+    // scale the data to fit within the worldWidth and worldHeight, (minX, minY) => (0, 0)
     const scaleX = (d) => ((d - minX) / (maxX - minX)) * viewport.worldWidth;
     const scaleY = (d) => ((d - minY) / (maxY - minY)) * viewport.worldHeight;
 
-    let paperNodes = papersData.map(({title, x, y, citationCount, paperId}) => ({title, x, y, citationCount, paperId}))
+    let paperNodes = papersData.map(({title, x, y, citationCount, paperId}) => ({title, x: x, y: y, citationCount, paperId}))
+    console.log("PAPER NODES FRESH", paperNodes)
 
     // Creating voronoi from leaf nodes
     let leafClusters = getLeafClusters(clusterData);
-    const delaunay = Delaunay.from(leafClusters.map((node) => [scaleX(node.centroid_x), scaleY(node.centroid_y)]));
-    const voronoi = delaunay.voronoi([0, 0, viewport.worldWidth, viewport.worldHeight]);
-
-    // This is code for extracting category data into leaf clusters from paperIds
-    const papersDataMap = papersData.reduce((acc, paper) => {
-      acc[paper.paperId] = paper;
-      return acc;
-    }, {});
-
-    // Add categories to the leaf clusters.
-    leafClusters.forEach(cluster => {
-      const paperIds = cluster.content;
-
-      // Get papers for this cluster from papersData.
-      const papersForCluster = paperIds.map(paperId => papersDataMap[paperId]);
-
-      // Extract categories from the papers.
-      const categories = papersForCluster.flatMap(paper => 
-        paper.s2FieldsOfStudy.map(field => field.category)
-      );
-
-      // Count categories.
-      const categoryCounts = categories.reduce((acc, category) => {
-        acc[category] = (acc[category] || 0) + 1;
-        return acc;
-      }, {});
-
-      // Add categories to the cluster.
-      cluster.categories = categoryCounts;
-    });
+    // leafClusters = leafClusters.map(({cluster_id, layer, centroid_x, centroid_y, content, polygonPoints, parents}) => ({cluster_id, layer, centroid_x: scaleX(centroid_x), centroid_y: scaleY(centroid_y), content, polygonPoints, parents}));
+    // const delaunay = Delaunay.from(leafClusters.map((node) => [scaleX(node.centroid_x), scaleY(node.centroid_y)]));
+    // const voronoi = delaunay.voronoi([0, 0, viewport.worldWidth, viewport.worldHeight]);
 
     console.log("LEAFCLUSTERSSSS", leafClusters)
     console.log("paperNodes OG", paperNodes)
@@ -117,19 +92,25 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     // console.log("CLUSTERMAP", clusterMap, clusterMap.get(100))
 
     // Generate a color sequence
-    function generateColorSequence(length) {
-      let colorSequence = [];
-      for (let i = 0; i < length; i++) {
-          colorSequence.push(PIXI.utils.string2hex(randomDarkModeColor()));
-      }
-      return colorSequence;
-    }
-    const colorSequence = generateColorSequence(301);
+    // function generateColorSequence(length) {
+    //   let colorSequence = [];
+    //   for (let i = 0; i < length; i++) {
+    //       colorSequence.push(PIXI.utils.string2hex(randomDarkModeColor()));
+    //   }
+    //   return colorSequence;
+    // }
+    // const colorSequence = generateColorSequence(301);
 
+    
     // Compute force-directed layout of PaperNodes
-    console.log("PRE-LAYOUT PAPERNODES", paperNodes[0])
-    paperNodes = computeLayout(paperNodes, edgesData, leafClusters, minX, minY, maxX, maxY);
-    console.log("POST-LAYOUT PAPERNODES", paperNodes[0])
+    console.log("PRE-LAYOUT PAPERNODES", paperNodes, leafClusters)
+    const layout = computeLayout(paperNodes, edgesData, leafClusters, minX, minY, maxX, maxY);
+    paperNodes = layout.paperNodes;
+    console.log("POST-LAYOUT PAPERNODES", paperNodes, layout.centerNodes)
+
+    const min_scale = Math.min(...paperNodes.map((node) => Math.sqrt(node.citationCount))) + 1;
+    const max_scale = Math.max(...paperNodes.map((node) => Math.sqrt(node.citationCount)));
+    console.log("min_scale", min_scale, "max_scale", max_scale)
 
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, viewport) => {
@@ -143,8 +124,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           ? bounds.width / (17 * 2)
           : bounds.height / (30 * 2);
       const max_font_size = min_font_size * 1.7;
-      const min_scale = Math.min(...nodes.map((node) => Math.sqrt(node.citationCount))) - 0.0001;
-      const max_scale = Math.max(...nodes.map((node) => Math.sqrt(node.citationCount)));
 
       let parentColorMap = new Map();
 
@@ -243,9 +222,10 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
         leafClusterNodes.forEach((node, i) => {  
           // Handling Node text, draw labels
-          const debug_factor = 10
-          const lambda = debug_factor
-          // const lambda = debug_factor * (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
+          const debug_factor = 3
+          // const lambda = debug_factor
+          const lambda = debug_factor * (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
+          // console.log("lambda", lambda, node, node.citationCount, min_scale, max_scale)
           const fontSize = min_font_size + (max_font_size - min_font_size) * lambda;
           const circleHeight = 1 + 4 * lambda;
 
@@ -253,12 +233,22 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
               node.circle = new PIXI.Graphics();
               // node.circle.beginFill(0xb9f2ff);
               node.circle.beginFill(colorSequence[cluster.cluster_id]);
-              node.circle.drawCircle(scaleX(node.x), scaleY(node.y), circleHeight);
+              node.circle.drawCircle(node.x, node.y, circleHeight);
               node.circle.endFill();
               viewport.addChild(node.circle);
           } else {
               node.circle.visible = true; // make it visible if it already exists
           }
+
+          // if(!node.centroid_circle) {
+          //   node.centroid_circle = new PIXI.Graphics();
+          //   node.centroid_circle.beginFill(0xFDDC5C);
+          //   node.centroid_circle.drawCircle(cluster.centroid_x, cluster.centroid_y, 10);
+          //   node.centroid_circle.endFill();
+          //   viewport.addChild(node.centroid_circle);
+          // } else {
+          //     node.centroid_circle.visible = true; // make it visible if it already exists
+          // }
 
           // if(!node.text) {
           //     // TODO: multiline, this can be done in preprocessing
@@ -309,6 +299,25 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
       })
       
+      // Visualizing centroids traveling during force directed
+      layout.centerNodes.forEach((node, i) => {  
+        // Handling Node text, draw labels
+        const debug_factor = 1
+        const lambda = debug_factor
+        // const lambda = debug_factor * (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
+        const fontSize = min_font_size + (max_font_size - min_font_size) * lambda;
+        const circleHeight = 1 + 4 * lambda;
+
+        if(!node.circle) {
+            node.circle = new PIXI.Graphics();
+            node.circle.beginFill(0xb9f2ff);
+            node.circle.drawCircle(node.x, node.y, circleHeight);
+            node.circle.endFill();
+            viewport.addChild(node.circle);
+        } else {
+            node.circle.visible = true; // make it visible if it already exists
+        }
+      })
     }
 
     // Update visibility of circles and text based on the current field of view and zoom level
