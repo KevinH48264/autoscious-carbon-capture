@@ -50,7 +50,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     viewport.sortableChildren = true;
     viewport.drag().pinch().wheel().decelerate()
       // .clamp({direction: 'all'})
-      // .clampZoom({ minWidth: 50, maxHeight: viewport.worldHeight, maxWidth: viewport.worldWidth})
+      .clampZoom({ minWidth: 50, maxHeight: viewport.worldHeight, maxWidth: viewport.worldWidth})
       .setZoom(1)
       .moveCenter(0, 0);
     app.stage.addChild(viewport);
@@ -136,15 +136,15 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         farthestDistance = distance;
       }
     });
-    // let circleMask = new PIXI.Graphics();
-    // circleMask.beginFill(0x000000); // You can fill with any color
-    // circleMask.drawCircle(0, 0, farthestDistance + 10);
-    // circleMask.endFill();
-    // viewport.mask = circleMask;
-    // viewport.addChild(circleMask);
+    let circleMask = new PIXI.Graphics();
+    circleMask.beginFill(0x000000); // You can fill with any color
+    circleMask.drawCircle(0, 0, farthestDistance + 10);
+    circleMask.endFill();
+    viewport.mask = circleMask;
+    viewport.addChild(circleMask);
 
     // Ensuring parentIds extend to the farthest zoom
-    const zoomLayers = 25
+    const zoomLayers = 30
     leafClusters.forEach((node) => {
         let lastParentId = node.cluster_id; // fallback to node's cluster_id
         for (let zoomLevel = 0; zoomLevel < zoomLayers; ++zoomLevel) {
@@ -209,42 +209,40 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, viewport) => {
-      // let zoomLevel = (viewport.scaled - 1) * 100;
-      
       let zoomLevel = Math.round((viewport.scaled - 0.95) * 5)
 
       // Font size
       const bounds = viewport.getVisibleBounds();
       let min_font_size = bounds.width < bounds.height
-          ? bounds.width / (17 * 2)
-          : bounds.height / (30 * 2);
+          ? bounds.width / (17)
+          : bounds.height / (30);
       const max_font_size = min_font_size * 1.7;
 
       // Adding cluster polygons to the viewport
-      // leafClusters.forEach((node, i) => {
-      //     const parentId = node.parents[zoomLevel];
-      //     let fillColor = colorSequence[node.cluster_id % 301]
-      //     if (parentId) {
-      //       fillColor = parentColorMap.get(parentId);
-      //     }
+      leafClusters.forEach((node, i) => {
+          const parentId = node.parents[zoomLevel];
+          let fillColor = colorSequence[node.cluster_id % 301]
+          if (parentId) {
+            fillColor = parentColorMap.get(parentId);
+          }
 
-      //     if (node.region) {
-      //       node.region.clear()
-      //     } 
-      //       const region = voronoi.cellPolygon(i);
+          if (node.region) {
+            node.region.clear()
+          } 
+            const region = voronoi.cellPolygon(i);
 
-      //       const lineWidth = 2;
-      //       const lineColor = 0x000000; // black
-      //       const polygon = new PIXI.Graphics();
+            const lineWidth = 2;
+            const lineColor = 0x000000; // black
+            const polygon = new PIXI.Graphics();
 
-      //       polygon.beginFill(fillColor, 0.5);
-      //       // polygon.lineStyle(lineWidth, lineColor); // Add this line to draw the border
-      //       polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
-      //       polygon.endFill();
+            polygon.beginFill(fillColor, 0.5);
+            // polygon.lineStyle(lineWidth, lineColor); // Add this line to draw the border
+            polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
+            polygon.endFill();
 
-      //       node.region = polygon;
-      //       viewport.addChild(polygon);
-      // });
+            node.region = polygon;
+            viewport.addChild(polygon);
+      });
 
       // Adding the cluster text to viewport (old)
       // leafClusters.forEach((node, i) => {
@@ -337,15 +335,14 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         let contentSet = new Set(cluster.content);
         let leafClusterNodes = paperNodes.filter(node => contentSet.has(node.paperId));
 
-        let labelsToHide = new Set();
         leafClusterNodes.forEach((node, i) => {  
           // Handling Node text, draw labels
           const debug_factor = 4
           // const lambda = debug_factor
           const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
           // console.log("lambda", lambda, node, node.citationCount, min_scale, max_scale)
-          const fontSize = (min_font_size + (max_font_size - min_font_size) * lambda) / 2;
-          const circleHeight = 1 + 4 * lambda;
+          const fontSize = (min_font_size + (max_font_size - min_font_size) * lambda) / 3;
+          const circleHeight = 2 + 4 * lambda;
 
           if(!node.circle) {
               node.circle = new PIXI.Graphics();
@@ -370,7 +367,12 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           // }
 
           let multilineTitle = multilineText(node.title, 30)
-          if(!node.text) {
+
+          if (node.text) {
+            viewport.removeChild(node.text);
+          }
+
+          // if(!node.text) {
               node.text = new PIXI.BitmapText(multilineTitle, {
                 fontFamily: 'Arial',
                 fontSize: fontSize,
@@ -383,9 +385,9 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
               node.text.anchor.set(0.5, 0);
               node.text.position.set(node.x + circleHeight, node.y + circleHeight);
               viewport.addChild(node.text);
-          } else {
-              node.text.fontSize = fontSize;
-              node.text.visible = true; // make it visible if it already exists
+          // } else {
+          //     node.text.fontSize = fontSize;
+          //     node.text.visible = true; // make it visible if it already exists
 
               // Remove overlap between text
               // const node_bound = node.text.getBounds();
@@ -408,6 +410,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
                 if (centroid.text && centroid.text.visible) {
                   if (rectIntersectsRect(node_bound, labelBounds(centroid.text.fontSize, centroid.x, centroid.y, 30, centroid.text.text))) {
                     node.text.visible = false;
+                    node.circle.visible = false;
                     // node.graphics.visible = false;
                   }
                 }
@@ -418,11 +421,12 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
                 const other = paperNodes[j];
                   if (other.text && other.text.visible && rectIntersectsRect(node_bound, labelBounds(other.text.fontSize, other.x, other.y, 30, other.text.text))) {
                       node.text.visible = false;
+                      node.circle.visible = false;
                       // node.graphics.visible = false;
                       break;
                   }
               }
-          }
+          // }
         });
 
       })
