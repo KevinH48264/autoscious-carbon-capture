@@ -5,7 +5,7 @@ from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 
 # load the data from your JSON file
-with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\data_collection\output_100.json', 'r') as f:
+with open(r'C:\Users\91787\PycharmProjects\autoscious-carbon-capture\data_collection\output_100.json', 'r') as f:
     data = json.load(f)
 
 # convert the data into a pandas DataFrame
