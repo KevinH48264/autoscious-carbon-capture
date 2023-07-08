@@ -1,3 +1,5 @@
+import { Rectangle } from 'pixi.js';
+
 export const randomDarkModeColor = () => {
     // vary hue between 0 and 360 degrees
     const hue = Math.random() * 360;
@@ -124,6 +126,27 @@ export const multilineText = (text, charLength) => {
   let multilineTitle = lines.join('\n').trim();
   return multilineTitle
 }
+
+export const labelBounds = (font_size, x_in, y_in, text_length=30, multilineTitle="") => {
+  // approximate the bounding box of the label. getBounds is slow
+
+  const num_new_lines = multilineTitle.split("\n").length;
+  const scale_x = 0.5;
+  const scale_y = 1.5;
+
+  let height = font_size * num_new_lines * scale_y;
+  let width = multilineTitle.length;
+  if (multilineTitle.length > text_length) {
+    width = text_length;
+  }
+  width = width * font_size * scale_x;
+  
+  const x = x_in - width / 2;
+  const y = y_in - height / 2;
+  const bounds = new Rectangle(x, y, width, height);
+  return bounds;
+}
+
 
 export const colorSequence = [
     14413679,
