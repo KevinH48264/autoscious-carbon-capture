@@ -141,8 +141,9 @@ export const labelBounds = (font_size, x_in, y_in, text_length=30, multilineTitl
   }
   width = width * font_size * scale_x;
   
+  // Look at anchor, (0.5, 0.5) requires (- width / 2, - height / 2)
   const x = x_in - width / 2;
-  const y = y_in - height / 2;
+  const y = y_in - height / 10;
   const bounds = new Rectangle(x, y, width, height);
   return bounds;
 }
