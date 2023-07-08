@@ -73,7 +73,7 @@ export function computeLayout(paperNodes, edgesData, leafClusters, minX, minY, m
     });
 
     // Update the center force to the centroid of the current cluster
-    console.log("centroid for cluster ", cluster.cluster_id, cluster.centroid_x, cluster.centroid_y)
+    // console.log("centroid for cluster ", cluster.cluster_id, cluster.centroid_x, cluster.centroid_y)
     simulation.force("center", forceCenter(cluster.centroid_x, cluster.centroid_y));
   });
 
