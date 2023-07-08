@@ -14,7 +14,7 @@ function normalizeDensity(nodes, target_density = 0.0007, x0=0, y0=0) {
     }
 }
 
-export function computeLayout(paperNodes, edgesData, leafClusters, minX, minY, maxX, maxY) {
+export function computeLayout(paperNodes, edgesData, leafClusters) {
     console.log("leafClusters in compute layerout", leafClusters)
 
     // Create dummy 'center' nodes and add them to paperNodes first
