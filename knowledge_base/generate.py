@@ -1,8 +1,9 @@
-import pandas as pd
 import json
+
 import numpy as np
+import pandas as pd
+import umap
 from sklearn.manifold import TSNE
-import matplotlib.pyplot as plt
 
 # load the data from your JSON file
 with open(r'C:\Users\91787\PycharmProjects\autoscious-carbon-capture\data_collection\output_100.json', 'r') as f:
@@ -23,8 +24,8 @@ embeddings = np.vstack(df['embedding'].apply(lambda x: x['vector']))
 import plotly.graph_objects as go
 
 # After obtaining the t-SNE 2D coordinates as mentioned in the previous steps...
-tsne = TSNE(n_components=2, random_state=0)
-embeddings_2d = tsne.fit_transform(embeddings)
+umap_2d = umap.UMAP(n_components=2, init='random', random_state=0)
+embeddings_2d = proj_2d = umap_2d.fit_transform(embeddings)
 
 # Create a Plotly figure
 fig = go.Figure(data=go.Scatter(
@@ -41,7 +42,7 @@ fig = go.Figure(data=go.Scatter(
 ))
 
 # Set the title of the figure
-fig.update_layout(title='t-SNE visualization of embedding vectors')
+fig.update_layout(title='u-map visualization of embedding vectors')
 
 # Show the figure
 fig.show()
