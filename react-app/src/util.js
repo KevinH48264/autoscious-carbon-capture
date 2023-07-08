@@ -106,6 +106,25 @@ export function getLeafClusters(clusterData) {
     return clusterNodes;
   }
   
+export const multilineText = (text, charLength) => {
+  let words = text.split(' ');
+  let lines = [];
+  let currentLine = '';
+  
+  for (let word of words) {
+      if ((currentLine + ' ' + word).length > charLength) {
+          lines.push(currentLine);
+          currentLine = word;
+      } else {
+          currentLine += ' ' + word;
+      }
+  }
+  lines.push(currentLine);
+  
+  let multilineTitle = lines.join('\n').trim();
+  return multilineTitle
+}
+
 export const colorSequence = [
     14413679,
     8130704,
