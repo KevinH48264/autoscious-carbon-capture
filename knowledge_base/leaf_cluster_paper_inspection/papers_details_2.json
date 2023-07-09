@@ -1,0 +1,70 @@
+[
+    {
+        "paperId":"2366c402cf265deb94ed2e6e80375b3d9bf7004c",
+        "title":"Penetrating chains mimicking plant root branching to build mechanically robust, ultra-stable CO2-philic membranes for superior carbon capture",
+        "abstract":"Branched plant root mimicking PEO chains can simultaneously increase the gas separation performance, membrane stability and mechanical strength of CO2-philic membranes for superior carbon capture.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Materials Science",
+                "source":"external"
+            },
+            {
+                "category":"Materials Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"e02f812df3cd677ec931b0ce47e10640f16968fa",
+        "title":"Carbon dioxide capture in metal-organic frameworks.",
+        "abstract":"Kenji Sumida, David L. Rogow, Jarad A. Mason, Thomas M. McDonald, Eric D. Bloch, Zoey R. Herm, Tae-Hyun Bae, Jeffrey R. Long",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Chemistry",
+                "source":"external"
+            },
+            {
+                "category":"Medicine",
+                "source":"external"
+            },
+            {
+                "category":"Biology",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"df275f0b3dca8552250d569db1bf18de8463c9e9",
+        "title":"High-throughput computational prediction of the cost of carbon capture using mixed matrix membranes",
+        "abstract":"Mixed matrix membranes are being studied for their potential use in post-combustion carbon capture on the premise that they could dramatically lower costs relative to mature technologies available today.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Materials Science",
+                "source":"external"
+            },
+            {
+                "category":"Engineering",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"5c680357c5659034a2ae6ea0180b46a713037720",
+        "title":"Introduction: Carbon Capture and Separation.",
+        "abstract":"Reference EPFL-ARTICLE-230626doi:10.1021\/acs.chemrev.7b00403View record in Web of Science Record created on 2017-09-05, modified on 2017-10-16",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Chemistry",
+                "source":"external"
+            },
+            {
+                "category":"Medicine",
+                "source":"external"
+            },
+            {
+                "category":"Chemistry",
+                "source":"s2-fos-model"
+            }
+        ]
+    }
+]
