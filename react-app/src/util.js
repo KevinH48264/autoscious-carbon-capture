@@ -63,11 +63,8 @@ export function getLeafClusters(clusterData) {
       const {cluster_id, layer, centroid_x, centroid_y, content} = cluster;
       const leafClusterIndex = leafClusters.findIndex(leafCluster => leafCluster.cluster_id === cluster_id);
 
-    //   console.log("cluster", cluster, "leafClusterIndex", leafClusterIndex)
-
       // if it's a leaf cluster with Voronoi points
       if (leafClusterIndex !== -1) {
-        // console.log(" 2 voronoi.cellPolygon(0)", voronoi.cellPolygon(0))
         const cellPolygon = voronoi.cellPolygon(leafClusterIndex);
 
         if (cellPolygon) {
@@ -75,8 +72,6 @@ export function getLeafClusters(clusterData) {
         } else {
           cluster.voronoiPoints = [];
         }
-        
-        // console.log("cluster.cluster_id", cluster.cluster_id, "ALLPOINTS", cellPolygon)
       }
 
       // otherwise it's a parent cluster
@@ -85,7 +80,6 @@ export function getLeafClusters(clusterData) {
 
         // If it's a parent cluster, gather Voronoi points from child clusters
         let allPoints = cluster.content.flatMap(child => child.voronoiPoints);
-        // console.log("cluster.cluster_id", cluster.cluster_id, "ALLPOINTS", allPoints)
 
         if (allPoints[0] === []) {
           cluster.voronoiPoints = []
@@ -98,12 +92,9 @@ export function getLeafClusters(clusterData) {
       } 
 
       clusterNodes.push({cluster_id, layer, centroid_x, centroid_y, content, voronoiPoints: cluster.voronoiPoints});
-      // console.log("done pushing!")
     }
 
-    // console.log("clusterData", clusterData)
     clusterData.forEach(recurse);
-    console.log("DONE RECURSING!", "clusterNodes", clusterNodes)
 
     return clusterNodes;
   }
