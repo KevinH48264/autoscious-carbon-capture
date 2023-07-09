@@ -77,7 +77,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     }
     clusterData.forEach(cluster => traverseCluster(cluster));
 
-    const min_scale = Math.min(...paperNodes.map((node) => Math.sqrt(node.citationCount))) + 1;
+    const min_scale = Math.min(...paperNodes.map((node) => Math.sqrt(node.citationCount)));
     const max_scale = Math.max(...paperNodes.map((node) => Math.sqrt(node.citationCount)));
 
     // Create dummy 'center' nodes and links to them for each leafCluster
@@ -199,11 +199,11 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     paperNodes.sort((a, b) => b.citationCount - a.citationCount);
 
     // Debugging font size
-    // const bounds = viewport.getVisibleBounds();
-    // let min_font_size = bounds.width < bounds.height
-    //     ? bounds.width / (17)
-    //     : bounds.height / (30);
-    // const max_font_size = min_font_size * 1.2;
+    const bounds = viewport.getVisibleBounds();
+    let min_font_size = bounds.width < bounds.height
+        ? bounds.width / (25.5)
+        : bounds.height / (45);
+    const max_font_size = min_font_size * 1.2;
     // console.log("bounds", bounds, "min_font_size", min_font_size, "max_font_size", max_font_size)
 
     // const sampleText = new PIXI.BitmapText("United States", {
@@ -219,6 +219,9 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     // sampleText.position.set(0, 0);
     // viewport.addChild(sampleText);
 
+    console.log("clusterCentroids", clusterCentroids, Math.max(-1, Math.round(((viewport.scaled / zoomScale) - 1) * 5)))
+    console.log("bounds.width", bounds.width, "bounds.height", bounds.height, "min_font_size", min_font_size, "max_font_size", max_font_size)
+
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, viewport) => {
       let zoomLevel = Math.max(-1, Math.round(((viewport.scaled / zoomScale) - 1) * 5))
@@ -227,8 +230,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       // Font size
       const bounds = viewport.getVisibleBounds();
       let min_font_size = bounds.width < bounds.height
-          ? bounds.width / (60)
-          : bounds.height / (40);
+          ? bounds.width / (28.3)
+          : bounds.height / (50);
       let max_font_size = min_font_size * 1.7;
 
       const addedTextBounds = new Set();
@@ -257,7 +260,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       // change zoomLayers to maxZoomLayer
       // Current Zoom: Adding the cluster text to viewport
       for (zoomLevel; zoomLevel < zoomLayers; ++zoomLevel) {
-        // eslint-disable-next-line no-loop-func
         clusterCentroids.forEach((centroid, key) => {
           let [clusterId] = key.split(',').map(Number); 
           if (centroid.layer === zoomLevel) {
@@ -317,12 +319,14 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
         leafClusterNodes.forEach((node, i) => {  
           // Handling Node text, draw labels
-          const debug_factor = 4
-          // const lambda = debug_factor
           const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
-          const fontSize = (min_font_size + (max_font_size - min_font_size) * lambda);
+          const fontSize = (min_font_size + (max_font_size / 2 - min_font_size) * lambda);
           const circleHeight = 2 + 4 * lambda;
           let multilineTitle = multilineText(node.title, 30)
+
+          if (node.title.indexOf("Atmospheric Carbon Capture") > -1) {
+            console.log("node", node, node.title, zoomLevel, zoomLayers, "lambda", lambda, "fontSize", fontSize, node.citationCount, "max_font_size", max_font_size, "min_font_size", min_font_size)
+          }
 
           // Check for overlaps with existing labels
           let current_zoom_text_bound = labelBounds(fontSize, node.x, node.y, 30, multilineTitle);
