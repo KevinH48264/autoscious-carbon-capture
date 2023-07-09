@@ -284,20 +284,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
                 centroid.current_zoom_text.fontSize = current_centroid_font_size;
                 centroid.current_zoom_text.visible = true;
             }
-           
-            // clusterCentroids.forEach((centroid, key) => {
-            //   if (centroid.text && centroid.text.visible) {
-            //     if (rectIntersectsRect(current_zoom_text_bound, labelBounds(centroid.text.fontSize, centroid.x, centroid.y, 30, centroid.text.text))) {
-            //       centroid.text.visible = false;
-            //     }
-            //   }
-            // })
           } 
-          // else if (centroid.text && centroid.layer !== zoomLevel + 1) {
-          //   viewport.removeChild(centroid.text);
-          // } else if (centroid.current_zoom_text && centroid.layer !== zoomLevel + 1) {
-          //   viewport.removeChild(centroid.current_zoom_text);
-          // }
         });
       }     
 
@@ -348,6 +335,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           //     node.centroid_circle.visible = true; // make it visible if it already exists
           // }
 
+
           if(!node.text) {
               node.text = new PIXI.BitmapText(multilineTitle, {
                 fontFamily: 'Arial',
@@ -357,7 +345,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
                 align: 'left',
                 visible: true,
               });
-              node.circle.zIndex = 70;
+              node.text.zIndex = 60;
               node.text.anchor.set(0.5, 0);
               node.text.position.set(node.x + circleHeight, node.y + circleHeight);
               viewport.addChild(node.text);
