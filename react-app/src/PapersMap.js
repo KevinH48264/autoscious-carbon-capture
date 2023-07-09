@@ -22,6 +22,16 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
   useEffect(() => {
     console.log("papersData", papersData, "edgesData", edgesData, "clusterData", clusterData)
+
+    // Compute force-directed layout of PaperNodes
+    let paperNodes = papersData.map(({title, x, y, citationCount, paperId}) => ({title, x: x, y: y, citationCount, paperId}))
+    let leafClusters = getLeafClusters(clusterData);
+    const layout = computeLayout(paperNodes, edgesData, leafClusters);
+    paperNodes = layout.paperNodes;
+    const centerNodes = layout.centerNodes;
+    const normalizedRadius = layout.normalizedRadius; // this should be used to determine the zoom, currently 230
+    const zoomScale = normalizedRadius / 150;
+
     const app = new PIXI.Application({
       width: window.innerWidth,
       height: window.innerHeight - 1000,
@@ -51,14 +61,9 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     viewport.drag().pinch().wheel().decelerate()
       // .clamp({direction: 'all'})
       .clampZoom({ minWidth: 100, maxHeight: viewport.worldHeight, maxWidth: viewport.worldWidth})
-      .setZoom(1)
+      .setZoom(zoomScale)
       .moveCenter(0, 0);
     app.stage.addChild(viewport);
-
-    let paperNodes = papersData.map(({title, x, y, citationCount, paperId}) => ({title, x: x, y: y, citationCount, paperId}))
-
-    // Creating voronoi from leaf nodes
-    let leafClusters = getLeafClusters(clusterData);
 
     // Creates a map from cluster_id to main_topic
     const clusterMap = new Map();
@@ -71,11 +76,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         }
     }
     clusterData.forEach(cluster => traverseCluster(cluster));
-    
-    // Compute force-directed layout of PaperNodes
-    const layout = computeLayout(paperNodes, edgesData, leafClusters);
-    paperNodes = layout.paperNodes;
-    const centerNodes = layout.centerNodes;
 
     const min_scale = Math.min(...paperNodes.map((node) => Math.sqrt(node.citationCount))) + 1;
     const max_scale = Math.max(...paperNodes.map((node) => Math.sqrt(node.citationCount)));
@@ -198,15 +198,10 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     // Sort paperNodes by citationCount to prioritize showing higher citationCount papers
     paperNodes.sort((a, b) => b.citationCount - a.citationCount);
 
-    // debug
-    leafClusters.forEach((node, i) => {
-      console.log("Math.max(...Object.keys(node.parents).map(Number));", Math.max(...Object.keys(node.parents).map(Number)), "node", node);
-    })
-
     // Create and add all circles and text to the viewport
+    console.log(viewport.scaled, "viewport.scaled", zoomScale, "zoomScale")
     const drawNodes = (nodes, viewport) => {
-      let zoomLevel = Math.round((viewport.scaled - 0.95) * 3)
-      // console.log("zoomLevel", zoomLevel, "viewport.scaled", viewport.scaled)
+      let zoomLevel = Math.max(0, Math.round(((viewport.scaled / zoomScale) - 1) * 5))
       let originalZoomLevel = zoomLevel;
 
       // Font size
