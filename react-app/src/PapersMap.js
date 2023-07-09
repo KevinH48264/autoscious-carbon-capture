@@ -198,32 +198,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     // Sort paperNodes by citationCount to prioritize showing higher citationCount papers
     paperNodes.sort((a, b) => b.citationCount - a.citationCount);
 
-    // Debugging font size
-    const bounds = viewport.getVisibleBounds();
-    let min_font_size = bounds.width < bounds.height
-        ? bounds.width / (25.5)
-        : bounds.height / (45);
-    const max_font_size = min_font_size * 1.2;
-    // console.log("bounds", bounds, "min_font_size", min_font_size, "max_font_size", max_font_size)
-
-    // const sampleText = new PIXI.BitmapText("United States", {
-    //   fontFamily: 'Arial',
-    //   fontSize: 16,
-    //   fontName: "TitleFont",
-    //   fill: 0xffffff,
-    //   align: 'left',
-    //   visible: true,
-    // });
-    // sampleText.zIndex = 120;
-    // sampleText.anchor.set(0.5, 0);
-    // sampleText.position.set(0, 0);
-    // viewport.addChild(sampleText);
-
-    console.log("clusterCentroids", clusterCentroids, Math.max(-1, Math.round(((viewport.scaled / zoomScale) - 1) * 5)))
-    console.log("bounds.width", bounds.width, "bounds.height", bounds.height, "min_font_size", min_font_size, "max_font_size", max_font_size)
-
     // Create and add all circles and text to the viewport
-    const drawNodes = (nodes, viewport) => {
+    const drawNodes = (nodes, vis_cluster_centroids, viewport) => {
       let zoomLevel = Math.max(-1, Math.round(((viewport.scaled / zoomScale) - 1) * 5))
       let originalZoomLevel = zoomLevel;
 
@@ -260,7 +236,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       // change zoomLayers to maxZoomLayer
       // Current Zoom: Adding the cluster text to viewport
       for (zoomLevel; zoomLevel < zoomLayers; ++zoomLevel) {
-        clusterCentroids.forEach((centroid, key) => {
+        vis_cluster_centroids.forEach((centroid, key) => {
           let [clusterId] = key.split(',').map(Number); 
           if (centroid.layer === zoomLevel) {
             let topCategory = "Unknown";
@@ -315,17 +291,17 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       // Adding paper nodes to viewport by leaf cluster
       leafClusters.forEach(cluster => {
         let contentSet = new Set(cluster.content);
-        let leafClusterNodes = paperNodes.filter(node => contentSet.has(node.paperId));
+        let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
 
         leafClusterNodes.forEach((node, i) => {  
           // Handling Node text, draw labels
           const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
-          const fontSize = (min_font_size + (max_font_size / 2 - min_font_size) * lambda);
+          const fontSize = (min_font_size + (max_font_size - min_font_size) * lambda / 3);
           const circleHeight = 2 + 4 * lambda;
           let multilineTitle = multilineText(node.title, 30)
 
-          if (node.title.indexOf("Atmospheric Carbon Capture") > -1) {
-            console.log("node", node, node.title, zoomLevel, zoomLayers, "lambda", lambda, "fontSize", fontSize, node.citationCount, "max_font_size", max_font_size, "min_font_size", min_font_size)
+          if (node.title.indexOf("Carbon dioxide capture in metal-organic frameworks") > -1) {
+            console.log(lambda, fontSize, max_font_size, min_font_size)
           }
 
           // Check for overlaps with existing labels
@@ -436,24 +412,21 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       let vis_nodes = paperNodes.filter((node) =>
 				viewport_bounds.contains(node.x, node.y)
 			)
+      let vis_cluster_centroids = new Map();
+      clusterCentroids.forEach((centroid, key) => {
+        if (viewport_bounds.contains(centroid.x, centroid.y)) {
+          vis_cluster_centroids.set(key, centroid);
+        }
+      });
 
-      // // reset all nodes and labels graphics not in viewport (resetting text globally was messing up the preventing text overlap and deteching text.visible)
-      // for (const node of paperNodes) {
-      //   if (!vis_nodes.includes(node)) {
-      //       if (node.circle) { node.circle.visible = false; };
-      //       if (node.text) { node.text.visible = false; };
-      //       if (node.graphics) { node.graphics.visible = false; };
-      //   }
-      // }
-
-      // Take the top 15 visible nodes
+      // Take the top visible nodes
       vis_nodes.sort((a, b) => {
 				return b.citationCount - a.citationCount;
 			});
-      vis_nodes = vis_nodes.slice(0, 20);
+      vis_nodes = vis_nodes.slice(0, 25);
 
       // Update visibility of nodes and labels
-      drawNodes(vis_nodes, viewport);
+      drawNodes(vis_nodes, vis_cluster_centroids, viewport);
     };
 
     // Update nodes based on ticker
