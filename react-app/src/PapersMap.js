@@ -59,10 +59,10 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     });
     viewport.sortableChildren = true;
     viewport.drag().pinch().wheel().decelerate()
-      // .clamp({direction: 'all'})
-      .clampZoom({ minWidth: 100, maxHeight: viewport.worldHeight, maxWidth: viewport.worldWidth})
+      .clampZoom({ minWidth: 200, maxHeight: viewport.worldHeight / zoomScale, maxWidth: viewport.worldWidth / zoomScale})
       .setZoom(zoomScale)
-      .moveCenter(0, 0);
+      .moveCenter(0, 0)
+    // viewport.clamp({direction: 'all'})
     app.stage.addChild(viewport);
 
     // Creates a map from cluster_id to main_topic
@@ -198,18 +198,38 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     // Sort paperNodes by citationCount to prioritize showing higher citationCount papers
     paperNodes.sort((a, b) => b.citationCount - a.citationCount);
 
+    // Debugging font size
+    // const bounds = viewport.getVisibleBounds();
+    // let min_font_size = bounds.width < bounds.height
+    //     ? bounds.width / (17)
+    //     : bounds.height / (30);
+    // const max_font_size = min_font_size * 1.2;
+    // console.log("bounds", bounds, "min_font_size", min_font_size, "max_font_size", max_font_size)
+
+    // const sampleText = new PIXI.BitmapText("United States", {
+    //   fontFamily: 'Arial',
+    //   fontSize: 16,
+    //   fontName: "TitleFont",
+    //   fill: 0xffffff,
+    //   align: 'left',
+    //   visible: true,
+    // });
+    // sampleText.zIndex = 120;
+    // sampleText.anchor.set(0.5, 0);
+    // sampleText.position.set(0, 0);
+    // viewport.addChild(sampleText);
+
     // Create and add all circles and text to the viewport
-    console.log(viewport.scaled, "viewport.scaled", zoomScale, "zoomScale")
     const drawNodes = (nodes, viewport) => {
-      let zoomLevel = Math.max(0, Math.round(((viewport.scaled / zoomScale) - 1) * 5))
+      let zoomLevel = Math.max(-1, Math.round(((viewport.scaled / zoomScale) - 1) * 5))
       let originalZoomLevel = zoomLevel;
 
       // Font size
       const bounds = viewport.getVisibleBounds();
       let min_font_size = bounds.width < bounds.height
-          ? bounds.width / (17)
-          : bounds.height / (30);
-      const max_font_size = min_font_size * 1.2;
+          ? bounds.width / (60)
+          : bounds.height / (40);
+      let max_font_size = min_font_size * 1.7;
 
       const addedTextBounds = new Set();
 
@@ -237,8 +257,9 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       // change zoomLayers to maxZoomLayer
       // Current Zoom: Adding the cluster text to viewport
       for (zoomLevel; zoomLevel < zoomLayers; ++zoomLevel) {
+        // eslint-disable-next-line no-loop-func
         clusterCentroids.forEach((centroid, key) => {
-          let [clusterId, layer] = key.split(',').map(Number); 
+          let [clusterId] = key.split(',').map(Number); 
           if (centroid.layer === zoomLevel) {
             let topCategory = "Unknown";
             if(clusterMap.has(clusterId)){
@@ -247,12 +268,12 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             topCategory = topCategory.slice(1, -1);
 
             // Create new text
-            let current_centroid_font_size = max_font_size / (1.25 + (zoomLevel - originalZoomLevel) * 0.75);
+            let current_centroid_font_size = max_font_size / (1.25 ** (zoomLevel - originalZoomLevel));
 
             // Check for font size bounds
-            // if (current_centroid_font_size < min_font_size) {
-            //   return
-            // }
+            if (current_centroid_font_size < min_font_size) {
+              return
+            }
 
             // Check for overlaps with existing labels
             let current_zoom_text_bound = labelBounds(current_centroid_font_size, centroid.x, centroid.y, 15, multilineText(topCategory, 15));
