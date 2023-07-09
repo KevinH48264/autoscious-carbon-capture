@@ -50,7 +50,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     viewport.sortableChildren = true;
     viewport.drag().pinch().wheel().decelerate()
       // .clamp({direction: 'all'})
-      .clampZoom({ minWidth: 50, maxHeight: viewport.worldHeight, maxWidth: viewport.worldWidth})
+      .clampZoom({ minWidth: 100, maxHeight: viewport.worldHeight, maxWidth: viewport.worldWidth})
       .setZoom(1)
       .moveCenter(0, 0);
     app.stage.addChild(viewport);
@@ -198,9 +198,15 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     // Sort paperNodes by citationCount to prioritize showing higher citationCount papers
     paperNodes.sort((a, b) => b.citationCount - a.citationCount);
 
+    // debug
+    leafClusters.forEach((node, i) => {
+      console.log("Math.max(...Object.keys(node.parents).map(Number));", Math.max(...Object.keys(node.parents).map(Number)), "node", node);
+    })
+
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, viewport) => {
-      let zoomLevel = Math.round((viewport.scaled - 0.95) * 5)
+      let zoomLevel = Math.round((viewport.scaled - 0.95) * 3)
+      // console.log("zoomLevel", zoomLevel, "viewport.scaled", viewport.scaled)
       let originalZoomLevel = zoomLevel;
 
       // Font size
@@ -212,30 +218,30 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
       const addedTextBounds = new Set();
 
-      for (zoomLevel; zoomLevel < zoomLayers; ++zoomLevel) {
-        // Preview Zoom: Adding cluster polygons on the preview layer to the viewport
-        if (zoomLevel - 1 === originalZoomLevel) {
-          leafClusters.forEach((node, i) => {
-            const parentId = node.parents[zoomLevel];
-            let fillColor = colorSequence[node.cluster_id % 301]
-            if (parentId) {
-              fillColor = parentColorMap.get(parentId);
-            }
-
-            const region = voronoi.cellPolygon(i);
-            const polygon = new PIXI.Graphics();
-            polygon.zIndex = 50;
-
-            polygon.beginFill(fillColor, 0.5);
-            polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
-            polygon.endFill();
-
-            node.region = polygon;
-            viewport.addChild(polygon);
-          });
+      // Preview Zoom: Adding cluster polygons on the preview layer to the viewport
+      leafClusters.forEach((node, i) => {
+        // If no parentId, then take the highest parent key
+        let parentId = node.parents[zoomLevel + 1];
+        if (!parentId) {
+          parentId = node.parents[Math.max(...Object.keys(node.parents).map(Number))];
         }
+        let fillColor = parentColorMap.get(parentId);
 
-        // Current Zoom: Adding the cluster text to viewport
+        const region = voronoi.cellPolygon(i);
+        const polygon = new PIXI.Graphics();
+        polygon.zIndex = 50;
+
+        polygon.beginFill(fillColor, 0.5);
+        polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
+        polygon.endFill();
+
+        node.region = polygon;
+        viewport.addChild(polygon);
+      });
+
+      // change zoomLayers to maxZoomLayer
+      // Current Zoom: Adding the cluster text to viewport
+      for (zoomLevel; zoomLevel < zoomLayers; ++zoomLevel) {
         clusterCentroids.forEach((centroid, key) => {
           let [clusterId, layer] = key.split(',').map(Number); 
           if (centroid.layer === zoomLevel) {
@@ -298,7 +304,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           const debug_factor = 4
           // const lambda = debug_factor
           const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
-          // console.log("lambda", lambda, node, node.citationCount, min_scale, max_scale)
           const fontSize = (min_font_size + (max_font_size - min_font_size) * lambda);
           const circleHeight = 2 + 4 * lambda;
           let multilineTitle = multilineText(node.title, 30)

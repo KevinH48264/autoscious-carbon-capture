@@ -15,8 +15,6 @@ function normalizeDensity(nodes, target_density = 0.0007, x0=0, y0=0) {
 }
 
 export function computeLayout(paperNodes, edgesData, leafClusters) {
-    console.log("leafClusters in compute layerout", leafClusters)
-
     // Create dummy 'center' nodes and add them to paperNodes first
     leafClusters.forEach(cluster => {
         // Create dummy 'center' node
@@ -93,8 +91,6 @@ export function computeLayout(paperNodes, edgesData, leafClusters) {
   // Remove the dummy 'center' nodes before returning
   let centerNodes = paperNodes.filter(node => node.paperId.startsWith("center_"));
   paperNodes = paperNodes.filter(node => !node.paperId.startsWith("center_"));
-
-  console.log("returning papernodes after finishing simulation!")
 
   // Now paperNodes have their 'final' position computed by d3 force layout
   return {paperNodes, centerNodes};
