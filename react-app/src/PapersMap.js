@@ -222,18 +222,16 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
               fillColor = parentColorMap.get(parentId);
             }
 
-            if (node.region) {
-              viewport.removeChild(node.region)
-            } 
-              const region = voronoi.cellPolygon(i);
-              const polygon = new PIXI.Graphics();
+            const region = voronoi.cellPolygon(i);
+            const polygon = new PIXI.Graphics();
+            polygon.zIndex = 50;
 
-              polygon.beginFill(fillColor, 0.5);
-              polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
-              polygon.endFill();
+            polygon.beginFill(fillColor, 0.5);
+            polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
+            polygon.endFill();
 
-              node.region = polygon;
-              viewport.addChild(polygon);
+            node.region = polygon;
+            viewport.addChild(polygon);
           });
         }
 
@@ -247,10 +245,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             }
             topCategory = topCategory.slice(1, -1);
 
-            // Check if node.text already exists
-            if (centroid.current_zoom_text) {
-              viewport.removeChild(centroid.current_zoom_text);
-            }
             // Create new text
             let current_centroid_font_size = max_font_size / (1.25 + (zoomLevel - originalZoomLevel) * 0.75);
 
@@ -269,24 +263,28 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             }
             addedTextBounds.add(current_zoom_text_bound);
             
-            centroid.current_zoom_text = new PIXI.BitmapText(multilineText(topCategory, 15), {
-                fontFamily: 'Arial',
-                fontSize: current_centroid_font_size,
-                fontName: "TopicFont",
-                fill: 0xFFD700,
-                align: 'left',
-                visible: true,
-                zIndex: 20,
-            });
+            if (!centroid.current_zoom_text) {
+                centroid.current_zoom_text = new PIXI.BitmapText(multilineText(topCategory, 15), {
+                    fontFamily: 'Arial',
+                    fontSize: current_centroid_font_size,
+                    fontName: "TopicFont",
+                    fill: 0xFFD700,
+                    align: 'left',
+                    visible: true,
+                });
+                centroid.current_zoom_text.zIndex = 100;
 
-            // Position the text at the centroid of the cluster
-            centroid.current_zoom_text.position.set(centroid.x, centroid.y);
+                // Position the text at the centroid of the cluster
+                centroid.current_zoom_text.position.set(centroid.x, centroid.y);
+                centroid.current_zoom_text.anchor.set(0.5, 0);
 
-            centroid.current_zoom_text.anchor.set(0.5, 0);
-
-            // Add the text to the viewport
-            viewport.addChild(centroid.current_zoom_text);
-            
+                // Add the text to the viewport
+                viewport.addChild(centroid.current_zoom_text);
+            } else {
+                centroid.current_zoom_text.fontSize = current_centroid_font_size;
+                centroid.current_zoom_text.visible = true;
+            }
+           
             // clusterCentroids.forEach((centroid, key) => {
             //   if (centroid.text && centroid.text.visible) {
             //     if (rectIntersectsRect(current_zoom_text_bound, labelBounds(centroid.text.fontSize, centroid.x, centroid.y, 30, centroid.text.text))) {
@@ -329,6 +327,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
           if(!node.circle) {
               node.circle = new PIXI.Graphics();
+              node.circle.zIndex = 55;
               // node.circle.beginFill(0xb9f2ff);
               node.circle.beginFill(colorSequence[cluster.cluster_id]);
               node.circle.drawCircle(node.x, node.y, circleHeight);
@@ -349,11 +348,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           //     node.centroid_circle.visible = true; // make it visible if it already exists
           // }
 
-          if (node.text) {
-            viewport.removeChild(node.text);
-          }
-
-          // if(!node.text) {
+          if(!node.text) {
               node.text = new PIXI.BitmapText(multilineTitle, {
                 fontFamily: 'Arial',
                 fontSize: fontSize,
@@ -361,18 +356,15 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
                 fill: 0xffffff,
                 align: 'left',
                 visible: true,
-                zIndex: 10,
               });
+              node.circle.zIndex = 70;
               node.text.anchor.set(0.5, 0);
               node.text.position.set(node.x + circleHeight, node.y + circleHeight);
               viewport.addChild(node.text);
-          // } else {
-          //     node.text.fontSize = fontSize;
-          //     node.text.visible = true; // make it visible if it already exists
-
-              // Remove overlap between text
-              // const node_bound = node.text.getBounds();
-
+          } else {
+              node.text.fontSize = fontSize;
+              node.text.visible = true; // make it visible if it already exists
+          }
               // Visualizing the bounds
               // if (node.graphics) {
               //   viewport.removeChild(node.graphics);
@@ -412,6 +404,19 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     const updateNodes = () => {
       if (!paperNodes) return;
 
+      // reset all nodes and labels graphics not in viewport (resetting text globally was messing up the preventing text overlap and deteching text.visible)
+      leafClusters.forEach((node, i) => {
+        if (node.region) { viewport.removeChild(node.region); };
+      })
+      clusterCentroids.forEach((centroid, key) => {
+        if (centroid.current_zoom_text) { centroid.current_zoom_text.visible = false; };
+      })
+      paperNodes.forEach((node, i) => {
+        if (node.circle) { node.circle.visible = false; };
+        if (node.text) { node.text.visible = false; };
+        if (node.graphics) { node.graphics.visible = false; };
+      })
+
       // get the current field of view
       const viewport_bounds = viewport.getVisibleBounds();
 			viewport_bounds.pad(viewport_bounds.width * 0.2);
@@ -419,14 +424,14 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 				viewport_bounds.contains(node.x, node.y)
 			)
 
-      // reset all nodes and labels graphics not in viewport (resetting text globally was messing up the preventing text overlap and deteching text.visible)
-      for (const node of paperNodes) {
-        if (!vis_nodes.includes(node)) {
-            if (node.circle) { node.circle.visible = false; };
-            if (node.text) { node.text.visible = false; };
-            if (node.graphics) { node.graphics.visible = false; };
-        }
-}
+      // // reset all nodes and labels graphics not in viewport (resetting text globally was messing up the preventing text overlap and deteching text.visible)
+      // for (const node of paperNodes) {
+      //   if (!vis_nodes.includes(node)) {
+      //       if (node.circle) { node.circle.visible = false; };
+      //       if (node.text) { node.text.visible = false; };
+      //       if (node.graphics) { node.graphics.visible = false; };
+      //   }
+      // }
 
       // Take the top 15 visible nodes
       vis_nodes.sort((a, b) => {
