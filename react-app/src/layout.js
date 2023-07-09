@@ -12,6 +12,8 @@ function normalizeDensity(nodes, target_density = 0.0007, x0=0, y0=0) {
         node.x += x0;
         node.y += y0;
     }
+
+    return max_norm * norm_scale;
 }
 
 export function computeLayout(paperNodes, edgesData, leafClusters) {
@@ -83,9 +85,10 @@ export function computeLayout(paperNodes, edgesData, leafClusters) {
 //    simulation.force("repel", forceManyBody().strength(-2000).distanceMax(200));
 
   // Manually iterate the simulation
+  let normalizedRadius = 0;
   for (var i = 0; i < 300; ++i) {
     simulation.tick();
-    normalizeDensity(paperNodes, 0.0007);
+    normalizedRadius = normalizeDensity(paperNodes, 0.0007);
   }
 
   // Remove the dummy 'center' nodes before returning
@@ -93,5 +96,5 @@ export function computeLayout(paperNodes, edgesData, leafClusters) {
   paperNodes = paperNodes.filter(node => !node.paperId.startsWith("center_"));
 
   // Now paperNodes have their 'final' position computed by d3 force layout
-  return {paperNodes, centerNodes};
+  return {paperNodes, centerNodes, normalizedRadius};
 }
