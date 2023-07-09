@@ -297,7 +297,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           // Handling Node text, draw labels
           const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
           const fontSize = (min_font_size + (max_font_size - min_font_size) * lambda / 3);
-          const circleHeight = 2 + 4 * lambda;
+          const circleHeight = 1 + (min_font_size / 3) * lambda;
           let multilineTitle = multilineText(node.title, 30)
 
           if (node.title.indexOf("Carbon dioxide capture in metal-organic frameworks") > -1) {
