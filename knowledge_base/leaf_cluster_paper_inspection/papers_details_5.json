@@ -30,25 +30,6 @@
         ]
     },
     {
-        "paperId":"9b35675931af8a9b56d0403a3971a667c7e5575b",
-        "title":"Fuel cells for carbon capture applications.",
-        "abstract":null,
-        "s2FieldsOfStudy":[
-            {
-                "category":"Medicine",
-                "source":"external"
-            },
-            {
-                "category":"Environmental Science",
-                "source":"s2-fos-model"
-            },
-            {
-                "category":"Engineering",
-                "source":"s2-fos-model"
-            }
-        ]
-    },
-    {
         "paperId":"24bd758dbdb9ce0ea8e913b56a8224c0389c83fe",
         "title":"Pyrogenic carbon capture and storage",
         "abstract":"The growth of biomass is considered the most efficient method currently available to extract carbon dioxide from the atmosphere. However, biomass carbon is easily degraded by microorganisms releasing it in the form of greenhouse gases back to the atmosphere. If biomass is pyrolyzed, the organic carbon is converted into solid (biochar), liquid (bio\u2010oil), and gaseous (permanent pyrogas) carbonaceous products. During the last decade, biochar has been discussed as a promising option to improve soil fertility and sequester carbon, although the carbon efficiency of the thermal conversion of biomass into biochar is in the range of 30%\u201350% only. So far, the liquid and gaseous pyrolysis products were mainly considered for combustion, though they can equally be processed into recalcitrant forms suitable for carbon sequestration. In this review, we show that pyrolytic carbon capture and storage (PyCCS) can aspire for carbon sequestration efficiencies of >70%, which is shown to be an important threshold to allow PyCCS to become a relevant negative emission technology. Prolonged residence times of pyrogenic carbon can be generated (a) within the terrestrial biosphere including the agricultural use of biochar; (b) within advanced bio\u2010based materials as long as they are not oxidized (biochar, bio\u2010oil); and (c) within suitable geological deposits (bio\u2010oil and CO2 from permanent pyrogas oxidation). While pathway (c) would need major carbon taxes or similar governmental incentives to become a realistic option, pathways (a) and (b) create added economic value and could at least partly be implemented without other financial incentives. Pyrolysis technology is already well established, biochar sequestration and bio\u2010oil sequestration in soils, respectively biomaterials, do not present ecological hazards, and global scale\u2010up appears feasible within a time frame of 10\u201330 years. Thus, PyCCS could evolve into a decisive tool for global carbon governance, serving climate change mitigation and the sustainable development goals simultaneously.",
@@ -89,33 +70,6 @@
             },
             {
                 "category":"Environmental Science",
-                "source":"s2-fos-model"
-            }
-        ]
-    },
-    {
-        "paperId":"b52a5ccf2c3f1b35b5ce36b70adbb8935031a598",
-        "title":"Production of biodiesel from microalgae through biological carbon capture: a review",
-        "abstract":null,
-        "s2FieldsOfStudy":[
-            {
-                "category":"Medicine",
-                "source":"external"
-            },
-            {
-                "category":"Engineering",
-                "source":"external"
-            },
-            {
-                "category":"Environmental Science",
-                "source":"s2-fos-model"
-            },
-            {
-                "category":"Engineering",
-                "source":"s2-fos-model"
-            },
-            {
-                "category":"Biology",
                 "source":"s2-fos-model"
             }
         ]

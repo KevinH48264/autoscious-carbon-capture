@@ -1,9 +1,413 @@
 [
     {
-        "paperId":"bf983a2df729dee6684ab8a8b6ca4daac4609192",
-        "title":"Low-carbon economic dispatch for electricity and natural gas systems considering carbon capture systems and power-to-gas",
-        "abstract":null,
+        "paperId":"f15a2d21309f429fbec688b8aee5c7bdb66b8f40",
+        "title":"Renewable-integrated flexible carbon capture: a synergistic path forward to clean energy future",
+        "abstract":"To decarbonize electricity grids, CO2 capture and renewable wind\/solar are two promising pathways. However, the intermittency of these variable renewable sources and the high energy requirement of carbon capture restrict their widespread deployment. These challenges are traditionally addressed independently at the grid-level, leading to conservative costs and limited operational flexibility for both systems. Here, we examine the synergistic integration of renewables and flexible carbon capture with individual fossil power plants. Renewables provide clean energy for carbon capture, while flexible carbon capture acts as a form of energy storage to counter renewable intermittency. To assess whether the benefits obtained from integration outweigh the capital cost under spatiotemporal variability of electricity markets and renewable energy, we develop a mathematical programming-based optimization framework. We decouple the design and operational decisions in a two-stage optimization strategy to efficiently solve the large-scale problem. When applied to a nationwide case study on coal plants across the US, we observe that, for futuristic carbon tax and renewable cost scenarios, it is profitable to invest in solar-assisted carbon capture for nearly one-third of the coal plants. It reduces carbon capture cost by 8.9%, and accommodates solar intermittency while avoiding the capital cost of an equivalent battery, which is 4.4 times the solar farm cost. Furthermore, the levelized cost of electricity will be less than that of new natural gas plants with overall emission reduction between 87.5 and 91%. The integrated system thereby provides a cost-effective and sustainable measure to reduce CO2 emissions and improve the operational flexibility of existing fossil-based systems for accelerating the clean energy transition of the global energy sector.",
         "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Engineering",
+                "source":"s2-fos-model"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"e24d6d882c78389a9c356b87ac46e065087549cf",
+        "title":"Climate change mitigation potential of carbon capture and utilization in the chemical industry",
+        "abstract":"Significance Carbon dioxide (CO2) drives climate change when released to the atmosphere. Alternatively, CO2 could be captured and utilized as carbon source for chemicals. Here, we provide a global assessment of the technical climate change mitigation potential of carbon capture and utilization (CCU) in the chemical industry. We develop an engineering-level model of the global chemical industry representing 75% of current greenhouse gas (GHG) emissions. The model allows us to analyze the potential disruptive changes through large-scale CO2 utilization and resulting emission reductions. Our study shows that CCU has the technical potential to lead to a carbon-neutral chemical industry and decouple chemical production from fossil resources. This transition, however, would cause largely increased mass flows and demand for low-carbon electricity. Chemical production is set to become the single largest driver of global oil consumption by 2030. To reduce oil consumption and resulting greenhouse gas (GHG) emissions, carbon dioxide can be captured from stacks or air and utilized as alternative carbon source for chemicals. Here, we show that carbon capture and utilization (CCU) has the technical potential to decouple chemical production from fossil resources, reducing annual GHG emissions by up to 3.5 Gt CO2-eq in 2030. Exploiting this potential, however, requires more than 18.1 PWh of low-carbon electricity, corresponding to 55% of the projected global electricity production in 2030. Most large-scale CCU technologies are found to be less efficient in reducing GHG emissions per unit low-carbon electricity when benchmarked to power-to-X efficiencies reported for other large-scale applications including electro-mobility (e-mobility) and heat pumps. Once and where these other demands are satisfied, CCU in the chemical industry could efficiently contribute to climate change mitigation.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Medicine",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"154b9fd69570539e90f51e1b19db944713d3bfdc",
+        "title":"A Guideline for Life Cycle Assessment of Carbon Capture and Utilization",
+        "abstract":"Carbon Capture and Utilization (CCU) is an emerging field proposed for emissions mitigation and even negative emissions. These potential benefits need to be assessed by the holistic method of Life Cycle Assessment (LCA) that accounts for multiple environmental impact categories over the entire life cycle of products or services. However, even though LCA is a standardized method, current LCA practice differs widely in methodological choices. The resulting LCA studies show large variability which limits their value for decision support. Applying LCA to CCU technologies leads to further specific methodological issues, e.g., due to the double role of CO2 as emission and feedstock. In this work, we therefore present a comprehensive guideline for LCA of CCU technologies. The guideline has been development in a collaborative process involving over 40 experts and builds upon existing LCA standards and guidelines. The presented guidelines should improve comparability of LCA studies through clear methodological guidance and predefined assumptions on feedstock and utilities. Transparency is increased through interpretation and reporting guidance. Improved comparability should help to strengthen knowledge-based decision-making. Consequently, research funds and time can be allocated more efficiently for the development of technologies for climate change mitigation and negative emissions.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Business",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"19b604c4e00c43cfd916603d20b2532ccb2896ea",
+        "title":"Carbon Capture From Flue Gas and the Atmosphere: A Perspective",
+        "abstract":"Climate change has become a worldwide concern with the rapid rise of the atmospheric Co2 concentration. To mitigate Co2 emissions, the research and development efforts in Co2 capture and separation both from the stationary sources with high Co2 concentrations (e.g., coal-fired power plant flue gas) and directly from the atmosphere have grown significantly. Much progress has been achieved, especially within the last twenty years. In this perspective, we first briefly review the current status of carbon capture technologies including absorption, adsorption, membrane, biological capture, and cryogenic separation, and compare their advantages and disadvantages. Then, we focus mainly on the recent advances in the absorption, adsorption, and membrane technologies. Even though numerous optimizations in materials and processes have been pursued, implementing a single separation process is still quite energy-intensive or costly. To address the challenges, we provide our perspectives on future directions of Co2 capture research and development, that is, the combination of flue gas recycling and hybrid capture system, and one-step integrated Co2 capture and conversion system, as they have the potential to overcome the technical bottlenecks of single capture technologies, offering significant improvement in energy efficiency and cost-effectiveness.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"76a20bec8e313ced0faf8010e6ecbe3965a9e305",
+        "title":"Mineralization Technology for Carbon Capture, Utilization, and Storage",
+        "abstract":"Carbon capture, utilization, and storage (CCUS) is a technology approach to the management of anthropogenic carbon dioxide gas emissions to the atmosphere. By injecting CO2 into host rocks, or by employing a an ex situ application step, geological formations can react with and store huge volumes of CO2 as carbonate minerals. An alternative mineral feedstock material is the Gt of industrial process wastes that are often disposed to landfill. By applying an accelerated carbonation step to solid waste, there is potential to sequestrate meaningful quantities of CO2 in carbonate-cemented products that have reuse potential. The manufacture of carbonated aggregates is commercially established in Europe, and recent advances in technology include a mobile plant that directly utilizes flue-gas derived CO2 in the mineralisation process. The present work discusses the basis for mineralization in geologically derived minerals and industrial wastes, with a focus being on the manufacture of products with value. An assessment of mineralized construction aggregates suggests that carbon capture, utilization, and storage technology can manage significant quantities of this CO2.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Geology",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"62519425cbe4ca9578c88b21c57553b3fd5783bb",
+        "title":"Comparative Economic Analysis of Physical, Chemical, and Hybrid Absorption Processes for Carbon Capture",
+        "abstract":"Due to the variability of CO\u2082 emission sources, proper selection of viable and cost-effective technology for carbon capture is highly critical. In this work, a comparative economic analysis of physical, chemical, and hybrid physical\u2013chemical absorption processes is performed to guide the selection of appropriate carbon capture technologies for different types of CO\u2082 sources. First, three different absorption processes are designed and simulated for treating various industrial CO\u2082-containing gases with distinct pressures and CO\u2082 concentrations. Then, the total annualized costs of the processes are calculated and compared. It is found that for carbon capture at atmospheric pressure, chemical absorption exhibits the highest performance for low CO\u2082 concentrations ( 59.3%). For treating high-pressure CO\u2082-containing gases (e.g., precombustion carbon capture), the hybrid physical\u2013chemical absorption process is economically preferred.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Chemistry",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"1f61df1af871412b52c5fc38902854fbede1a703",
+        "title":"Forest Contribution to Climate Change Mitigation: Management Oriented to Carbon Capture and Storage",
+        "abstract":"Today, climate change is assumed by many researchers and scholars as a certainty and is presented as the biggest challenge humanity has ever faced. It is commonly accepted that anthropogenic greenhouse gas emissions are the main cause that is accelerating the process. Therefore, it is urgent to find solutions to mitigate climate change, mainly because the intense effects have already been felt, in many cases in the form of the occurrence of extremely violent weather events. Forests are undoubtedly one of the most effective and easiest ways to provide the function of carbon sinks. However, it is essential and convenient to analyze the permanence time of this carbon in forests, because this permanence time depends directly on the forest management model used. This article aims to analyze forest management models from the perspective of carbon residence time in temperate forests, dividing the models into three types, namely carbon conservation models, carbon storage models, and carbon substitution models, according to their ability to contribute to functioning as carbon sinks, thereby contributing to the mitigation of climate change.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"e1e15aa932ac61efa8bb0c5cc99cfe6521458861",
+        "title":"Carbon capture and storage update",
+        "abstract":"In recent years, Carbon Capture and Storage (Sequestration) (CCS) has been proposed as a potential method to allow the continued use of fossil-fuelled power stations whilst preventing emissions of CO2 from reaching the atmosphere. Gas, coal (and biomass)-fired power stations can respond to changes in demand more readily than many other sources of electricity production, hence the importance of retaining them as an option in the energy mix. Here, we review the leading CO2 capture technologies, available in the short and long term, and their technological maturity, before discussing CO2 transport and storage. Current pilot plants and demonstrations are highlighted, as is the importance of optimising the CCS system as a whole. Other topics briefly discussed include the viability of both the capture of CO2 from the air and CO2 reutilisation as climate change mitigation strategies. Finally, we discuss the economic and legal aspects of CCS.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"6901beee29fd0c97005ff92a7aefc5c70d19aab5",
+        "title":"Negative emissions technologies and carbon capture and storage to achieve the Paris Agreement commitments",
+        "abstract":"How will the global atmosphere and climate be protected? Achieving net-zero CO2 emissions will require carbon capture and storage (CCS) to reduce current GHG emission rates, and negative emissions technology (NET) to recapture previously emitted greenhouse gases. Delivering NET requires radical cost and regulatory innovation to impact on climate mitigation. Present NET exemplars are few, are at small-scale and not deployable within a decade, with the exception of rock weathering, or direct injection of CO2 into selected ocean water masses. To keep warming less than 2\u00b0C, bioenergy with CCS (BECCS) has been modelled but does not yet exist at industrial scale. CCS already exists in many forms and at low cost. However, CCS has no political drivers to enforce its deployment. We make a new analysis of all global CCS projects and model the build rate out to 2050, deducing this is 100 times too slow. Our projection to 2050 captures just 700 Mt CO2\u2009yr\u22121, not the minimum 6000 Mt CO2\u2009yr\u22121 required to meet the 2\u00b0C target. Hence new policies are needed to incentivize commercial CCS. A first urgent action for all countries is to commercially assess their CO2 storage. A second simple action is to assign a Certificate of CO2 Storage onto producers of fossil carbon, mandating a progressively increasing proportion of CO2 to be stored. No CCS means no 2\u00b0C. This article is part of the theme issue \u2018The Paris Agreement: understanding the physical and social challenges for a warming world of 1.5\u00b0C above pre-industrial levels'.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Medicine",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"522986777b3989c34f0ea37a35e1c4f4fb3d65c8",
+        "title":"Carbon Capture and Utilization Technology without Carbon Dioxide Purification and Pressurization: A Review on Its Necessity and Available Technologies",
+        "abstract":"Carbon capture and utilization (CCU) has attracted increased attention as a means to mitigate and adapt to climate change. CCU technology regards CO2 as a raw material and reduces CO2 emissions. However, purity and pressurization requirements in most CCU technologies are high. Flue gas that is emitted from industries and transportation requires advanced purification and pressurization, which limits the development and decreases the feasibility of CCU application. Hence, a new approach to CCU technology without CO2 purification and pressurization is desirable. This study reviews differences between the CO2 purity and pressure of waste CO2 and feedstock CO2, reviews difficulties of CO2 purification and pressurization in recent developments of CCU, and provides several promising examples of CCU technologies without CO2 pressurization and\/or purification. Various promising CCU technologies and their future research prospects are discussed. Mineral carbonation and biological conversion appear to be possible so...",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Chemistry",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Agricultural And Food Sciences",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"3c87b0e4d3d93128fb6d425da491a7fea528b587",
+        "title":"Carbon capture and utilization technologies: a literature review and recent advances",
+        "abstract":"ABSTRACT This paper presents a comprehensive list of Carbon Capture and Utilization technologies and applications, ranging from lab-scale R&D activities reported in academic papers to commercially established uses of carbon dioxide. Carbon dioxide, as a source of carbon, has the potential to be used as a solvent, as a raw material in the manufacturing of fuels, carbonates, polymers, and chemicals, or as a recovery agent in techniques such as enhanced oil recovery or enhanced coal bed methane. In this paper, a literature review and recent advances of each technology are explained. To finish, most relevant Life Cycle Assessment studies carried out by experts in this field are included. Among the different alternatives studied for the use of carbon dioxide, the processes of carboxylation, consisting the synthesis of carbonates and carboxylates, have stood out. Both the production of salicylic acid as well as that of dimethyl carbonate and mineral carbonation are presented as the most likely applications of carbon dioxide, at least, in the short term.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Engineering",
+                "source":"external"
+            },
+            {
+                "category":"Chemistry",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"fa71f477a4f42d0dd2b5e3b1d36d35108654ecb7",
+        "title":"Near-term deployment of carbon capture and sequestration from biorefineries in the United States",
+        "abstract":"Significance Carbon dioxide removal through the permanent sequestration of biogenic CO2 is a critical technique for climate change mitigation, but most bioenergy with carbon capture and sequestration (CCS) technologies are technically immature or commercially unavailable. In contrast, examples of CCS of biogenic CO2 resulting from fermentation emissions already exist at scale. Here, we evaluate low-cost, commercially ready sequestration opportunities for existing biorefineries in the United States. We find that existing and proposed financial incentives suggest a substantial near-term opportunity to catalyze the growth of CCS infrastructure, improve the impacts of conventional biofuels, support development of carbon-negative biofuels, and satisfy low-carbon fuel policies. Capture and permanent geologic sequestration of biogenic CO2 emissions may provide critical flexibility in ambitious climate change mitigation. However, most bioenergy with carbon capture and sequestration (BECCS) technologies are technically immature or commercially unavailable. Here, we evaluate low-cost, commercially ready CO2 capture opportunities for existing ethanol biorefineries in the United States. The analysis combines process engineering, spatial optimization, and lifecycle assessment to consider the technical, economic, and institutional feasibility of near-term carbon capture and sequestration (CCS). Our modeling framework evaluates least cost source\u2013sink relationships and aggregation opportunities for pipeline transport, which can cost-effectively transport small CO2 volumes to suitable sequestration sites; 216 existing US biorefineries emit 45 Mt CO2 annually from fermentation, of which 60% could be captured and compressed for pipeline transport for under $25\/tCO2. A sequestration credit, analogous to existing CCS tax credits, of $60\/tCO2 could incent 30 Mt of sequestration and 6,900 km of pipeline infrastructure across the United States. Similarly, a carbon abatement credit, analogous to existing tradeable CO2 credits, of $90\/tCO2 can incent 38 Mt of abatement. Aggregation of CO2 sources enables cost-effective long-distance pipeline transport to distant sequestration sites. Financial incentives under the low-carbon fuel standard in California and recent revisions to existing federal tax credits suggest a substantial near-term opportunity to permanently sequester biogenic CO2. This financial opportunity could catalyze the growth of carbon capture, transport, and sequestration; improve the lifecycle impacts of conventional biofuels; support development of carbon-negative fuels; and help fulfill the mandates of low-carbon fuel policies across the United States.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Medicine",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"be026181508eca3fc0ce54bb3571f4fdbc014a8b",
+        "title":"Infrastructure to enable deployment of carbon capture, utilization, and storage in the United States",
+        "abstract":"Significance Carbon capture, utilization, and storage (CCUS) is a crucial technology needed to limit warming to the 2 \u00b0C target of the Paris Agreement. However, deployment is lagging far behind estimates of what is required. We demonstrate an opportunity to significantly expand CCUS in the United States in the near-term, spurred by new financial incentives enacted in February 2018, by targeting the lowest-cost capture opportunities and by deploying only commercially proven technologies. The carbon dioxide pipeline transport network would serve near-term oil industry demand for carbon dioxide while also connecting multiple prospective long-term dedicated geological storage resources. This would be a flexible long-term infrastructure asset for carbon management in the United States that would enable and accelerate future CCUS deployment. In February 2018, the United States enacted significant financial incentives for carbon capture, utilization, and storage (CCUS) that will make capture from the lowest-capture-cost sources economically viable. The largest existing low-capture-cost opportunity is from ethanol fermentation at biorefineries in the Midwest. An impediment to deployment of carbon capture at ethanol biorefineries is that most are not close to enhanced oil recovery (EOR) fields or other suitable geological formations in which the carbon dioxide could be stored. Therefore, we analyze the viability of a pipeline network to transport carbon dioxide from Midwest ethanol biorefineries to the Permian Basin in Texas, which has the greatest current carbon dioxide demand for EOR and large potential for expansion. We estimate capture and transport costs and perform economic analysis for networks under three pipeline financing scenarios representing different combinations of commercial and government finance. Without government finance, we find that a network earning commercial rates of return would not be viable. With 50% government financing for pipelines, 19 million tons of carbon dioxide per year could be captured and transported profitably. Thirty million tons per year could be captured with full government pipeline financing, which would double global anthropogenic carbon capture and increase the United States\u2019 carbon dioxide EOR industry by 50%. Such a development would face challenges, including coordination between governments and industries, pressing timelines, and policy uncertainties, but is not unprecedented. This represents an opportunity to considerably increase CCUS in the near-term and develop long-term transport infrastructure facilitating future growth.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Medicine",
+                "source":"external"
+            },
+            {
+                "category":"Economics",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"159df4c005aecff77384e075dc4baad87c4ad62f",
+        "title":"Public perception of climate engineering and carbon capture and storage in Germany: survey evidence",
+        "abstract":"ABSTRACT Climate engineering (CE) and carbon capture and storage are controversial options for addressing climate change. This study compares public perception in Germany of three specific measures: solar radiation management (SRM) via stratospheric sulphate injection, large-scale afforestation, and carbon capture and storage sub-seabed (CCS-S). In a survey experiment we find that afforestation is most readily accepted as a measure for addressing climate change, followed by CCS-S and lastly SRM, which is widely rejected. Providing additional information decreases acceptance for all measures, but their ranking remains unchanged. The acceptance of all three measures is especially influenced by the perceived seriousness of climate change and by trust in institutions. Also, respondents dislike the measures more if they perceive them as a way of shirking responsibility for emissions or as an unconscionable manipulation of nature. Women react more negatively to information than men, whereas the level of education or the degree of intuitive vs reflective decision making does not influence the reaction to information. POLICY RELEVANCE Current projections suggest that the use of climate engineering (CE) technologies or carbon capture and storage (CCS) is necessary if global warming is to be kept well below 2\u00b0C. Our article focuses on the perspective of the general public and thus supplements the dialogue between policymakers, interest groups, and scientists on how to address climate change. We show that in Germany public acceptance of potentially effective measures such as SRM or CCS-S is low and decreases even more when additional information is provided. This implies that lack of public acceptance may turn out to be a bottleneck for future implementation. Ongoing research and development in connection with CCS-S and SRM requires continuous communication with, and involvement of, the public in order to obtain feedback and assess the public\u2019s reservations about the measures. The low level of acceptance also implies that emission reduction should remain a priority in climate policy.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Business",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"06722bd8b09142c753410125641688556d2cebbc",
+        "title":"Evaluating the use of biomass energy with carbon capture and storage in low emission scenarios",
+        "abstract":"Biomass Energy with Carbon Capture and Storage (BECCS) is heavily relied upon in scenarios of future emissions that are consistent with limiting global mean temperature increase to 1.5\u2009\u00b0C or 2\u2009\u00b0C above pre-industrial. These temperature limits are defined in the Paris Agreement in order to reduce the risks and impacts of climate change. Here, we explore the use of BECCS technologies in a reference scenario and three low emission scenarios generated by an integrated assessment model (IMAGE). Using these scenarios we investigate the feasibility of key implicit and explicit assumptions about these BECCS technologies, including biomass resource, land use, CO2 storage capacity and carbon capture and storage (CCS) deployment rate. In these scenarios, we find that half of all global CO2 storage required by 2100 occurs in USA, Western Europe, China and India, which is compatible with current estimates of regional CO2 storage capacity. CCS deployment rates in the scenarios are very challenging compared to historical rates of fossil, renewable or nuclear technologies and are entirely dependent on stringent policy action to incentivise CCS. In the scenarios, half of the biomass resource is derived from agricultural and forestry residues and half from dedicated bioenergy crops grown on abandoned agricultural land and expansion into grasslands (i.e. land for forests and food production is protected). Poor governance of the sustainability of bioenergy crop production can significantly limit the amount of CO2 removed by BECCS, through soil carbon loss from direct and indirect land use change. Only one-third of the bioenergy crops are grown in regions associated with more developed governance frameworks. Overall, the scenarios in IMAGE are ambitious but consistent with current relevant literature with respect to assumed biomass resource, land use and CO2 storage capacity.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Physics",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"bfd53c8c02171b75dba1ffa1298b59a0b027d298",
+        "title":"Calculating CO2 avoidance costs of Carbon Capture and Storage from industry",
+        "abstract":"Abstract This work discusses methods for calculating the CO2 avoidance cost for Carbon Capture and Storage from the non-power generation industry. Unlike the power generation sector, three calculation methods are often used to evaluate the CO2 avoidance cost in the case of CCS from industrial sources. However, each of these methods relies on different assumptions of which potential users are not always aware. The links between these three methods are here presented and verified over an illustrative case to highlight the conditions that are required to ensure their reliable use, as well as their associated shortcomings. Finally, the basis to ensure the selection of the CO2 avoidance cost calculation method that is both valid and most efficient for cases considered by potential users are presented. Abbreviations: CCS, carbon capture and storage; CAPEX, capital expenditure; FCC, fluid catalytic cracker; OPEX, operating costs; TCR, total capital requirement.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Business",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"9540c80c6eeb9b602e95b1b8b43f186029f84b5a",
+        "title":"Carbon Capture and Utilization Update",
+        "abstract":"In recent years, carbon capture and utilization (CCU) has been proposed as a potential technological solution to the problems of greenhouse-gas emissions and the ever-growing energy demand. To combat climate change and ocean acidification as a result of anthropogenic CO2 emissions, efforts have already been put forth to capture and sequester CO2 from large point sources, especially power plants; however, the utilization of CO2 as a feedstock to make valuable chemicals, materials, and transportation fuels is potentially more desirable and provides a better and long-term solution than sequestration. The products of CO2 utilization can supplement or replace chemical feedstocks in the fine chemicals, pharmaceutical, and polymer industries. In this review, we first provide an overview of the current status of CO2-capture technologies and their associated challenges and opportunities with respect to efficiency and economy followed by an overview of various carbon-utilization approaches. The current status of combined CO2 capture and utilization, as a novel efficient and cost-effective approach, is also briefly discussed. We summarize the main challenges associated with the design, development, and large-scale deployment of CO2 capture and utilization processes to provide a perspective and roadmap for the development of new technologies and opportunities to accelerate their scale-up in the near future.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Engineering",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"0a57e77de42dda7fc5af5dbbb8390c7fce9b251c",
+        "title":"Governance of bioenergy with carbon capture and storage (BECCS): accounting, rewarding, and the Paris agreement",
+        "abstract":"ABSTRACT Studies show that the \u2018well below 2\u00b0C\u2019 target from the Paris Agreement will be hard to meet without large negative emissions from mid-century onwards, which means removing CO2 from the atmosphere and storing the carbon dioxide in biomass, soil, suitable geological formations, deep ocean sediments, or chemically bound to certain minerals. Biomass energy combined with Carbon Capture and Storage (BECCS) is the negative emission technology (NET) given most attention in a number of integrated assessment model studies and in the latest IPCC reports. However, less attention has been given to governance aspects of NETs. This study aims to identify pragmatic ways forward for BECCS, through synthesizing the literature relevant to accounting and rewarding BECCS, and its relation to the Paris Agreement. BECCS is divided into its two elements: biomass and CCS. Calculating net negative emissions requires accounting for sustainability and resource use related to biomass energy production, processing and use, and interactions with the global carbon cycle. Accounting for the CCS element of BECCS foremost relates to the carbon dioxide capture rate and safe underground storage. Rewarding BECCS as a NET depends on the efficiency of biomass production, transport and processing for energy use, global carbon cycle feedbacks, and safe storage of carbon dioxide, which together determine net carbon dioxide removal from the atmosphere. Sustainable biomass production is essential, especially with regard to trade-offs with competing land use. Negative emissions have an added value compared to avoided emissions, which should be reflected in the price of negative emission \u2018credits\u2019, but must be discounted due to global carbon cycle feedbacks. BECCS development will depend on linkages to carbon trading mechanisms and biomass trading. Key policy insights A standardized framework for sustainable biomass should be adopted. Countries should agree on a standardized framework for accounting and rewarding BECCS and other negative emission technologies. Early government support is indispensable to enable BECCS development, scale-up and business engagement. BECCS projects should be designed to maximize learning across various applications and across other NETs. BECCS development should be aligned with modalities of the Paris Agreement and market mechanisms.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Economics",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"a747814dc1c674fe172b9bec5315da5fafd57060",
+        "title":"Industrial carbon dioxide capture and utilization: state of the art and future challenges.",
+        "abstract":"Dramatically increased CO2 concentration from several point sources is perceived to cause severe greenhouse effect towards the serious ongoing global warming with associated climate destabilization, inducing undesirable natural calamities, melting of glaciers, and extreme weather patterns. CO2 capture and utilization (CCU) has received tremendous attention due to its significant role in intensifying global warming. Considering the lack of a timely review on the state-of-the-art progress of promising CCU techniques, developing an appropriate and prompt summary of such advanced techniques with a comprehensive understanding is necessary. Thus, it is imperative to provide a timely review, given the fast growth of sophisticated CO2 capture and utilization materials and their implementation. In this work, we critically summarized and comprehensively reviewed the characteristics and performance of both liquid and solid CO2 adsorbents with possible schemes for the improvement of their CO2 capture ability and advances in CO2 utilization. Their industrial applications in pre- and post-combustion CO2 capture as well as utilization were systematically discussed and compared. With our great effort, this review would be of significant importance for academic researchers for obtaining an overall understanding of the current developments and future trends of CCU. This work is bound to benefit researchers in fields relating to CCU and facilitate the progress of significant breakthroughs in both fundamental research and commercial applications to deliver perspective views for future scientific and industrial advances in CCU.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Medicine",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Computer Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"7e865ddb31d635658075d59b1be384afd101a986",
+        "title":"Carbon Capture, Utilization, and Storage: An Update",
+        "abstract":"\n Recent progress in carbon capture, utilization, and storage (CCUS) is reviewed. Considerable research effort has gone into carbon dioxide (CO2) capture, with many promising separation processes in various stages of development, but only a few have been tested at commercial scale, and considerable additional development will be required to determine competitiveness of new technologies. Processes for direct capture of CO2 from the air are also under development and are starting to be tested at pilot scale. Transportation of CO2 to storage sites by pipeline is well-established, though substantially more pipeline capacity will be required if CCUS is to be undertaken at a large scale. Considerable experience has now been built up in enhanced-oil-recovery (EOR) operations, which have been under way since the 1970s. Storage in deep saline aquifers has also been achieved at scale. Recent large-scale projects that capture and store CO2 are described, as are current and potential future markets for CO2. Potential effects of changes in the US tax code Section 45Q on those markets are summarized. Future deployment of CCUS will depend more on cost reductions for CO2 separations, development of new markets for CO2, and the complexities of project finance than on technical issues associated with storage of CO2 in the subsurface.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Engineering",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"56bf4091185ee0243087856055758d6118984816",
+        "title":"Holistic Assessment of Carbon Capture and Utilization Value Chains",
+        "abstract":"Carbon capture and utilization (CCU) is recognized by the European Union, along with carbon, capture and storage (CCS), as one of the main tools towards global warming mitigation. It has, thus, been extensively studied by various researchers around the world. The majority of the papers published so far focus on the individual stages of a CCU value chain (carbon capture, separation, purification, transportation, and transformation\/utilization). However, a holistic approach, taking into account the matching and the interaction between these stages, is also necessary in order to optimize and develop technically and economically feasible CCU value chains. The objective of this contribution is to present the most important studies that are related to the individual stages of CCU and to perform a critical review of the major existing methods, algorithms and tools that focus on the simulation or optimization of CCU value chains. The key research gaps will be identified and examined in order to lay the foundation for the development of a methodology towards the holistic assessment of CCU value chains.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Computer Science",
+                "source":"external"
+            },
+            {
+                "category":"Computer Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"b6290c7c5a633a31ff50d39218c23b3ba9b6f8bf",
+        "title":"Internal corrosion of carbon steel pipelines for dense-phase CO2 transport in carbon capture and storage (CCS) \u2013 a review",
+        "abstract":"Carbon Capture and Storage (CCS) has been highlighted as a potential method to enable the continued use of fossil-fuelled power stations through the abatement of carbon dioxide (CO2). A complete CCS cycle requires safe, reliable and cost effective solutions for the transmission of CO2 from the capturing facility to the location of permanent storage. This publication presents a detailed review of the integrity risks posed to dense-phase CO2 pipelines in the form of internal corrosion. To begin, the current worldwide experience in handling dense-phase CO2 and the anthropogenic stream compositions expected from the different combustion techniques currently available are discussed. The anticipated compositions are then related to a number of tentative CO2 stream compositions available in open literature proposed by research institutes and pipeline operators. In subsequent sections, early laboratory and field corrosion experience relating to natural dense-phase CO2 transport for the purposes of enhanced oil recovery (EOR) are summarised along with more recent research efforts which focus on identifying the role of anthropogenic impurities in the degradation processes. For each system impurity, the reaction rates, mechanisms and corrosion product composition\/morphology expected at the steel surfaces are discussed, as well as each component\u2019s ability to influence the critical water content required to initiate corrosion. Potential bulk phase reactions between multiple impurities are also evaluated in an attempt to help understand how the impurity content may evolve along a long-distance pipeline. The likelihood of stress-corrosion cracking and hydrogen-induced cracking is discussed and the various corrosion mitigation techniques which exist to control degradation to acceptable levels are reviewed. Based on the current research performed in the context of impure dense-phase CO2 corrosion, issues associated with performing laboratory experiments to replicate field conditions and the challenges such limitations present in terms of defining the safe operating window for CO2 transport are considered.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Materials Science",
+                "source":"external"
+            },
+            {
+                "category":"Materials Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"79d5e67e9de8214d670fadb2ae78cc55ec09a292",
+        "title":"Global economic consequences of deploying bioenergy with carbon capture and storage (BECCS)",
+        "abstract":"Bioenergy with carbon capture and storage (BECCS) is considered a potential source of net negative carbon emissions and, if deployed at sufficient scale, could help reduce carbon dioxide emissions and concentrations. However, the viability and economic consequences of large-scale BECCS deployment are not fully understood. We use the Global Change Assessment Model (GCAM) integrated assessment model to explore the potential global and regional economic impacts of BECCS. As a negative-emissions technology, BECCS would entail a net subsidy in a policy environment in which carbon emissions are taxed. We show that by mid-century, in a world committed to limiting climate change to 2 \u00b0C, carbon tax revenues have peaked and are rapidly approaching the point where climate mitigation is a net burden on general tax revenues. Assuming that the required policy instruments are available to support BECCS deployment, we consider its effects on global trade patterns of fossil fuels, biomass, and agricultural products. We find that in a world committed to limiting climate change to 2 \u00b0C, the absence of CCS harms fossil-fuel exporting regions, while the presence of CCS, and BECCS in particular, allows greater continued use and export of fossil fuels. We also explore the relationship between carbon prices, food-crop prices and use of BECCS. We show that the carbon price and biomass and food crop prices are directly related. We also show that BECCS reduces the upward pressure on food crop prices by lowering carbon prices and lowering the total biomass demand in climate change mitigation scenarios. All of this notwithstanding, many challenges, both technical and institutional, remain to be addressed before BECCS can be deployed at scale.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Physics",
+                "source":"external"
+            },
+            {
+                "category":"Economics",
+                "source":"external"
+            },
+            {
+                "category":"Economics",
+                "source":"s2-fos-model"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"3b76471936e131430a6b5a5f97affb0589e969a6",
+        "title":"The progressive routes for carbon capture and sequestration",
+        "abstract":"The global warming is directly related to the increased greenhouse gas emissions from both natural and anthropogenic origins. There has been a drastic rise in the concentration of CO2 and other greenhouse gases since the industrial revolution primarily due to the intensifying consumption of fossil fuels. With the need to reduce carbon emissions and mitigate global warming certain strategies relating to carbon capturing and sequestration are indispensable. This paper comprehensively describes several physicochemical, biological and geological routes for carbon capture and sequestration. The trend of the increase in greenhouse gases over the years is illustrated along with the global statistics for fossil fuels usage and biofuels production. The physicochemical carbon capturing technologies discussed include absorption, adsorption, membrane separation and cryogenic distillation. The algal and bacterial systems, dedicated energy crops and coalbed methanogenesis have been vividly explained as the biological routes for carbon sequestration. The geological carbon sequestering route centers on biochar application and oceanic carbon storage. A systematic survey has been made on the origin and impact of greenhouse gases along with the potential for sequestration based on some fast\u2010track and long\u2010term sequestration technologies.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"514d8230870c1138ccb4914a518aee66f75efa1c",
+        "title":"Carbon Capture in the Cement Industry: Technologies, Progress, and Retrofitting.",
+        "abstract":"Several different carbon-capture technologies have been proposed for use in the cement industry. This paper reviews their attributes, the progress that has been made toward their commercialization, and the major challenges facing their retrofitting to existing cement plants. A technology readiness level (TRL) scale for carbon capture in the cement industry is developed. For application at cement plants, partial oxy-fuel combustion, amine scrubbing, and calcium looping are the most developed (TRL 6 being the pilot system demonstrated in relevant environment), followed by direct capture (TRL 4-5 being the component and system validation at lab-scale in a relevant environment) and full oxy-fuel combustion (TRL 4 being the component and system validation at lab-scale in a lab environment). Our review suggests that advancing to TRL 7 (demonstration in plant environment) seems to be a challenge for the industry, representing a major step up from TRL 6. The important attributes that a cement plant must have to be \"carbon-capture ready\" for each capture technology selection is evaluated. Common requirements are space around the preheater and precalciner section, access to CO2 transport infrastructure, and a retrofittable preheater tower. Evidence from the electricity generation sector suggests that carbon capture readiness is not always cost-effective. The similar durations of cement-plant renovation and capture-plant construction suggests that synchronizing these two actions may save considerable time and money.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Engineering",
+                "source":"external"
+            },
+            {
+                "category":"Medicine",
+                "source":"external"
+            },
             {
                 "category":"Engineering",
                 "source":"s2-fos-model"
@@ -21,6 +425,29 @@
             },
             {
                 "category":"Engineering",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"b12b8439e33d571ec0e2b7682654ba02b0d46135",
+        "title":"Carbon Capture and Utilization in the Industrial Sector.",
+        "abstract":"The fabrication and manufacturing processes of industrial commodities such as iron, glass, and cement are carbon-intensive, accounting for 23% of global CO2 emissions. As a climate mitigation strategy, CO2 capture from flue gases of industrial processes-much like that of the power sector-has not experienced wide adoption given its high associated costs. However, some industrial processes with relatively high CO2 flue concentration may be viable candidates to cost-competitively supply CO2 for utilization purposes (e.g., polymer manufacturing, etc.). This work develops a methodology that determines the levelized cost ($\/tCO2) of separating, compressing, and transporting carbon dioxide. A top-down model determines the cost of separating and compressing CO2 across 18 industrial processes. Further, the study calculates the cost of transporting CO2 via pipeline and tanker truck to appropriately paired sinks using a bottom-up cost model and geo-referencing approach. The results show that truck transportation is generally the low-cost alternative given the relatively small volumes (ca. 100 kt CO2\/a). We apply our methodology to a regional case study in Pennsylvania, which shows steel and cement manufacturing paired to suitable sinks as having the lowest levelized cost of capture, compression, and transportation.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Engineering",
+                "source":"external"
+            },
+            {
+                "category":"Medicine",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Business",
                 "source":"s2-fos-model"
             }
         ]

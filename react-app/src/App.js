@@ -7,7 +7,7 @@ const App = () => {
   const [clusterData, setClusterData] = useState([]);
 
   useEffect(() => {
-    fetch('output_100_tsne.json')
+    fetch('output_100_umap.json')
       .then(response => response.json())
       .then(json => {
         setPapersData(json);
@@ -31,7 +31,7 @@ const App = () => {
 
   return (
     <div className="App" style={{ padding: "0px", margin: "0", overflow: "hidden" }}>
-      {papersData.length > 0 && edgesData.length > 0 && clusterData.length > 0 && <ResearchPaperPlot papersData={papersData} edgesData={edgesData} clusterData={clusterData} />}
+      {papersData.length > 0 && edgesData.length > 0 && clusterData.length > 0 && <ResearchPaperPlot papersData={papersData} edgesData={JSON.parse(edgesData)} clusterData={clusterData} />}
     </div>
   );
 };

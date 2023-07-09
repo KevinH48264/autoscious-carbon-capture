@@ -1,51 +1,62 @@
 [
     {
-        "paperId":"3f5bb3499d220af8edd68577d6a5272176a5cda1",
-        "title":"Carbon Capture and Conversion.",
-        "abstract":null,
+        "paperId":"e3e850fb87909bd91aab7ecb8260417ccfcb383b",
+        "title":"The Role of Carbon Capture and Utilization, Carbon Capture and Storage, and Biomass to Enable a Net-Zero-CO2 Emissions Chemical Industry",
+        "abstract":"This contribution provides a conceptual analysis and a quantitative comparative assessment of three technology chains that enable a carbon neutral chemical industry in a net-zero-CO2 world. These a...",
         "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Engineering",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"0ffa1b15908277b77ad7382c7b28f2e63226aabc",
+        "title":"Consequential life cycle assessment of carbon capture and utilization technologies within the chemical industry",
+        "abstract":"Carbon capture and utilization is recommendable within the chemical industry from an environmental perspective.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
             {
                 "category":"Chemistry",
-                "source":"external"
-            },
-            {
-                "category":"Medicine",
-                "source":"external"
-            }
-        ]
-    },
-    {
-        "paperId":"ee7a73f2e7ce3068b7131c7cf659483586f3621c",
-        "title":"Adsorption of Carbon Dioxide for Post-combustion Capture: A Review",
-        "abstract":null,
-        "s2FieldsOfStudy":[
-            {
-                "category":"Materials Science",
-                "source":"external"
-            },
-            {
-                "category":"Engineering",
                 "source":"s2-fos-model"
             }
         ]
     },
     {
-        "paperId":"33207eacd35608ca724e4df7817825cad96b36e2",
-        "title":"MINIMIZING CARBON FOOTPRINT VIA MICROALGAE AS A BIOLOGICAL CAPTURE",
-        "abstract":null,
+        "paperId":"12a27df31fd069ab0db9abcbd7776de7a6fee0eb",
+        "title":"The health and climate impacts of carbon capture and direct air capture",
+        "abstract":"Data from a coal with carbon capture and use (CCU) plant and a synthetic direct air carbon capture and use (SDACCU) plant are analyzed for the equipment's ability, alone, to reduce CO2.",
         "s2FieldsOfStudy":[
             {
-                "category":"Engineering",
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
                 "source":"s2-fos-model"
             }
         ]
     },
     {
-        "paperId":"18ab538db0d693e981e3955bf3f30ebceec4085d",
-        "title":"Carbon Capture",
-        "abstract":null,
+        "paperId":"61465afd92a83044d1a93c3106ee44f216b688f5",
+        "title":"Carbon Capture and Sequestration (CCS) in the United States",
+        "abstract":"This report provides a summary and analysis of the current state of carbon capture and sequestration (CCS) in the United States and current legislation and funding related to the CCS process and the regulation of air pollution and greenhouse gases.",
         "s2FieldsOfStudy":[
-
+            {
+                "category":"Political Science",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
         ]
     }
 ]

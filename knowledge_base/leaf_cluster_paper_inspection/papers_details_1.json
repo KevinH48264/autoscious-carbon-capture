@@ -1,26 +1,45 @@
 [
     {
-        "paperId":"9a722f9ec3bca95b5f86b501706d040dc968472d",
-        "title":"Carbon mineralization pathways for carbon capture, storage and utilization",
-        "abstract":null,
+        "paperId":"2366c402cf265deb94ed2e6e80375b3d9bf7004c",
+        "title":"Penetrating chains mimicking plant root branching to build mechanically robust, ultra-stable CO2-philic membranes for superior carbon capture",
+        "abstract":"Branched plant root mimicking PEO chains can simultaneously increase the gas separation performance, membrane stability and mechanical strength of CO2-philic membranes for superior carbon capture.",
         "s2FieldsOfStudy":[
             {
-                "category":"Medicine",
+                "category":"Materials Science",
                 "source":"external"
             },
             {
-                "category":"Geology",
+                "category":"Materials Science",
                 "source":"s2-fos-model"
             }
         ]
     },
     {
-        "paperId":"e3e850fb87909bd91aab7ecb8260417ccfcb383b",
-        "title":"The Role of Carbon Capture and Utilization, Carbon Capture and Storage, and Biomass to Enable a Net-Zero-CO2 Emissions Chemical Industry",
-        "abstract":"This contribution provides a conceptual analysis and a quantitative comparative assessment of three technology chains that enable a carbon neutral chemical industry in a net-zero-CO2 world. These a...",
+        "paperId":"e02f812df3cd677ec931b0ce47e10640f16968fa",
+        "title":"Carbon dioxide capture in metal-organic frameworks.",
+        "abstract":"Kenji Sumida, David L. Rogow, Jarad A. Mason, Thomas M. McDonald, Eric D. Bloch, Zoey R. Herm, Tae-Hyun Bae, Jeffrey R. Long",
         "s2FieldsOfStudy":[
             {
-                "category":"Environmental Science",
+                "category":"Chemistry",
+                "source":"external"
+            },
+            {
+                "category":"Medicine",
+                "source":"external"
+            },
+            {
+                "category":"Biology",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"df275f0b3dca8552250d569db1bf18de8463c9e9",
+        "title":"High-throughput computational prediction of the cost of carbon capture using mixed matrix membranes",
+        "abstract":"Mixed matrix membranes are being studied for their potential use in post-combustion carbon capture on the premise that they could dramatically lower costs relative to mature technologies available today.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Materials Science",
                 "source":"external"
             },
             {
@@ -30,12 +49,16 @@
         ]
     },
     {
-        "paperId":"0ffa1b15908277b77ad7382c7b28f2e63226aabc",
-        "title":"Consequential life cycle assessment of carbon capture and utilization technologies within the chemical industry",
-        "abstract":"Carbon capture and utilization is recommendable within the chemical industry from an environmental perspective.",
+        "paperId":"5c680357c5659034a2ae6ea0180b46a713037720",
+        "title":"Introduction: Carbon Capture and Separation.",
+        "abstract":"Reference EPFL-ARTICLE-230626doi:10.1021\/acs.chemrev.7b00403View record in Web of Science Record created on 2017-09-05, modified on 2017-10-16",
         "s2FieldsOfStudy":[
             {
-                "category":"Environmental Science",
+                "category":"Chemistry",
+                "source":"external"
+            },
+            {
+                "category":"Medicine",
                 "source":"external"
             },
             {
@@ -45,46 +68,16 @@
         ]
     },
     {
-        "paperId":"12a27df31fd069ab0db9abcbd7776de7a6fee0eb",
-        "title":"The health and climate impacts of carbon capture and direct air capture",
-        "abstract":"Data from a coal with carbon capture and use (CCU) plant and a synthetic direct air carbon capture and use (SDACCU) plant are analyzed for the equipment's ability, alone, to reduce CO2.",
+        "paperId":"02b477b11b2d5c5795757b71bcbad2d91ef5f4a1",
+        "title":"Membrane Separation Technology in Carbon Capture",
+        "abstract":"This chapter introduces the basics of membrane technology and the application of mem- brane separation in carbon capture processes. A number of membranes applicable in pre-combustion, post-combustion or oxy-fuel combustion have been discussed. An economic comparison between conventional amine-based absorption and membrane separation demonstrates the great potential in membrane technology.",
         "s2FieldsOfStudy":[
             {
-                "category":"Environmental Science",
+                "category":"Materials Science",
                 "source":"external"
             },
             {
-                "category":"Environmental Science",
-                "source":"s2-fos-model"
-            }
-        ]
-    },
-    {
-        "paperId":"26327e3f321410baab2c55ad5df509710f5bb296",
-        "title":"Carbon Capture, Utilization and Storage (CCUS)",
-        "abstract":null,
-        "s2FieldsOfStudy":[
-            {
-                "category":"Environmental Science",
-                "source":"external"
-            },
-            {
-                "category":"Geology",
-                "source":"s2-fos-model"
-            }
-        ]
-    },
-    {
-        "paperId":"61465afd92a83044d1a93c3106ee44f216b688f5",
-        "title":"Carbon Capture and Sequestration (CCS) in the United States",
-        "abstract":"This report provides a summary and analysis of the current state of carbon capture and sequestration (CCS) in the United States and current legislation and funding related to the CCS process and the regulation of air pollution and greenhouse gases.",
-        "s2FieldsOfStudy":[
-            {
-                "category":"Political Science",
-                "source":"external"
-            },
-            {
-                "category":"Environmental Science",
+                "category":"Engineering",
                 "source":"s2-fos-model"
             }
         ]

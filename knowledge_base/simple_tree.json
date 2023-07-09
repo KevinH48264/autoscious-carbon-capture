@@ -1,111 +1,38 @@
 [
     {
-        "cluster_id": 100,
+        "cluster_id": 59,
         "content": [
             {
-                "cluster_id": 105,
-                "content": [
-                    {
-                        "cluster_id": 4
-                    },
-                    {
-                        "cluster_id": 10
-                    }
-                ]
+                "cluster_id": 5
             },
             {
-                "cluster_id": 102,
+                "cluster_id": 61,
                 "content": [
                     {
-                        "cluster_id": 2
-                    },
-                    {
-                        "cluster_id": 110,
+                        "cluster_id": 64,
                         "content": [
                             {
+                                "cluster_id": 3
+                            },
+                            {
                                 "cluster_id": 1
+                            }
+                        ]
+                    },
+                    {
+                        "cluster_id": 67,
+                        "content": [
+                            {
+                                "cluster_id": 2
                             },
                             {
-                                "cluster_id": 16
-                            },
-                            {
-                                "cluster_id": 14
-                            },
-                            {
-                                "cluster_id": 112,
+                                "cluster_id": 73,
                                 "content": [
                                     {
-                                        "cluster_id": 113,
-                                        "content": [
-                                            {
-                                                "cluster_id": 117,
-                                                "content": [
-                                                    {
-                                                        "cluster_id": 7
-                                                    },
-                                                    {
-                                                        "cluster_id": 0
-                                                    }
-                                                ]
-                                            },
-                                            {
-                                                "cluster_id": 118,
-                                                "content": [
-                                                    {
-                                                        "cluster_id": 121,
-                                                        "content": [
-                                                            {
-                                                                "cluster_id": 12
-                                                            },
-                                                            {
-                                                                "cluster_id": 3
-                                                            },
-                                                            {
-                                                                "cluster_id": 6
-                                                            }
-                                                        ]
-                                                    },
-                                                    {
-                                                        "cluster_id": 9
-                                                    }
-                                                ]
-                                            }
-                                        ]
+                                        "cluster_id": 0
                                     },
                                     {
-                                        "cluster_id": 114,
-                                        "content": [
-                                            {
-                                                "cluster_id": 15
-                                            },
-                                            {
-                                                "cluster_id": 116,
-                                                "content": [
-                                                    {
-                                                        "cluster_id": 124,
-                                                        "content": [
-                                                            {
-                                                                "cluster_id": 8
-                                                            },
-                                                            {
-                                                                "cluster_id": 5
-                                                            }
-                                                        ]
-                                                    },
-                                                    {
-                                                        "cluster_id": 128,
-                                                        "content": [
-                                                            {
-                                                                "cluster_id": 13
-                                                            },
-                                                            {
-                                                                "cluster_id": 11
-                                                            }
-                                                        ]
-                                                    }
-                                                ]
-                                            }
-                                        ]
+                                        "cluster_id": 4
                                     }
                                 ]
                             }

@@ -1,26 +1,11 @@
 [
     {
-        "paperId":"7bb530adabf37316089b13690cf060c1b156b787",
-        "title":"Framing effects on public support for carbon capture and storage",
-        "abstract":null,
+        "paperId":"f46a0827c479a5199985fa8ae2996b715ff1aa93",
+        "title":"Influence of Pyrolysis Temperature on Physico-Chemical Properties of Corn Stover (Zea mays L.) Biochar and Feasibility for Carbon Capture and Energy Balance",
+        "abstract":"This study examined the influence of pyrolysis temperature on biochar characteristics and evaluated its suitability for carbon capture and energy production. Biochar was produced from corn stover using slow pyrolysis at 300, 400 and 500\u00b0C and 2 hrs holding time. The experimental biochars were characterized by elemental analysis, BET, FTIR, TGA\/DTA, NMR (C-13). Higher heating value (HHV) of feedstock and biochars was measured using bomb calorimeter. Results show that carbon content of corn stover biochar increased from 45.5% to 64.5%, with increasing pyrolysis temperatures. A decrease in H:C and O:C ratios as well as volatile matter, coupled with increase in the concentration of aromatic carbon in the biochar as determined by FTIR and NMR (C-13) demonstrates a higher biochar carbon stability at 500\u00b0C. It was estimated that corn stover pyrolysed at 500\u00b0C could provide of 10.12 MJ\/kg thermal energy. Pyrolysis is therefore a potential technology with its carbon-negative, energy positive and soil amendment benefits thus creating win- win scenario.",
         "s2FieldsOfStudy":[
             {
-                "category":"Business",
-                "source":"external"
-            },
-            {
-                "category":"Environmental Science",
-                "source":"s2-fos-model"
-            }
-        ]
-    },
-    {
-        "paperId":"0d3587d6d71cf7ae8e6dbfce01c29adc5cbcd569",
-        "title":"Perceptions of bioenergy with carbon capture and storage in different policy scenarios",
-        "abstract":null,
-        "s2FieldsOfStudy":[
-            {
-                "category":"Business",
+                "category":"Chemistry",
                 "source":"external"
             },
             {
@@ -28,22 +13,41 @@
                 "source":"external"
             },
             {
-                "category":"Political Science",
+                "category":"Agricultural And Food Sciences",
                 "source":"s2-fos-model"
             }
         ]
     },
     {
-        "paperId":"159df4c005aecff77384e075dc4baad87c4ad62f",
-        "title":"Public perception of climate engineering and carbon capture and storage in Germany: survey evidence",
-        "abstract":"ABSTRACT Climate engineering (CE) and carbon capture and storage are controversial options for addressing climate change. This study compares public perception in Germany of three specific measures: solar radiation management (SRM) via stratospheric sulphate injection, large-scale afforestation, and carbon capture and storage sub-seabed (CCS-S). In a survey experiment we find that afforestation is most readily accepted as a measure for addressing climate change, followed by CCS-S and lastly SRM, which is widely rejected. Providing additional information decreases acceptance for all measures, but their ranking remains unchanged. The acceptance of all three measures is especially influenced by the perceived seriousness of climate change and by trust in institutions. Also, respondents dislike the measures more if they perceive them as a way of shirking responsibility for emissions or as an unconscionable manipulation of nature. Women react more negatively to information than men, whereas the level of education or the degree of intuitive vs reflective decision making does not influence the reaction to information. POLICY RELEVANCE Current projections suggest that the use of climate engineering (CE) technologies or carbon capture and storage (CCS) is necessary if global warming is to be kept well below 2\u00b0C. Our article focuses on the perspective of the general public and thus supplements the dialogue between policymakers, interest groups, and scientists on how to address climate change. We show that in Germany public acceptance of potentially effective measures such as SRM or CCS-S is low and decreases even more when additional information is provided. This implies that lack of public acceptance may turn out to be a bottleneck for future implementation. Ongoing research and development in connection with CCS-S and SRM requires continuous communication with, and involvement of, the public in order to obtain feedback and assess the public\u2019s reservations about the measures. The low level of acceptance also implies that emission reduction should remain a priority in climate policy.",
+        "paperId":"0c692ca7284357969531fbb8e94de9862f984bd8",
+        "title":"Stability and Carbon Capture Enhancement by Coal-Fly-Ash-Doped Sorbents at a High Temperature",
+        "abstract":"Carbon capture using various technical options, viz., adsorption, absorption, chemical looping combustion, membrane separation, and cryogenic separation in either pre- or post=combustion modes, has been found to be the effective solution to tackle a serious concern of global warming. Although adsorption has been widely employed in carbon capture as a result of its economically and environmentally benign nature, it could not be commercialized as a result of the highly energy-intensive regeneration process involved. The major challenge in carbon capture is its sustainability at a high temperature, therefore enabling an easy integration with power generation to make it commercially viable, and also in the production of hydrogen using sorption-enhanced steam reforming. In this work, various combinations of sorbents based on CaO, MgO, zeolites H-Beta and H-ZSM 5, and Al2O3 with and without doping of coal fly ash (C and F types) have been employed in carbon capture using a lab-scale fixed-bed reactor system. Af...",
         "s2FieldsOfStudy":[
             {
-                "category":"Business",
+                "category":"Chemistry",
                 "source":"external"
             },
             {
-                "category":"Environmental Science",
+                "category":"Engineering",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"dd98a5d24567d8bb49b25ecc05d624f5cd4a5f27",
+        "title":"Application of a high-throughput analyzer in evaluating solid adsorbents for post-combustion carbon capture via multicomponent adsorption of CO2, N2, and H2O.",
+        "abstract":"Despite the large number of metal-organic frameworks that have been studied in the context of post-combustion carbon capture, adsorption equilibria of gas mixtures including CO2, N2, and H2O, which are the three biggest components of the flue gas emanating from a coal- or natural gas-fired power plant, have never been reported. Here, we disclose the design and validation of a high-throughput multicomponent adsorption instrument that can measure equilibrium adsorption isotherms for mixtures of gases at conditions that are representative of an actual flue gas from a power plant. This instrument is used to study 15 different metal-organic frameworks, zeolites, mesoporous silicas, and activated carbons representative of the broad range of solid adsorbents that have received attention for CO2 capture. While the multicomponent results presented in this work provide many interesting fundamental insights, only adsorbents functionalized with alkylamines are shown to have any significant CO2 capacity in the presence of N2 and H2O at equilibrium partial pressures similar to those expected in a carbon capture process. Most significantly, the amine-appended metal organic framework mmen-Mg2(dobpdc) (mmen = N,N'-dimethylethylenediamine, dobpdc (4-) = 4,4'-dioxido-3,3'-biphenyldicarboxylate) exhibits a record CO2 capacity of 4.2 \u00b1 0.2 mmol\/g (16 wt %) at 0.1 bar and 40 \u00b0C in the presence of a high partial pressure of H2O.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Medicine",
+                "source":"external"
+            },
+            {
+                "category":"Chemistry",
+                "source":"external"
+            },
+            {
+                "category":"Chemistry",
                 "source":"s2-fos-model"
             }
         ]
