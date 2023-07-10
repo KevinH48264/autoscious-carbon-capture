@@ -2,19 +2,19 @@ import React, { useEffect, useRef } from 'react';
 import * as PIXI from 'pixi.js';
 import { Viewport } from 'pixi-viewport';
 import { Delaunay } from 'd3-delaunay';
-import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, flattenClusters, colorSequence, multilineText, labelBounds } from './util';
+import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, flattenClusters, colorSequence, multilineText, labelBounds, getColorAtZoomLevel } from './util';
 import { computeLayout } from './layout';
 
 const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
   const pixiContainer = useRef();
   PIXI.BitmapFont.from("TitleFont", {
-    fill: 0xF8F8F8,
+    fill: 0x000000,
     fontSize: 80,
   }, {
     chars: PIXI.BitmapFont.ASCII.concat(['∀']),
   });
   PIXI.BitmapFont.from("TopicFont", {
-    fill: 0xffffff,
+    fill: 0x000000,
     fontSize: 80,
   }, {
     chars: PIXI.BitmapFont.ASCII.concat(['∀']),
@@ -59,7 +59,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     });
     viewport.sortableChildren = true;
     viewport.drag().pinch().wheel().decelerate()
-      .clampZoom({ minWidth: 200, maxHeight: viewport.worldHeight / zoomScale, maxWidth: viewport.worldWidth / zoomScale})
+      .clampZoom({ minWidth: 100, maxHeight: viewport.worldHeight / zoomScale, maxWidth: viewport.worldWidth / zoomScale})
       .setZoom(zoomScale)
       .moveCenter(0, 0)
     // viewport.clamp({direction: 'all'})
@@ -189,11 +189,12 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         let parentId = node.parents[zoomLevel];
         if (parentId) {
           if (!parentColorMap.has(parentId)) {
-              parentColorMap.set(parentId, colorSequence[parentId % 301]);
+              parentColorMap.set(parentId, colorSequence[parentId % 50]);
           }
         }
       });
     }
+    parentColorMap.set(0, 0xffffff); // hardcoding because 0 isn't covered for some reason
 
     // Sort paperNodes by citationCount to prioritize showing higher citationCount papers
     paperNodes.sort((a, b) => b.citationCount - a.citationCount);
@@ -225,7 +226,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         const polygon = new PIXI.Graphics();
         polygon.zIndex = 50;
 
-        polygon.beginFill(fillColor, 0.5);
+        polygon.beginFill(fillColor, 0.75);
         polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
         polygon.endFill();
 
@@ -246,10 +247,17 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             topCategory = topCategory.slice(1, -1);
 
             // Create new text
-            let current_centroid_font_size = max_font_size / (1.25 ** (zoomLevel - originalZoomLevel));
+            let current_centroid_font_size = max_font_size / (1.1 ** (zoomLevel - originalZoomLevel));
+
+            let current_font_color = getColorAtZoomLevel(zoomLevel, zoomLayers);
 
             // Check for font size bounds
-            if (current_centroid_font_size < min_font_size) {
+            // if (current_centroid_font_size < min_font_size) {
+            //   return
+            // }
+
+            // Not allowing more than 20 labels
+            if (addedTextBounds.length > 20) {
               return
             }
 
@@ -268,7 +276,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
                     fontFamily: 'Arial',
                     fontSize: current_centroid_font_size,
                     fontName: "TopicFont",
-                    fill: 0xFFD700,
                     align: 'left',
                     visible: true,
                 });
@@ -288,7 +295,31 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         });
       }     
 
-      // Adding paper nodes to viewport by leaf cluster
+      // Adding paper nodes circles to viewport by leaf cluster
+      leafClusters.forEach(cluster => {
+        let contentSet = new Set(cluster.content);
+        let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
+
+        leafClusterNodes.forEach((node, i) => {  
+          // Handling Node text, draw labels
+          const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
+          const circleHeight = 1 + (min_font_size / 3) * lambda;
+          if(!node.circle) {
+              node.circle = new PIXI.Graphics();
+              node.circle.zIndex = 55;
+              // node.circle.beginFill(0xb9f2ff);
+              node.circle.beginFill(colorSequence[cluster.cluster_id]);
+              node.circle.drawCircle(node.x, node.y, circleHeight);
+              node.circleHeight = circleHeight;
+              node.circle.endFill();
+              viewport.addChild(node.circle);
+          } else {
+              node.circle.visible = true;
+          }
+        });
+      })
+
+      // Adding paper text labels to viewport by leaf cluster
       leafClusters.forEach(cluster => {
         let contentSet = new Set(cluster.content);
         let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
@@ -297,11 +328,11 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           // Handling Node text, draw labels
           const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
           const fontSize = (min_font_size + (max_font_size - min_font_size) * lambda / 3);
-          const circleHeight = 1 + (min_font_size / 3) * lambda;
           let multilineTitle = multilineText(node.title, 30)
 
-          if (node.title.indexOf("Carbon dioxide capture in metal-organic frameworks") > -1) {
-            console.log(lambda, fontSize, max_font_size, min_font_size)
+          // Not allowing more than 10 paper labels / a lot of words
+          if (addedTextBounds.length > 10) {
+            return
           }
 
           // Check for overlaps with existing labels
@@ -312,30 +343,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             }
           }
           addedTextBounds.add(current_zoom_text_bound);
-
-          if(!node.circle) {
-              node.circle = new PIXI.Graphics();
-              node.circle.zIndex = 55;
-              // node.circle.beginFill(0xb9f2ff);
-              node.circle.beginFill(colorSequence[cluster.cluster_id]);
-              node.circle.drawCircle(node.x, node.y, circleHeight);
-              node.circle.endFill();
-              viewport.addChild(node.circle);
-          } else {
-              node.circle.visible = true; // make it visible if it already exists
-          }
-
-          // get the true centroid of the paper node (or before force directed depending on preprocessing)
-          // if(!node.centroid_circle) {
-          //   node.centroid_circle = new PIXI.Graphics();
-          //   node.centroid_circle.beginFill(0xFDDC5C);
-          //   node.centroid_circle.drawCircle(cluster.centroid_x, cluster.centroid_y, 10);
-          //   node.centroid_circle.endFill();
-          //   viewport.addChild(node.centroid_circle);
-          // } else {
-          //     node.centroid_circle.visible = true; // make it visible if it already exists
-          // }
-
 
           if(!node.text) {
               node.text = new PIXI.BitmapText(multilineTitle, {
@@ -348,7 +355,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
               });
               node.text.zIndex = 60;
               node.text.anchor.set(0.5, 0);
-              node.text.position.set(node.x + circleHeight, node.y + circleHeight);
+              node.text.position.set(node.x + node.circleHeight, node.y + node.circleHeight + 1);
               viewport.addChild(node.text);
           } else {
               node.text.fontSize = fontSize;
@@ -423,7 +430,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       vis_nodes.sort((a, b) => {
 				return b.citationCount - a.citationCount;
 			});
-      vis_nodes = vis_nodes.slice(0, 25);
+      // vis_nodes = vis_nodes.slice(0, 25);
 
       // Update visibility of nodes and labels
       drawNodes(vis_nodes, vis_cluster_centroids, viewport);
