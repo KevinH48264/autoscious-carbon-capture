@@ -160,6 +160,48 @@ export function getColorAtZoomLevel(zoomLevel, zoomLayers) {
     return "#" + hexColor;
 }
 
+// Function to map cluster id to main topic
+export const traverseCluster = (cluster, clusterMap) => {
+  clusterMap.set(cluster.cluster_id, cluster.main_topic);
+
+  // Check if this cluster has child clusters.
+  if (cluster.content && typeof cluster.content[0] === 'object') {
+      cluster.content.forEach(childCluster => traverseCluster(childCluster, clusterMap));
+  }
+}
+
+export const calculateClusterCentroids = (leafClusters, paperNodes, centroidNodes) => {
+  leafClusters.forEach(cluster => {
+    // Link all nodes in the cluster to the 'center' node
+    let sumX = 0;
+    let sumY = 0;
+    let count = 0;
+  
+    cluster.content.forEach(paperId => {
+      // Find the paperNode with the same paperId
+      let paperNode = paperNodes.find(node => node.paperId === paperId);
+      if (paperNode) {
+        sumX += paperNode.x;
+        sumY += paperNode.y;
+        count++;
+      }
+    });
+  
+    // Calculate and set the centroid for this cluster
+    let centroidX = count > 0 ? sumX / count : undefined;
+    let centroidY = count > 0 ? sumY / count : undefined;
+  
+    cluster.centroid_x = centroidX;
+    cluster.centroid_y = centroidY;
+
+    centroidNodes.push({x: centroidX, y: centroidY, cluster_id: cluster.cluster_id, citationCount: cluster.citationCount, main_topic: cluster.main_topic})
+  });    
+}
+
+export function getVoronoiNeighbors(voronoi, i) {
+  return Array.from(voronoi.neighbors(i));
+}  
+
 // Random colors
 // export const colorSequence = [
 //     14413679,
@@ -523,3 +565,37 @@ export const colorSequence = [
   0x7a7a7a,
   0x818181
 ];
+
+
+
+              // Visualizing the bounds
+              // if (node.graphics) {
+              //   viewport.removeChild(node.graphics);
+              // }
+              // node.graphics = new PIXI.Graphics();
+              // node.graphics.lineStyle(1, 0xFF0000, 1); // Set line style (width, color, alpha)
+              // node.graphics.drawRect(-node_bound.width / 2, -node_bound.height / 10, node_bound.width, node_bound.height); 
+              // node.graphics.position.set(node.x + circleHeight, node.y + circleHeight);
+
+              // viewport.addChild(node.graphics); 
+          // }
+
+      // Visualizing centroid nodes from force directed simulation
+      // layout.centerNodes.forEach((node, i) => {  
+      //   // Handling Node text, draw labels
+      //   const debug_factor = 1
+      //   const lambda = debug_factor
+      //   // const lambda = debug_factor * (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
+      //   const fontSize = min_font_size + (max_font_size - min_font_size) * lambda;
+      //   const circleHeight = 1 + 4 * lambda;
+
+      //   if(!node.circle) {
+      //       node.circle = new PIXI.Graphics();
+      //       node.circle.beginFill(0xb9f2ff);
+      //       node.circle.drawCircle(node.x, node.y, circleHeight);
+      //       node.circle.endFill();
+      //       viewport.addChild(node.circle);
+      //   } else {
+      //       node.circle.visible = true; // make it visible if it already exists
+      //   }
+      // })
