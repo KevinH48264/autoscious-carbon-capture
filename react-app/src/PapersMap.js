@@ -330,8 +330,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           const fontSize = (min_font_size + (max_font_size - min_font_size) * lambda / 3);
           let multilineTitle = multilineText(node.title, 30)
 
-          // Not allowing more than 15 paper labels
-          if (addedTextBounds.length > 15) {
+          // Not allowing more than 10 paper labels / a lot of words
+          if (addedTextBounds.length > 10) {
             return
           }
 
