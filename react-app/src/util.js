@@ -508,63 +508,35 @@ export function getVoronoiNeighbors(voronoi, i) {
 // ]
 
 // Diamond colors
-export const colorSequence = [
-  0xffffff,
-  0xf8f8f8,
-  0xf1f1f1,
-  0xeaeaea,
-  0xe3e3e3,
-  0xdcdcdc,
-  0xd5d5d5,
-  0xcecece,
-  0xc7c7c7,
-  0xc0c0c0,
-  0xb9b9b9,
-  0xb2b2b2,
-  0xababab,
-  0xa4a4a4,
-  0x9d9d9d,
-  0x969696,
-  0x8f8f8f,
-  0x888888,
-  0x818181,
-  0x7a7a7a,
-  0x737373,
-  0x6c6c6c,
-  0x656565,
-  0x5e5e5e,
-  0x575757,
-  0x505050,
-  0x494949,
-  0x424242,
-  0x3b3b3b,
-  0x343434,
-  0x2d2d2d,
-  0x262626,
-  0x1f1f1f,
-  0x181818,
-  0x111111,
-  0x0a0a0a,
-  0x030303,
-  0x0a0a0a,
-  0x111111,
-  0x181818,
-  0x1f1f1f,
-  0x262626,
-  0x2d2d2d,
-  0x343434,
-  0x3b3b3b,
-  0x424242,
-  0x494949,
-  0x505050,
-  0x575757,
-  0x5e5e5e,
-  0x656565,
-  0x6c6c6c,
-  0x737373,
-  0x7a7a7a,
-  0x818181
+export const diamondPolygonColorSequence = [
+  0xB9F2FF, // Very Pale Blue
+  0xA4C8F0, // Light Sky Blue
+  0x89A1D0, // Periwinkle Blue
+  0x6D8CB3, // Cadet Blue
+  0x507696, // Steel Blue
+  0x335B7A, // Dark Slate Blue
+  0x16405F, // Dark Imperial Blue
+  0xD8F2E1, // Very Pale Green
+  0xB5E0D3, // Light Cyan
+  0x92CEC5  // Medium Aquamarine
 ];
+
+
+export const circleColorDiamondSequence = [
+  0xB2DDFF, // Pale Blue
+  0xFFC1D6, // Soft Pink
+  0xD3D3D3, // Light Grey
+  0xFFD700, // Gold
+  0xA0C1D1, // Sky Blue
+  0xFCE4EC, // Pinkish White
+  0x9FA8DA, // Cool Greyish Blue
+  0xE6E2D3, // Very Light Yellowish Grey
+  0xC5E1A5, // Soft Green
+  0xBCAAA4, // Earthy Grey
+  0x80DEEA, // Light Cyan
+  0xF48FB1, // Light Pink
+];
+
 
 
 
