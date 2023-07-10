@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import * as PIXI from 'pixi.js';
 import { Viewport } from 'pixi-viewport';
 import { Delaunay } from 'd3-delaunay';
-import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, flattenClusters, colorSequence, multilineText, labelBounds, getColorAtZoomLevel, traverseCluster, calculateClusterCentroids, getVoronoiNeighbors } from './util';
+import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, flattenClusters, diamondPolygonColorSequence, multilineText, labelBounds, getColorAtZoomLevel, traverseCluster, calculateClusterCentroids, getVoronoiNeighbors, circleColorDiamondSequence } from './util';
 import { computeLayout } from './layout';
 
 const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
@@ -143,7 +143,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         let parentId = node.parents[zoomLevel];
         if (parentId) {
           if (!parentColorMap.has(parentId)) {
-              parentColorMap.set(parentId, colorSequence[parentId % 50]);
+              parentColorMap.set(parentId, diamondPolygonColorSequence[parentId % diamondPolygonColorSequence.length]);
           }
         }
       });
@@ -263,7 +263,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
               node.circle = new PIXI.Graphics();
               node.circle.zIndex = 55;
               // node.circle.beginFill(0xb9f2ff);
-              node.circle.beginFill(colorSequence[cluster.cluster_id]);
+              node.circle.beginFill(circleColorDiamondSequence[cluster.cluster_id % circleColorDiamondSequence.length]);
               node.circle.drawCircle(node.x, node.y, circleHeight);
               node.circleHeight = circleHeight;
               node.circle.endFill();
