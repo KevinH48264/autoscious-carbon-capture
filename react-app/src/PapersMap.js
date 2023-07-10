@@ -6,12 +6,12 @@ import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, f
 import { computeLayout } from './layout';
 
 const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
-  const logging = true;
   const pixiContainer = useRef();
   PIXI.BitmapFont.from("TitleFont", { fill: 0x000000 }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
   PIXI.BitmapFont.from("TopicFont", { fill: 0x000000 }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
 
   useEffect(() => {
+    const logging = true;
     console.log("papersData", papersData, "edgesData", edgesData, "clusterData", clusterData)
 
     // Compute force-directed layout of PaperNodes
@@ -321,45 +321,54 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     // Update visibility of circles and text based on the current field of view and zoom level
     let totalUpdateTime = 0
     let numUpdates = 0
+    let prev_viewport_bounds = PIXI.Rectangle.EMPTY;
     const updateNodes = () => {
       // Start the timer
       const t0 = performance.now();
       if (!paperNodes) return;
 
-      // reset all nodes and labels graphics not in viewport (resetting text globally was messing up the preventing text overlap and deteching text.visible)
-      leafClusters.forEach((node, i) => {
-        if (node.region) { viewport.removeChild(node.region); };
-      })
-      clusterCentroids.forEach((centroid, key) => {
-        if (centroid.current_zoom_text) { centroid.current_zoom_text.visible = false; };
-      })
-      paperNodes.forEach((node, i) => {
-        if (node.circle) { node.circle.visible = false; };
-        if (node.text) { node.text.visible = false; };
-        if (node.graphics) { node.graphics.visible = false; };
-      })
-
       // get the current field of view
       const viewport_bounds = viewport.getVisibleBounds();
 			viewport_bounds.pad(viewport_bounds.width * 0.2);
-      let vis_nodes = paperNodes.filter((node) =>
-				viewport_bounds.contains(node.x, node.y)
-			)
-      let vis_cluster_centroids = new Map();
-      clusterCentroids.forEach((centroid, key) => {
-        if (viewport_bounds.contains(centroid.x, centroid.y)) {
-          vis_cluster_centroids.set(key, centroid);
-        }
-      });
-
-      // Take the top visible nodes
-      vis_nodes.sort((a, b) => {
-				return b.citationCount - a.citationCount;
-			});
-      // vis_nodes = vis_nodes.slice(0, 25);
 
       // Update visibility of nodes and labels
-      drawNodes(vis_nodes, vis_cluster_centroids, viewport);
+      if (
+        prev_viewport_bounds.x !== viewport_bounds.x ||
+        prev_viewport_bounds.y !== viewport_bounds.y ||
+        prev_viewport_bounds.width !== viewport_bounds.width ||
+        prev_viewport_bounds.height !== viewport_bounds.height
+      ) {
+        // reset all nodes and labels graphics not in viewport (resetting text globally was messing up the preventing text overlap and deteching text.visible)
+        leafClusters.forEach((node, i) => {
+          if (node.region) { viewport.removeChild(node.region); };
+        })
+        clusterCentroids.forEach((centroid, key) => {
+          if (centroid.current_zoom_text) { centroid.current_zoom_text.visible = false; };
+        })
+        paperNodes.forEach((node, i) => {
+          if (node.circle) { node.circle.visible = false; };
+          if (node.text) { node.text.visible = false; };
+          if (node.graphics) { node.graphics.visible = false; };
+        })
+        let vis_nodes = paperNodes.filter((node) =>
+          viewport_bounds.contains(node.x, node.y)
+        )
+        let vis_cluster_centroids = new Map();
+        clusterCentroids.forEach((centroid, key) => {
+          if (viewport_bounds.contains(centroid.x, centroid.y)) {
+            vis_cluster_centroids.set(key, centroid);
+          }
+        });
+
+        // Take the top visible nodes
+        vis_nodes.sort((a, b) => {
+          return b.citationCount - a.citationCount;
+        });
+        // vis_nodes = vis_nodes.slice(0, 25);
+
+        prev_viewport_bounds = viewport_bounds.clone(); // clone the rectangle to avoid reference issues
+        drawNodes(vis_nodes, vis_cluster_centroids, viewport);
+      }
 
       // Performance debugger: Stop the timer and print the time taken, 15 ms is the threshold for smooth animation (60 fps)
       if (logging) {
