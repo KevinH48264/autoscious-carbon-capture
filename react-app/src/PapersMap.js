@@ -6,6 +6,7 @@ import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, f
 import { computeLayout } from './layout';
 
 const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
+  const logging = true;
   const pixiContainer = useRef();
   PIXI.BitmapFont.from("TitleFont", { fill: 0x000000 }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
   PIXI.BitmapFont.from("TopicFont", { fill: 0x000000 }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
@@ -150,6 +151,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     // Sort paperNodes by citationCount to prioritize showing higher citationCount papers
     paperNodes.sort((a, b) => b.citationCount - a.citationCount);
 
+    console.log("clusterCentroids", clusterCentroids)
+
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, vis_cluster_centroids, viewport) => {
       let zoomLevel = Math.max(-1, Math.round(((viewport.scaled / zoomScale) - 1) * 5))
@@ -186,11 +189,11 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       });
 
       // change zoomLayers to maxZoomLayer
-      // Current Zoom: Adding the cluster text to viewport
-      for (zoomLevel; zoomLevel < zoomLayers; ++zoomLevel) {
+      // Current Zoom: Adding the cluster text to viewport, and any in the next 3 layers
+      for (let i = 0; i < 3; ++i) {
         vis_cluster_centroids.forEach((centroid, key) => {
           let [clusterId] = key.split(',').map(Number); 
-          if (centroid.layer === zoomLevel) {
+          if (centroid.layer === zoomLevel + i) {
             let topCategory = "Unknown";
             if(clusterMap.has(clusterId)){
                 topCategory = clusterMap.get(clusterId);
@@ -199,8 +202,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
             // Create new text
             let current_centroid_font_size = max_font_size / (1.1 ** (zoomLevel - originalZoomLevel));
-
-            let current_font_color = getColorAtZoomLevel(zoomLevel, zoomLayers);
+            let current_centroid_text = multilineText(topCategory, 15);
 
             // Check for font size bounds
             // if (current_centroid_font_size < min_font_size) {
@@ -213,7 +215,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             }
 
             // Check for overlaps with existing labels
-            let current_zoom_text_bound = labelBounds(current_centroid_font_size, centroid.x, centroid.y, 15, multilineText(topCategory, 15));
+            let current_zoom_text_bound = labelBounds(current_centroid_font_size, centroid.x, centroid.y, 15, current_centroid_text);
 
             for (let bound of addedTextBounds) {
               if (rectIntersectsRect(current_zoom_text_bound, bound)) {
@@ -223,7 +225,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             addedTextBounds.add(current_zoom_text_bound);
             
             if (!centroid.current_zoom_text) {
-                centroid.current_zoom_text = new PIXI.BitmapText(multilineText(topCategory, 15), {
+                centroid.current_zoom_text = new PIXI.BitmapText(current_centroid_text, {
                     fontFamily: 'Arial',
                     fontSize: current_centroid_font_size,
                     fontName: "TopicFont",
@@ -322,8 +324,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     const updateNodes = () => {
       // Start the timer
       const t0 = performance.now();
-
-
       if (!paperNodes) return;
 
       // reset all nodes and labels graphics not in viewport (resetting text globally was messing up the preventing text overlap and deteching text.visible)
@@ -362,18 +362,20 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       drawNodes(vis_nodes, vis_cluster_centroids, viewport);
 
       // Performance debugger: Stop the timer and print the time taken, 15 ms is the threshold for smooth animation (60 fps)
-      const t1 = performance.now();
-      const updateTime = t1 - t0;
+      if (logging) {
+        const t1 = performance.now();
+        const updateTime = t1 - t0;
 
-      if (numUpdates % 60 === 0) {
-        totalUpdateTime = 0
-        numUpdates = 0
+        if (numUpdates % 60 === 0) {
+          totalUpdateTime = 0
+          numUpdates = 0
+        }
+
+        numUpdates += 1
+        totalUpdateTime += updateTime
+
+        console.log("Update time (ms): " + Math.round((t1 - t0)), "avg: ", Math.round(totalUpdateTime / numUpdates));
       }
-
-      numUpdates += 1
-      totalUpdateTime += updateTime
-
-      console.log("Update time (ms): " + Math.round((t1 - t0)), "avg: ", Math.round(totalUpdateTime / numUpdates));
     };
 
     // Update nodes based on ticker
