@@ -28,7 +28,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       height: window.innerHeight - 1000,
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
-      backgroundColor: 0x121212,
+      backgroundColor: 0xD6EFFF,
       resizeTo: window,
     });
 
@@ -85,7 +85,9 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     circleMask.beginFill(0x000000); // You can fill with any color
     circleMask.drawCircle(0, 0, farthestDistance + 10);
     circleMask.endFill();
-    viewport.mask = circleMask;
+    const polygonContainer = new PIXI.Container();
+    viewport.addChild(polygonContainer);
+    polygonContainer.mask = circleMask;
     viewport.addChild(circleMask);
 
     // Ensuring parentIds extend to the farthest zoom
@@ -185,7 +187,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         polygon.endFill();
 
         node.region = polygon;
-        viewport.addChild(polygon);
+        polygonContainer.addChild(polygon);
       });
 
       // change zoomLayers to maxZoomLayer
@@ -340,7 +342,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       ) {
         // reset all nodes and labels graphics not in viewport (resetting text globally was messing up the preventing text overlap and deteching text.visible)
         leafClusters.forEach((node, i) => {
-          if (node.region) { viewport.removeChild(node.region); };
+          if (node.region) { polygonContainer.removeChild(node.region); };
         })
         clusterCentroids.forEach((centroid, key) => {
           if (centroid.current_zoom_text) { centroid.current_zoom_text.visible = false; };
