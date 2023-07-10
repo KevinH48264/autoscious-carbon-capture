@@ -2,16 +2,16 @@ import React, { useEffect, useRef } from 'react';
 import * as PIXI from 'pixi.js';
 import { Viewport } from 'pixi-viewport';
 import { Delaunay } from 'd3-delaunay';
-import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, flattenClusters, colorSequence, multilineText, labelBounds, getColorAtZoomLevel, traverseCluster, calculateClusterCentroids, getVoronoiNeighbors } from './util';
+import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, flattenClusters, diamondPolygonColorSequence, multilineText, labelBounds, getColorAtZoomLevel, traverseCluster, calculateClusterCentroids, getVoronoiNeighbors, circleColorDiamondSequence } from './util';
 import { computeLayout } from './layout';
 
 const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
-  const logging = true;
   const pixiContainer = useRef();
   PIXI.BitmapFont.from("TitleFont", { fill: 0x000000 }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
   PIXI.BitmapFont.from("TopicFont", { fill: 0x000000 }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
 
   useEffect(() => {
+    const logging = true;
     console.log("papersData", papersData, "edgesData", edgesData, "clusterData", clusterData)
 
     // Compute force-directed layout of PaperNodes
@@ -28,7 +28,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       height: window.innerHeight - 1000,
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
-      backgroundColor: 0x121212,
+      backgroundColor: 0xD6EFFF,
       resizeTo: window,
     });
 
@@ -85,7 +85,9 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     circleMask.beginFill(0x000000); // You can fill with any color
     circleMask.drawCircle(0, 0, farthestDistance + 10);
     circleMask.endFill();
-    viewport.mask = circleMask;
+    const polygonContainer = new PIXI.Container();
+    viewport.addChild(polygonContainer);
+    polygonContainer.mask = circleMask;
     viewport.addChild(circleMask);
 
     // Ensuring parentIds extend to the farthest zoom
@@ -141,7 +143,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         let parentId = node.parents[zoomLevel];
         if (parentId) {
           if (!parentColorMap.has(parentId)) {
-              parentColorMap.set(parentId, colorSequence[parentId % 50]);
+              parentColorMap.set(parentId, diamondPolygonColorSequence[parentId % diamondPolygonColorSequence.length]);
           }
         }
       });
@@ -185,7 +187,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         polygon.endFill();
 
         node.region = polygon;
-        viewport.addChild(polygon);
+        polygonContainer.addChild(polygon);
       });
 
       // change zoomLayers to maxZoomLayer
@@ -261,7 +263,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
               node.circle = new PIXI.Graphics();
               node.circle.zIndex = 55;
               // node.circle.beginFill(0xb9f2ff);
-              node.circle.beginFill(colorSequence[cluster.cluster_id]);
+              node.circle.beginFill(circleColorDiamondSequence[cluster.cluster_id % circleColorDiamondSequence.length]);
               node.circle.drawCircle(node.x, node.y, circleHeight);
               node.circleHeight = circleHeight;
               node.circle.endFill();
@@ -321,45 +323,54 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     // Update visibility of circles and text based on the current field of view and zoom level
     let totalUpdateTime = 0
     let numUpdates = 0
+    let prev_viewport_bounds = PIXI.Rectangle.EMPTY;
     const updateNodes = () => {
       // Start the timer
       const t0 = performance.now();
       if (!paperNodes) return;
 
-      // reset all nodes and labels graphics not in viewport (resetting text globally was messing up the preventing text overlap and deteching text.visible)
-      leafClusters.forEach((node, i) => {
-        if (node.region) { viewport.removeChild(node.region); };
-      })
-      clusterCentroids.forEach((centroid, key) => {
-        if (centroid.current_zoom_text) { centroid.current_zoom_text.visible = false; };
-      })
-      paperNodes.forEach((node, i) => {
-        if (node.circle) { node.circle.visible = false; };
-        if (node.text) { node.text.visible = false; };
-        if (node.graphics) { node.graphics.visible = false; };
-      })
-
       // get the current field of view
       const viewport_bounds = viewport.getVisibleBounds();
 			viewport_bounds.pad(viewport_bounds.width * 0.2);
-      let vis_nodes = paperNodes.filter((node) =>
-				viewport_bounds.contains(node.x, node.y)
-			)
-      let vis_cluster_centroids = new Map();
-      clusterCentroids.forEach((centroid, key) => {
-        if (viewport_bounds.contains(centroid.x, centroid.y)) {
-          vis_cluster_centroids.set(key, centroid);
-        }
-      });
-
-      // Take the top visible nodes
-      vis_nodes.sort((a, b) => {
-				return b.citationCount - a.citationCount;
-			});
-      // vis_nodes = vis_nodes.slice(0, 25);
 
       // Update visibility of nodes and labels
-      drawNodes(vis_nodes, vis_cluster_centroids, viewport);
+      if (
+        prev_viewport_bounds.x !== viewport_bounds.x ||
+        prev_viewport_bounds.y !== viewport_bounds.y ||
+        prev_viewport_bounds.width !== viewport_bounds.width ||
+        prev_viewport_bounds.height !== viewport_bounds.height
+      ) {
+        // reset all nodes and labels graphics not in viewport (resetting text globally was messing up the preventing text overlap and deteching text.visible)
+        leafClusters.forEach((node, i) => {
+          if (node.region) { polygonContainer.removeChild(node.region); };
+        })
+        clusterCentroids.forEach((centroid, key) => {
+          if (centroid.current_zoom_text) { centroid.current_zoom_text.visible = false; };
+        })
+        paperNodes.forEach((node, i) => {
+          if (node.circle) { node.circle.visible = false; };
+          if (node.text) { node.text.visible = false; };
+          if (node.graphics) { node.graphics.visible = false; };
+        })
+        let vis_nodes = paperNodes.filter((node) =>
+          viewport_bounds.contains(node.x, node.y)
+        )
+        let vis_cluster_centroids = new Map();
+        clusterCentroids.forEach((centroid, key) => {
+          if (viewport_bounds.contains(centroid.x, centroid.y)) {
+            vis_cluster_centroids.set(key, centroid);
+          }
+        });
+
+        // Take the top visible nodes
+        vis_nodes.sort((a, b) => {
+          return b.citationCount - a.citationCount;
+        });
+        // vis_nodes = vis_nodes.slice(0, 25);
+
+        prev_viewport_bounds = viewport_bounds.clone(); // clone the rectangle to avoid reference issues
+        drawNodes(vis_nodes, vis_cluster_centroids, viewport);
+      }
 
       // Performance debugger: Stop the timer and print the time taken, 15 ms is the threshold for smooth animation (60 fps)
       if (logging) {
