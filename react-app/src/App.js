@@ -7,14 +7,14 @@ const App = () => {
   const [clusterData, setClusterData] = useState([]);
 
   useEffect(() => {
-    fetch('output_100_tsne.json')
+    fetch('2000/output_2000.json')
       .then(response => response.json())
       .then(json => {
         setPapersData(json);
           console.log("Papers data:", json);
       })
 
-    fetch('edges.json')
+    fetch('2000/edges.json')
       .then(response => response.json())
       .then(json => {
         setEdgesData(json);

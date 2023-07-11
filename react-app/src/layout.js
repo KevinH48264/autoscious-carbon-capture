@@ -18,14 +18,14 @@ function normalizeDensity(nodes, target_density = 0.0007, x0=0, y0=0) {
 
 export function computeLayout(paperNodes, edgesData, leafClusters) {
     // Create dummy 'center' nodes and add them to paperNodes first
-    leafClusters.forEach(cluster => {
-        // Create dummy 'center' node
-        let centerNode = {
-        paperId: "center_" + cluster.cluster_id, // Give it a unique id
-        citationCount: 0 // Dummy value, not used for anything
-        };
-        paperNodes.push(centerNode);
-    });
+    // leafClusters.forEach(cluster => {
+    //     // Create dummy 'center' node
+    //     let centerNode = {
+    //     paperId: "center_" + cluster.cluster_id, // Give it a unique id
+    //     citationCount: 0 // Dummy value, not used for anything
+    //     };
+    //     paperNodes.push(centerNode);
+    // });
 
   let simulation = forceSimulation()
     .nodes(paperNodes) // Set nodes
@@ -50,32 +50,32 @@ export function computeLayout(paperNodes, edgesData, leafClusters) {
         const targetCluster = leafClusters.find(cluster => cluster.content.includes(edge.target));
 
         // If both nodes are in the same cluster, add the link
-        if (sourceCluster && targetCluster && sourceCluster.cluster_id === targetCluster.cluster_id) {
+        // if (sourceCluster && targetCluster && sourceCluster.cluster_id === targetCluster.cluster_id) {
             links.push({
-                source: edge.source,
-                target: edge.target,
+                source: edge.source_id,
+                target: edge.target_id,
                 strength: edge.weight ** 2,
                 distance: 10
             });
-        }
+        // }
     });
   
 
   // Create dummy 'center' nodes and links to them for each leafCluster
-  leafClusters.forEach(cluster => {
-    // Link all nodes in the cluster to the 'center' node
-    cluster.content.forEach(paperId => {
-      links.push({
-        source: paperId,
-        target: "center_" + cluster.cluster_id,
-        weight: 10 // Large weight to keep them close
-      });
-    });
+  // leafClusters.forEach(cluster => {
+  //   // Link all nodes in the cluster to the 'center' node
+  //   cluster.content.forEach(paperId => {
+  //     links.push({
+  //       source: paperId,
+  //       target: "center_" + cluster.cluster_id,
+  //       weight: 10 // Large weight to keep them close
+  //     });
+  //   });
 
-    // Update the center force to the centroid of the current cluster
-    // console.log("centroid for cluster ", cluster.cluster_id, cluster.centroid_x, cluster.centroid_y)
-    simulation.force("center", forceCenter(cluster.centroid_x, cluster.centroid_y));
-  });
+  //   // Update the center force to the centroid of the current cluster
+  //   // console.log("centroid for cluster ", cluster.cluster_id, cluster.centroid_x, cluster.centroid_y)
+  //   simulation.force("center", forceCenter(cluster.centroid_x, cluster.centroid_y));
+  // });
 
 
   // Set links
