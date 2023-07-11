@@ -21,7 +21,7 @@ def search_semantic_scholar(query, offset=0, limit=10, fields=[]):
     return response.json()
 
 # Call the function, fields found here: https://api.semanticscholar.org/api-docs/graph#tag/Paper-Data/operation/post_graph_get_papers
-result = search_semantic_scholar("carbon capture", offset=10, limit=100, fields=["title", "citationCount", "abstract", "url", "year", "isOpenAccess", "fieldsOfStudy", "s2FieldsOfStudy", "tldr", "citations", "references", "embedding"]) 
+result = search_semantic_scholar("carbon capture", offset=10, limit=350, fields=["title", "citationCount", "abstract", "url", "year", "isOpenAccess", "tldr", "citations", "embedding"]) 
 
 # Convert to Latent Lab keys
 def preprocess_latent_lab(data):
@@ -36,7 +36,7 @@ def preprocess_latent_lab(data):
     return new_json_string
 
 # Open the file in append mode
-with open('output_100.json', 'w') as file:
+with open('output_1000.json', 'w') as file:
     json_string = json.dumps(result['data'], indent=2)
     # json_string = preprocess_latent_lab(result['data'])
     file.write(json_string + '\n')
