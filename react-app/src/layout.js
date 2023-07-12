@@ -44,21 +44,21 @@ export function computeLayout(paperNodes, edgesData, leafClusters) {
   let links = [];
 
     // Create links from edgesData
-    edgesData.forEach(edge => {
-        // Find the clusters for source and target
-        // const sourceCluster = leafClusters.find(cluster => cluster.content.includes(edge.source));
-        // const targetCluster = leafClusters.find(cluster => cluster.content.includes(edge.target));
+    // edgesData.forEach(edge => {
+    //     // Find the clusters for source and target
+    //     const sourceCluster = leafClusters.find(cluster => cluster.content.includes(edge.source));
+    //     const targetCluster = leafClusters.find(cluster => cluster.content.includes(edge.target));
 
-        // If both nodes are in the same cluster, add the link
-        // if (sourceCluster && targetCluster && sourceCluster.cluster_id === targetCluster.cluster_id) {
-            links.push({
-                source: edge.source_id,
-                target: edge.target_id,
-                strength: edge.weight ** 2,
-                distance: 100
-            });
-        // }
-    });
+    //     // If both nodes are in the same cluster, add the link
+    //     if (sourceCluster && targetCluster && sourceCluster.cluster_id === targetCluster.cluster_id) {
+    //         links.push({
+    //             source: edge.source_id,
+    //             target: edge.target_id,
+    //             strength: edge.weight ** 2,
+    //             distance: 100
+    //         });
+    //     }
+    // });
   
 
   // Create dummy 'center' nodes and links to them for each leafCluster
