@@ -83,14 +83,14 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         farthestDistance = distance;
       }
     });
-    let circleMask = new PIXI.Graphics();
-    circleMask.beginFill(0x000000); // You can fill with any color
-    circleMask.drawCircle(0, 0, farthestDistance + 10);
-    circleMask.endFill();
+    // let circleMask = new PIXI.Graphics();
+    // circleMask.beginFill(0x000000); // You can fill with any color
+    // circleMask.drawCircle(0, 0, farthestDistance + 10);
+    // circleMask.endFill();
     const polygonContainer = new PIXI.Container();
     viewport.addChild(polygonContainer);
-    polygonContainer.mask = circleMask;
-    viewport.addChild(circleMask);
+    // polygonContainer.mask = circleMask;
+    // viewport.addChild(circleMask);
 
     // Ensuring parentIds extend to the farthest zoom
     const zoomLayers = 20
@@ -260,21 +260,20 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       // }     
 
       // Adding paper nodes circles to viewport by leaf cluster
-      // leafClusters.forEach(cluster => {
-      //   let contentSet = new Set(cluster.content);
-      //   let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
+      leafClusters.forEach(cluster => {
+        let contentSet = new Set(cluster.content);
+        let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
 
-      //   leafClusterNodes.forEach((node, i) => {  
-
-      paperNodes.forEach((node, i) => {
+        leafClusterNodes.forEach((node, i) => {  
           // Handling Node text, draw labels
           const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
-          const circleHeight = 1 + (min_font_size / 3) * lambda;
+          const circleHeight = 5 + (min_font_size / 3) * lambda;
           if(!node.circle) {
               node.circle = new PIXI.Graphics();
               node.circle.zIndex = 55;
               // node.circle.beginFill(0xb9f2ff);
-              node.circle.beginFill(0x000000);
+              node.circle.beginFill(circleColorDiamondSequence[cluster.cluster_id % circleColorDiamondSequence.length]);
+              // node.circle.beginFill(0x000000);
               node.circle.drawCircle(node.x, node.y, circleHeight);
               node.circleHeight = circleHeight;
               node.circle.endFill();
@@ -283,83 +282,86 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
               node.circle.visible = true;
           }
         });
-      // })
+      })
 
       // Adding paper text labels to viewport by leaf cluster
       // leafClusters.forEach(cluster => {
       //   let contentSet = new Set(cluster.content);
       //   let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
 
-      //   leafClusterNodes.forEach((node, i) => {  
-      //     // Handling Node text, draw labels
-      //     const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
-      //     const fontSize = (min_font_size + (max_font_size - min_font_size) * lambda / 3);
-      //     let multilineTitle = multilineText(node.title, 30)
+        paperNodes.forEach((node, i) => {  
+          // Handling Node text, draw labels
+          const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
+          const fontSize = (min_font_size + (max_font_size - min_font_size) * lambda / 3);
+          let multilineTitle = multilineText(node.title, 30)
 
-      //     // Not allowing more than 10 paper labels / a lot of words
-      //     if (addedTextBounds.length > 10) {
-      //       return
-      //     }
+          // Not allowing more than 10 paper labels / a lot of words
+          if (addedTextBounds.length > 10) {
+            return
+          }
 
-      //     // Check for overlaps with existing labels
-      //     let current_zoom_text_bound = labelBounds(fontSize, node.x, node.y, 30, multilineTitle);
-      //     for (let bound of addedTextBounds) {
-      //       if (rectIntersectsRect(current_zoom_text_bound, bound)) {
-      //         return
-      //       }
-      //     }
-      //     addedTextBounds.add(current_zoom_text_bound);
+          // Check for overlaps with existing labels
+          let current_zoom_text_bound = labelBounds(fontSize, node.x, node.y, 30, multilineTitle);
+          for (let bound of addedTextBounds) {
+            if (rectIntersectsRect(current_zoom_text_bound, bound)) {
+              return
+            }
+          }
+          addedTextBounds.add(current_zoom_text_bound);
 
-      //     if(!node.text) {
-      //         node.text = new PIXI.BitmapText(multilineTitle, {
-      //           fontFamily: 'Arial',
-      //           fontSize: fontSize,
-      //           fontName: "TitleFont",
-      //           fill: 0xffffff,
-      //           align: 'left',
-      //           visible: true,
-      //         });
-      //         node.text.zIndex = 60;
-      //         node.text.anchor.set(0.5, 0);
-      //         node.text.position.set(node.x + node.circleHeight, node.y + node.circleHeight + 1);
-      //         viewport.addChild(node.text);
-      //     } else {
-      //         node.text.fontSize = fontSize;
-      //         node.text.visible = true; // make it visible if it already exists
-      //     }
-      //   });
+          if(!node.text) {
+              node.text = new PIXI.BitmapText(multilineTitle, {
+                fontFamily: 'Arial',
+                fontSize: fontSize,
+                fontName: "TitleFont",
+                fill: 0xffffff,
+                align: 'left',
+                visible: true,
+              });
+              node.text.zIndex = 60;
+              node.text.anchor.set(0.5, 0);
+              node.text.position.set(node.x + node.circleHeight, node.y + node.circleHeight + 1);
+              viewport.addChild(node.text);
+          } else {
+              node.text.fontSize = fontSize;
+              node.text.visible = true; // make it visible if it already exists
+          }
+        });
       // })
 
       // Add edges between nodes
-      edgesData.forEach(edge => {
-        const sourceNode = paperIdToNode[edge.source_id];
-        const targetNode = paperIdToNode[edge.target_id];
+    //   edgesData.forEach(edge => {
+    //     const sourceNode = paperIdToNode[edge.source_id];
+    //     const targetNode = paperIdToNode[edge.target_id];
+    //     console.log(edge)
     
-        // Create a new graphics object for the edge if it doesn't exist
-        if (!edge.graphics) {
-            edge.graphics = new PIXI.Graphics();
-            edge.graphics.zIndex = 54; // set this below node's zIndex to ensure nodes are drawn on top
+    //     // Create a new graphics object for the edge if it doesn't exist
+    //     if (!edge.graphics) {
+    //         edge.graphics = new PIXI.Graphics();
+    //         edge.graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
 
-            viewport.addChild(edge.graphics);
-        } 
+    //         viewport.addChild(edge.graphics);
+    //     } 
     
-        // Draw the line
-        // edge.graphics.clear(); // remove any existing line
-        edge.graphics.visible = true;
-        edge.graphics.lineStyle(1, 0xFFFFFF, 1); // set the line style (you can customize this)
-        edge.graphics.moveTo(sourceNode.x, sourceNode.y); // move to the source node's position
-        edge.graphics.lineTo(targetNode.x, targetNode.y); // draw a line to the target node's position
-    });
+    //     // Draw the line
+    //     edge.graphics.clear(); // remove any existing line
+    //     edge.graphics.visible = true;
+    //     edge.graphics.lineStyle(2, 0xFF0000, edge.weight / 100); // set the line style (you can customize this)
+    //     edge.graphics.moveTo(sourceNode.x, sourceNode.y); // move to the source node's position
+    //     edge.graphics.lineTo(targetNode.x, targetNode.y); // draw a line to the target node's position
+    //     viewport.addChild(edge.graphics)
+    // });
     }
 
     // Update visibility of circles and text based on the current field of view and zoom level
     let totalUpdateTime = 0
     let numUpdates = 0
     let prev_viewport_bounds = PIXI.Rectangle.EMPTY;
+    let count = 0
     const updateNodes = () => {
       // Start the timer
       const t0 = performance.now();
-      if (!paperNodes) return;
+      if (!paperNodes || count > 0) return;
 
       // get the current field of view
       const viewport_bounds = viewport.getVisibleBounds();
@@ -401,7 +403,10 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         // vis_nodes = vis_nodes.slice(0, 25);
 
         prev_viewport_bounds = viewport_bounds.clone(); // clone the rectangle to avoid reference issues
-        drawNodes(vis_nodes, vis_cluster_centroids, viewport);
+        // drawNodes(vis_nodes, vis_cluster_centroids, viewport);
+        drawNodes(paperNodes, clusterCentroids, viewport);
+
+        count += 1
       }
 
       // Performance debugger: Stop the timer and print the time taken, 15 ms is the threshold for smooth animation (60 fps)

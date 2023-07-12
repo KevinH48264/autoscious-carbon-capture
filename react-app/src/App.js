@@ -21,7 +21,7 @@ const App = () => {
           console.log("Edges data:", json);
       })
 
-    fetch('pruned_tree_w_main_topic.json')
+    fetch('2000/pruned_tree_2000.json')
       .then(response => response.json())
       .then(json => {
         setClusterData(json);

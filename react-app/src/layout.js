@@ -46,8 +46,8 @@ export function computeLayout(paperNodes, edgesData, leafClusters) {
     // Create links from edgesData
     edgesData.forEach(edge => {
         // Find the clusters for source and target
-        const sourceCluster = leafClusters.find(cluster => cluster.content.includes(edge.source));
-        const targetCluster = leafClusters.find(cluster => cluster.content.includes(edge.target));
+        // const sourceCluster = leafClusters.find(cluster => cluster.content.includes(edge.source));
+        // const targetCluster = leafClusters.find(cluster => cluster.content.includes(edge.target));
 
         // If both nodes are in the same cluster, add the link
         // if (sourceCluster && targetCluster && sourceCluster.cluster_id === targetCluster.cluster_id) {
@@ -55,7 +55,7 @@ export function computeLayout(paperNodes, edgesData, leafClusters) {
                 source: edge.source_id,
                 target: edge.target_id,
                 strength: edge.weight ** 2,
-                distance: 10
+                distance: 100
             });
         // }
     });
