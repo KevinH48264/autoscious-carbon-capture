@@ -7,21 +7,21 @@ const App = () => {
   const [clusterData, setClusterData] = useState([]);
 
   useEffect(() => {
-    fetch('2000/output_2000.json')
+    fetch('output_100_tsne.json')
       .then(response => response.json())
       .then(json => {
         setPapersData(json);
           console.log("Papers data:", json);
       })
 
-    fetch('2000/edges.json')
+    fetch('edges.json')
       .then(response => response.json())
       .then(json => {
         setEdgesData(json);
           console.log("Edges data:", json);
       })
 
-    fetch('2000/pruned_tree_2000.json')
+    fetch('pruned_tree_w_main_topic.json')
       .then(response => response.json())
       .then(json => {
         setClusterData(json);
