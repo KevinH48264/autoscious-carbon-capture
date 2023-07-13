@@ -20,11 +20,11 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       .slice(0, 30)
       .map(({title, x, y, citationCount, paperId, abstract}) => ({title, x: x, y: y, citationCount, paperId, abstract}))
     let leafClusters = getLeafClusters(clusterData);
-    const layout = computeLayout(paperNodes, edgesData, leafClusters);
-    paperNodes = layout.paperNodes;
-    const centerNodes = layout.centerNodes;
-    const normalizedRadius = layout.normalizedRadius; // this should be used to determine the zoom, currently 230
-    const zoomScale = normalizedRadius / 150;
+    // const layout = computeLayout(paperNodes, edgesData, leafClusters);
+    // paperNodes = layout.paperNodes;
+    // const centerNodes = layout.centerNodes;
+    // const normalizedRadius = layout.normalizedRadius; // this should be used to determine the zoom, currently 230
+    // const zoomScale = normalizedRadius / 150;
 
     const app = new PIXI.Application({
       width: window.innerWidth,
@@ -160,7 +160,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     parentColorMap.set(0, 0xffffff); // hardcoding because 0 isn't covered for some reason
 
     // Sort paperNodes by citationCount to prioritize showing higher citationCount papers
-    // paperNodes.sort((a, b) => b.citationCount - a.citationCount);
+    paperNodes.sort((a, b) => b.citationCount - a.citationCount);
 
     console.log("clusterCentroids", clusterCentroids)
 
@@ -208,6 +208,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, vis_cluster_centroids, viewport) => {
       let zoomLevel = Math.max(-1, Math.round(((viewport.scaled) - 1) * 5))
+      zoomLevel = 9
       // let zoomLevel = Math.max(-1, Math.round(((viewport.scaled / zoomScale) - 1) * 5))
       let originalZoomLevel = zoomLevel;
 
@@ -307,11 +308,10 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       // }     
 
       // Adding paper nodes circles to viewport by leaf cluster
-      // leafClusters.forEach(cluster => {
-      //   let contentSet = new Set(cluster.content);
-      //   let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
-
-        paperNodes.forEach((node, i) => {  
+      leafClusters.forEach(cluster => {
+        let contentSet = new Set(cluster.content);
+        let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
+        leafClusterNodes.forEach(node => {
           // Handling Node text, draw labels
           const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
           // const circleHeight = 5 + (min_font_size / 3) * lambda;
@@ -320,8 +320,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
               node.circle = new PIXI.Graphics();
               node.circle.zIndex = 55;
               // node.circle.beginFill(0xb9f2ff);
-              // node.circle.beginFill(circleColorDiamondSequence[cluster.cluster_id % circleColorDiamondSequence.length]);
-              node.circle.beginFill(0x000000);
+              node.circle.beginFill(circleColorDiamondSequence[cluster.cluster_id % circleColorDiamondSequence.length]);
+              // node.circle.beginFill(0x000000);
               node.circle.drawCircle(scaleX(node.x), scaleY(node.y), circleHeight);
               node.circleHeight = circleHeight;
               node.circle.endFill();
@@ -330,15 +330,14 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
               node.circle.visible = true;
           }
         });
-      // })
+      })
 
       // Adding paper text labels to viewport by leaf cluster
-      // leafClusters.forEach(cluster => {
-      //   let contentSet = new Set(cluster.content);
-      //   let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
+      leafClusters.forEach(cluster => {
+        let contentSet = new Set(cluster.content);
+        let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
 
-        console.log("paperNodes", paperNodes)
-        paperNodes.forEach((node, i) => {  
+        leafClusterNodes.forEach((node, i) => {
           console.log("node", i, node.x, node.y)
           // Handling Node text, draw labels
           const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
@@ -378,7 +377,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           // addedTextBounds.add(current_zoom_text_bound);
 
           if(!node.text) {
-              node.text = new PIXI.BitmapText(multilineText(node.topic + " ; " + node.subtopic, 30), {
+              node.text = new PIXI.BitmapText(node.topic + " ; " + node.subtopic, {
                 fontFamily: 'Arial',
                 fontSize: fontSize,
                 fontName: "TitleFont",
@@ -395,7 +394,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
               node.text.visible = true; // make it visible if it already exists
           }
         });
-      // })
+      })
 
       // Add edges between nodes
     //   edgesData.forEach(edge => {
