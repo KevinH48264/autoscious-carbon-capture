@@ -33,7 +33,7 @@ export function getLeafClusters(clusterData) {
     function recurse(cluster, parentsMap) {
       cluster.voronoiPoints = [];
 
-      const {cluster_id, layer, centroid_x, centroid_y, polygonPoints, content} = cluster;
+      const {cluster_id, layer, centroid_x, centroid_y, polygonPoints, content, main_topic} = cluster;
 
       if (typeof cluster.content[0] === 'object' && cluster.content[0] !== null) {
         parentsMap = new Map(parentsMap); // Create a new map at each layer so it doesn't get overridden in sibling branches
@@ -45,7 +45,7 @@ export function getLeafClusters(clusterData) {
         for(let [key, value] of parentsMap.entries()) {
           parents[key] = value;
         }
-        clusterNodes.push({cluster_id, layer, centroid_x, centroid_y, content, polygonPoints, parents});
+        clusterNodes.push({cluster_id, layer, centroid_x, centroid_y, content, polygonPoints, parents, main_topic});
       }
     }
   

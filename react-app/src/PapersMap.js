@@ -18,13 +18,13 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     let paperNodes = papersData
       .filter(({paperId, title, abstract}) => paperId != null && title != null && abstract != null)
       .slice(0, 30)
-      .map(({title, x, y, citationCount, paperId, abstract}) => ({title, x: x, y: y, citationCount, paperId, abstract}))
+      .map(({title, x, y, citationCount, paperId, abstract, GPT_topics}) => ({title, x: x, y: y, citationCount, paperId, abstract, GPT_topics}))
     let leafClusters = getLeafClusters(clusterData);
-    // const layout = computeLayout(paperNodes, edgesData, leafClusters);
-    // paperNodes = layout.paperNodes;
-    // const centerNodes = layout.centerNodes;
-    // const normalizedRadius = layout.normalizedRadius; // this should be used to determine the zoom, currently 230
-    // const zoomScale = normalizedRadius / 150;
+    const layout = computeLayout(paperNodes, edgesData, leafClusters);
+    paperNodes = layout.paperNodes;
+    const centerNodes = layout.centerNodes;
+    const normalizedRadius = layout.normalizedRadius; // this should be used to determine the zoom, currently 230
+    const zoomScale = normalizedRadius / 150;
 
     const app = new PIXI.Application({
       width: window.innerWidth,
@@ -307,6 +307,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       //   });
       // }     
 
+      console.log("leafClusters", leafClusters)
       // Adding paper nodes circles to viewport by leaf cluster
       leafClusters.forEach(cluster => {
         let contentSet = new Set(cluster.content);
@@ -328,6 +329,24 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
               viewport.addChild(node.circle);
           } else {
               node.circle.visible = true;
+          }
+
+          if(!node.topic_text) {
+              node.topic_text = new PIXI.BitmapText(multilineText(node.GPT_topics, 40), {
+                fontFamily: 'Arial',
+                fontSize: 10,
+                fontName: "TitleFont",
+                fill: 0xffffff,
+                align: 'left',
+                visible: true,
+              });
+              node.topic_text.zIndex = 60;
+              node.topic_text.anchor.set(0.5, -0.5);
+              node.topic_text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) - node.circleHeight - 80);
+              viewport.addChild(node.topic_text);
+          } else {
+              node.topic_text.fontSize = 15;
+              node.topic_text.visible = true; // make it visible if it already exists
           }
         });
       })
@@ -377,7 +396,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           // addedTextBounds.add(current_zoom_text_bound);
 
           if(!node.text) {
-              node.text = new PIXI.BitmapText(node.topic + " ; " + node.subtopic, {
+              node.text = new PIXI.BitmapText(multilineText(node.topic + " ; " + node.subtopic, 30), {
                 fontFamily: 'Arial',
                 fontSize: fontSize,
                 fontName: "TitleFont",

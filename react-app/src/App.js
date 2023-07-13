@@ -7,7 +7,7 @@ const App = () => {
   const [clusterData, setClusterData] = useState([]);
 
   useEffect(() => {
-    fetch('output_100_tsne.json')
+    fetch('df_with_topics.json')
       .then(response => response.json())
       .then(json => {
         setPapersData(json);
