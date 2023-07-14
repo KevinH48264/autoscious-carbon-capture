@@ -1,0 +1,200 @@
+[
+    {
+        "id": 0,
+        "weight": 0.5299755675318893,
+        "source": "7cb3034e94dce60304b7890b0e47786f1f1538e0",
+        "target": "2b9bbadce98265af96d4e12f920a4891397040a9"
+    },
+    {
+        "id": 1,
+        "weight": 0.1926088258190375,
+        "source": "7cb3034e94dce60304b7890b0e47786f1f1538e0",
+        "target": "24bd758dbdb9ce0ea8e913b56a8224c0389c83fe"
+    },
+    {
+        "id": 2,
+        "weight": 0.09291142693219716,
+        "source": "7cb3034e94dce60304b7890b0e47786f1f1538e0",
+        "target": "18ab538db0d693e981e3955bf3f30ebceec4085d"
+    },
+    {
+        "id": 3,
+        "weight": 0.20498413763068876,
+        "source": "2b9bbadce98265af96d4e12f920a4891397040a9",
+        "target": "24bd758dbdb9ce0ea8e913b56a8224c0389c83fe"
+    },
+    {
+        "id": 4,
+        "weight": 0.10068232883331636,
+        "source": "2b9bbadce98265af96d4e12f920a4891397040a9",
+        "target": "18ab538db0d693e981e3955bf3f30ebceec4085d"
+    },
+    {
+        "id": 5,
+        "weight": 0.1198284857665707,
+        "source": "24bd758dbdb9ce0ea8e913b56a8224c0389c83fe",
+        "target": "18ab538db0d693e981e3955bf3f30ebceec4085d"
+    },
+    {
+        "id": 6,
+        "weight": 0.10111359250897063,
+        "source": "be026181508eca3fc0ce54bb3571f4fdbc014a8b",
+        "target": "26327e3f321410baab2c55ad5df509710f5bb296"
+    },
+    {
+        "id": 7,
+        "weight": 0.38879497944079383,
+        "source": "be026181508eca3fc0ce54bb3571f4fdbc014a8b",
+        "target": "06722bd8b09142c753410125641688556d2cebbc"
+    },
+    {
+        "id": 8,
+        "weight": 0.225737951667714,
+        "source": "be026181508eca3fc0ce54bb3571f4fdbc014a8b",
+        "target": "56797e97f19f333b03106d1ed2814c263d20870d"
+    },
+    {
+        "id": 9,
+        "weight": 0.13598611859524845,
+        "source": "be026181508eca3fc0ce54bb3571f4fdbc014a8b",
+        "target": "3cbf9a8b2e11afa3656c5507db0c33f59bec54b1"
+    },
+    {
+        "id": 10,
+        "weight": 0.18660782062078107,
+        "source": "be026181508eca3fc0ce54bb3571f4fdbc014a8b",
+        "target": "9540c80c6eeb9b602e95b1b8b43f186029f84b5a"
+    },
+    {
+        "id": 11,
+        "weight": 0.15893584787821852,
+        "source": "be026181508eca3fc0ce54bb3571f4fdbc014a8b",
+        "target": "b12b8439e33d571ec0e2b7682654ba02b0d46135"
+    },
+    {
+        "id": 12,
+        "weight": 0.1193738744987832,
+        "source": "26327e3f321410baab2c55ad5df509710f5bb296",
+        "target": "06722bd8b09142c753410125641688556d2cebbc"
+    },
+    {
+        "id": 13,
+        "weight": 0.15163779957219858,
+        "source": "26327e3f321410baab2c55ad5df509710f5bb296",
+        "target": "56797e97f19f333b03106d1ed2814c263d20870d"
+    },
+    {
+        "id": 14,
+        "weight": 0.20876884798569825,
+        "source": "26327e3f321410baab2c55ad5df509710f5bb296",
+        "target": "3cbf9a8b2e11afa3656c5507db0c33f59bec54b1"
+    },
+    {
+        "id": 15,
+        "weight": 0.16512006783083544,
+        "source": "26327e3f321410baab2c55ad5df509710f5bb296",
+        "target": "9540c80c6eeb9b602e95b1b8b43f186029f84b5a"
+    },
+    {
+        "id": 16,
+        "weight": 0.20793602732133806,
+        "source": "26327e3f321410baab2c55ad5df509710f5bb296",
+        "target": "b12b8439e33d571ec0e2b7682654ba02b0d46135"
+    },
+    {
+        "id": 17,
+        "weight": 0.3173069667962604,
+        "source": "06722bd8b09142c753410125641688556d2cebbc",
+        "target": "56797e97f19f333b03106d1ed2814c263d20870d"
+    },
+    {
+        "id": 18,
+        "weight": 0.16223522562340872,
+        "source": "06722bd8b09142c753410125641688556d2cebbc",
+        "target": "3cbf9a8b2e11afa3656c5507db0c33f59bec54b1"
+    },
+    {
+        "id": 19,
+        "weight": 0.23793060553202205,
+        "source": "06722bd8b09142c753410125641688556d2cebbc",
+        "target": "9540c80c6eeb9b602e95b1b8b43f186029f84b5a"
+    },
+    {
+        "id": 20,
+        "weight": 0.20322815549061826,
+        "source": "06722bd8b09142c753410125641688556d2cebbc",
+        "target": "b12b8439e33d571ec0e2b7682654ba02b0d46135"
+    },
+    {
+        "id": 21,
+        "weight": 0.2492282148055822,
+        "source": "56797e97f19f333b03106d1ed2814c263d20870d",
+        "target": "3cbf9a8b2e11afa3656c5507db0c33f59bec54b1"
+    },
+    {
+        "id": 22,
+        "weight": 0.481497746948284,
+        "source": "56797e97f19f333b03106d1ed2814c263d20870d",
+        "target": "9540c80c6eeb9b602e95b1b8b43f186029f84b5a"
+    },
+    {
+        "id": 23,
+        "weight": 0.3485200225318211,
+        "source": "56797e97f19f333b03106d1ed2814c263d20870d",
+        "target": "b12b8439e33d571ec0e2b7682654ba02b0d46135"
+    },
+    {
+        "id": 24,
+        "weight": 0.3337424524915369,
+        "source": "3cbf9a8b2e11afa3656c5507db0c33f59bec54b1",
+        "target": "9540c80c6eeb9b602e95b1b8b43f186029f84b5a"
+    },
+    {
+        "id": 25,
+        "weight": 0.3925873505920379,
+        "source": "3cbf9a8b2e11afa3656c5507db0c33f59bec54b1",
+        "target": "b12b8439e33d571ec0e2b7682654ba02b0d46135"
+    },
+    {
+        "id": 26,
+        "weight": 0.44039505020320385,
+        "source": "9540c80c6eeb9b602e95b1b8b43f186029f84b5a",
+        "target": "b12b8439e33d571ec0e2b7682654ba02b0d46135"
+    },
+    {
+        "id": 27,
+        "weight": 0.2001039362851444,
+        "source": "65edec1eed534fb0b88c5d1a9f829bf00303b454",
+        "target": "032b4c8ab4fed659a272afa49b821b4c6e6c19b1"
+    },
+    {
+        "id": 28,
+        "weight": 0.1488298501087234,
+        "source": "65edec1eed534fb0b88c5d1a9f829bf00303b454",
+        "target": "159df4c005aecff77384e075dc4baad87c4ad62f"
+    },
+    {
+        "id": 29,
+        "weight": 0.2845712929470523,
+        "source": "65edec1eed534fb0b88c5d1a9f829bf00303b454",
+        "target": "bfd53c8c02171b75dba1ffa1298b59a0b027d298"
+    },
+    {
+        "id": 30,
+        "weight": 0.24099511302675,
+        "source": "032b4c8ab4fed659a272afa49b821b4c6e6c19b1",
+        "target": "159df4c005aecff77384e075dc4baad87c4ad62f"
+    },
+    {
+        "id": 31,
+        "weight": 0.3207881826790563,
+        "source": "032b4c8ab4fed659a272afa49b821b4c6e6c19b1",
+        "target": "bfd53c8c02171b75dba1ffa1298b59a0b027d298"
+    },
+    {
+        "id": 32,
+        "weight": 0.168153773204752,
+        "source": "159df4c005aecff77384e075dc4baad87c4ad62f",
+        "target": "bfd53c8c02171b75dba1ffa1298b59a0b027d298"
+    }
+]
