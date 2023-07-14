@@ -7,21 +7,21 @@ const App = () => {
   const [clusterData, setClusterData] = useState([]);
 
   useEffect(() => {
-    fetch('df_with_topics.json')
+    fetch('gpt_classified_100/output_100_gpt_classified_papers.json')
       .then(response => response.json())
       .then(json => {
         setPapersData(json);
           console.log("Papers data:", json);
       })
 
-    fetch('edges.json')
+    fetch('gpt_classified_100/edges_100_semantic_scholar.json')
       .then(response => response.json())
       .then(json => {
         setEdgesData(json);
           console.log("Edges data:", json);
       })
 
-    fetch('pruned_tree_w_main_topic.json')
+    fetch('gpt_classified_100/taxonomy_nested.json')
       .then(response => response.json())
       .then(json => {
         setClusterData(json);

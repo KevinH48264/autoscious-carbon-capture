@@ -16,15 +16,16 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
     // Compute force-directed layout of PaperNodes
     let paperNodes = papersData
-      .filter(({paperId, title, abstract}) => paperId != null && title != null && abstract != null)
-      .slice(0, 30)
-      .map(({title, x, y, citationCount, paperId, abstract, GPT_topics}) => ({title, x: x, y: y, citationCount, paperId, abstract, GPT_topics}))
+      // .filter(({paperId, title, abstract}) => paperId != null && title != null && abstract != null)
+      // .slice(0, 30)
+      .map(({title, x, y, citationCount, paperId, abstract, classification_ids}) => ({title, x: x, y: y, citationCount, paperId, abstract, classification_ids}))
     let leafClusters = getLeafClusters(clusterData);
     const layout = computeLayout(paperNodes, edgesData, leafClusters);
     paperNodes = layout.paperNodes;
     const centerNodes = layout.centerNodes;
     const normalizedRadius = layout.normalizedRadius; // this should be used to determine the zoom, currently 230
     const zoomScale = normalizedRadius / 150;
+    console.log("leaf clusters", leafClusters)
 
     const app = new PIXI.Application({
       width: window.innerWidth,
@@ -309,10 +310,11 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
       console.log("leafClusters", leafClusters)
       // Adding paper nodes circles to viewport by leaf cluster
-      leafClusters.forEach(cluster => {
-        let contentSet = new Set(cluster.content);
-        let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
-        leafClusterNodes.forEach(node => {
+      // leafClusters.forEach(cluster => {
+      //   let contentSet = new Set(cluster.papers);
+      //   let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
+      //   leafClusterNodes.forEach(node => {
+          paperNodes.forEach(node => {
           // Handling Node text, draw labels
           const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
           // const circleHeight = 5 + (min_font_size / 3) * lambda;
@@ -321,8 +323,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
               node.circle = new PIXI.Graphics();
               node.circle.zIndex = 55;
               // node.circle.beginFill(0xb9f2ff);
-              node.circle.beginFill(circleColorDiamondSequence[cluster.cluster_id % circleColorDiamondSequence.length]);
-              // node.circle.beginFill(0x000000);
+              // node.circle.beginFill(circleColorDiamondSequence[cluster.cluster_id % circleColorDiamondSequence.length]);
+              node.circle.beginFill(0x000000);
               node.circle.drawCircle(scaleX(node.x), scaleY(node.y), circleHeight);
               node.circleHeight = circleHeight;
               node.circle.endFill();
@@ -332,9 +334,9 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           }
 
           if(!node.topic_text) {
-              node.topic_text = new PIXI.BitmapText(multilineText(node.GPT_topics, 40), {
+              node.topic_text = new PIXI.BitmapText(multilineText(node.classification_ids.join(" "), 40), {
                 fontFamily: 'Arial',
-                fontSize: 10,
+                fontSize: 20,
                 fontName: "TitleFont",
                 fill: 0xffffff,
                 align: 'left',
@@ -342,22 +344,23 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
               });
               node.topic_text.zIndex = 60;
               node.topic_text.anchor.set(0.5, -0.5);
-              node.topic_text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) - node.circleHeight - 80);
+              node.topic_text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) - node.circleHeight - 30);
               viewport.addChild(node.topic_text);
           } else {
               node.topic_text.fontSize = 15;
               node.topic_text.visible = true; // make it visible if it already exists
           }
         });
-      })
+      // })
 
       // Adding paper text labels to viewport by leaf cluster
       leafClusters.forEach(cluster => {
-        let contentSet = new Set(cluster.content);
+        let contentSet = new Set(cluster.papers);
         let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
 
         leafClusterNodes.forEach((node, i) => {
-          console.log("node", i, node.x, node.y)
+          // paperNodes.forEach((node, i) => {
+          // console.log("node", i, node.x, node.y)
           // Handling Node text, draw labels
           const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
           // const fontSize = (min_font_size + (max_font_size - min_font_size) * lambda / 3);
@@ -375,35 +378,38 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             }
           }
           
-          if (!node.topic || !node.subtopic) {
-            // If the paperId is not in the taxonomy, assign a default value or handle it differently
-            node.topic = "Unknown";
-            node.subtopic = "Unknown";
-            console.log("UNKNOWN", node.paperId, node.title, node.topic, node.subtopic)
-          }
+          // if (!node.topic || !node.subtopic) {
+          //   // If the paperId is not in the taxonomy, assign a default value or handle it differently
+          //   node.topic = "Unknown";
+          //   node.subtopic = "Unknown";
+          //   console.log("UNKNOWN", node.paperId, node.title, node.topic, node.subtopic)
+          // }
           // Not allowing more than 10 paper labels / a lot of words
           // if (addedTextBounds.length > 10) {
           //   return
           // }
 
-          // // Check for overlaps with existing labels
-          // let current_zoom_text_bound = labelBounds(fontSize, scaleX(node.x), scaleY(node.y), 30, multilineTitle);
-          // for (let bound of addedTextBounds) {
-          //   if (rectIntersectsRect(current_zoom_text_bound, bound)) {
-          //     return
-          //   }
-          // }
-          // addedTextBounds.add(current_zoom_text_bound);
+          // Check for overlaps with existing labels
+          let current_zoom_text_bound = labelBounds(fontSize, scaleX(node.x), scaleY(node.y), 30, multilineTitle);
+          for (let bound of addedTextBounds) {
+            if (rectIntersectsRect(current_zoom_text_bound, bound)) {
+              return
+            }
+          }
+          addedTextBounds.add(current_zoom_text_bound);
 
           if(!node.text) {
-              node.text = new PIXI.BitmapText(multilineText(node.topic + " ; " + node.subtopic, 30), {
-                fontFamily: 'Arial',
-                fontSize: fontSize,
-                fontName: "TitleFont",
-                fill: 0xffffff,
-                align: 'left',
-                visible: true,
-              });
+              node.text = new PIXI.BitmapText(multilineText(
+                  // node.topic + " ; " + node.subtopic + " ; " + 
+                  node.title, 30
+                ), {
+                  fontFamily: 'Arial',
+                  fontSize: fontSize,
+                  fontName: "TitleFont",
+                  fill: 0xffffff,
+                  align: 'left',
+                  visible: true,
+                });
               node.text.zIndex = 60;
               node.text.anchor.set(0.5, 0);
               node.text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) + node.circleHeight + 1);
@@ -416,27 +422,28 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       })
 
       // Add edges between nodes
-    //   edgesData.forEach(edge => {
-    //     const sourceNode = paperIdToNode[edge.source_id];
-    //     const targetNode = paperIdToNode[edge.target_id];
-    //     console.log(edge)
-    
-    //     // Create a new graphics object for the edge if it doesn't exist
-    //     if (!edge.graphics) {
-    //         edge.graphics = new PIXI.Graphics();
-    //         edge.graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
+      edgesData.forEach(edge => {
+        const sourceNode = paperIdToNode[edge.source];
+        const targetNode = paperIdToNode[edge.target];
 
-    //         viewport.addChild(edge.graphics);
-    //     } 
+        console.log("edges", edge)
     
-    //     // Draw the line
-    //     edge.graphics.clear(); // remove any existing line
-    //     edge.graphics.visible = true;
-    //     edge.graphics.lineStyle(2, 0xFF0000, edge.weight / 100); // set the line style (you can customize this)
-    //     edge.graphics.moveTo(sourceNode.x, sourceNode.y); // move to the source node's position
-    //     edge.graphics.lineTo(targetNode.x, targetNode.y); // draw a line to the target node's position
-    //     viewport.addChild(edge.graphics)
-    // });
+        // Create a new graphics object for the edge if it doesn't exist
+        if (!edge.edge_graphics) {
+            edge.edge_graphics = new PIXI.Graphics();
+            edge.edge_graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
+
+            viewport.addChild(edge.edge_graphics);
+        } 
+    
+        // Draw the line
+        edge.edge_graphics.clear(); // remove any existing line
+        edge.edge_graphics.visible = true;
+        edge.edge_graphics.lineStyle(2, 0xFF0000, edge.weight * 5 ); // set the line style (you can customize this)
+        edge.edge_graphics.moveTo(scaleX(sourceNode.x), scaleY(sourceNode.y)); // move to the source node's position
+        edge.edge_graphics.lineTo(scaleX(targetNode.x), scaleY(targetNode.y)); // draw a line to the target node's position
+        viewport.addChild(edge.edge_graphics)
+    });
     }
 
     // Update visibility of circles and text based on the current field of view and zoom level
@@ -513,7 +520,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     };
 
     // Update nodes based on ticker
-    app.ticker.add(updateNodes)
+    updateNodes() // for debugging
+    // app.ticker.add(updateNodes)
 
   }, [papersData, edgesData, clusterData]);
 

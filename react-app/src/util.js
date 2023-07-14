@@ -28,30 +28,28 @@ export const sortPoints = (points, centerX, centerY) => {
 
 // creating clusters
 export function getLeafClusters(clusterData) {
-    let clusterNodes = [];
-  
-    function recurse(cluster, parentsMap) {
-      cluster.voronoiPoints = [];
+  let clusterNodes = [];
 
-      const {cluster_id, layer, centroid_x, centroid_y, polygonPoints, content, main_topic} = cluster;
+  function recurse(cluster, parentsMap) {
+      const {id, layer, classification_id, name, clusters, papers} = cluster;
 
-      if (typeof cluster.content[0] === 'object' && cluster.content[0] !== null) {
-        parentsMap = new Map(parentsMap); // Create a new map at each layer so it doesn't get overridden in sibling branches
-        parentsMap.set(layer, cluster_id); // Map the current layer to the current cluster_id
-        cluster.content.forEach((child) => recurse(child, parentsMap));
+      if (clusters.length > 0 && typeof clusters[0] === 'object') {
+          parentsMap = new Map(parentsMap); // Create a new map at each layer so it doesn't get overridden in sibling branches
+          parentsMap.set(layer, id); // Map the current layer to the current cluster_id
+          clusters.forEach((child) => recurse(child, parentsMap));
       } else {
-        parentsMap.set(layer, cluster_id); // Map the current layer to the current cluster_id
-        const parents = {};
-        for(let [key, value] of parentsMap.entries()) {
-          parents[key] = value;
-        }
-        clusterNodes.push({cluster_id, layer, centroid_x, centroid_y, content, polygonPoints, parents, main_topic});
+          parentsMap.set(layer, id); // Map the current layer to the current cluster_id
+          const parents = {};
+          for(let [key, value] of parentsMap.entries()) {
+            parents[key] = value;
+          }
+          clusterNodes.push({id, layer, classification_id, clusters, parents, name, papers});
       }
-    }
-  
-    clusterData.forEach((cluster) => recurse(cluster, new Map()));
-  
-    return clusterNodes;
+  }
+
+  clusterData.forEach((cluster) => recurse(cluster, new Map()));
+
+  return clusterNodes;
 }
   
 
@@ -162,7 +160,7 @@ export function getColorAtZoomLevel(zoomLevel, zoomLayers) {
 
 // Function to map cluster id to main topic
 export const traverseCluster = (cluster, clusterMap) => {
-  clusterMap.set(cluster.cluster_id, cluster.main_topic);
+  clusterMap.set(cluster.cluster_id, cluster.name);
 
   // Check if this cluster has child clusters.
   if (cluster.content && typeof cluster.content[0] === 'object') {
@@ -177,7 +175,7 @@ export const calculateClusterCentroids = (leafClusters, paperNodes, centroidNode
     let sumY = 0;
     let count = 0;
   
-    cluster.content.forEach(paperId => {
+    cluster.papers.forEach(paperId => {
       // Find the paperNode with the same paperId
       let paperNode = paperNodes.find(node => node.paperId === paperId);
       if (paperNode) {
@@ -194,7 +192,7 @@ export const calculateClusterCentroids = (leafClusters, paperNodes, centroidNode
     cluster.centroid_x = centroidX;
     cluster.centroid_y = centroidY;
 
-    centroidNodes.push({x: centroidX, y: centroidY, cluster_id: cluster.cluster_id, citationCount: cluster.citationCount, main_topic: cluster.main_topic})
+    centroidNodes.push({x: centroidX, y: centroidY, cluster_id: cluster.id, classification_id: cluster.classification_id, name: cluster.name})
   });    
 }
 
