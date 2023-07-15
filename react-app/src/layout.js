@@ -46,7 +46,7 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
             source: nodeById.get(edge.source),
             target: nodeById.get(edge.target),
             strength: 1,
-            distance: 10,
+            distance: 30,
         });
       } else {
         console.log("Edge not found in paperNodes:", edge)
@@ -54,77 +54,72 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
   });
 
   // Create dummy 'center' nodes and links to the strongest paper for each leafCluster
-  // let idCounter = edgesData.length;
-  // leafClusters.forEach(cluster => {
-  //   // Link all nodes in the cluster to the 'center' node
-  //     if (cluster.papers.length !== 0) {
-  //       const closestPaper = cluster.papers[0]
-  //         links.push({
-  //           source: closestPaper,
-  //           target: "center_" + cluster.id,
-  //           value: 10000 // Large weight to keep them close
-  //         });
+  let idCounter = edgesData.length;
+  leafClusters.forEach(cluster => {
+    // Link all nodes in the cluster to the 'center' node
+      if (cluster.papers.length !== 0) {
+        const closestPaper = cluster.papers[0]
+          links.push({
+            source: nodeById.get(closestPaper),
+            target: nodeById.get("center_" + cluster.id),
+            strength: 1,
+            distance: 10,
+          });
 
-  //         // Add to edgesData for visualization
-  //         const newEdge = {
-  //           index: idCounter++,
-  //           source: closestPaper,
-  //           target: "center_" + cluster.id,
-  //           value: Math.sqrt(10) // Large weight to keep them close
-  //         };
-  //         edgesData.push(newEdge); // Add the new edge to edgesData
-  //     }
+          // Add to edgesData for visualization
+          const newEdge = {
+            index: idCounter++,
+            source: closestPaper,
+            target: "center_" + cluster.id,
+            value: Math.sqrt(10) // Large weight to keep them close
+          };
+          edgesData.push(newEdge); // Add the new edge to edgesData
+      }
 
-  //     // Link child cluster to parent cluster
-  //     const CLUSTER_WEIGHT = 1
-  //     const CLUSTER_DISTANCE = 5000
-  //     if (cluster.layer - 1 >= 0) {
-  //       const parentId = cluster.parents[cluster.layer - 1]
+      // Link child cluster to parent cluster
+      const CLUSTER_WEIGHT = 1
+      const CLUSTER_DISTANCE = 10
+      if (cluster.layer - 1 >= 0) {
+        const parentId = cluster.parents[cluster.layer - 1]
         
-  //       links.push({
-  //         source: "center_" + parentId,
-  //         target: "center_" + cluster.id,
-  //         weight: CLUSTER_WEIGHT, // Large weight to keep them close
-  //         // distance: CLUSTER_DISTANCE
-  //       });
+        links.push({
+          source: nodeById.get("center_" + parentId),
+          target: nodeById.get("center_" + cluster.id),
+          strength: CLUSTER_WEIGHT,
+          distance: CLUSTER_DISTANCE,
+        });
 
-  //       // Add to edgesData for visualization
-  //       const newEdge = {
-  //         id: idCounter++,
-  //         source: "center_" + parentId,
-  //         target: "center_" + cluster.id,
-  //         weight: Math.sqrt(10), // Large weight to keep them close
-  //         distance: 50
-  //       };
-  //       edgesData.push(newEdge); // Add the new edge to edgesData
-  //     } else if (cluster.layer - 1 === -1 && cluster.id !== 0) {
-  //       // Link all top nodes to the center node (0)
-  //       const parentId = 0
+        // Add to edgesData for visualization
+        const newEdge = {
+          id: idCounter++,
+          source: "center_" + parentId,
+          target: "center_" + cluster.id,
+          weight: CLUSTER_WEIGHT, // Large weight to keep them close
+          distance: CLUSTER_DISTANCE
+        };
+        edgesData.push(newEdge); // Add the new edge to edgesData
+      } 
+      else if (cluster.layer - 1 === -1 && cluster.id !== 0) {
+        // Link all top nodes to the center node (0)
+        const parentId = 0
         
-  //       links.push({
-  //         source: "center_" + parentId,
-  //         target: "center_" + cluster.id,
-  //         weight: CLUSTER_WEIGHT, // Large weight to keep them close
-  //         // distance: CLUSTER_DISTANCE
-  //       });
+        links.push({
+          source: nodeById.get("center_" + parentId),
+          target: nodeById.get("center_" + cluster.id),
+          strength: CLUSTER_WEIGHT,
+          distance: CLUSTER_DISTANCE,
+        });
 
-  //       // Add to edgesData for visualization
-  //       // const newEdge = {
-  //       //   id: idCounter++,
-  //       //   source: "center_" + parentId,
-  //       //   target: "center_" + cluster.id,
-  //       //   weight: Math.sqrt(10) // Large weight to keep them close
-  //       // };
-  //       // edgesData.push(newEdge); // Add the new edge to edgesData // don't visualize for now so you can see the clusters more easily
-  //     }
-
-
-  //     // Update the center force to the centroid of the current cluster
-  //     // simulation.force("center", forceCenter(cluster.centroid_x, cluster.centroid_y));
-  //   // }    
-  // });
-
-  // Set links
+        // Add to edgesData for visualization
+        // const newEdge = {
+        //   id: idCounter++,
+        //   source: "center_" + parentId,
+        //   target: "center_" + cluster.id,
+        //   weight: Math.sqrt(10) // Large weight to keep them close
+        // };
+        // edgesData.push(newEdge); // Add the new edge to edgesData // don't visualize for now so you can see the clusters more easily
+      }
+  });
 
   console.log("SIMULATION PAPER NODES", paperNodes, "LINKS", links)
   let simulation = forceSimulation(paperNodes)
@@ -145,11 +140,6 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
   let centerNodes = paperNodes.filter(node => node.paperId.startsWith("center_"));
   paperNodes = paperNodes.filter(node => !node.paperId.startsWith("center_"));
 
-  // Now paperNodes have their 'final' position computed by d3 force layout
+  // paperNodes with 'final' position
   return {paperNodes, centerNodes, normalizedRadius, edgesData};
 }
-
-// export function computeLayout2(paperNodes, edgesData, clusterData) {
-
-//   return {paperNodes}
-// }
