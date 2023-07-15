@@ -70,25 +70,26 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
   let idCounter = edgesData.length;
   leafClusters.forEach(cluster => {
     // Link all nodes in the cluster to the 'center' node
-    if (cluster.papers.length !== 0) {
-      cluster.papers.forEach(paperId => {
-        links.push({
-          source: paperId,
-          target: "center_" + cluster.id,
-          weight: 10 // Large weight to keep them close
+      if (cluster.papers.length !== 0) {
+        cluster.papers.forEach(paperId => {
+          links.push({
+            source: paperId,
+            target: "center_" + cluster.id,
+            weight: 10 // Large weight to keep them close
+          });
+
+          // Add to edgesData for visualization
+          const newEdge = {
+            id: idCounter++,
+            source: paperId,
+            target: "center_" + cluster.id,
+            weight: Math.sqrt(10) // Large weight to keep them close
+          };
+          edgesData.push(newEdge); // Add the new edge to edgesData
         });
+      }
 
-        // Add to edgesData for visualization
-        const newEdge = {
-          id: idCounter++,
-          source: paperId,
-          target: "center_" + cluster.id,
-          weight: Math.sqrt(10) // Large weight to keep them close
-        };
-        edgesData.push(newEdge); // Add the new edge to edgesData
-      });
-
-      // Link clusters to parent layer - 1 above it if it exists
+      // Link clusters to parent cluster
       if (cluster.layer - 1 >= 0) {
         const parentId = cluster.parents[cluster.layer - 1]
         
@@ -106,11 +107,30 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
           weight: Math.sqrt(10) // Large weight to keep them close
         };
         edgesData.push(newEdge); // Add the new edge to edgesData
+      } else if (cluster.layer - 1 === -1 && cluster.id !== 0) {
+        // Link all top nodes to the center node (0)
+        const parentId = 0
+        
+        links.push({
+          source: "center_" + parentId,
+          target: "center_" + cluster.id,
+          weight: 10 // Large weight to keep them close
+        });
+
+        // Add to edgesData for visualization
+        const newEdge = {
+          id: idCounter++,
+          source: "center_" + parentId,
+          target: "center_" + cluster.id,
+          weight: Math.sqrt(10) // Large weight to keep them close
+        };
+        edgesData.push(newEdge); // Add the new edge to edgesData
       }
+
 
       // Update the center force to the centroid of the current cluster
       // simulation.force("center", forceCenter(cluster.centroid_x, cluster.centroid_y));
-    }    
+    // }    
   });
 
 
