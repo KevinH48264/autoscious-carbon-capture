@@ -27,23 +27,55 @@ export const sortPoints = (points, centerX, centerY) => {
 }
 
 // creating clusters
-export function getLeafClusters(clusterData) {
+// export function getLeafClusters(clusterData) {
+//   let clusterNodes = [];
+
+//   function recurse(cluster, parentsMap) {
+//       const {id, layer, classification_id, name, clusters, papers} = cluster;
+
+//       if (clusters.length > 0 && typeof clusters[0] === 'object') {
+//           parentsMap = new Map(parentsMap); // Create a new map at each layer so it doesn't get overridden in sibling branches
+//           parentsMap.set(layer, id); // Map the current layer to the current cluster_id
+//           clusters.forEach((child) => recurse(child, parentsMap));
+//       } else {
+//           parentsMap.set(layer, id); // Map the current layer to the current cluster_id
+//           const parents = {};
+//           for(let [key, value] of parentsMap.entries()) {
+//             parents[key] = value;
+//           }
+//           clusterNodes.push({id, layer, classification_id, clusters, parents, name, papers});
+//       }
+//   }
+
+//   clusterData.forEach((cluster) => recurse(cluster, new Map()));
+
+//   return clusterNodes;
+// }
+
+// Flatten hierarchy to return all clusters with parent cluster ids
+export function flattenClusters(clusterData) {
   let clusterNodes = [];
 
   function recurse(cluster, parentsMap) {
       const {id, layer, classification_id, name, clusters, papers} = cluster;
 
+      // Create a new map at each layer so it doesn't get overridden in sibling branches
+      parentsMap = new Map(parentsMap);
+      // Map the current layer to the current cluster_id
+      parentsMap.set(layer, id);
+
+      // Create the parents object
+      const parents = {};
+      for(let [key, value] of parentsMap.entries()) {
+          parents[key] = value;
+      }
+
+      // Push the current cluster to clusterNodes
+      clusterNodes.push({id, layer, classification_id, clusters, parents, name, papers});
+
+      // If the cluster has child clusters, recurse on them
       if (clusters.length > 0 && typeof clusters[0] === 'object') {
-          parentsMap = new Map(parentsMap); // Create a new map at each layer so it doesn't get overridden in sibling branches
-          parentsMap.set(layer, id); // Map the current layer to the current cluster_id
           clusters.forEach((child) => recurse(child, parentsMap));
-      } else {
-          parentsMap.set(layer, id); // Map the current layer to the current cluster_id
-          const parents = {};
-          for(let [key, value] of parentsMap.entries()) {
-            parents[key] = value;
-          }
-          clusterNodes.push({id, layer, classification_id, clusters, parents, name, papers});
       }
   }
 
@@ -51,51 +83,52 @@ export function getLeafClusters(clusterData) {
 
   return clusterNodes;
 }
+
   
 
   // Assigning Voronoi points to clusters
-  export function flattenClusters(clusterData, voronoi, leafClusters) {
-    let clusterNodes = [];
+  // export function flattenClusters(clusterData, voronoi, leafClusters) {
+  //   let clusterNodes = [];
 
-    function recurse(cluster) {
-      const {cluster_id, layer, centroid_x, centroid_y, content} = cluster;
-      const leafClusterIndex = leafClusters.findIndex(leafCluster => leafCluster.cluster_id === cluster_id);
+  //   function recurse(cluster) {
+  //     const {cluster_id, layer, centroid_x, centroid_y, content} = cluster;
+  //     const leafClusterIndex = leafClusters.findIndex(leafCluster => leafCluster.cluster_id === cluster_id);
 
-      // if it's a leaf cluster with Voronoi points
-      if (leafClusterIndex !== -1) {
-        const cellPolygon = voronoi.cellPolygon(leafClusterIndex);
+  //     // if it's a leaf cluster with Voronoi points
+  //     if (leafClusterIndex !== -1) {
+  //       const cellPolygon = voronoi.cellPolygon(leafClusterIndex);
 
-        if (cellPolygon) {
-          cluster.voronoiPoints = cellPolygon;
-        } else {
-          cluster.voronoiPoints = [];
-        }
-      }
+  //       if (cellPolygon) {
+  //         cluster.voronoiPoints = cellPolygon;
+  //       } else {
+  //         cluster.voronoiPoints = [];
+  //       }
+  //     }
 
-      // otherwise it's a parent cluster
-      else {
-        cluster.content.forEach(recurse);
+  //     // otherwise it's a parent cluster
+  //     else {
+  //       cluster.content.forEach(recurse);
 
-        // If it's a parent cluster, gather Voronoi points from child clusters
-        let allPoints = cluster.content.flatMap(child => child.voronoiPoints);
+  //       // If it's a parent cluster, gather Voronoi points from child clusters
+  //       let allPoints = cluster.content.flatMap(child => child.voronoiPoints);
 
-        if (allPoints[0] === []) {
-          cluster.voronoiPoints = []
-        } else {
-          let centerX = allPoints.reduce((sum, point) => sum + point[0], 0) / allPoints.length;
-          let centerY = allPoints.reduce((sum, point) => sum + point[1], 0) / allPoints.length;
+  //       if (allPoints[0] === []) {
+  //         cluster.voronoiPoints = []
+  //       } else {
+  //         let centerX = allPoints.reduce((sum, point) => sum + point[0], 0) / allPoints.length;
+  //         let centerY = allPoints.reduce((sum, point) => sum + point[1], 0) / allPoints.length;
 
-          cluster.voronoiPoints = sortPoints(allPoints, centerX, centerY);
-        }
-      } 
+  //         cluster.voronoiPoints = sortPoints(allPoints, centerX, centerY);
+  //       }
+  //     } 
 
-      clusterNodes.push({cluster_id, layer, centroid_x, centroid_y, content, voronoiPoints: cluster.voronoiPoints});
-    }
+  //     clusterNodes.push({cluster_id, layer, centroid_x, centroid_y, content, voronoiPoints: cluster.voronoiPoints});
+  //   }
 
-    clusterData.forEach(recurse);
+  //   clusterData.forEach(recurse);
 
-    return clusterNodes;
-  }
+  //   return clusterNodes;
+  // }
   
 export const multilineText = (text, charLength) => {
   let words = text.split(' ');
@@ -186,8 +219,8 @@ export const calculateClusterCentroids = (leafClusters, paperNodes, centroidNode
     });
   
     // Calculate and set the centroid for this cluster
-    let centroidX = count > 0 ? sumX / count : undefined;
-    let centroidY = count > 0 ? sumY / count : undefined;
+    let centroidX = count > 0 ? sumX / count : 0;
+    let centroidY = count > 0 ? sumY / count : 0;
   
     cluster.centroid_x = centroidX;
     cluster.centroid_y = centroidY;

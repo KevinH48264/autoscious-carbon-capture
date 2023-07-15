@@ -16,16 +16,19 @@ function normalizeDensity(nodes, target_density = 0.0007, x0=0, y0=0) {
     return max_norm * norm_scale;
 }
 
-export function computeLayout(paperNodes, edgesData, leafClusters) {
+export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes) {
     // Create dummy 'center' nodes and add them to paperNodes first
-    // leafClusters.forEach(cluster => {
-    //     // Create dummy 'center' node
-    //     let centerNode = {
-    //     paperId: "center_" + cluster.cluster_id, // Give it a unique id
-    //     citationCount: 0 // Dummy value, not used for anything
-    //     };
-    //     paperNodes.push(centerNode);
-    // });
+    centroidNodes.forEach(cluster => {
+        // Create dummy 'center' node
+        let centerNode = {
+          paperId: "center_" + cluster.cluster_id, // Give it a unique id
+          citationCount: 0, // Dummy value, not used for anything
+          x: cluster.x,
+          y: cluster.y,
+          classification_id: cluster.classification_id,
+          };
+        paperNodes.push(centerNode);
+    });
 
   let simulation = forceSimulation()
     .nodes(paperNodes) // Set nodes
@@ -55,8 +58,8 @@ export function computeLayout(paperNodes, edgesData, leafClusters) {
             links.push({
                 source: edge.source,
                 target: edge.target,
-                strength: (edge.weight) ** 2,
-                distance: 100
+                strength: (edge.weight) ** 2, // higher value means stronger force ie nodes are pulled closer together
+                distance: 100 // this specifies the desired distance for all nodes
             });
           // }
         // }
@@ -64,20 +67,31 @@ export function computeLayout(paperNodes, edgesData, leafClusters) {
   
 
   // Create dummy 'center' nodes and links to them for each leafCluster
-  // leafClusters.forEach(cluster => {
-  //   // Link all nodes in the cluster to the 'center' node
-  //   cluster.content.forEach(paperId => {
-  //     links.push({
-  //       source: paperId,
-  //       target: "center_" + cluster.cluster_id,
-  //       weight: 10 // Large weight to keep them close
-  //     });
-  //   });
+  let idCounter = edgesData.length;
+  leafClusters.forEach(cluster => {
+    // Link all nodes in the cluster to the 'center' node
+    if (cluster.papers.length !== 0) {
+      cluster.papers.forEach(paperId => {
+        links.push({
+          source: paperId,
+          target: "center_" + cluster.id,
+          weight: 10 // Large weight to keep them close
+        });
 
-  //   // Update the center force to the centroid of the current cluster
-  //   // console.log("centroid for cluster ", cluster.cluster_id, cluster.centroid_x, cluster.centroid_y)
-  //   simulation.force("center", forceCenter(cluster.centroid_x, cluster.centroid_y));
-  // });
+        // Add to edgesData for visualization
+        const newEdge = {
+          id: idCounter++,
+          source: paperId,
+          target: "center_" + cluster.id,
+          weight: Math.sqrt(10) // Large weight to keep them close
+        };
+        edgesData.push(newEdge); // Add the new edge to edgesData
+      });
+
+      // Update the center force to the centroid of the current cluster
+      simulation.force("center", forceCenter(cluster.centroid_x, cluster.centroid_y));
+    }    
+  });
 
 
   // Set links
@@ -98,5 +112,5 @@ export function computeLayout(paperNodes, edgesData, leafClusters) {
   paperNodes = paperNodes.filter(node => !node.paperId.startsWith("center_"));
 
   // Now paperNodes have their 'final' position computed by d3 force layout
-  return {paperNodes, centerNodes, normalizedRadius};
+  return {paperNodes, centerNodes, normalizedRadius, edgesData};
 }

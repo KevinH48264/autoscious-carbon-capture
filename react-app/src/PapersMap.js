@@ -19,13 +19,19 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       // .filter(({paperId, title, abstract}) => paperId != null && title != null && abstract != null)
       // .slice(0, 30)
       .map(({title, x, y, citationCount, paperId, abstract, classification_ids}) => ({title, x: x, y: y, citationCount, paperId, abstract, classification_ids}))
-    let leafClusters = getLeafClusters(clusterData);
-    const layout = computeLayout(paperNodes, edgesData, leafClusters);
+    let leafClusters = flattenClusters(clusterData);
+    let centroidNodes = []
+    calculateClusterCentroids(leafClusters, paperNodes, centroidNodes)
+    console.log("leaf clusters", leafClusters) // expect 58 leaf clusters bc there are 58 categories
+    console.log("centroidNodes", centroidNodes) // expect 58 centroid ndoes for each cluster
+
+    const layout = computeLayout(paperNodes, edgesData, leafClusters, centroidNodes, edgesData);
     paperNodes = layout.paperNodes;
-    const centerNodes = layout.centerNodes;
+    const edges = layout.edgesData;
+    const centerNodes = layout.centerNodes; // clusterNode!
     const normalizedRadius = layout.normalizedRadius; // this should be used to determine the zoom, currently 230
     const zoomScale = normalizedRadius / 150;
-    console.log("leaf clusters", leafClusters)
+
 
     const app = new PIXI.Application({
       width: window.innerWidth,
@@ -66,10 +72,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
     const min_scale = Math.min(...paperNodes.map((node) => Math.sqrt(node.citationCount)));
     const max_scale = Math.max(...paperNodes.map((node) => Math.sqrt(node.citationCount)));
-
-    // Create dummy 'center' nodes and links to them for each leafCluster
-    let centroidNodes = []
-    calculateClusterCentroids(leafClusters, paperNodes, centroidNodes)
     
     // Calculating voronoi from true centroids of leaf clusters
     const extendFactor = 100 // hardcoding for circle design
@@ -203,8 +205,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         "Literature Review Update": ["e1e15aa932ac61efa8bb0c5cc99cfe6521458861", "3c87b0e4d3d93128fb6d425da491a7fea528b587"]
       }
     };
-    
-    
 
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, vis_cluster_centroids, viewport) => {
@@ -313,7 +313,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       // leafClusters.forEach(cluster => {
       //   let contentSet = new Set(cluster.papers);
       //   let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
-      //   leafClusterNodes.forEach(node => {
+        // leafClusterNodes.forEach(node => {
           paperNodes.forEach(node => {
           // Handling Node text, draw labels
           const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
@@ -421,29 +421,78 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         });
       })
 
+      // Visualizing centroid nodes from force directed simulation
+      layout.centerNodes.forEach((node, i) => {  
+        // Handling Node text, draw labels
+        const debug_factor = 1
+        const lambda = debug_factor
+        // const lambda = debug_factor * (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
+        const fontSize = min_font_size + (max_font_size - min_font_size) * lambda;
+        const circleHeight = 10;
+
+        if(!node.circle) {
+            node.circle = new PIXI.Graphics();
+            node.circle.beginFill(0xFFA500);
+            node.circle.drawCircle(scaleX(node.x), scaleY(node.y), circleHeight);
+            node.circle.endFill();
+            node.circle.zIndex = 55;
+            viewport.addChild(node.circle);
+        } else {
+            node.circle.visible = true; // make it visible if it already exists
+        }
+      })
+
       // Add edges between nodes
-      edgesData.forEach(edge => {
+      edges.forEach(edge => {
         const sourceNode = paperIdToNode[edge.source];
-        const targetNode = paperIdToNode[edge.target];
 
-        console.log("edges", edge)
-    
-        // Create a new graphics object for the edge if it doesn't exist
-        if (!edge.edge_graphics) {
-            edge.edge_graphics = new PIXI.Graphics();
-            edge.edge_graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
+        if (edge.target.includes("center_")) {
+          // it's a centroid
 
-            viewport.addChild(edge.edge_graphics);
-        } 
-    
-        // Draw the line
-        edge.edge_graphics.clear(); // remove any existing line
-        edge.edge_graphics.visible = true;
-        edge.edge_graphics.lineStyle(2, 0xFF0000, edge.weight * 5 ); // set the line style (you can customize this)
-        edge.edge_graphics.moveTo(scaleX(sourceNode.x), scaleY(sourceNode.y)); // move to the source node's position
-        edge.edge_graphics.lineTo(scaleX(targetNode.x), scaleY(targetNode.y)); // draw a line to the target node's position
-        viewport.addChild(edge.edge_graphics)
-    });
+          const targetNode = layout.centerNodes.find(node => node.paperId === edge.target); // this can be optimized
+          console.log("targetNode", targetNode, layout.centerNodes)
+
+          // Create a new graphics object for the edge if it doesn't exist
+          if (!edge.edge_graphics) {
+              edge.edge_graphics = new PIXI.Graphics();
+              edge.edge_graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
+              viewport.addChild(edge.edge_graphics);
+          } 
+          // Performance optimization: ?
+          // else {
+          //   edge.edge_graphics.visible = true;
+          // }
+      
+          // Draw the line
+          edge.edge_graphics.clear(); // remove any existing line
+          edge.edge_graphics.visible = true;
+          edge.edge_graphics.lineStyle(2, 0x808080, edge.weight); // set the line style (you can customize this)
+          edge.edge_graphics.moveTo(scaleX(sourceNode.x), scaleY(sourceNode.y)); // move to the source node's position
+          edge.edge_graphics.lineTo(scaleX(targetNode.x), scaleY(targetNode.y)); // draw a line to the target node's position
+          viewport.addChild(edge.edge_graphics)
+        } else {
+          const targetNode = paperIdToNode[edge.target];
+      
+          // Create a new graphics object for the edge if it doesn't exist
+          if (!edge.edge_graphics) {
+              edge.edge_graphics = new PIXI.Graphics();
+              edge.edge_graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
+              viewport.addChild(edge.edge_graphics);
+          } 
+          // Performance optimization: ?
+          // else {
+          //   edge.edge_graphics.visible = true;
+          // }
+      
+          // Draw the line
+          edge.edge_graphics.clear(); // remove any existing line
+          edge.edge_graphics.visible = true;
+          edge.edge_graphics.lineStyle(2, 0xFF0000, edge.weight * 5 ); // set the line style (you can customize this)
+          edge.edge_graphics.moveTo(scaleX(sourceNode.x), scaleY(sourceNode.y)); // move to the source node's position
+          edge.edge_graphics.lineTo(scaleX(targetNode.x), scaleY(targetNode.y)); // draw a line to the target node's position
+          viewport.addChild(edge.edge_graphics)
+        }
+      });
     }
 
     // Update visibility of circles and text based on the current field of view and zoom level
