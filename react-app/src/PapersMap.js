@@ -29,8 +29,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     paperNodes = layout.paperNodes;
     const edges = layout.edgesData;
     const centerNodes = layout.centerNodes; // clusterNode!
-    const normalizedRadius = layout.normalizedRadius; // this should be used to determine the zoom, currently 230
-    const zoomScale = normalizedRadius / 150;
+    const normalizedRadius = layout.normalizedRadius; // this should be used to determine the zoom, currently 230, prev 150
+    const zoomScale = normalizedRadius / 300;
 
 
     const app = new PIXI.Application({
@@ -61,8 +61,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     viewport.sortableChildren = true;
     viewport.drag().pinch().wheel().decelerate()
     // .clampZoom({ minWidth: 50, maxHeight: viewport.worldHeight / zoomScale, maxWidth: viewport.worldWidth / zoomScale})
-    // .setZoom(zoomScale)
-    .moveCenter(0, 0)
+    .setZoom(zoomScale)
+    .moveCenter(viewport.worldWidth / 2, viewport.worldHeight / 2)
     // viewport.clamp({direction: 'all'})
     app.stage.addChild(viewport);
 
@@ -334,23 +334,23 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           }
 
           // For visualizing the topic text of a paper
-          // if(!node.topic_text) {
-          //     node.topic_text = new PIXI.BitmapText(multilineText(node.classification_ids.join(" "), 40), {
-          //       fontFamily: 'Arial',
-          //       fontSize: 20,
-          //       fontName: "TitleFont",
-          //       fill: 0xffffff,
-          //       align: 'left',
-          //       visible: true,
-          //     });
-          //     node.topic_text.zIndex = 60;
-          //     node.topic_text.anchor.set(0.5, -0.5);
-          //     node.topic_text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) - node.circleHeight - 30);
-          //     viewport.addChild(node.topic_text);
-          // } else {
-          //     node.topic_text.fontSize = 15;
-          //     node.topic_text.visible = true; // make it visible if it already exists
-          // }
+          if(!node.topic_text) {
+              node.topic_text = new PIXI.BitmapText(multilineText(node.classification_ids.join(" "), 40), {
+                fontFamily: 'Arial',
+                fontSize: 20,
+                fontName: "TitleFont",
+                fill: 0xffffff,
+                align: 'left',
+                visible: true,
+              });
+              node.topic_text.zIndex = 60;
+              node.topic_text.anchor.set(0.5, -0.5);
+              node.topic_text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) - node.circleHeight - 30);
+              viewport.addChild(node.topic_text);
+          } else {
+              node.topic_text.fontSize = 15;
+              node.topic_text.visible = true; // make it visible if it already exists
+          }
         });
       // })
 
