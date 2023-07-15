@@ -59,7 +59,7 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
                 source: edge.source,
                 target: edge.target,
                 strength: (edge.weight) ** 2, // higher value means stronger force ie nodes are pulled closer together
-                distance: 100 // this specifies the desired distance for all nodes
+                distance: 50 // this specifies the desired distance for all nodes
             });
           // }
         // }
