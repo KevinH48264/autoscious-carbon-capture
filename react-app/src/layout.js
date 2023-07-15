@@ -17,7 +17,7 @@ function normalizeDensity(nodes, target_density = 0.0007, x0=0, y0=0) {
 }
 
 export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes) {
-  // Create dummy 'center' nodes and add them to paperNodes first
+  // Add dummy 'center' nodes to paperNodes first
   centroidNodes.forEach(cluster => {
       // Create dummy 'center' node
       let centerNode = {
@@ -30,40 +30,31 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
       paperNodes.push(centerNode);
   });
 
-  // center everything?
-  // paperNodes.forEach(node => {
-  //   node.x = 0
-  //   node.y = 0
-  // })
-
   let links = [];
   let nodeById = new Map(paperNodes.map(node => [node.paperId, node]));
 
   // Create links from 1) each paper to their most 2 similar paperIds and 2) MST for each cluster
+  // max strength between paper in same subcluster and reasonable distance for spread
   edgesData.forEach(edge => {
-      if (paperNodes.some(node => node.paperId === edge.source) && paperNodes.some(node => node.paperId === edge.target)) {
-        links.push({
-            source: nodeById.get(edge.source),
-            target: nodeById.get(edge.target),
-            strength: 1,
-            distance: 30,
-        });
-      } else {
-        console.log("Edge not found in paperNodes:", edge)
-      }
+      links.push({
+          source: nodeById.get(edge.source),
+          target: nodeById.get(edge.target),
+          strength: 1,
+          distance: 30,
+      });
   });
 
   // Create dummy 'center' nodes and links to the strongest paper for each leafCluster
   let idCounter = edgesData.length;
   leafClusters.forEach(cluster => {
-    // Link all nodes in the cluster to the 'center' node
+    // Link closest nodes in the cluster to the 'center' node
       if (cluster.papers.length !== 0) {
         const closestPaper = cluster.papers[0]
           links.push({
             source: nodeById.get(closestPaper),
             target: nodeById.get("center_" + cluster.id),
-            strength: 1,
-            distance: 10,
+            strength: 25,
+            distance: 0,
           });
 
           // Add to edgesData for visualization
@@ -77,8 +68,9 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
       }
 
       // Link child cluster to parent cluster
-      const CLUSTER_WEIGHT = 1
-      const CLUSTER_DISTANCE = 10
+      // Low weight / attraction but still there, and high ditance to allow subcluster location flexibility and prevent overlap
+      const CLUSTER_WEIGHT = 0.1
+      const CLUSTER_DISTANCE = 30
       if (cluster.layer - 1 >= 0) {
         const parentId = cluster.parents[cluster.layer - 1]
         
@@ -121,19 +113,17 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
       }
   });
 
-  console.log("SIMULATION PAPER NODES", paperNodes, "LINKS", links)
   let simulation = forceSimulation(paperNodes)
-    .force("charge", forceManyBody().strength(-50))
+    .force("charge", forceManyBody().strength((node) => node.paperId.startsWith("center_") ? -1 : -50))
     .force("link", forceLink().links(links).strength(d => d.strength).distance(d => d.distance))
-    .force("center", forceCenter(0, 0))
+    // .force("center", forceCenter(0, 0))
     .stop();
-
 
   // Manually iterate the simulation
   let normalizedRadius = 0;
   for (var i = 0; i < 250; ++i) {
     simulation.tick();
-    normalizedRadius = normalizeDensity(paperNodes, 0.0007);
+    normalizedRadius = normalizeDensity(paperNodes, 0.002);
   }
 
   // Remove the dummy 'center' nodes before returning
