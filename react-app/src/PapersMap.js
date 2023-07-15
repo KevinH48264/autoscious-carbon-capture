@@ -318,7 +318,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           // Handling Node text, draw labels
           const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
           // const circleHeight = 5 + (min_font_size / 3) * lambda;
-          const circleHeight = 15
+          const circleHeight = 5
           if(!node.circle) {
               node.circle = new PIXI.Graphics();
               node.circle.zIndex = 55;
@@ -337,7 +337,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           if(!node.topic_text) {
               node.topic_text = new PIXI.BitmapText(multilineText(node.classification_ids.join(" "), 40), {
                 fontFamily: 'Arial',
-                fontSize: 20,
+                fontSize: 10,
                 fontName: "TitleFont",
                 fill: 0xffffff,
                 align: 'left',
@@ -429,7 +429,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         const lambda = debug_factor
         // const lambda = debug_factor * (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
         const fontSize = min_font_size + (max_font_size - min_font_size) * lambda;
-        const circleHeight = 10;
+        const circleHeight = 5;
 
         if(!node.circle) {
             node.circle = new PIXI.Graphics();
@@ -445,7 +445,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         if(!node.cluster_text) {
             node.cluster_text = new PIXI.BitmapText(node.classification_id, {
               fontFamily: 'Arial',
-              fontSize: 15,
+              fontSize: 10,
               fontName: "TitleFont",
               fill: 0x808080,
               align: 'left',
@@ -513,7 +513,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           // Draw the line
           edge.edge_graphics.clear(); // remove any existing line
           edge.edge_graphics.visible = true;
-          edge.edge_graphics.lineStyle(2, 0xFF0000, edge.weight * 5 ); // set the line style (you can customize this)
+          edge.edge_graphics.lineStyle(2, 0xFF0000, edge.weight ); // set the line style (you can customize this)
           edge.edge_graphics.moveTo(scaleX(sourceNode.x), scaleY(sourceNode.y)); // move to the source node's position
           edge.edge_graphics.lineTo(scaleX(targetNode.x), scaleY(targetNode.y)); // draw a line to the target node's position
           viewport.addChild(edge.edge_graphics)
