@@ -88,8 +88,28 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
         edgesData.push(newEdge); // Add the new edge to edgesData
       });
 
+      // Link clusters to parent layer - 1 above it if it exists
+      if (cluster.layer - 1 >= 0) {
+        const parentId = cluster.parents[cluster.layer - 1]
+        
+        links.push({
+          source: "center_" + parentId,
+          target: "center_" + cluster.id,
+          weight: 100 // Large weight to keep them close
+        });
+
+        // Add to edgesData for visualization
+        const newEdge = {
+          id: idCounter++,
+          source: "center_" + parentId,
+          target: "center_" + cluster.id,
+          weight: Math.sqrt(10) // Large weight to keep them close
+        };
+        edgesData.push(newEdge); // Add the new edge to edgesData
+      }
+
       // Update the center force to the centroid of the current cluster
-      simulation.force("center", forceCenter(cluster.centroid_x, cluster.centroid_y));
+      // simulation.force("center", forceCenter(cluster.centroid_x, cluster.centroid_y));
     }    
   });
 

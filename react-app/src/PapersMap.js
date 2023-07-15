@@ -465,7 +465,14 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
       // Add edges between nodes
       edges.forEach(edge => {
-        const sourceNode = paperIdToNode[edge.source];
+        let sourceNode;
+        if (edge.source.includes("center_")) {
+          console.log("EDGE", edge.source, layout.centerNodes)
+          sourceNode = layout.centerNodes.find(node => node.paperId === edge.source); // this can be optimized
+        } else {
+          sourceNode = paperIdToNode[edge.source];
+        }
+        
 
         if (edge.target.includes("center_")) {
           // it's a centroid
