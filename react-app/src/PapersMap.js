@@ -333,93 +333,94 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
               node.circle.visible = true;
           }
 
-          if(!node.topic_text) {
-              node.topic_text = new PIXI.BitmapText(multilineText(node.classification_ids.join(" "), 40), {
-                fontFamily: 'Arial',
-                fontSize: 20,
-                fontName: "TitleFont",
-                fill: 0xffffff,
-                align: 'left',
-                visible: true,
-              });
-              node.topic_text.zIndex = 60;
-              node.topic_text.anchor.set(0.5, -0.5);
-              node.topic_text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) - node.circleHeight - 30);
-              viewport.addChild(node.topic_text);
-          } else {
-              node.topic_text.fontSize = 15;
-              node.topic_text.visible = true; // make it visible if it already exists
-          }
+          // For visualizing the topic text of a paper
+          // if(!node.topic_text) {
+          //     node.topic_text = new PIXI.BitmapText(multilineText(node.classification_ids.join(" "), 40), {
+          //       fontFamily: 'Arial',
+          //       fontSize: 20,
+          //       fontName: "TitleFont",
+          //       fill: 0xffffff,
+          //       align: 'left',
+          //       visible: true,
+          //     });
+          //     node.topic_text.zIndex = 60;
+          //     node.topic_text.anchor.set(0.5, -0.5);
+          //     node.topic_text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) - node.circleHeight - 30);
+          //     viewport.addChild(node.topic_text);
+          // } else {
+          //     node.topic_text.fontSize = 15;
+          //     node.topic_text.visible = true; // make it visible if it already exists
+          // }
         });
       // })
 
       // Adding paper text labels to viewport by leaf cluster
-      leafClusters.forEach(cluster => {
-        let contentSet = new Set(cluster.papers);
-        let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
+      // leafClusters.forEach(cluster => {
+      //   let contentSet = new Set(cluster.papers);
+      //   let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
 
-        leafClusterNodes.forEach((node, i) => {
-          // paperNodes.forEach((node, i) => {
-          // console.log("node", i, node.x, node.y)
-          // Handling Node text, draw labels
-          const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
-          // const fontSize = (min_font_size + (max_font_size - min_font_size) * lambda / 3);
-          const fontSize = 15
-          let multilineTitle = multilineText(node.title, 30)
-          // Using the node.title, find the topic and subtopic in the taxonomy
-          // Using the node.paperId, find the topic and subtopic in the taxonomy
-          for (let topic in taxonomy) {
-            for (let subtopic in taxonomy[topic]) {
-              if (taxonomy[topic][subtopic].includes(node.paperId)) {
-                node.topic = topic;
-                node.subtopic = subtopic;
-                break;
-              }
-            }
-          }
+      //   leafClusterNodes.forEach((node, i) => {
+      //     // paperNodes.forEach((node, i) => {
+      //     // console.log("node", i, node.x, node.y)
+      //     // Handling Node text, draw labels
+      //     const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
+      //     // const fontSize = (min_font_size + (max_font_size - min_font_size) * lambda / 3);
+      //     const fontSize = 15
+      //     let multilineTitle = multilineText(node.title, 30)
+      //     // Using the node.title, find the topic and subtopic in the taxonomy
+      //     // Using the node.paperId, find the topic and subtopic in the taxonomy
+      //     for (let topic in taxonomy) {
+      //       for (let subtopic in taxonomy[topic]) {
+      //         if (taxonomy[topic][subtopic].includes(node.paperId)) {
+      //           node.topic = topic;
+      //           node.subtopic = subtopic;
+      //           break;
+      //         }
+      //       }
+      //     }
           
-          // if (!node.topic || !node.subtopic) {
-          //   // If the paperId is not in the taxonomy, assign a default value or handle it differently
-          //   node.topic = "Unknown";
-          //   node.subtopic = "Unknown";
-          //   console.log("UNKNOWN", node.paperId, node.title, node.topic, node.subtopic)
-          // }
-          // Not allowing more than 10 paper labels / a lot of words
-          // if (addedTextBounds.length > 10) {
-          //   return
-          // }
+      //     // if (!node.topic || !node.subtopic) {
+      //     //   // If the paperId is not in the taxonomy, assign a default value or handle it differently
+      //     //   node.topic = "Unknown";
+      //     //   node.subtopic = "Unknown";
+      //     //   console.log("UNKNOWN", node.paperId, node.title, node.topic, node.subtopic)
+      //     // }
+      //     // Not allowing more than 10 paper labels / a lot of words
+      //     // if (addedTextBounds.length > 10) {
+      //     //   return
+      //     // }
 
-          // Check for overlaps with existing labels
-          let current_zoom_text_bound = labelBounds(fontSize, scaleX(node.x), scaleY(node.y), 30, multilineTitle);
-          for (let bound of addedTextBounds) {
-            if (rectIntersectsRect(current_zoom_text_bound, bound)) {
-              return
-            }
-          }
-          addedTextBounds.add(current_zoom_text_bound);
+      //     // Check for overlaps with existing labels
+      //     let current_zoom_text_bound = labelBounds(fontSize, scaleX(node.x), scaleY(node.y), 30, multilineTitle);
+      //     for (let bound of addedTextBounds) {
+      //       if (rectIntersectsRect(current_zoom_text_bound, bound)) {
+      //         return
+      //       }
+      //     }
+      //     addedTextBounds.add(current_zoom_text_bound);
 
-          if(!node.text) {
-              node.text = new PIXI.BitmapText(multilineText(
-                  // node.topic + " ; " + node.subtopic + " ; " + 
-                  node.title, 30
-                ), {
-                  fontFamily: 'Arial',
-                  fontSize: fontSize,
-                  fontName: "TitleFont",
-                  fill: 0xffffff,
-                  align: 'left',
-                  visible: true,
-                });
-              node.text.zIndex = 60;
-              node.text.anchor.set(0.5, 0);
-              node.text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) + node.circleHeight + 1);
-              viewport.addChild(node.text);
-          } else {
-              node.text.fontSize = fontSize;
-              node.text.visible = true; // make it visible if it already exists
-          }
-        });
-      })
+      //     if(!node.text) {
+      //         node.text = new PIXI.BitmapText(multilineText(
+      //             // node.topic + " ; " + node.subtopic + " ; " + 
+      //             node.title, 30
+      //           ), {
+      //             fontFamily: 'Arial',
+      //             fontSize: fontSize,
+      //             fontName: "TitleFont",
+      //             fill: 0xffffff,
+      //             align: 'left',
+      //             visible: true,
+      //           });
+      //         node.text.zIndex = 60;
+      //         node.text.anchor.set(0.5, 0);
+      //         node.text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) + node.circleHeight + 1);
+      //         viewport.addChild(node.text);
+      //     } else {
+      //         node.text.fontSize = fontSize;
+      //         node.text.visible = true; // make it visible if it already exists
+      //     }
+      //   });
+      // })
 
       // Visualizing centroid nodes from force directed simulation
       layout.centerNodes.forEach((node, i) => {  
@@ -440,6 +441,26 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         } else {
             node.circle.visible = true; // make it visible if it already exists
         }
+
+        if(!node.cluster_text) {
+            node.cluster_text = new PIXI.BitmapText(node.classification_id, {
+              fontFamily: 'Arial',
+              fontSize: 15,
+              fontName: "TitleFont",
+              fill: 0x808080,
+              align: 'left',
+              visible: true,
+            });
+            node.cluster_text.zIndex = 60;
+            node.cluster_text.anchor.set(0.5, -0.5);
+            node.cluster_text.position.set(scaleX(node.x), scaleY(node.y));
+            viewport.addChild(node.cluster_text);
+        } else {
+            node.cluster_text.fontSize = 15;
+            node.cluster_text.visible = true; // make it visible if it already exists
+        }
+
+
       })
 
       // Add edges between nodes
@@ -450,7 +471,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           // it's a centroid
 
           const targetNode = layout.centerNodes.find(node => node.paperId === edge.target); // this can be optimized
-          console.log("targetNode", targetNode, layout.centerNodes)
 
           // Create a new graphics object for the edge if it doesn't exist
           if (!edge.edge_graphics) {
