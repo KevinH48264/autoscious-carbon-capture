@@ -46,57 +46,59 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
 
   let links = [];
 
-    // Create links from edgesData (they should only be in the same cluster now)
+    // Create links from direct citations in same cluster
     edgesData.forEach(edge => {
         // Find the clusters for source and target
         const sourceCluster = leafClusters.find(cluster => cluster.papers.includes(edge.source));
         const targetCluster = leafClusters.find(cluster => cluster.papers.includes(edge.target));
 
         // If both nodes are in the same cluster, add the link
-        // if (sourceCluster && targetCluster && sourceCluster.cluster_id === targetCluster.cluster_id) {
-          // if (sourceCluster && targetCluster) {
+        if (sourceCluster && targetCluster && sourceCluster.cluster_id === targetCluster.cluster_id) {
+          if (sourceCluster && targetCluster) {
             links.push({
                 source: edge.source,
                 target: edge.target,
                 strength: (edge.weight) ** 2, // higher value means stronger force ie nodes are pulled closer together
                 distance: 50 // this specifies the desired distance for all nodes
             });
-          // }
-        // }
+          }
+        }
     });
   
 
-  // Create dummy 'center' nodes and links to them for each leafCluster
+  // Create dummy 'center' nodes and links to the strongest paper for each leafCluster
   let idCounter = edgesData.length;
   leafClusters.forEach(cluster => {
     // Link all nodes in the cluster to the 'center' node
       if (cluster.papers.length !== 0) {
-        cluster.papers.forEach(paperId => {
+        const closestPaper = cluster.papers[0]
           links.push({
-            source: paperId,
+            source: closestPaper,
             target: "center_" + cluster.id,
-            weight: 10 // Large weight to keep them close
+            weight: 50 // Large weight to keep them close
           });
 
           // Add to edgesData for visualization
           const newEdge = {
             id: idCounter++,
-            source: paperId,
+            source: closestPaper,
             target: "center_" + cluster.id,
             weight: Math.sqrt(10) // Large weight to keep them close
           };
           edgesData.push(newEdge); // Add the new edge to edgesData
-        });
       }
 
-      // Link clusters to parent cluster
+      // Link child cluster to parent cluster
+      const CLUSTER_WEIGHT = 50
+      const CLUSTER_DISTANCE = 50
       if (cluster.layer - 1 >= 0) {
         const parentId = cluster.parents[cluster.layer - 1]
         
         links.push({
           source: "center_" + parentId,
           target: "center_" + cluster.id,
-          weight: 100 // Large weight to keep them close
+          weight: CLUSTER_WEIGHT, // Large weight to keep them close
+          distance: CLUSTER_DISTANCE
         });
 
         // Add to edgesData for visualization
@@ -104,7 +106,8 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
           id: idCounter++,
           source: "center_" + parentId,
           target: "center_" + cluster.id,
-          weight: Math.sqrt(10) // Large weight to keep them close
+          weight: Math.sqrt(10), // Large weight to keep them close
+          distance: 50
         };
         edgesData.push(newEdge); // Add the new edge to edgesData
       } else if (cluster.layer - 1 === -1 && cluster.id !== 0) {
@@ -114,7 +117,8 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
         links.push({
           source: "center_" + parentId,
           target: "center_" + cluster.id,
-          weight: 10 // Large weight to keep them close
+          weight: CLUSTER_WEIGHT, // Large weight to keep them close
+          distance: CLUSTER_DISTANCE
         });
 
         // Add to edgesData for visualization
