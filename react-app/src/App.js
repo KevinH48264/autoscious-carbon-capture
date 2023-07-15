@@ -14,7 +14,7 @@ const App = () => {
           console.log("Papers data:", json);
       })
 
-    fetch('gpt_classified_100/single_connected_edges_100_semantic_scholar.json')
+    fetch('gpt_classified_100/single_connected_top_2_edges_100_semantic_scholar.json')
       .then(response => response.json())
       .then(json => {
         setEdgesData(json);
