@@ -1,7 +1,7 @@
 import { forceSimulation, forceManyBody, forceCenter, forceCollide, forceLink, forceX, forceY } from 'd3-force';
 import { hierarchy } from 'd3';
 
-function normalizeDensity(nodes, target_density = 0.000001) {
+function normalizeDensity(nodes, target_density = 0.0007) {
     const max_norm = Math.max(...nodes.map(node => Math.sqrt(node.x * node.x + node.y * node.y)));
     const area = Math.PI * max_norm * max_norm;
     const target_area = nodes.length / target_density;
@@ -138,26 +138,26 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
 }
 
 export function computeHierarchicalLayout(clusterData) {
-  const root = hierarchy(clusterData)
+  const root = hierarchy(clusterData[0])
   const links = root.links();
   const nodes = root.descendants();
   
   const simulation = forceSimulation(nodes)
-      .force("link", forceLink(links).id(d => d.id).distance(0).strength(1))
+      .force("link", forceLink(links).id(d => d.id).distance(1).strength(1))
       .force("charge", forceManyBody().strength(-50))
       .force("x", forceX())
       .force("y", forceY())
       .stop();
 
   // Manually iterate the simulation
-  // let normalizedRadius = 0;
+  let normalizedRadius = 0;
   for (var i = 0; i < 300; ++i) {
     simulation.tick();
-    // normalizedRadius = normalizeDensity(paperNodes, 0.000001);
+    normalizedRadius = normalizeDensity(nodes, 0.01);
   }
 
   // paperNodes with 'final' position
   console.log("COMPUTE HIERARHICAL LAYOUT NODES", nodes)
   console.log("LINKS", links)
-  return { nodes, links };
+  return { nodes, links, normalizedRadius };
 }
