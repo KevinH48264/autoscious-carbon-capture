@@ -618,3 +618,22 @@ export const diamondPolygonColorSequence = [
       //       node.circle.visible = true; // make it visible if it already exists
       //   }
       // })
+
+      // Checking for taxonomy code
+        // Using the node.paperId, find the topic and subtopic in the taxonomy
+        // for (let topic in taxonomy) {
+        //   for (let subtopic in taxonomy[topic]) {
+        //     if (taxonomy[topic][subtopic].includes(node.paperId)) {
+        //       node.topic = topic;
+        //       node.subtopic = subtopic;
+        //       break;
+        //     }
+        //   }
+        // }
+        
+        // if (!node.topic || !node.subtopic) {
+        //   // If the paperId is not in the taxonomy, assign a default value or handle it differently
+        //   node.topic = "Unknown";
+        //   node.subtopic = "Unknown";
+        //   console.log("UNKNOWN", node.paperId, node.title, node.topic, node.subtopic)
+        // }

@@ -77,8 +77,9 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     const clusterMap = new Map();
     clusterData.forEach(cluster => traverseCluster(cluster, clusterMap));
 
-    const min_scale = Math.min(...layoutNodes.map((node) => Math.sqrt(node.citationCount)));
-    const max_scale = Math.max(...layoutNodes.map((node) => Math.sqrt(node.citationCount)));
+    console.log("layoutNodes", layoutNodes)
+    const min_scale = Math.min(...layoutNodes.filter(({data}) => data.citationCount !== undefined).map((node) => Math.sqrt(node.data.citationCount)));
+    const max_scale = Math.max(...layoutNodes.filter(({data}) => data.citationCount !== undefined).map((node) => Math.sqrt(node.data.citationCount)));
     
     // Calculating voronoi from true centroids of leaf clusters
     const extendFactor = 100 // hardcoding for circle design
@@ -93,21 +94,21 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     const scaleY = (d) => ((d - minY) / (maxY - minY)) * viewport.worldHeight;
 
     // Adding a circle mask
-    // let farthestDistance = 0;
-    // paperNodes.forEach(node => {
-    //   let distance = Math.sqrt(Math.pow(node.x, 2) + Math.pow(node.y, 2));
-    //   if (distance > farthestDistance) {
-    //     farthestDistance = distance;
-    //   }
-    // });
-    // let circleMask = new PIXI.Graphics();
-    // circleMask.beginFill(0x000000); // You can fill with any color
-    // circleMask.drawCircle(0, 0, farthestDistance + 10);
-    // circleMask.endFill();
-    // const polygonContainer = new PIXI.Container();
-    // viewport.addChild(polygonContainer);
-    // polygonContainer.mask = circleMask;
-    // viewport.addChild(circleMask);
+    let farthestDistance = 0;
+    layoutNodes.forEach(node => {
+      let distance = Math.sqrt(Math.pow(scaleX(node.x) - viewport.worldWidth / 2, 2) + Math.pow(scaleY(node.y) - viewport.worldHeight / 2, 2));
+      if (distance > farthestDistance) {
+        farthestDistance = distance;
+      }
+    });
+    let circleMask = new PIXI.Graphics();
+    circleMask.beginFill(0x000000); // You can fill with any color
+    circleMask.drawCircle(viewport.worldWidth / 2, viewport.worldHeight / 2, farthestDistance + 10);
+    circleMask.endFill();
+    const polygonContainer = new PIXI.Container();
+    viewport.addChild(polygonContainer);
+    polygonContainer.mask = circleMask;
+    viewport.addChild(circleMask);
 
     // // Ensuring parentIds extend to the farthest zoom
     const zoomLayers = 20
@@ -216,7 +217,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, vis_cluster_centroids, viewport) => {
       let zoomLevel = Math.max(-1, Math.round(((viewport.scaled) - 1) * 5))
-      zoomLevel = 9
       // let zoomLevel = Math.max(-1, Math.round(((viewport.scaled / zoomScale) - 1) * 5))
       let originalZoomLevel = zoomLevel;
 
@@ -227,110 +227,105 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           : bounds.height / (50);
       let max_font_size = min_font_size * 1.7;
 
-      const debug_factor = 2
-      min_font_size -= debug_factor;
-      max_font_size -= debug_factor
+      // const debug_factor = 2
+      // min_font_size -= debug_factor;
+      // max_font_size -= debug_factor
 
-      zoomLevel = 0
       const addedTextBounds = new Set();
 
       // Preview Zoom: Adding cluster polygons on the preview layer to the viewport
-      console.log("LEAF CLUSTERS: ", leafClusters)
-      leafClusters.forEach((node, i) => {
-        console.log("i", i, "node class id", node.classification_id, "node.parents[zoomLevel]", node.parents[zoomLevel])
-        // If no parentId, then take the highest parent key
-        // let parentId = node.parents[zoomLevel + 1];
-        let parentId = node.parents[zoomLevel];
-        if (parentId === undefined) {
-          console.log("NO PARENT ID", node)
-          parentId = node.parents[Math.max(...Object.keys(node.parents).map(Number))];
-        }
-        let fillColor = parentColorMap.get(parentId);
+      // leafClusters.forEach((node, i) => {
+      //   // If no parentId, then take the highest parent key
+      //   // let parentId = node.parents[zoomLevel + 1];
+      //   let parentId = node.parents[zoomLevel];
+      //   if (parentId === undefined) {
+      //     console.log("NO PARENT ID", node)
+      //     parentId = node.parents[Math.max(...Object.keys(node.parents).map(Number))];
+      //   }
+      //   let fillColor = parentColorMap.get(parentId);
 
-        const region = voronoi.cellPolygon(i);
-        const polygon = new PIXI.Graphics();
-        polygon.zIndex = 50;
+      //   const region = voronoi.cellPolygon(i);
+      //   const polygon = new PIXI.Graphics();
+      //   polygon.zIndex = 50;
 
-        polygon.beginFill(fillColor, 0.75);
-        polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(scaleX(x), scaleY(y))));
-        polygon.endFill();
+      //   polygon.beginFill(fillColor, 0.75);
+      //   polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(scaleX(x), scaleY(y))));
+      //   polygon.endFill();
 
-        node.region = polygon;
-        // polygonContainer.addChild(polygon);
-        viewport.addChild(polygon);
-      });
-
-      // console.log("vis_cluster_centroids", vis_cluster_centroids)
-      // console.log("clusterMap", clusterMap)
+      //   node.region = polygon;
+      //   polygonContainer.addChild(polygon);
+      // });
 
       // Current Zoom: Adding the cluster text to viewport, and any in the next 3 layers
-      for (let i = 0; i < 3; ++i) {
-        vis_cluster_centroids.forEach((centroid, key) => {
-          let [clusterId] = key.split(',').map(Number); 
-          if (centroid.layer === zoomLevel + i) {
-            let topCategory = "Unknown";
-            if(clusterMap.has(clusterId)){
-                topCategory = clusterMap.get(clusterId);
-            }
-            // topCategory = topCategory.slice(1, -1);
+      // for (let i = 0; i < 3; ++i) {
+      //   vis_cluster_centroids.forEach((centroid, key) => {
+      //     let [clusterId] = key.split(',').map(Number); 
+      //     if (centroid.layer === zoomLevel + i) {
+      //       let topCategory = "Unknown";
+      //       if(clusterMap.has(clusterId)){
+      //           topCategory = clusterMap.get(clusterId);
+      //       }
+      //       // topCategory = topCategory.slice(1, -1);
 
-            // Create new text
-            // let current_centroid_font_size = max_font_size / (1.1 ** (zoomLevel - originalZoomLevel));
-            let current_centroid_font_size = 15
-            let current_centroid_text = multilineText(topCategory, 15);
+      //       // Create new text
+      //       // let current_centroid_font_size = max_font_size / (1.1 ** (zoomLevel - originalZoomLevel));
+      //       let current_centroid_font_size = 15
+      //       let current_centroid_text = multilineText(topCategory, 15);
 
-            // Check for font size bounds
-            if (current_centroid_font_size < min_font_size) {
-              return
-            }
+      //       // Check for font size bounds
+      //       if (current_centroid_font_size < min_font_size) {
+      //         return
+      //       }
 
-            // Not allowing more than 20 labels
-            if (addedTextBounds.length > 20) {
-              return
-            }
+      //       // Not allowing more than 20 labels
+      //       if (addedTextBounds.length > 20) {
+      //         return
+      //       }
 
-            // Check for overlaps with existing labels
-            let current_zoom_text_bound = labelBounds(current_centroid_font_size, scaleX(centroid.x), scaleY(centroid.y), 15, current_centroid_text);
+      //       // Check for overlaps with existing labels
+      //       let current_zoom_text_bound = labelBounds(current_centroid_font_size, scaleX(centroid.x), scaleY(centroid.y), 15, current_centroid_text);
 
-            for (let bound of addedTextBounds) {
-              if (rectIntersectsRect(current_zoom_text_bound, bound)) {
-                return
-              }
-            }
-            addedTextBounds.add(current_zoom_text_bound);
+      //       for (let bound of addedTextBounds) {
+      //         if (rectIntersectsRect(current_zoom_text_bound, bound)) {
+      //           return
+      //         }
+      //       }
+      //       addedTextBounds.add(current_zoom_text_bound);
             
-            if (!centroid.current_zoom_text) {
-                centroid.current_zoom_text = new PIXI.BitmapText(current_centroid_text, {
-                    fontFamily: 'Arial',
-                    fontSize: current_centroid_font_size,
-                    fontName: "TopicFont",
-                    align: 'left',
-                    visible: true,
-                });
-                centroid.current_zoom_text.zIndex = 100;
+      //       if (!centroid.current_zoom_text) {
+      //           centroid.current_zoom_text = new PIXI.BitmapText(current_centroid_text, {
+      //               fontFamily: 'Arial',
+      //               fontSize: current_centroid_font_size,
+      //               fontName: "TopicFont",
+      //               align: 'left',
+      //               visible: true,
+      //           });
+      //           centroid.current_zoom_text.zIndex = 100;
 
-                // Position the text at the centroid of the cluster
-                centroid.current_zoom_text.position.set(scaleX(centroid.x), scaleY(centroid.y));
-                centroid.current_zoom_text.anchor.set(0.5, 0);
+      //           // Position the text at the centroid of the cluster
+      //           centroid.current_zoom_text.position.set(scaleX(centroid.x), scaleY(centroid.y));
+      //           centroid.current_zoom_text.anchor.set(0.5, 0);
 
-                // Add the text to the viewport
-                viewport.addChild(centroid.current_zoom_text);
-            } else {
-                centroid.current_zoom_text.fontSize = current_centroid_font_size;
-                centroid.current_zoom_text.visible = true;
-            }
-          } 
-        });
-      }     
+      //           // Add the text to the viewport
+      //           viewport.addChild(centroid.current_zoom_text);
+      //       } else {
+      //           centroid.current_zoom_text.fontSize = current_centroid_font_size;
+      //           centroid.current_zoom_text.visible = true;
+      //       }
+      //     } 
+      //   });
+      // }     
 
+      console.log("nodes", nodes)
       // Adding paper nodes circles to viewport by leaf cluster
-            nodes.forEach(node => {
-          // Handling Node text, draw labels
-          // const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
-          // const circleHeight = 5 + (min_font_size / 3) * lambda;
+      nodes.forEach(node => {
+          // Later cluster should just be filtered out of nodes before
+          let type = node['data'].children ? "cluster" : "paper"
+          if (type === "cluster") { return }
 
-          let type = node['data'].classification_id ? "cluster" : "paper"
-          const circleHeight = 2
+          const lambda = (Math.sqrt(node.data.citationCount) - min_scale) / (max_scale - min_scale);
+          const circleHeight = (2 + (max_font_size - min_font_size / 10) * lambda) / 2;
+
           if(!node.circle) {
               node.circle = new PIXI.Graphics();
               node.circle.zIndex = 55;
@@ -351,84 +346,104 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           }
 
           // For visualizing the topic text of a paper
-          if(!node.topic_text) {
-              node.topic_text = new PIXI.BitmapText(node['data'].classification_id, {
+          // if(!node.topic_text) {
+          //     node.topic_text = new PIXI.BitmapText(node['data'].classification_id, {
+          //       fontFamily: 'Arial',
+          //       fontSize: 10,
+          //       fontName: "TitleFont",
+          //       fill: 0xffffff,
+          //       align: 'left',
+          //       visible: true,
+          //     });
+          //     node.topic_text.zIndex = 60;
+          //     node.topic_text.anchor.set(0.5, -0.5);
+          //     node.topic_text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) - node.circleHeight - 30);
+          //     viewport.addChild(node.topic_text);
+          // } else {
+          //     node.topic_text.fontSize = 15;
+          //     node.topic_text.visible = true; // make it visible if it already exists
+          // }
+      });
+      // })
+
+      // Adding paper text labels to viewport by leaf cluster
+      nodes.forEach((node, i) => {
+        let type = node['data'].children ? "cluster" : "paper"
+
+        let fontSize = max_font_size * 0.8
+        const multilineSize = 30
+        
+        if (type !== "cluster") {
+          // roughly 0.1
+          const lambda = (Math.sqrt(node.data.citationCount) - min_scale) / (max_scale - min_scale);
+          fontSize = (min_font_size + (max_font_size - min_font_size) * lambda / 3);
+        } else {
+          return
+        }
+        // console.log("type", type, "node", node)
+        
+        let multilineTitle = multilineText(node['data'].name, multilineSize)
+
+        // Not allowing more than 10 paper labels / a lot of words
+        if (addedTextBounds.size > 10) {
+          return
+        }
+
+        // Check for overlaps with existing labels
+        let current_zoom_text_bound = labelBounds(fontSize, scaleX(node.x), scaleY(node.y), multilineSize, multilineTitle);
+        for (let bound of addedTextBounds) {
+          if (rectIntersectsRect(current_zoom_text_bound, bound)) {
+            return
+          }
+        }
+        addedTextBounds.add(current_zoom_text_bound);
+
+        if(!node.text) {
+            node.text = new PIXI.BitmapText(multilineTitle, {
                 fontFamily: 'Arial',
-                fontSize: 10,
+                fontSize: fontSize,
                 fontName: "TitleFont",
                 fill: 0xffffff,
                 align: 'left',
                 visible: true,
               });
-              node.topic_text.zIndex = 60;
-              node.topic_text.anchor.set(0.5, -0.5);
-              node.topic_text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) - node.circleHeight - 30);
-              viewport.addChild(node.topic_text);
-          } else {
-              node.topic_text.fontSize = 15;
-              node.topic_text.visible = true; // make it visible if it already exists
-          }
-        });
-      // })
+            node.text.zIndex = 60;
+            node.text.anchor.set(0.5, 0);
+            node.text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) + node.circleHeight + 1);
+            viewport.addChild(node.text);
+        } else {
+            node.text.fontSize = fontSize;
+            node.text.visible = true; // make it visible if it already exists
+        }
+      });
 
-      // Adding paper text labels to viewport by leaf cluster
-        // nodes.forEach((node, i) => {
-        //   // console.log("node", i, node.x, node.y)
-        //   // Handling Node text, draw labels
-        //   const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
-        //   // const fontSize = (min_font_size + (max_font_size - min_font_size) * lambda / 3);
-        //   const fontSize = 15
-        //   let multilineTitle = multilineText(node['data'].name, 20)
-        //   // Using the node.title, find the topic and subtopic in the taxonomy
-        //   // Using the node.paperId, find the topic and subtopic in the taxonomy
-        //   // for (let topic in taxonomy) {
-        //   //   for (let subtopic in taxonomy[topic]) {
-        //   //     if (taxonomy[topic][subtopic].includes(node.paperId)) {
-        //   //       node.topic = topic;
-        //   //       node.subtopic = subtopic;
-        //   //       break;
-        //   //     }
-        //   //   }
-        //   // }
-          
-        //   // if (!node.topic || !node.subtopic) {
-        //   //   // If the paperId is not in the taxonomy, assign a default value or handle it differently
-        //   //   node.topic = "Unknown";
-        //   //   node.subtopic = "Unknown";
-        //   //   console.log("UNKNOWN", node.paperId, node.title, node.topic, node.subtopic)
-        //   // }
-        //   // Not allowing more than 10 paper labels / a lot of words
-        //   // if (addedTextBounds.length > 10) {
-        //   //   return
-        //   // }
+      // Add layout edges between nodes
+      // layoutLinks.forEach(edge => {
+      //   // optimize this later!
+      //     // console.log(edge.source)
+      //     const sourceNode = layoutNodes.find(node => node === edge.source);
+      //     const targetNode = layoutNodes.find(node => node === edge.target);
+      
+      //     // Create a new graphics object for the edge if it doesn't exist
+      //     if (!edge.edge_graphics) {
+      //         edge.edge_graphics = new PIXI.Graphics();
+      //         edge.edge_graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
+      //         viewport.addChild(edge.edge_graphics);
+      //     } 
+      //     // Performance optimization: ?
+      //     // else {
+      //     //   edge.edge_graphics.visible = true;
+      //     // }
+      
+      //     // Draw the line
+      //     edge.edge_graphics.clear(); // remove any existing line
+      //     edge.edge_graphics.visible = true;
+      //     edge.edge_graphics.lineStyle(2, 0xFF0000, edge.weight ); // set the line style (you can customize this)
+      //     edge.edge_graphics.moveTo(scaleX(sourceNode.x), scaleY(sourceNode.y)); // move to the source node's position
+      //     edge.edge_graphics.lineTo(scaleX(targetNode.x), scaleY(targetNode.y)); // draw a line to the target node's position
+      //     viewport.addChild(edge.edge_graphics)
+      // });
 
-        //   // Check for overlaps with existing labels
-        //   let current_zoom_text_bound = labelBounds(fontSize, scaleX(node.x), scaleY(node.y), 30, multilineTitle);
-        //   for (let bound of addedTextBounds) {
-        //     if (rectIntersectsRect(current_zoom_text_bound, bound)) {
-        //       return
-        //     }
-        //   }
-        //   addedTextBounds.add(current_zoom_text_bound);
-
-        //   if(!node.text) {
-        //       node.text = new PIXI.BitmapText(multilineTitle, {
-        //           fontFamily: 'Arial',
-        //           fontSize: fontSize,
-        //           fontName: "TitleFont",
-        //           fill: 0xffffff,
-        //           align: 'left',
-        //           visible: true,
-        //         });
-        //       node.text.zIndex = 60;
-        //       node.text.anchor.set(0.5, 0);
-        //       node.text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) + node.circleHeight + 1);
-        //       viewport.addChild(node.text);
-        //   } else {
-        //       node.text.fontSize = fontSize;
-        //       node.text.visible = true; // make it visible if it already exists
-        //   }
-        // });
 
       // Visualizing centroid nodes from force directed simulation
       // layout.centerNodes.forEach((node, i) => {  
@@ -528,32 +543,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       //   }
       // });
 
-      // Add layout edges between nodes
-      // layoutLinks.forEach(edge => {
-      //   // optimize this later!
-      //     // console.log(edge.source)
-      //     const sourceNode = layoutNodes.find(node => node === edge.source);
-      //     const targetNode = layoutNodes.find(node => node === edge.target);
-      
-      //     // Create a new graphics object for the edge if it doesn't exist
-      //     if (!edge.edge_graphics) {
-      //         edge.edge_graphics = new PIXI.Graphics();
-      //         edge.edge_graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
-      //         viewport.addChild(edge.edge_graphics);
-      //     } 
-      //     // Performance optimization: ?
-      //     // else {
-      //     //   edge.edge_graphics.visible = true;
-      //     // }
-      
-      //     // Draw the line
-      //     edge.edge_graphics.clear(); // remove any existing line
-      //     edge.edge_graphics.visible = true;
-      //     edge.edge_graphics.lineStyle(2, 0xFF0000, edge.weight ); // set the line style (you can customize this)
-      //     edge.edge_graphics.moveTo(scaleX(sourceNode.x), scaleY(sourceNode.y)); // move to the source node's position
-      //     edge.edge_graphics.lineTo(scaleX(targetNode.x), scaleY(targetNode.y)); // draw a line to the target node's position
-      //     viewport.addChild(edge.edge_graphics)
-      // });
     }
 
     // Update visibility of circles and text based on the current field of view and zoom level
@@ -578,36 +567,36 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         prev_viewport_bounds.height !== viewport_bounds.height
       ) {
         // reset all nodes and labels graphics not in viewport (resetting text globally was messing up the preventing text overlap and deteching text.visible)
-        // leafClusters.forEach((node, i) => {
-        //   if (node.region) { polygonContainer.removeChild(node.region); };
-        // })
-        // clusterCentroids.forEach((centroid, key) => {
-        //   if (centroid.current_zoom_text) { centroid.current_zoom_text.visible = false; };
-        // })
-        // paperNodes.forEach((node, i) => {
-        //   if (node.circle) { node.circle.visible = false; };
-        //   if (node.text) { node.text.visible = false; };
-        //   if (node.graphics) { node.graphics.visible = false; };
-        // })
+        leafClusters.forEach((node, i) => {
+          if (node.region) { polygonContainer.removeChild(node.region); };
+        })
+        clusterCentroids.forEach((centroid, key) => {
+          if (centroid.current_zoom_text) { centroid.current_zoom_text.visible = false; };
+        })
+        layoutNodes.forEach((node, i) => {
+          if (node.circle) { node.circle.visible = false; };
+          if (node.text) { node.text.visible = false; };
+          if (node.graphics) { node.graphics.visible = false; };
+        })
         let vis_nodes = layoutNodes.filter((node) =>
-          viewport_bounds.contains(node.x, node.y)
+          viewport_bounds.contains(scaleX(node.x), scaleY(node.y))
         )
-        // let vis_cluster_centroids = new Map();
-        // clusterCentroids.forEach((centroid, key) => {
-        //   if (viewport_bounds.contains(centroid.x, centroid.y)) {
-        //     vis_cluster_centroids.set(key, centroid);
-        //   }
-        // });
+        let vis_cluster_centroids = new Map();
+        clusterCentroids.forEach((centroid, key) => {
+          if (viewport_bounds.contains(centroid.x, centroid.y)) {
+            vis_cluster_centroids.set(key, centroid);
+          }
+        });
 
         // Take the top visible nodes
         // vis_nodes.sort((a, b) => {
-        //   return b.citationCount - a.citationCount;
+        //   return b.data.citationCount - a.data.citationCount;
         // });
         // vis_nodes = vis_nodes.slice(0, 25);
 
         prev_viewport_bounds = viewport_bounds.clone(); // clone the rectangle to avoid reference issues
         // drawNodes(vis_nodes, vis_cluster_centroids, viewport);
-        drawNodes(layoutNodes, clusterCentroids, viewport);
+        drawNodes(vis_nodes, clusterCentroids, viewport);
 
         count += 1
       }
@@ -630,8 +619,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     };
 
     // Update nodes based on ticker
-    updateNodes() // for debugging
-    // app.ticker.add(updateNodes)
+    // updateNodes() // for debugging
+    app.ticker.add(updateNodes)
 
   }, [papersData, edgesData, clusterData]);
 

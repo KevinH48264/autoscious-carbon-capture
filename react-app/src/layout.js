@@ -1,17 +1,20 @@
 import { forceSimulation, forceManyBody, forceCenter, forceCollide, forceLink, forceX, forceY } from 'd3-force';
 import { hierarchy } from 'd3';
 
-function normalizeDensity(nodes, target_density = 0.0007) {
-    const max_norm = Math.max(...nodes.map(node => Math.sqrt(node.x * node.x + node.y * node.y)));
-    const area = Math.PI * max_norm * max_norm;
-    const target_area = nodes.length / target_density;
-    const norm_scale = Math.sqrt(target_area / area);
-    for (let node of nodes) {
-        node.x *= norm_scale;
-        node.y *= norm_scale;
-    }
+function normalizeDensity(nodes, target_density = 0.0007, x0=0, y0=0) {
+  const max_norm = Math.max(...nodes.map(node => Math.sqrt(node.x * node.x + node.y * node.y)));
+  const area = Math.PI * max_norm * max_norm;
+  const target_area = nodes.length / target_density;
+  const norm_scale = Math.sqrt(target_area / area);
+  for (let node of nodes) {
+      node.x *= norm_scale;
+      node.y *= norm_scale;
 
-    return max_norm * norm_scale;
+      node.x += x0;
+      node.y += y0;
+  }
+
+  return max_norm * norm_scale;
 }
 
 // export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes) {
