@@ -221,7 +221,7 @@ function logSortedCoordinates(clusterData) {
   }
 }
 
-export function computeHierarchicalLayout(clusterData) {
+export function computeHierarchicalLayout(clusterData, paperNodes) {
   // let maxClassificationId = getMaxClassificationId(clusterData[0]);
   // console.log("Maximum classification id: " + Math.round(maxClassificationId, 0));
   // assignPolarCoordinates(clusterData[0], maxClassificationId);
@@ -232,14 +232,23 @@ export function computeHierarchicalLayout(clusterData) {
   let links = root.links();
   const nodes = root.descendants();
 
-  
+  nodes.forEach(node => {
+    if (node.data.value) {
+      let paperNode = paperNodes.find(paper => paper.paperId === node.data.value);
+      if (paperNode) {
+        node.data.citationCount = paperNode.citationCount;
+        node.data.main_class = paperNode.main_class;
+        node.data.abstract = paperNode.abstract;
+        node.data.title = paperNode.title;
+        node.data.x = paperNode.x;
+        node.data.y = paperNode.y;
+        node.data.citationCount = paperNode.citationCount;
+        node.data.paperId = paperNode.paperId;
+      }
+    }
+  });
 
-  // Normalize each node angle from 0 to 2*PI
-  // nodes.forEach((node, i, array) => {
-  //   node.cx = (2 * Math.PI * i) / array.length;
-  // });
-  
-  console.log("SIMULATION NODES: ", nodes, "SIMULATION LINKS", links)
+  // console.log("SIMULATION NODES: ", nodes, "SIMULATION LINKS", links)
   const simulation = forceSimulation(nodes)
       .force("link", forceLink(links).id(d => d.id).distance(0).strength(1))
       .force("charge", forceManyBody().strength(d => d['data'].value ? -50 : -10))
@@ -260,7 +269,7 @@ export function computeHierarchicalLayout(clusterData) {
       paper_cluster_links.push(link_node)
     }
   })
-  console.log("PAPER CLUSTER LINKS:", paper_cluster_links)
+  // console.log("PAPER CLUSTER LINKS:", paper_cluster_links)
   links = paper_cluster_links
   return { nodes, links, normalizedRadius };
 }
