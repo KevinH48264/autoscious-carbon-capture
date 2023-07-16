@@ -265,9 +265,9 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             let current_centroid_text = multilineText(topCategory, multilineSize);
 
             // Check for font size bounds
-            // if (current_centroid_font_size < min_font_size) {
-            //   return
-            // }
+            if (current_centroid_font_size < min_font_size) {
+              return
+            }
 
             // Not allowing more than 20 labels
             if (addedTextBounds.size > 20) {
@@ -571,12 +571,12 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         )
         let vis_cluster_centroids = new Map();
         clusterCentroids.forEach((centroid, key) => {
-          if (viewport_bounds.contains(centroid.x, centroid.y)) {
+          if (viewport_bounds.contains(scaleX(centroid.x), scaleY(centroid.y))) {
             vis_cluster_centroids.set(key, centroid);
           }
         });
 
-        // Take the top visible nodes
+        // Take the top visible nodes, not yet bc currently removes circles too
         // vis_nodes.sort((a, b) => {
         //   return b.data.citationCount - a.data.citationCount;
         // });
@@ -584,7 +584,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
         prev_viewport_bounds = viewport_bounds.clone(); // clone the rectangle to avoid reference issues
         // drawNodes(vis_nodes, vis_cluster_centroids, viewport);
-        drawNodes(vis_nodes, clusterCentroids, viewport);
+        drawNodes(vis_nodes, vis_cluster_centroids, viewport);
 
         count += 1
       }
