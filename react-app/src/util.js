@@ -57,7 +57,7 @@ export function flattenClusters(clusterData) {
   let clusterNodes = [];
 
   function recurse(cluster, parentsMap) {
-      const {id, layer, classification_id, name, clusters, papers} = cluster;
+      const {id, layer, classification_id, name, children} = cluster;
 
       // Create a new map at each layer so it doesn't get overridden in sibling branches
       parentsMap = new Map(parentsMap);
@@ -70,16 +70,26 @@ export function flattenClusters(clusterData) {
           parents[key] = value;
       }
 
+      let clusterPapers = []
+      children.forEach((child) => {
+        if (child.value) {
+          clusterPapers.push(child.value)
+        }
+      })
+
+
       // Push the current cluster to clusterNodes
-      clusterNodes.push({id, layer, classification_id, clusters, parents, name, papers});
+      clusterNodes.push({id, layer, classification_id, children, parents, name, papers: clusterPapers});
 
       // If the cluster has child clusters, recurse on them
-      if (clusters.length > 0 && typeof clusters[0] === 'object') {
-          clusters.forEach((child) => recurse(child, parentsMap));
-      }
+      children.forEach((child) => {
+        if (child.id) {
+          recurse(child, parentsMap)
+        }
+      })
   }
 
-  clusterData.forEach((cluster) => recurse(cluster, new Map()));
+  clusterData[0].children.forEach((cluster) => recurse(cluster, new Map()));
 
   return clusterNodes;
 }
@@ -193,24 +203,30 @@ export function getColorAtZoomLevel(zoomLevel, zoomLayers) {
 
 // Function to map cluster id to main topic
 export const traverseCluster = (cluster, clusterMap) => {
-  clusterMap.set(cluster.cluster_id, cluster.name);
+  clusterMap.set(cluster.id, cluster.name);
 
   // Check if this cluster has child clusters.
-  if (cluster.content && typeof cluster.content[0] === 'object') {
-      cluster.content.forEach(childCluster => traverseCluster(childCluster, clusterMap));
-  }
+    cluster.children.forEach(childCluster => {
+      // only clusters have ids, papers don't have id, they only have name and value
+      if (childCluster.id !== undefined) {
+        traverseCluster(childCluster, clusterMap)
+      }
+    });
 }
 
 export const calculateClusterCentroids = (leafClusters, paperNodes, centroidNodes) => {
   leafClusters.forEach(cluster => {
+    // Calculate and set the topic for this cluster
+    let topicNode = paperNodes.find(node => node.data.classification_id === cluster.classification_id)
+
     // Link all nodes in the cluster to the 'center' node
-    let sumX = 0;
-    let sumY = 0;
-    let count = 0;
+    let sumX = topicNode.x;
+    let sumY = topicNode.y;
+    let count = 1;
   
     cluster.papers.forEach(paperId => {
       // Find the paperNode with the same paperId
-      let paperNode = paperNodes.find(node => node.paperId === paperId);
+      let paperNode = paperNodes.find(node => node.data.value === paperId);
       if (paperNode) {
         sumX += paperNode.x;
         sumY += paperNode.y;
@@ -218,7 +234,7 @@ export const calculateClusterCentroids = (leafClusters, paperNodes, centroidNode
       }
     });
   
-    // Calculate and set the centroid for this cluster
+    
     let centroidX = count > 0 ? sumX / count : 0;
     let centroidY = count > 0 ? sumY / count : 0;
   
