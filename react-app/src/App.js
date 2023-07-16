@@ -21,7 +21,7 @@ const App = () => {
           console.log("Edges data:", json);
       })
 
-    fetch('gpt_classified_100/d3_taxonomy.json')
+    fetch('gpt_classified_100/d3_taxonomy_nested.json')
       .then(response => response.json())
       .then(json => {
         setClusterData(json);

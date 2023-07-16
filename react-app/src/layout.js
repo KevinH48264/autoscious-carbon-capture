@@ -138,7 +138,7 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
 }
 
 export function computeHierarchicalLayout(clusterData) {
-  const root = hierarchy(clusterData[0])
+  const root = hierarchy(clusterData)
   const links = root.links();
   const nodes = root.descendants();
   
