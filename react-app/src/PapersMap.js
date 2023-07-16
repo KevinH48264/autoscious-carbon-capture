@@ -26,7 +26,10 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     // console.log("centroidNodes", centroidNodes) // expect 58 centroid ndoes for each cluster
 
     // hierarchical layout
-    const layoutNodes = computeHierarchicalLayout(clusterData)
+    const layout = computeHierarchicalLayout(clusterData)
+    const layoutNodes = layout.nodes;
+    const layoutLinks = layout.links;
+
     console.log("LAYOUT NODES: ", layoutNodes)
 
     // const layout = computeLayout(paperNodes, edgesData, leafClusters, centroidNodes, edgesData);
@@ -80,10 +83,10 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     // Calculating voronoi from true centroids of leaf clusters
     const extendFactor = 100 // hardcoding for circle design
     const delaunay = Delaunay.from(centroidNodes.map((node) => [node.x, node.y]));
-    const minX = Math.min(...paperNodes.map((paper) => paper.x));
-    const maxX = Math.max(...paperNodes.map((paper) => paper.x));
-    const minY = Math.min(...paperNodes.map((paper) => paper.y));
-    const maxY = Math.max(...paperNodes.map((paper) => paper.y));
+    const minX = Math.min(...layoutNodes.map((paper) => paper.x));
+    const maxX = Math.max(...layoutNodes.map((paper) => paper.x));
+    const minY = Math.min(...layoutNodes.map((paper) => paper.y));
+    const maxY = Math.max(...layoutNodes.map((paper) => paper.y));
     const voronoi = delaunay.voronoi([minX - extendFactor, minY - extendFactor, maxX + extendFactor, maxY + extendFactor]);
     // scale the data to fit within the worldWidth and worldHeight
     const scaleX = (d) => ((d - minX) / (maxX - minX)) * viewport.worldWidth;
@@ -323,7 +326,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           // Handling Node text, draw labels
           // const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
           // const circleHeight = 5 + (min_font_size / 3) * lambda;
-          const circleHeight = 50
+          const circleHeight = 5
           if(!node.circle) {
               node.circle = new PIXI.Graphics();
               node.circle.zIndex = 55;
@@ -340,9 +343,9 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
           // For visualizing the topic text of a paper
           if(!node.topic_text) {
-              node.topic_text = new PIXI.BitmapText(multilineText(node['data'].name, 40), {
+              node.topic_text = new PIXI.BitmapText(multilineText(node['data'].name, 30), {
                 fontFamily: 'Arial',
-                fontSize: 100,
+                fontSize: 15,
                 fontName: "TitleFont",
                 fill: 0xffffff,
                 align: 'left',
@@ -524,6 +527,31 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       //     viewport.addChild(edge.edge_graphics)
       //   }
       // });
+
+      // Add layout edges between nodes
+      layoutLinks.forEach(edge => {
+          const sourceNode = layoutNodes.find(node => node === edge.source);
+          const targetNode = layoutNodes.find(node => node === edge.target);
+      
+          // Create a new graphics object for the edge if it doesn't exist
+          if (!edge.edge_graphics) {
+              edge.edge_graphics = new PIXI.Graphics();
+              edge.edge_graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
+              viewport.addChild(edge.edge_graphics);
+          } 
+          // Performance optimization: ?
+          // else {
+          //   edge.edge_graphics.visible = true;
+          // }
+      
+          // Draw the line
+          edge.edge_graphics.clear(); // remove any existing line
+          edge.edge_graphics.visible = true;
+          edge.edge_graphics.lineStyle(2, 0xFF0000, edge.weight ); // set the line style (you can customize this)
+          edge.edge_graphics.moveTo(scaleX(sourceNode.x), scaleY(sourceNode.y)); // move to the source node's position
+          edge.edge_graphics.lineTo(scaleX(targetNode.x), scaleY(targetNode.y)); // draw a line to the target node's position
+          viewport.addChild(edge.edge_graphics)
+      });
     }
 
     // Update visibility of circles and text based on the current field of view and zoom level

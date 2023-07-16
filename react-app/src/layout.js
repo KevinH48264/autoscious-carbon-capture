@@ -158,5 +158,6 @@ export function computeHierarchicalLayout(clusterData) {
 
   // paperNodes with 'final' position
   console.log("COMPUTE HIERARHICAL LAYOUT NODES", nodes)
-  return nodes;
+  console.log("LINKS", links)
+  return { nodes, links };
 }
