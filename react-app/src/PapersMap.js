@@ -154,20 +154,20 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         clusterCentroids.set(key, {x: sumX / nodes.length, y: sumY / nodes.length, layer: zoomLevel});
     }
 
-    // // Hardcoding (zoomLayers) a parent cluster mapping for voronois
-    // let parentColorMap = new Map();
-    // for (let zoomLevel = 0; zoomLevel < zoomLayers; ++zoomLevel) {
-    //   // Setting parent cluster colors by cluster_id
-    //   leafClusters.forEach(node => {
-    //     let parentId = node.parents[zoomLevel];
-    //     if (parentId) {
-    //       if (!parentColorMap.has(parentId)) {
-    //           parentColorMap.set(parentId, diamondPolygonColorSequence[parentId % diamondPolygonColorSequence.length]);
-    //       }
-    //     }
-    //   });
-    // }
-    // parentColorMap.set(0, 0xffffff); // hardcoding because 0 isn't covered for some reason
+    // Hardcoding (zoomLayers) a parent cluster mapping for voronois
+    let parentColorMap = new Map();
+    for (let zoomLevel = 0; zoomLevel < zoomLayers; ++zoomLevel) {
+      // Setting parent cluster colors by cluster_id
+      leafClusters.forEach(node => {
+        let parentId = node.parents[zoomLevel];
+        if (parentId) {
+          if (!parentColorMap.has(parentId)) {
+              parentColorMap.set(parentId, diamondPolygonColorSequence[parentId % diamondPolygonColorSequence.length]);
+          }
+        }
+      });
+    }
+    parentColorMap.set(0, 0xffffff); // hardcoding because 0 isn't covered for some reason
 
     // // Sort paperNodes by citationCount to prioritize showing higher citationCount papers
     // paperNodes.sort((a, b) => b.citationCount - a.citationCount);
@@ -231,36 +231,39 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       min_font_size -= debug_factor;
       max_font_size -= debug_factor
 
-
+      zoomLevel = 0
       const addedTextBounds = new Set();
 
       // Preview Zoom: Adding cluster polygons on the preview layer to the viewport
-      // leafClusters.forEach((node, i) => {
-      //   // If no parentId, then take the highest parent key
-      //   let parentId = node.parents[zoomLevel + 1];
-      //   if (!parentId) {
-      //     parentId = node.parents[Math.max(...Object.keys(node.parents).map(Number))];
-      //   }
-      //   let fillColor = parentColorMap.get(parentId);
+      console.log("LEAF CLUSTERS: ", leafClusters)
+      leafClusters.forEach((node, i) => {
+        console.log("i", i, "node class id", node.classification_id, "node.parents[zoomLevel]", node.parents[zoomLevel])
+        // If no parentId, then take the highest parent key
+        // let parentId = node.parents[zoomLevel + 1];
+        let parentId = node.parents[zoomLevel];
+        if (parentId === undefined) {
+          console.log("NO PARENT ID", node)
+          parentId = node.parents[Math.max(...Object.keys(node.parents).map(Number))];
+        }
+        let fillColor = parentColorMap.get(parentId);
 
-      //   const region = voronoi.cellPolygon(i);
-      //   const polygon = new PIXI.Graphics();
-      //   polygon.zIndex = 50;
+        const region = voronoi.cellPolygon(i);
+        const polygon = new PIXI.Graphics();
+        polygon.zIndex = 50;
 
-      //   polygon.beginFill(fillColor, 0.75);
-      //   polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
-      //   polygon.endFill();
+        polygon.beginFill(fillColor, 0.75);
+        polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(scaleX(x), scaleY(y))));
+        polygon.endFill();
 
-      //   node.region = polygon;
-      //   polygonContainer.addChild(polygon);
-      // });
+        node.region = polygon;
+        // polygonContainer.addChild(polygon);
+        viewport.addChild(polygon);
+      });
 
-      // change zoomLayers to maxZoomLayer
+      // console.log("vis_cluster_centroids", vis_cluster_centroids)
+      // console.log("clusterMap", clusterMap)
+
       // Current Zoom: Adding the cluster text to viewport, and any in the next 3 layers
-
-      console.log("vis_cluster_centroids", vis_cluster_centroids)
-      console.log("clusterMap", clusterMap)
-      zoomLevel = 0
       for (let i = 0; i < 3; ++i) {
         vis_cluster_centroids.forEach((centroid, key) => {
           let [clusterId] = key.split(',').map(Number); 
@@ -327,7 +330,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           // const circleHeight = 5 + (min_font_size / 3) * lambda;
 
           let type = node['data'].classification_id ? "cluster" : "paper"
-          const circleHeight = 5
+          const circleHeight = 2
           if(!node.circle) {
               node.circle = new PIXI.Graphics();
               node.circle.zIndex = 55;
