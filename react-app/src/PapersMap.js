@@ -216,8 +216,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
     // Create and add all circles and text to the viewport
     const drawNodes = (nodes, vis_cluster_centroids, viewport) => {
-      let zoomLevel = Math.max(-1, Math.round(((viewport.scaled) - 1) * 5))
-      // let zoomLevel = Math.max(-1, Math.round(((viewport.scaled / zoomScale) - 1) * 5))
+      let zoomLevel = Math.max(-1, Math.round(((viewport.scaled) - 2) * 10))
       let originalZoomLevel = zoomLevel;
 
       // Font size
@@ -227,144 +226,135 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           : bounds.height / (50);
       let max_font_size = min_font_size * 1.7;
 
-      // const debug_factor = 2
-      // min_font_size -= debug_factor;
-      // max_font_size -= debug_factor
-
       const addedTextBounds = new Set();
 
       // Preview Zoom: Adding cluster polygons on the preview layer to the viewport
-      // leafClusters.forEach((node, i) => {
-      //   // If no parentId, then take the highest parent key
-      //   // let parentId = node.parents[zoomLevel + 1];
-      //   let parentId = node.parents[zoomLevel];
-      //   if (parentId === undefined) {
-      //     console.log("NO PARENT ID", node)
-      //     parentId = node.parents[Math.max(...Object.keys(node.parents).map(Number))];
-      //   }
-      //   let fillColor = parentColorMap.get(parentId);
+      leafClusters.forEach((node, i) => {
+        // If no parentId, then take the highest parent key
+        let parentId = node.parents[zoomLevel + 1];
+        if (parentId === undefined) {
+          parentId = node.parents[Math.max(...Object.keys(node.parents).map(Number))];
+        }
+        let fillColor = parentColorMap.get(parentId);
 
-      //   const region = voronoi.cellPolygon(i);
-      //   const polygon = new PIXI.Graphics();
-      //   polygon.zIndex = 50;
+        const region = voronoi.cellPolygon(i);
+        const polygon = new PIXI.Graphics();
+        polygon.zIndex = 50;
 
-      //   polygon.beginFill(fillColor, 0.75);
-      //   polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(scaleX(x), scaleY(y))));
-      //   polygon.endFill();
+        polygon.beginFill(fillColor, 0.75);
+        polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(scaleX(x), scaleY(y))));
+        polygon.endFill();
 
-      //   node.region = polygon;
-      //   polygonContainer.addChild(polygon);
-      // });
+        node.region = polygon;
+        polygonContainer.addChild(polygon);
+      });
 
       // Current Zoom: Adding the cluster text to viewport, and any in the next 3 layers
-      // for (let i = 0; i < 3; ++i) {
-      //   vis_cluster_centroids.forEach((centroid, key) => {
-      //     let [clusterId] = key.split(',').map(Number); 
-      //     if (centroid.layer === zoomLevel + i) {
-      //       let topCategory = "Unknown";
-      //       if(clusterMap.has(clusterId)){
-      //           topCategory = clusterMap.get(clusterId);
-      //       }
-      //       // topCategory = topCategory.slice(1, -1);
+      for (let i = 0; i < 3; ++i) {
+        vis_cluster_centroids.forEach((centroid, key) => {
+          let [clusterId] = key.split(',').map(Number); 
+          if (centroid.layer === zoomLevel + i) {
+            let topCategory = "Unknown";
+            if(clusterMap.has(clusterId)){
+                topCategory = clusterMap.get(clusterId);
+            }
 
-      //       // Create new text
-      //       // let current_centroid_font_size = max_font_size / (1.1 ** (zoomLevel - originalZoomLevel));
-      //       let current_centroid_font_size = 15
-      //       let current_centroid_text = multilineText(topCategory, 15);
+            // Create new text
+            let current_centroid_font_size = max_font_size / (1.5 ** (centroid.layer - originalZoomLevel));
+            let multilineSize = 15;
+            let current_centroid_text = multilineText(topCategory, multilineSize);
 
-      //       // Check for font size bounds
-      //       if (current_centroid_font_size < min_font_size) {
-      //         return
-      //       }
+            // Check for font size bounds
+            // if (current_centroid_font_size < min_font_size) {
+            //   return
+            // }
 
-      //       // Not allowing more than 20 labels
-      //       if (addedTextBounds.length > 20) {
-      //         return
-      //       }
+            // Not allowing more than 20 labels
+            if (addedTextBounds.size > 20) {
+              return
+            }
 
-      //       // Check for overlaps with existing labels
-      //       let current_zoom_text_bound = labelBounds(current_centroid_font_size, scaleX(centroid.x), scaleY(centroid.y), 15, current_centroid_text);
+            // Check for overlaps with existing labels
+            let current_zoom_text_bound = labelBounds(current_centroid_font_size, scaleX(centroid.x), scaleY(centroid.y), multilineSize, current_centroid_text);
 
-      //       for (let bound of addedTextBounds) {
-      //         if (rectIntersectsRect(current_zoom_text_bound, bound)) {
-      //           return
-      //         }
-      //       }
-      //       addedTextBounds.add(current_zoom_text_bound);
+            for (let bound of addedTextBounds) {
+              if (rectIntersectsRect(current_zoom_text_bound, bound)) {
+                return
+              }
+            }
+            addedTextBounds.add(current_zoom_text_bound);
             
-      //       if (!centroid.current_zoom_text) {
-      //           centroid.current_zoom_text = new PIXI.BitmapText(current_centroid_text, {
-      //               fontFamily: 'Arial',
-      //               fontSize: current_centroid_font_size,
-      //               fontName: "TopicFont",
-      //               align: 'left',
-      //               visible: true,
-      //           });
-      //           centroid.current_zoom_text.zIndex = 100;
+            if (!centroid.current_zoom_text) {
+                centroid.current_zoom_text = new PIXI.BitmapText(current_centroid_text, {
+                    fontFamily: 'Arial',
+                    fontSize: current_centroid_font_size,
+                    fontName: "TopicFont",
+                    align: 'left',
+                    visible: true,
+                });
+                centroid.current_zoom_text.zIndex = 100;
 
-      //           // Position the text at the centroid of the cluster
-      //           centroid.current_zoom_text.position.set(scaleX(centroid.x), scaleY(centroid.y));
-      //           centroid.current_zoom_text.anchor.set(0.5, 0);
+                // Position the text at the centroid of the cluster
+                centroid.current_zoom_text.position.set(scaleX(centroid.x), scaleY(centroid.y));
+                centroid.current_zoom_text.anchor.set(0.5, 0);
 
-      //           // Add the text to the viewport
-      //           viewport.addChild(centroid.current_zoom_text);
-      //       } else {
-      //           centroid.current_zoom_text.fontSize = current_centroid_font_size;
-      //           centroid.current_zoom_text.visible = true;
-      //       }
-      //     } 
-      //   });
-      // }     
+                // Add the text to the viewport
+                viewport.addChild(centroid.current_zoom_text);
+            } else {
+                centroid.current_zoom_text.fontSize = current_centroid_font_size;
+                centroid.current_zoom_text.visible = true;
+            }
+          } 
+        });
+      }     
 
-      console.log("nodes", nodes)
       // Adding paper nodes circles to viewport by leaf cluster
       nodes.forEach(node => {
-          // Later cluster should just be filtered out of nodes before
-          let type = node['data'].children ? "cluster" : "paper"
-          if (type === "cluster") { return }
+        // Later cluster should just be filtered out of nodes before
+        let type = node['data'].children ? "cluster" : "paper"
+        if (type === "cluster") { return }
 
-          const lambda = (Math.sqrt(node.data.citationCount) - min_scale) / (max_scale - min_scale);
-          const circleHeight = (2 + (max_font_size - min_font_size / 10) * lambda) / 2;
+        const lambda = (Math.sqrt(node.data.citationCount) - min_scale) / (max_scale - min_scale);
+        const circleHeight = (2 + (max_font_size - min_font_size / 10) * lambda) / 2;
 
-          if(!node.circle) {
-              node.circle = new PIXI.Graphics();
-              node.circle.zIndex = 55;
-              // node.circle.beginFill(0xb9f2ff);
-              // node.circle.beginFill(circleColorDiamondSequence[cluster.cluster_id % circleColorDiamondSequence.length]);
-              if (type === "cluster") {
-                node.circle.beginFill(0x808080);
-              } else {
-                node.circle.beginFill(0x000000);
-              }
-              
-              node.circle.drawCircle(scaleX(node.x), scaleY(node.y), circleHeight);
-              node.circleHeight = circleHeight;
-              node.circle.endFill();
-              viewport.addChild(node.circle);
-          } else {
-              node.circle.visible = true;
-          }
+        if(!node.circle) {
+            node.circle = new PIXI.Graphics();
+            node.circle.zIndex = 55;
+            // node.circle.beginFill(0xb9f2ff);
+            // node.circle.beginFill(circleColorDiamondSequence[cluster.cluster_id % circleColorDiamondSequence.length]);
+            if (type === "cluster") {
+              node.circle.beginFill(0x808080);
+            } else {
+              node.circle.beginFill(0x000000);
+            }
+            
+            node.circle.drawCircle(scaleX(node.x), scaleY(node.y), circleHeight);
+            node.circleHeight = circleHeight;
+            node.circle.endFill();
+            viewport.addChild(node.circle);
+        } else {
+            node.circle.visible = true;
+        }
 
-          // For visualizing the topic text of a paper
-          // if(!node.topic_text) {
-          //     node.topic_text = new PIXI.BitmapText(node['data'].classification_id, {
-          //       fontFamily: 'Arial',
-          //       fontSize: 10,
-          //       fontName: "TitleFont",
-          //       fill: 0xffffff,
-          //       align: 'left',
-          //       visible: true,
-          //     });
-          //     node.topic_text.zIndex = 60;
-          //     node.topic_text.anchor.set(0.5, -0.5);
-          //     node.topic_text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) - node.circleHeight - 30);
-          //     viewport.addChild(node.topic_text);
-          // } else {
-          //     node.topic_text.fontSize = 15;
-          //     node.topic_text.visible = true; // make it visible if it already exists
-          // }
+        // For visualizing the topic text of a paper
+        // if(!node.topic_text) {
+        //     node.topic_text = new PIXI.BitmapText(node['data'].classification_id, {
+        //       fontFamily: 'Arial',
+        //       fontSize: 10,
+        //       fontName: "TitleFont",
+        //       fill: 0xffffff,
+        //       align: 'left',
+        //       visible: true,
+        //     });
+        //     node.topic_text.zIndex = 60;
+        //     node.topic_text.anchor.set(0.5, -0.5);
+        //     node.topic_text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) - node.circleHeight - 30);
+        //     viewport.addChild(node.topic_text);
+        // } else {
+        //     node.topic_text.fontSize = 15;
+        //     node.topic_text.visible = true; // make it visible if it already exists
+        // }
       });
-      // })
 
       // Adding paper text labels to viewport by leaf cluster
       nodes.forEach((node, i) => {
@@ -374,13 +364,11 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         const multilineSize = 30
         
         if (type !== "cluster") {
-          // roughly 0.1
           const lambda = (Math.sqrt(node.data.citationCount) - min_scale) / (max_scale - min_scale);
           fontSize = (min_font_size + (max_font_size - min_font_size) * lambda / 3);
         } else {
           return
         }
-        // console.log("type", type, "node", node)
         
         let multilineTitle = multilineText(node['data'].name, multilineSize)
 
