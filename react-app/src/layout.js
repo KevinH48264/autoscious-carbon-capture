@@ -1,6 +1,7 @@
-import { forceSimulation, forceManyBody, forceCenter, forceCollide, forceLink } from 'd3-force';
+import { forceSimulation, forceManyBody, forceCenter, forceCollide, forceLink, forceX, forceY } from 'd3-force';
+import { hierarchy } from 'd3';
 
-function normalizeDensity(nodes, target_density = 0.0007, x0=0, y0=0) {
+function normalizeDensity(nodes, target_density = 0.000001) {
     const max_norm = Math.max(...nodes.map(node => Math.sqrt(node.x * node.x + node.y * node.y)));
     const area = Math.PI * max_norm * max_norm;
     const target_area = nodes.length / target_density;
@@ -8,9 +9,6 @@ function normalizeDensity(nodes, target_density = 0.0007, x0=0, y0=0) {
     for (let node of nodes) {
         node.x *= norm_scale;
         node.y *= norm_scale;
-
-        node.x += x0;
-        node.y += y0;
     }
 
     return max_norm * norm_scale;
@@ -30,6 +28,11 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
       paperNodes.push(centerNode);
   });
 
+  paperNodes.forEach(node => {
+    node.x = 0
+    node.y = 0
+  })
+
   let links = [];
   let nodeById = new Map(paperNodes.map(node => [node.paperId, node]));
 
@@ -40,7 +43,7 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
           source: nodeById.get(edge.source),
           target: nodeById.get(edge.target),
           strength: 1,
-          distance: 30,
+          distance: 50,
       });
   });
 
@@ -53,7 +56,7 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
           links.push({
             source: nodeById.get(closestPaper),
             target: nodeById.get("center_" + cluster.id),
-            strength: 25,
+            strength: 2,
             distance: 0,
           });
 
@@ -70,7 +73,7 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
       // Link child cluster to parent cluster
       // Low weight / attraction but still there, and high ditance to allow subcluster location flexibility and prevent overlap
       const CLUSTER_WEIGHT = 0.1
-      const CLUSTER_DISTANCE = 30
+      const CLUSTER_DISTANCE = 60
       if (cluster.layer - 1 >= 0) {
         const parentId = cluster.parents[cluster.layer - 1]
         
@@ -114,16 +117,16 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
   });
 
   let simulation = forceSimulation(paperNodes)
-    .force("charge", forceManyBody().strength((node) => node.paperId.startsWith("center_") ? -1 : -50))
+    .force("charge", forceManyBody().strength((node) => node.paperId.startsWith("center_") ? -5 : -50))
     .force("link", forceLink().links(links).strength(d => d.strength).distance(d => d.distance))
     // .force("center", forceCenter(0, 0))
     .stop();
 
   // Manually iterate the simulation
   let normalizedRadius = 0;
-  for (var i = 0; i < 250; ++i) {
+  for (var i = 0; i < 300; ++i) {
     simulation.tick();
-    normalizedRadius = normalizeDensity(paperNodes, 0.002);
+    normalizedRadius = normalizeDensity(paperNodes, 0.0007);
   }
 
   // Remove the dummy 'center' nodes before returning
@@ -132,4 +135,28 @@ export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes
 
   // paperNodes with 'final' position
   return {paperNodes, centerNodes, normalizedRadius, edgesData};
+}
+
+export function computeHierarchicalLayout(clusterData) {
+  const root = hierarchy(clusterData)
+  const links = root.links();
+  const nodes = root.descendants();
+  
+  const simulation = forceSimulation(nodes)
+      .force("link", forceLink(links).id(d => d.id).distance(0).strength(1))
+      .force("charge", forceManyBody().strength(-50))
+      .force("x", forceX())
+      .force("y", forceY())
+      .stop();
+
+  // Manually iterate the simulation
+  // let normalizedRadius = 0;
+  for (var i = 0; i < 300; ++i) {
+    simulation.tick();
+    // normalizedRadius = normalizeDensity(paperNodes, 0.000001);
+  }
+
+  // paperNodes with 'final' position
+  console.log("NODES", nodes)
+  return nodes;
 }
