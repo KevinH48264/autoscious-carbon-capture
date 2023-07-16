@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js';
 import { Viewport } from 'pixi-viewport';
 import { Delaunay } from 'd3-delaunay';
 import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, flattenClusters, diamondPolygonColorSequence, multilineText, labelBounds, getColorAtZoomLevel, traverseCluster, calculateClusterCentroids, getVoronoiNeighbors, circleColorDiamondSequence } from './util';
-import { computeLayout, computeHierarchicalLayout } from './layout';
+import { computeHierarchicalLayout } from './layout';
 
 const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
   const pixiContainer = useRef();
@@ -11,7 +11,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
   PIXI.BitmapFont.from("TopicFont", { fill: 0x000000 }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
 
   useEffect(() => {
-    const logging = true;
+    const logging = false;
     console.log("papersData", papersData, "edgesData", edgesData, "clusterData", clusterData)
 
     // Compute force-directed layout of PaperNodes
@@ -315,24 +315,25 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       //   });
       // }     
 
-      // console.log("leafClusters", leafClusters)
       // Adding paper nodes circles to viewport by leaf cluster
-      // leafClusters.forEach(cluster => {
-      //   let contentSet = new Set(cluster.papers);
-      //   let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
-        // leafClusterNodes.forEach(node => {
-          // paperNodes.forEach(node => {
             nodes.forEach(node => {
           // Handling Node text, draw labels
           // const lambda = (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
           // const circleHeight = 5 + (min_font_size / 3) * lambda;
+
+          let type = node['data'].classification_id ? "cluster" : "paper"
           const circleHeight = 5
           if(!node.circle) {
               node.circle = new PIXI.Graphics();
               node.circle.zIndex = 55;
               // node.circle.beginFill(0xb9f2ff);
               // node.circle.beginFill(circleColorDiamondSequence[cluster.cluster_id % circleColorDiamondSequence.length]);
-              node.circle.beginFill(0x000000);
+              if (type === "cluster") {
+                node.circle.beginFill(0x808080);
+              } else {
+                node.circle.beginFill(0x000000);
+              }
+              
               node.circle.drawCircle(scaleX(node.x), scaleY(node.y), circleHeight);
               node.circleHeight = circleHeight;
               node.circle.endFill();
@@ -363,11 +364,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       // })
 
       // Adding paper text labels to viewport by leaf cluster
-      // layoutNodes.forEach(cluster => {
-      //   let contentSet = new Set(cluster.papers);
-      //   let leafClusterNodes = nodes.filter(node => contentSet.has(node.paperId));
-
-      //   leafClusterNodes.forEach((node, i) => {
         nodes.forEach((node, i) => {
           // console.log("node", i, node.x, node.y)
           // Handling Node text, draw labels
@@ -526,29 +522,31 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       // });
 
       // Add layout edges between nodes
-      // layoutLinks.forEach(edge => {
-      //     const sourceNode = layoutNodes.find(node => node === edge.source);
-      //     const targetNode = layoutNodes.find(node => node === edge.target);
+      layoutLinks.forEach(edge => {
+        // optimize this later!
+          // console.log(edge.source)
+          const sourceNode = layoutNodes.find(node => node === edge.source);
+          const targetNode = layoutNodes.find(node => node === edge.target);
       
-      //     // Create a new graphics object for the edge if it doesn't exist
-      //     if (!edge.edge_graphics) {
-      //         edge.edge_graphics = new PIXI.Graphics();
-      //         edge.edge_graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
-      //         viewport.addChild(edge.edge_graphics);
-      //     } 
-      //     // Performance optimization: ?
-      //     // else {
-      //     //   edge.edge_graphics.visible = true;
-      //     // }
+          // Create a new graphics object for the edge if it doesn't exist
+          if (!edge.edge_graphics) {
+              edge.edge_graphics = new PIXI.Graphics();
+              edge.edge_graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
+              viewport.addChild(edge.edge_graphics);
+          } 
+          // Performance optimization: ?
+          // else {
+          //   edge.edge_graphics.visible = true;
+          // }
       
-      //     // Draw the line
-      //     edge.edge_graphics.clear(); // remove any existing line
-      //     edge.edge_graphics.visible = true;
-      //     edge.edge_graphics.lineStyle(2, 0xFF0000, edge.weight ); // set the line style (you can customize this)
-      //     edge.edge_graphics.moveTo(scaleX(sourceNode.x), scaleY(sourceNode.y)); // move to the source node's position
-      //     edge.edge_graphics.lineTo(scaleX(targetNode.x), scaleY(targetNode.y)); // draw a line to the target node's position
-      //     viewport.addChild(edge.edge_graphics)
-      // });
+          // Draw the line
+          edge.edge_graphics.clear(); // remove any existing line
+          edge.edge_graphics.visible = true;
+          edge.edge_graphics.lineStyle(2, 0xFF0000, edge.weight ); // set the line style (you can customize this)
+          edge.edge_graphics.moveTo(scaleX(sourceNode.x), scaleY(sourceNode.y)); // move to the source node's position
+          edge.edge_graphics.lineTo(scaleX(targetNode.x), scaleY(targetNode.y)); // draw a line to the target node's position
+          viewport.addChild(edge.edge_graphics)
+      });
     }
 
     // Update visibility of circles and text based on the current field of view and zoom level
@@ -626,8 +624,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     };
 
     // Update nodes based on ticker
-    // updateNodes() // for debugging
-    app.ticker.add(updateNodes)
+    updateNodes() // for debugging
+    // app.ticker.add(updateNodes)
 
   }, [papersData, edgesData, clusterData]);
 
