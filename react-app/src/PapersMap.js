@@ -325,7 +325,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             if (type === "cluster") {
               node.circle.beginFill(0x808080);
             } else {
-              node.circle.beginFill(0x000000);
+              node.circle.beginFill(0xD3D3D3);
             }
             
             node.circle.drawCircle(scaleX(node.x), scaleY(node.y), circleHeight);
