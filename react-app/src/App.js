@@ -7,7 +7,7 @@ const App = () => {
   const [clusterData, setClusterData] = useState([]);
 
   useEffect(() => {
-    fetch('gpt_classified_100/output_100_gpt_classified_papers.json')
+    fetch('2000/gpt_classified_papers_2000.json')
       .then(response => response.json())
       .then(json => {
         setPapersData(json);
@@ -21,7 +21,7 @@ const App = () => {
           console.log("Edges data:", json);
       })
 
-    fetch('gpt_classified_100/d3_taxonomy_nested.json')
+    fetch('2000/taxonomy_2000.json')
       .then(response => response.json())
       .then(json => {
         setClusterData(json);
