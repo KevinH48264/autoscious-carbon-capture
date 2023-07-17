@@ -46,7 +46,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       height: window.innerHeight - 1000,
       resolution: window.devicePixelRatio || 1,
       autoDensity: true,
-      backgroundColor: 0xD6EFFF,
+      backgroundColor: 0x5D4D3E,
       resizeTo: window,
     });
 
@@ -57,11 +57,12 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     }
 
     // For now, make the world square and even for better circle parsing
+    const minWorldSize = Math.min(window.innerWidth, window.innerHeight);
     const viewport = new Viewport({
       screenWidth: window.innerWidth,
       screenHeight: window.innerHeight,
-      worldWidth: window.innerWidth,
-      worldHeight: window.innerHeight,
+      worldWidth: minWorldSize,
+      worldHeight: minWorldSize,
       ticker: app.ticker,
       events: app.renderer.events,
       stopPropagation: true,
@@ -106,10 +107,23 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     circleMask.beginFill(0x000000); // You can fill with any color
     circleMask.drawCircle(viewport.worldWidth / 2, viewport.worldHeight / 2, farthestDistance + 10);
     circleMask.endFill();
+
+    // Create an outline around the circle mask
+    let outline = new PIXI.Graphics();
+    outline.beginFill(0x998D76); // Choose the color for your border
+    outline.drawCircle(viewport.worldWidth / 2, viewport.worldHeight / 2, farthestDistance + 15); // +15 instead of +10 to make it larger than the mask
+
+    outline.beginHole();
+    outline.drawCircle(viewport.worldWidth / 2, viewport.worldHeight / 2, farthestDistance + 10); // The size of your circle mask
+    outline.endHole();
+    outline.endFill();
+    viewport.addChild(outline)
+
     const polygonContainer = new PIXI.Container();
     viewport.addChild(polygonContainer);
     polygonContainer.mask = circleMask;
     viewport.addChild(circleMask);
+    
 
     // // Ensuring parentIds extend to the farthest zoom
     const zoomLayers = 20
