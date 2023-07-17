@@ -2,14 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import * as PIXI from 'pixi.js';
 import { Viewport } from 'pixi-viewport';
 import { Delaunay } from 'd3-delaunay';
-import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, flattenClusters, diamondPolygonColorSequence, multilineText, labelBounds, getColorAtZoomLevel, traverseCluster, calculateClusterCentroids, getVoronoiNeighbors, circleColorDiamondSequence } from './util';
+import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, flattenClusters, diamondPolygonColorSequence, multilineText, labelBounds, getColorAtZoomLevel, traverseCluster, calculateClusterCentroids, getVoronoiNeighbors, circleColorDiamondSequence, getColorForClass } from './util';
 import { computeHierarchicalLayout } from './layout';
 import { cluster } from 'd3';
 
 const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
   const pixiContainer = useRef();
-  PIXI.BitmapFont.from("TitleFont", { fill: 0x000000 }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
-  PIXI.BitmapFont.from("TopicFont", { fill: 0x000000 }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
+  PIXI.BitmapFont.from("TitleFont", { fill: 0xFFFBF1 }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
+  PIXI.BitmapFont.from("TopicFont", { fill: 0xFFFBF1 }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
 
   useEffect(() => {
     const logging = false;
@@ -163,6 +163,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     })
     console.log("clusterToClassId", clusterToClassId)
 
+    
     // Hardcoding (zoomLayers) a parent cluster mapping for voronois coloring
     console.log("LEAF CLUSTERS", leafClusters)
     let classColorMap = new Map();
@@ -173,7 +174,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         if (parentId !== undefined) {
           let classId = clusterToClassId.get(parentId);
           if (!classColorMap.has(classId)) {
-            classColorMap.set(classId, 0xffffff);
+            classColorMap.set(classId, getColorForClass(classId));
           }
         }
       });
@@ -249,7 +250,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         }
         let parentClassId = clusterToClassId.get(parentId)
         let fillColor = classColorMap.get(parentClassId);
-        
+
         const region = voronoi.cellPolygon(i);
         const polygon = new PIXI.Graphics();
         polygon.zIndex = 50;
@@ -339,7 +340,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
               node.circle.beginFill(0x808080);
             } else {
               // node.circle.beginFill(0x000000); // All black, but makes the text hard to read
-              node.circle.beginFill(0x8D8D8D);
+              node.circle.beginFill(0xF5F5F0);
             }
             
             node.circle.drawCircle(scaleX(node.x), scaleY(node.y), circleHeight);
@@ -405,7 +406,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
                 fontFamily: 'Arial',
                 fontSize: fontSize,
                 fontName: "TitleFont",
-                fill: 0xffffff,
+                fill: 0xFFFBF1,
                 align: 'left',
                 visible: true,
               });
