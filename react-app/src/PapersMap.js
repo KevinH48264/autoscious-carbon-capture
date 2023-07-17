@@ -171,7 +171,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     parentColorMap.set(0, 0xffffff); // hardcoding because 0 isn't covered for some reason
 
     // // Sort paperNodes by citationCount to prioritize showing higher citationCount papers
-    // paperNodes.sort((a, b) => b.citationCount - a.citationCount);
+    layoutNodes.sort((a, b) => b.data.citationCount - a.data.citationCount);
 
     // console.log("clusterCentroids", clusterCentroids)
 
@@ -372,8 +372,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         
         let multilineTitle = multilineText(node['data'].name, multilineSize)
 
-        // Not allowing more than 10 paper labels / a lot of words
-        if (addedTextBounds.size > 10) {
+        // Not allowing more than 20 paper labels / a lot of words
+        if (addedTextBounds.size > 20) {
           return
         }
 
@@ -545,7 +545,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
       // get the current field of view
       const viewport_bounds = viewport.getVisibleBounds();
-			viewport_bounds.pad(viewport_bounds.width * 0.2);
+			viewport_bounds.pad(viewport_bounds.width * 0.1);
 
       // Update visibility of nodes and labels
       if (
