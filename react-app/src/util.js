@@ -264,16 +264,30 @@ export const diamondPolygonColorSequence = [
   0x92CEC5  // Medium Aquamarine
 ];
 
+// const oldBaseColors = [
+//   "rgb(0, 0, 139)",    // DarkBlue
+//   "rgb(139, 0, 0)",    // DarkRed
+//   "rgb(0, 139, 139)",  // DarkCyan
+//   "rgb(107, 142, 35)", // OliveDrab
+//   "rgb(34, 139, 34)",   // ForestGreen
+//   "rgb(139, 0, 139)",  // DarkMagenta
+//   "rgb(47, 79, 79)",   // DarkSlateGray
+//   "rgb(160, 82, 45)",  // Sienna
+//   "rgb(112, 128, 144)", // SlateGray
+//   "rgb(0, 0, 0)",      // Black
+// ];
+
 const baseColors = [
-  "rgb(0, 0, 139)",    // DarkBlue
-  "rgb(139, 0, 0)",    // DarkRed
-  "rgb(0, 139, 139)",  // DarkCyan
-  "rgb(107, 142, 35)", // OliveDrab
-  "rgb(139, 0, 139)",  // DarkMagenta
-  "rgb(47, 79, 79)",   // DarkSlateGray
-  "rgb(160, 82, 45)",  // Sienna
-  "rgb(112, 128, 144)", // SlateGray
-  "rgb(0, 0, 0)",      // Black
+  "rgb(0, 0, 139)",     // DarkBlue
+  "rgb(0, 0, 205)",     // MediumBlue
+  "rgb(139, 0, 0)",     // DarkRed
+  "rgb(255, 140, 0)",   // DarkOrange
+  "rgb(0, 139, 139)",   // DarkCyan
+  "rgb(0, 205, 205)",   // MediumTurquoise
+  "rgb(107, 142, 35)",  // OliveDrab
+  "rgb(34, 139, 34)",   // ForestGreen
+  "rgb(105, 105, 105)", // DimGray
+  "rgb(0, 0, 0)",       // Black
 ];
 
 const colorMap = {};

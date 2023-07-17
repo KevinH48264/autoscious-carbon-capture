@@ -175,11 +175,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     leafClusters.forEach(node => {
       clusterToClassId.set(node.id, node.classification_id);
     })
-    console.log("clusterToClassId", clusterToClassId)
-
     
     // Hardcoding (zoomLayers) a parent cluster mapping for voronois coloring
-    console.log("LEAF CLUSTERS", leafClusters)
     let classColorMap = new Map();
     for (let zoomLevel = 0; zoomLevel < zoomLayers; ++zoomLevel) {
       // Setting parent cluster colors by cluster_id
@@ -193,8 +190,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         }
       });
     }
-    // classColorMap.set(1, 0xffffff); // hardcoding because 0 isn't covered for some reason
-    console.log("CLASS COLOR MAP: ", classColorMap)
 
     // // Sort paperNodes by citationCount to prioritize showing higher citationCount papers
     layoutNodes.sort((a, b) => b.data.citationCount - a.data.citationCount);
@@ -256,7 +251,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
       // Preview Zoom: Adding cluster polygons on the preview layer to the viewport
       leafClusters.forEach((node, i) => {
-
         // If no parentId, then take the highest parent key
         let parentId = node.parents[zoomLevel + 1];
         if (parentId === undefined) {
@@ -269,7 +263,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         const polygon = new PIXI.Graphics();
         polygon.zIndex = 50;
 
-        polygon.beginFill(fillColor, 0.75);
+        polygon.beginFill(fillColor, 0.7);
         polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(scaleX(x), scaleY(y))));
         polygon.endFill();
 
