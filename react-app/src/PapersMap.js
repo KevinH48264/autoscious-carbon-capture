@@ -12,7 +12,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
   PIXI.BitmapFont.from("TopicFont", { fill: 0xFFFBF1 }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
 
   useEffect(() => {
-    const logging = false;
+    const logging = true;
     console.log("papersData", papersData, "edgesData", edgesData, "clusterData", clusterData)
 
     // Compute force-directed layout of PaperNodes
@@ -182,11 +182,13 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       });
     }
 
-    // // Sort paperNodes by citationCount to prioritize showing higher citationCount papers
+    // Sort paperNodes by citationCount to prioritize showing higher citationCount papers
     layoutNodes.sort((a, b) => b.data.citationCount - a.data.citationCount);
 
     const drawNodes = (nodes, vis_cluster_centroids, viewport) => {
-      let zoomLevel = Math.max(-1, Math.round(((viewport.scaled) - 2) * 10))
+      let zoomLevelAbsolute = ((viewport.scaled) - 2)
+      let zoomLevel = Math.max(-1, Math.floor(zoomLevelAbsolute))
+      let zoomDecimalToNextZoom = zoomLevelAbsolute - Math.floor(zoomLevelAbsolute);
       let originalZoomLevel = zoomLevel;
 
       // Font size
@@ -199,9 +201,9 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       const addedTextBounds = new Set();
 
       // Preview Zoom: Adding cluster polygons on the preview layer to the viewport
-      leafClusters.forEach((node, i) => {
-        // If no parentId, then take the highest parent key
-        let parentId = node.parents[zoomLevel + 1];
+      const addClusterPolygons = (node, i, opacity, currentLevel) => {
+        // You want the polygon of the parents, not the current node which would be node.parents[currentLevel]
+        let parentId = node.parents[currentLevel + 1];
         if (parentId === undefined) {
           parentId = node.parents[Math.max(...Object.keys(node.parents).map(Number))];
         }
@@ -212,12 +214,19 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         const polygon = new PIXI.Graphics();
         polygon.zIndex = 50;
 
-        polygon.beginFill(fillColor, 0.7);
+        polygon.beginFill(fillColor, opacity * 0.7);
         polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(scaleX(x), scaleY(y))));
         polygon.endFill();
 
         node.region = polygon;
         polygonContainer.addChild(polygon);
+      }
+
+      leafClusters.forEach((node, i) => {
+        // addClusterPolygons(node, i, 1 - zoomDecimalToNextZoom, zoomLevel)
+        // addClusterPolygons(node, i, zoomDecimalToNextZoom, zoomLevel + 1)
+        
+        addClusterPolygons(node, i, 1, zoomLevel + 1) // above was doubling lag from 7 to 15 so currently just going to display all shades which looks nice when zoomed out too
       });
 
       // Current Zoom: Adding the cluster text to viewport, and any in the next 3 layers
