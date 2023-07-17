@@ -225,12 +225,6 @@ function logSortedCoordinates(clusterData) {
 }
 
 export function computeHierarchicalLayout(clusterData, paperNodes) {
-  // let maxClassificationId = getMaxClassificationId(clusterData[0]);
-  // console.log("Maximum classification id: " + Math.round(maxClassificationId, 0));
-  // assignPolarCoordinates(clusterData[0], maxClassificationId);
-  // console.log("Cluster data with polar coordinates: ", clusterData[0]);
-  // logSortedCoordinates(clusterData[0]);
-
   const root = hierarchy(clusterData[0])
   let links = root.links();
   const nodes = root.descendants();
@@ -257,6 +251,7 @@ export function computeHierarchicalLayout(clusterData, paperNodes) {
       .force("charge", forceManyBody().strength(d => d['data'].value ? -50 : -10))
       .force("x", forceX())
       .force("y", forceY())
+      .force("center", forceCenter(0, 0))
       .stop()
 
   // Manually iterate the simulation
@@ -265,14 +260,6 @@ export function computeHierarchicalLayout(clusterData, paperNodes) {
     simulation.tick();
     normalizedRadius = normalizeDensity(nodes, 0.007);
   }
-
-  let paper_cluster_links = []
-  links.forEach(link_node => {
-    if (link_node.source.depth !== 0) {
-      paper_cluster_links.push(link_node)
-    }
-  })
-  // console.log("PAPER CLUSTER LINKS:", paper_cluster_links)
-  links = paper_cluster_links
+  
   return { nodes, links, normalizedRadius };
 }
