@@ -568,6 +568,20 @@ export const diamondPolygonColorSequence = [
   0x92CEC5  // Medium Aquamarine
 ];
 
+// export const assignHues = (nodes, min_hue, max_hue) => {
+//     const range = max_hue - min_hue;
+//     let sorted = nodes.sort((a, b) => this.Cluster_Nodes[a.id].length - this.Cluster_Nodes[b.id].length);
+//     // shuffle the last n-2 elements
+//     let shuffled = _.shuffle(sorted.slice(2));
+//     shuffled = sorted.slice(0, 2).concat(shuffled);
+//     // swap the second element with the middle element
+//     let middle = Math.floor(shuffled.length / 2);
+//     [shuffled[1], shuffled[middle]] = [shuffled[middle], shuffled[1]];
+
+//     for (let i = 0; i < shuffled.length; i++) {
+//         shuffled[i].hue = range * i / shuffled.length + min_hue;
+//     }
+// }
 
 // export const circleColorDiamondSequence = [
 //   0xB2DDFF, // Pale Blue

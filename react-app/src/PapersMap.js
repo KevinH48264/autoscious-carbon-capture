@@ -4,6 +4,7 @@ import { Viewport } from 'pixi-viewport';
 import { Delaunay } from 'd3-delaunay';
 import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, flattenClusters, diamondPolygonColorSequence, multilineText, labelBounds, getColorAtZoomLevel, traverseCluster, calculateClusterCentroids, getVoronoiNeighbors, circleColorDiamondSequence } from './util';
 import { computeHierarchicalLayout } from './layout';
+import { cluster } from 'd3';
 
 const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
   const pixiContainer = useRef();
@@ -155,20 +156,30 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         clusterCentroids.set(key, {x: sumX / nodes.length, y: sumY / nodes.length, layer: zoomLevel});
     }
 
-    // Hardcoding (zoomLayers) a parent cluster mapping for voronois
-    let parentColorMap = new Map();
+    // Map cluster_id to classification_id
+    let clusterToClassId = new Map();
+    leafClusters.forEach(node => {
+      clusterToClassId.set(node.id, node.classification_id);
+    })
+    console.log("clusterToClassId", clusterToClassId)
+
+    // Hardcoding (zoomLayers) a parent cluster mapping for voronois coloring
+    console.log("LEAF CLUSTERS", leafClusters)
+    let classColorMap = new Map();
     for (let zoomLevel = 0; zoomLevel < zoomLayers; ++zoomLevel) {
       // Setting parent cluster colors by cluster_id
       leafClusters.forEach(node => {
         let parentId = node.parents[zoomLevel];
-        if (parentId) {
-          if (!parentColorMap.has(parentId)) {
-              parentColorMap.set(parentId, diamondPolygonColorSequence[parentId % diamondPolygonColorSequence.length]);
+        if (parentId !== undefined) {
+          let classId = clusterToClassId.get(parentId);
+          if (!classColorMap.has(classId)) {
+            classColorMap.set(classId, 0xffffff);
           }
         }
       });
     }
-    parentColorMap.set(0, 0xffffff); // hardcoding because 0 isn't covered for some reason
+    // classColorMap.set(1, 0xffffff); // hardcoding because 0 isn't covered for some reason
+    console.log("CLASS COLOR MAP: ", classColorMap)
 
     // // Sort paperNodes by citationCount to prioritize showing higher citationCount papers
     layoutNodes.sort((a, b) => b.data.citationCount - a.data.citationCount);
@@ -230,13 +241,15 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
       // Preview Zoom: Adding cluster polygons on the preview layer to the viewport
       leafClusters.forEach((node, i) => {
+
         // If no parentId, then take the highest parent key
         let parentId = node.parents[zoomLevel + 1];
         if (parentId === undefined) {
           parentId = node.parents[Math.max(...Object.keys(node.parents).map(Number))];
         }
-        let fillColor = parentColorMap.get(parentId);
-
+        let parentClassId = clusterToClassId.get(parentId)
+        let fillColor = classColorMap.get(parentClassId);
+        
         const region = voronoi.cellPolygon(i);
         const polygon = new PIXI.Graphics();
         polygon.zIndex = 50;
@@ -314,7 +327,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         let type = node['data'].children ? "cluster" : "paper"
         if (type === "cluster") { return }
 
-        const lambda = (Math.sqrt(node.data.citationCount) - min_scale) / (max_scale - min_scale);
+        const lambda = (Math.sqrt(node.data.citationCount) - min_scale) / (max_scale - min_scale) / 10;
         const circleHeight = (2 + (max_font_size - min_font_size / 10) * lambda) / 2;
 
         if(!node.circle) {
@@ -325,7 +338,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             if (type === "cluster") {
               node.circle.beginFill(0x808080);
             } else {
-              node.circle.beginFill(0xD3D3D3);
+              // node.circle.beginFill(0x000000); // All black, but makes the text hard to read
+              node.circle.beginFill(0x8D8D8D);
             }
             
             node.circle.drawCircle(scaleX(node.x), scaleY(node.y), circleHeight);
