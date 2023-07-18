@@ -17,6 +17,66 @@ function normalizeDensity(nodes, target_density = 0.0007, x0=0, y0=0) {
   return max_norm * norm_scale;
 }
 
+
+export function computeHierarchicalLayout(clusterData, paperNodes, edgesData) {
+  const root = hierarchy(clusterData[0])
+  let links = root.links();
+  const nodes = root.descendants()
+
+  nodes.forEach(node => {
+    if (node.data.value) {
+      let paperNode = paperNodes.find(paper => paper.paperId === node.data.value);
+      if (paperNode) {
+        node.data.citationCount = paperNode.citationCount;
+        node.data.main_class = paperNode.main_class;
+        node.data.abstract = paperNode.abstract;
+        node.data.title = paperNode.title;
+        node.data.x = paperNode.x;
+        node.data.y = paperNode.y;
+        node.data.citationCount = paperNode.citationCount;
+        node.data.paperId = paperNode.paperId;
+      }
+    }
+  });
+
+  // Normalize edge weights
+  let max_weight = Math.max(...edgesData.map(edge => edge.weight));
+  edgesData.forEach(edge => {
+      edge.weight /= max_weight;
+  });
+
+  // Create links from each paper to their most similar paperIds within the cluster
+  let nodeById = new Map(nodes.map(node => [node.data.paperId, node]));
+  edgesData.forEach(edge => {
+      links.push({
+          source: nodeById.get(edge.source),
+          target: nodeById.get(edge.target),
+          strength: 1,
+          distance: 0,
+          weight: edge.weight,
+      });
+  });
+
+
+  // console.log("SIMULATION NODES: ", nodes, "SIMULATION LINKS", links)
+  const simulation = forceSimulation(nodes)
+      .force("link", forceLink(links).id(d => d.id).distance(d => d.dstance ? d.distance : 0).strength(d => d.strength ? d.strength : 1.5))
+      .force("charge", forceManyBody().strength(d => d['data'].value ? -50 : -10))
+      .force("x", forceX())
+      .force("y", forceY())
+      .force("center", forceCenter(0, 0))
+      .stop()
+
+  // Manually iterate the simulation
+  let normalizedRadius = 0;
+  for (var i = 0; i < 300; ++i) {
+    simulation.tick();
+    normalizedRadius = normalizeDensity(nodes, 0.007);
+  }
+
+  return { nodes, links, normalizedRadius };
+}
+
 // export function computeLayout(paperNodes, edgesData, leafClusters, centroidNodes) {
 //   // Add dummy 'center' nodes to paperNodes first
 //   centroidNodes.forEach(cluster => {
@@ -222,57 +282,4 @@ function logSortedCoordinates(clusterData) {
   for (let data of dataArray) {
       console.log(`id: ${data.classification_id}, x: ${data.polar_x.toFixed(0)}, y: ${data.polar_y.toFixed(0)}`);
   }
-}
-
-export function computeHierarchicalLayout(clusterData, paperNodes) {
-  // let maxClassificationId = getMaxClassificationId(clusterData[0]);
-  // console.log("Maximum classification id: " + Math.round(maxClassificationId, 0));
-  // assignPolarCoordinates(clusterData[0], maxClassificationId);
-  // console.log("Cluster data with polar coordinates: ", clusterData[0]);
-  // logSortedCoordinates(clusterData[0]);
-
-  const root = hierarchy(clusterData[0])
-  let links = root.links();
-  const nodes = root.descendants();
-
-  nodes.forEach(node => {
-    if (node.data.value) {
-      let paperNode = paperNodes.find(paper => paper.paperId === node.data.value);
-      if (paperNode) {
-        node.data.citationCount = paperNode.citationCount;
-        node.data.main_class = paperNode.main_class;
-        node.data.abstract = paperNode.abstract;
-        node.data.title = paperNode.title;
-        node.data.x = paperNode.x;
-        node.data.y = paperNode.y;
-        node.data.citationCount = paperNode.citationCount;
-        node.data.paperId = paperNode.paperId;
-      }
-    }
-  });
-
-  // console.log("SIMULATION NODES: ", nodes, "SIMULATION LINKS", links)
-  const simulation = forceSimulation(nodes)
-      .force("link", forceLink(links).id(d => d.id).distance(0).strength(1))
-      .force("charge", forceManyBody().strength(d => d['data'].value ? -50 : -10))
-      .force("x", forceX())
-      .force("y", forceY())
-      .stop()
-
-  // Manually iterate the simulation
-  let normalizedRadius = 0;
-  for (var i = 0; i < 300; ++i) {
-    simulation.tick();
-    normalizedRadius = normalizeDensity(nodes, 0.007);
-  }
-
-  let paper_cluster_links = []
-  links.forEach(link_node => {
-    if (link_node.source.depth !== 0) {
-      paper_cluster_links.push(link_node)
-    }
-  })
-  // console.log("PAPER CLUSTER LINKS:", paper_cluster_links)
-  links = paper_cluster_links
-  return { nodes, links, normalizedRadius };
 }
