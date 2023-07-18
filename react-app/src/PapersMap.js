@@ -21,7 +21,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     let centroidNodes = []
 
     // hierarchical layout
-    const layout = computeHierarchicalLayout(clusterData, paperNodes)
+    const layout = computeHierarchicalLayout(clusterData, paperNodes, edgesData)
     const layoutNodes = layout.nodes;
     const layoutLinks = layout.links;
 
@@ -266,7 +266,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           } 
         }
       }
-
       leafClusters.forEach((node, i) => {
         addClusterPolygons(node, i, 1 - zoomDecimalToNextZoom, zoomLevel, 0)
         addClusterPolygons(node, i, zoomDecimalToNextZoom, zoomLevel + 1, 1)
@@ -346,7 +345,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             if (type === "cluster") {
               node.circle.beginFill(0x808080);
             } else {
-              node.circle.beginFill(0xF5F5F0);
+              node.circle.beginFill(0xF5F5F0, 0.75);
             }
             
             node.circle.drawCircle(node.x, node.y, circleHeight);
@@ -400,133 +399,33 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       });
 
       // Add layout edges between nodes
-      // layoutLinks.forEach(edge => {
-      //   // optimize this later!
-      //     // console.log(edge.source)
-      //     const sourceNode = layoutNodes.find(node => node === edge.source);
-      //     const targetNode = layoutNodes.find(node => node === edge.target);
+      layoutLinks.forEach(edge => {
+        // optimize this later!
+          // console.log(edge.source)
+          const sourceNode = layoutNodes.find(node => node === edge.source);
+          const targetNode = layoutNodes.find(node => node === edge.target);
+
+          // hide topic connecting edges
+          if (sourceNode.children || targetNode.children) {
+            return
+          }
       
-      //     // Create a new graphics object for the edge if it doesn't exist
-      //     if (!edge.edge_graphics) {
-      //         edge.edge_graphics = new PIXI.Graphics();
-      //         edge.edge_graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
-      //         viewport.addChild(edge.edge_graphics);
-      //     } 
-      //     // Performance optimization: ?
-      //     // else {
-      //     //   edge.edge_graphics.visible = true;
-      //     // }
-      
-      //     // Draw the line
-      //     edge.edge_graphics.clear(); // remove any existing line
-      //     edge.edge_graphics.visible = true;
-      //     edge.edge_graphics.lineStyle(2, 0xFF0000, edge.weight ); // set the line style (you can customize this)
-      //     edge.edge_graphics.moveTo(sourceNode.x, sourceNode.y); // move to the source node's position
-      //     edge.edge_graphics.lineTo(targetNode.x, targetNode.y); // draw a line to the target node's position
-      //     viewport.addChild(edge.edge_graphics)
-      // });
+          // Create a new graphics object for the edge if it doesn't exist
+          if (!edge.edge_graphics) {
+              edge.edge_graphics = new PIXI.Graphics();
+              edge.edge_graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
+              viewport.addChild(edge.edge_graphics);
 
+              // Draw the line
+              edge.edge_graphics.clear(); // remove any existing line
+              edge.edge_graphics.visible = true;
+              edge.edge_graphics.lineStyle(1, 0x808080, 0.5 + edge.weight / 2); // set the line style (you can customize this)
+              edge.edge_graphics.moveTo(sourceNode.x, sourceNode.y); // move to the source node's position
+              edge.edge_graphics.lineTo(targetNode.x, targetNode.y); // draw a line to the target node's position
+              viewport.addChild(edge.edge_graphics)
+          } 
+      });
 
-      // Visualizing centroid nodes from force directed simulation
-      // layout.centerNodes.forEach((node, i) => {  
-      //   // Handling Node text, draw labels
-      //   const debug_factor = 1
-      //   const lambda = debug_factor
-      //   // const lambda = debug_factor * (Math.sqrt(node.citationCount) - min_scale) / (max_scale - min_scale);
-      //   const fontSize = min_font_size + (max_font_size - min_font_size) * lambda;
-      //   const circleHeight = 5;
-
-      //   if(!node.circle) {
-      //       node.circle = new PIXI.Graphics();
-      //       node.circle.beginFill(0xFFA500);
-      //       node.circle.drawCircle(node.x, node.y, circleHeight);
-      //       node.circle.endFill();
-      //       node.circle.zIndex = 55;
-      //       viewport.addChild(node.circle);
-      //   } else {
-      //       node.circle.visible = true; // make it visible if it already exists
-      //   }
-
-      //   if(!node.cluster_text) {
-      //       node.cluster_text = new PIXI.BitmapText(node.classification_id, {
-      //         fontFamily: 'Arial',
-      //         fontSize: 10,
-      //         fontName: "TitleFont",
-      //         fill: 0x808080,
-      //         align: 'left',
-      //         visible: true,
-      //       });
-      //       node.cluster_text.zIndex = 60;
-      //       node.cluster_text.anchor.set(0.5, -0.5);
-      //       node.cluster_text.position.set(node.x, node.y);
-      //       viewport.addChild(node.cluster_text);
-      //   } else {
-      //       node.cluster_text.fontSize = 15;
-      //       node.cluster_text.visible = true; // make it visible if it already exists
-      //   }
-
-
-      // })
-
-      // Add edges between nodes
-      // edges.forEach(edge => {
-      //   let sourceNode;
-      //   if (edge.source.includes("center_")) {
-      //     sourceNode = layout.centerNodes.find(node => node.paperId === edge.source); // this can be optimized
-      //   } else {
-      //     sourceNode = paperIdToNode[edge.source];
-      //   }
-        
-
-      //   if (edge.target.includes("center_")) {
-      //     // it's a centroid
-
-      //     const targetNode = layout.centerNodes.find(node => node.paperId === edge.target); // this can be optimized
-
-      //     // Create a new graphics object for the edge if it doesn't exist
-      //     if (!edge.edge_graphics) {
-      //         edge.edge_graphics = new PIXI.Graphics();
-      //         edge.edge_graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
-      //         viewport.addChild(edge.edge_graphics);
-      //     } 
-      //     // Performance optimization: ?
-      //     // else {
-      //     //   edge.edge_graphics.visible = true;
-      //     // }
-      
-      //     // Draw the line
-      //     edge.edge_graphics.clear(); // remove any existing line
-      //     edge.edge_graphics.visible = true;
-      //     edge.edge_graphics.lineStyle(2, 0x808080, edge.weight); // set the line style (you can customize this)
-      //     edge.edge_graphics.moveTo(sourceNode.x, sourceNode.y); // move to the source node's position
-      //     edge.edge_graphics.lineTo(targetNode.x, targetNode.y); // draw a line to the target node's position
-      //     viewport.addChild(edge.edge_graphics)
-      //   } else {
-      //     const targetNode = paperIdToNode[edge.target];
-      
-      //     // Create a new graphics object for the edge if it doesn't exist
-      //     if (!edge.edge_graphics) {
-      //         edge.edge_graphics = new PIXI.Graphics();
-      //         edge.edge_graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
-      //         viewport.addChild(edge.edge_graphics);
-      //     } 
-      //     // Performance optimization: ?
-      //     // else {
-      //     //   edge.edge_graphics.visible = true;
-      //     // }
-      
-      //     // Draw the line
-      //     edge.edge_graphics.clear(); // remove any existing line
-      //     edge.edge_graphics.visible = true;
-      //     edge.edge_graphics.lineStyle(2, 0xFF0000, edge.weight ); // set the line style (you can customize this)
-      //     edge.edge_graphics.moveTo(sourceNode.x, sourceNode.y); // move to the source node's position
-      //     edge.edge_graphics.lineTo(targetNode.x, targetNode.y); // draw a line to the target node's position
-      //     viewport.addChild(edge.edge_graphics)
-      //   }
-      // });
-
-      
-      
       // No for loops: 1-2 ms (max is 15 ms)
     }
 
@@ -552,10 +451,11 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         prev_viewport_bounds.height !== viewport_bounds.height
       ) {
         // reset all nodes and labels graphics not in viewport (resetting text globally was messing up the preventing text overlap and deteching text.visible)
-        leafClusters.forEach((node, i) => {
-          if (node.region1) { node.region1.visible = false; };
-          if (node.region2) { node.region2.visible = false; };
-        })
+
+        // leafClusters.forEach((node, i) => {
+        //   if (node.region1) { node.region1.visible = false; };
+        //   if (node.region2) { node.region2.visible = false; };
+        // })
         clusterCentroids.forEach((centroid, key) => {
           if (centroid.current_zoom_text) { centroid.current_zoom_text.visible = false; };
         })
