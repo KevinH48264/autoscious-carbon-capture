@@ -403,3 +403,30 @@ export const getColorForClass = (classId) => {
         //   node.subtopic = "Unknown";
         //   console.log("UNKNOWN", node.paperId, node.title, node.topic, node.subtopic)
         // }
+
+// Code for removing polygons from container
+// const addClusterPolygons = (node, i, opacity, currentLevel) => {
+//   // You want the polygon of the parents, not the current node which would be node.parents[currentLevel]
+//   let parentId = node.parents[currentLevel + 1];
+//   if (parentId === undefined) {
+//     parentId = node.parents[Math.max(...Object.keys(node.parents).map(Number))];
+//   }
+//   let parentClassId = clusterToClassId.get(parentId)
+//   let fillColor = classColorMap.get(parentClassId);
+
+//   const region = scaledVoronoi[i];
+//   const polygon = new PIXI.Graphics();
+//   polygon.zIndex = 50;
+
+//   polygon.beginFill(fillColor, opacity * 0.7);
+//   polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
+//   polygon.endFill();
+
+//   node.region = polygon;
+//   polygonContainer.addChild(polygon);
+// }
+
+// leafClusters.forEach((node, i) => {
+//   addClusterPolygons(node, i, 1 - zoomDecimalToNextZoom, zoomLevel)
+//   addClusterPolygons(node, i, zoomDecimalToNextZoom, zoomLevel + 1)
+// });
