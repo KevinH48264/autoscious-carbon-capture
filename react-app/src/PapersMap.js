@@ -388,7 +388,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
                 visible: true,
               });
             node.text.zIndex = 60;
-            node.text.anchor.set(0.5, 0.5);
+            node.text.anchor.set(0.5, 0);
             node.text.position.set(node.x + node.circleHeight, node.y + node.circleHeight);
             viewport.addChild(node.text);
         } else {
