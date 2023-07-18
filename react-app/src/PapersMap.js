@@ -224,6 +224,16 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
         // For high level zoom colors
         if (regionLevel === 0) {
+          // Check if the next parent is the same as the current parent to prevent unnecessary repeated opacity changes
+          let parentIdAfter = node.parents[currentLevel + 2];
+          if (parentIdAfter === undefined) {
+            parentIdAfter = node.parents[Math.max(...Object.keys(node.parents).map(Number))];
+          }
+          let parentClassId2 = clusterToClassId.get(parentIdAfter)
+          if (parentClassId === parentClassId2) {
+            opacity = 1
+          }
+
           if (!node.region1) {
             const polygon = new PIXI.Graphics();
             polygon.zIndex = 50;
@@ -246,6 +256,18 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
         // For preview zoom colors
         if (regionLevel === 1) {
+          // Check if the previous parent is the same as the current parent to prevent unnecessary repeated opacity changes
+          if (currentLevel >= 1) {
+            let parentIdBefore = node.parents[currentLevel - 1];
+            if (parentIdBefore === undefined) {
+              parentIdBefore = node.parents[Math.max(...Object.keys(node.parents).map(Number))];
+            }
+            let parentClassId2 = clusterToClassId.get(parentIdBefore)
+            if (parentClassId === parentClassId2) {
+              opacity = 0
+            }
+          }
+
           if (!node.region2) {
             const polygon = new PIXI.Graphics();
             polygon.zIndex = 50;
