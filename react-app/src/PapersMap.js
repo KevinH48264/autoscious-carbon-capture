@@ -11,7 +11,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
   PIXI.BitmapFont.from("TopicFont", { fill: 0xFFFFFF, fontWeight: 'bold', }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
 
   useEffect(() => {
-    const logging = true;
+    const logging = false;
     console.log("papersData", papersData, "edgesData", edgesData, "clusterData", clusterData)
 
     // Compute force-directed layout of PaperNodes
@@ -336,8 +336,11 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         let type = node['data'].children ? "cluster" : "paper"
         if (type === "cluster") { return }
 
-        const circleLambda = (Math.sqrt(node.data.citationCount) - min_scale) / (max_scale - min_scale) / 10;
-        const circleHeight = (2 + (max_font_size - min_font_size / 10) * circleLambda) / 2;
+        const lambda = (Math.sqrt(node.data.citationCount) - min_scale) / (max_scale - min_scale);
+        let fontSize = max_font_size * 0.8
+        const multilineSize = 30
+        fontSize = min_font_size + (max_font_size - min_font_size) * (lambda / 3);
+        const circleHeight = 1 + (max_font_size - min_font_size) * (lambda / 100);
 
         if(!node.circle) {
             node.circle = new PIXI.Graphics();
@@ -356,12 +359,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             node.circle.visible = true;
         }
 
-
         // Add the text to the viewport
-        let fontSize = max_font_size * 0.8
-        const multilineSize = 30
-        const lambda = (Math.sqrt(node.data.citationCount) - min_scale) / (max_scale - min_scale);
-        fontSize = (min_font_size + (max_font_size - min_font_size) * lambda / 3);
+        
         
         let multilineTitle = multilineText(node['data'].name, multilineSize)
 
@@ -389,8 +388,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
                 visible: true,
               });
             node.text.zIndex = 60;
-            node.text.anchor.set(0.5, 0);
-            node.text.position.set(node.x + node.circleHeight, node.y + node.circleHeight + 1);
+            node.text.anchor.set(0.5, 0.5);
+            node.text.position.set(node.x + node.circleHeight, node.y + node.circleHeight);
             viewport.addChild(node.text);
         } else {
             node.text.fontSize = fontSize;
