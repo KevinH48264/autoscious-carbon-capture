@@ -7,8 +7,8 @@ import { computeHierarchicalLayout } from './layout';
 
 const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
   const pixiContainer = useRef();
-  PIXI.BitmapFont.from("TitleFont", { fill: 0xFFFBF1 }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
-  PIXI.BitmapFont.from("TopicFont", { fill: 0xFFFBF1, fontWeight: 'bold', }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
+  PIXI.BitmapFont.from("TitleFont", { fill: 0xFFFFFF }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
+  PIXI.BitmapFont.from("TopicFont", { fill: 0xFFFFFF, fontWeight: 'bold', }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
 
   useEffect(() => {
     const logging = true;
@@ -31,8 +31,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     console.log("centroidNodes", centroidNodes) // expect 58 centroid ndoes for each cluster
     // const edges = layout.edgesData;
     // const centerNodes = layout.centerNodes; // clusterNode!
-    // const normalizedRadius = layout.normalizedRadius; // this should be used to determine the zoom, currently 230, prev 150
-    // const zoomScale = normalizedRadius / 300;
+    const normalizedRadius = layout.normalizedRadius; // this should be used to determine the zoom, currently 230, prev 150
+    const zoomScale = normalizedRadius / 300;
 
     const app = new PIXI.Application({
       width: window.innerWidth,
@@ -63,7 +63,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     viewport.sortableChildren = true;
     viewport.drag().pinch().wheel().decelerate()
     // .clampZoom({ minWidth: 50, maxHeight: viewport.worldHeight / zoomScale, maxWidth: viewport.worldWidth / zoomScale})
-    // .setZoom(zoomScale)
+    .setZoom(zoomScale)
     .moveCenter(viewport.worldWidth / 2, viewport.worldHeight / 2)
     // viewport.clamp({direction: 'all'})
     app.stage.addChild(viewport);
@@ -195,7 +195,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       });
   });
 
-    const drawNodes = (nodes, vis_cluster_centroids, viewport) => {
+    const drawNodes = (nodes, vis_cluster_centroids, viewport, vis_links) => {
       let zoomLevelAbsolute = ((viewport.scaled) - 2).toFixed(1)
       let zoomLevelAbsoluteFloor = Math.floor(zoomLevelAbsolute)
       let zoomLevel = Math.max(-1, zoomLevelAbsoluteFloor)
@@ -345,7 +345,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             if (type === "cluster") {
               node.circle.beginFill(0x808080);
             } else {
-              node.circle.beginFill(0xF5F5F0, 0.75);
+              node.circle.beginFill(0xF5F5F0, 1);
             }
             
             node.circle.drawCircle(node.x, node.y, circleHeight);
@@ -399,7 +399,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       });
 
       // Add layout edges between nodes
-      layoutLinks.forEach(edge => {
+      vis_links.forEach(edge => {
         // optimize this later!
           // console.log(edge.source)
           const sourceNode = layoutNodes.find(node => node === edge.source);
@@ -412,18 +412,19 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       
           // Create a new graphics object for the edge if it doesn't exist
           if (!edge.edge_graphics) {
-              edge.edge_graphics = new PIXI.Graphics();
-              edge.edge_graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
-              viewport.addChild(edge.edge_graphics);
+            edge.edge_graphics = new PIXI.Graphics();
+            edge.edge_graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
+            viewport.addChild(edge.edge_graphics);
 
-              // Draw the line
-              edge.edge_graphics.clear(); // remove any existing line
-              edge.edge_graphics.visible = true;
-              edge.edge_graphics.lineStyle(1, 0x808080, 0.5 + edge.weight / 2); // set the line style (you can customize this)
-              edge.edge_graphics.moveTo(sourceNode.x, sourceNode.y); // move to the source node's position
-              edge.edge_graphics.lineTo(targetNode.x, targetNode.y); // draw a line to the target node's position
-              viewport.addChild(edge.edge_graphics)
-          } 
+            // Draw the line
+            edge.edge_graphics.clear(); // remove any existing line
+            edge.edge_graphics.lineStyle(1, 0x808080, 0.5 + edge.weight / 2); // set the line style (you can customize this)
+            edge.edge_graphics.moveTo(sourceNode.x, sourceNode.y); // move to the source node's position
+            edge.edge_graphics.lineTo(targetNode.x, targetNode.y); // draw a line to the target node's position
+            viewport.addChild(edge.edge_graphics)
+          } else {
+            edge.edge_graphics.visible = true;  
+          }
       });
 
       // No for loops: 1-2 ms (max is 15 ms)
@@ -463,9 +464,11 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
           if (node.circle) { node.circle.visible = false; };
           if (node.text) { node.text.visible = false; };
         })
-        let vis_nodes = layoutNodes.filter((node) =>
-          viewport_bounds.contains(node.x, node.y)
-        )
+        layoutLinks.forEach((edge, i) => {
+          if (edge.edge_graphics) { edge.edge_graphics.visible = false; }
+        })
+
+        let vis_nodes = layoutNodes.filter((node) => viewport_bounds.contains(node.x, node.y))
         let vis_cluster_centroids = new Map();
         clusterCentroids.forEach((centroid, key) => {
           if (viewport_bounds.contains(centroid.x, centroid.y)) {
@@ -475,10 +478,12 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
         // Take the top visible nodes (for performance?)
         vis_nodes = vis_nodes.slice(0, 1000);
+        let vis_nodes_set = new Set(vis_nodes);
+        let vis_links = layoutLinks.filter((edge) => vis_nodes_set.has(edge.source) && vis_nodes_set.has(edge.target));
 
         prev_viewport_bounds = viewport_bounds.clone(); // clone the rectangle to avoid reference issues
         // drawNodes(vis_nodes, vis_cluster_centroids, viewport);
-        drawNodes(vis_nodes, vis_cluster_centroids, viewport);
+        drawNodes(vis_nodes, vis_cluster_centroids, viewport, vis_links);
 
         count += 1
       }
