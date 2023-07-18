@@ -258,7 +258,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         if (regionLevel === 1) {
           // Check if the previous parent is the same as the current parent to prevent unnecessary repeated opacity changes
           if (currentLevel >= 1) {
-            let parentIdBefore = node.parents[currentLevel - 1];
+            let parentIdBefore = node.parents[currentLevel];
             if (parentIdBefore === undefined) {
               parentIdBefore = node.parents[Math.max(...Object.keys(node.parents).map(Number))];
             }
