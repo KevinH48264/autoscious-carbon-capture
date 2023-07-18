@@ -2,9 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import * as PIXI from 'pixi.js';
 import { Viewport } from 'pixi-viewport';
 import { Delaunay } from 'd3-delaunay';
-import { randomDarkModeColor, rectIntersectsRect, sortPoints, getLeafClusters, flattenClusters, diamondPolygonColorSequence, multilineText, labelBounds, getColorAtZoomLevel, traverseCluster, calculateClusterCentroids, getVoronoiNeighbors, circleColorDiamondSequence, getColorForClass } from './util';
+import { rectIntersectsRect, flattenClusters, multilineText, labelBounds, traverseCluster, calculateClusterCentroids, getVoronoiNeighbors, getColorForClass } from './util';
 import { computeHierarchicalLayout } from './layout';
-import { cluster } from 'd3';
 
 const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
   const pixiContainer = useRef();
@@ -12,7 +11,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
   PIXI.BitmapFont.from("TopicFont", { fill: 0xFFFBF1, fontWeight: 'bold', }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
 
   useEffect(() => {
-    const logging = false;
+    const logging = true;
     console.log("papersData", papersData, "edgesData", edgesData, "clusterData", clusterData)
 
     // Compute force-directed layout of PaperNodes
@@ -129,7 +128,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         }
     });
 
-    // // Creates a map from parentId to nodes with that parentId
+    // // Creates a map from parentId to nodes with that parentId to then calculate centroid for each cluster weighted by paper location
     const clusterGroups = new Map();
     for (let zoomLevel = 0; zoomLevel < zoomLayers; ++zoomLevel) {
         leafClusters.forEach((node, i) => {
@@ -148,8 +147,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             clusterGroups.get(key).push(node, ...neighborNodes);
         });
     }
-
-    // Calculates centroid for each cluster weighted by paper location
     const clusterCentroids = new Map();
     for (let [[clusterId, zoomLevel], nodes] of clusterGroups) {
         let sumX = 0, sumY = 0, totalWeight = 0;
@@ -164,8 +161,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             clusterCentroids.set(key, {x: sumX / totalWeight, y: sumY / totalWeight, layer: zoomLevel});
         }
     }
-
-    console.log("leafClusters", leafClusters, "clusterGRoups", clusterGroups, "clusterCentroids", clusterCentroids)
 
     // Map cluster_id to classification_id
     let clusterToClassId = new Map();
@@ -191,10 +186,20 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     // Sort paperNodes by citationCount to prioritize showing higher citationCount papers
     layoutNodes.sort((a, b) => b.data.citationCount - a.data.citationCount);
 
+    // Scale all coordinates appropriately
+    layoutNodes.forEach(node => { node.x = scaleX(node.x); node.y = scaleY(node.y); });
+    clusterCentroids.forEach(node => { node.x = scaleX(node.x); node.y = scaleY(node.y); });
+    const scaledVoronoi = Array.from(voronoi.cellPolygons()).map(cellPolygon => {
+      return cellPolygon.map(point => {
+          return [scaleX(point[0]), scaleY(point[1])];
+      });
+  });
+
     const drawNodes = (nodes, vis_cluster_centroids, viewport) => {
       let zoomLevelAbsolute = ((viewport.scaled) - 2).toFixed(1)
-      let zoomLevel = Math.max(-1, Math.floor(zoomLevelAbsolute))
-      let zoomDecimalToNextZoom = Math.floor(zoomLevelAbsolute) >= -1 ? zoomLevelAbsolute - Math.floor(zoomLevelAbsolute) : 0;
+      let zoomLevelAbsoluteFloor = Math.floor(zoomLevelAbsolute)
+      let zoomLevel = Math.max(-1, zoomLevelAbsoluteFloor)
+      let zoomDecimalToNextZoom = zoomLevelAbsoluteFloor >= -1 ? zoomLevelAbsolute - zoomLevelAbsoluteFloor : 0;
       let originalZoomLevel = zoomLevel;
 
       // Font size
@@ -207,7 +212,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       const addedTextBounds = new Set();
 
       // Preview Zoom: Adding cluster polygons on the preview layer to the viewport
-      const addClusterPolygons = (node, i, opacity, currentLevel) => {
+      const addClusterPolygons = (node, i, opacity, currentLevel, regionLevel) => {
         // You want the polygon of the parents, not the current node which would be node.parents[currentLevel]
         let parentId = node.parents[currentLevel + 1];
         if (parentId === undefined) {
@@ -215,22 +220,56 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         }
         let parentClassId = clusterToClassId.get(parentId)
         let fillColor = classColorMap.get(parentClassId);
+        const region = scaledVoronoi[i];
 
-        const region = voronoi.cellPolygon(i);
-        const polygon = new PIXI.Graphics();
-        polygon.zIndex = 50;
+        // For high level zoom colors
+        if (regionLevel === 0) {
+          if (!node.region1) {
+            const polygon = new PIXI.Graphics();
+            polygon.zIndex = 50;
 
-        polygon.beginFill(fillColor, opacity * 0.7);
-        polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(scaleX(x), scaleY(y))));
-        polygon.endFill();
+            polygon.beginFill(fillColor, opacity * 0.7);
+            polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
+            polygon.endFill();
 
-        node.region = polygon;
-        polygonContainer.addChild(polygon);
+            node.region1 = polygon;
+            node.region1.visible = true;
+            polygonContainer.addChild(polygon);
+          } else {
+            node.region1.clear(); // clear the old drawing
+            node.region1.beginFill(fillColor, opacity * 0.7);
+            node.region1.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
+            node.region1.endFill();
+            node.region1.visible = true;
+          } 
+        }
+
+        // For preview zoom colors
+        if (regionLevel === 1) {
+          if (!node.region2) {
+            const polygon = new PIXI.Graphics();
+            polygon.zIndex = 50;
+
+            polygon.beginFill(fillColor, opacity * 0.7);
+            polygon.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
+            polygon.endFill();
+
+            node.region2 = polygon;
+            node.region2.visible = true;
+            polygonContainer.addChild(polygon);
+          } else {
+            node.region2.clear(); // clear the old drawing
+            node.region2.beginFill(fillColor, opacity * 0.7);
+            node.region2.drawPolygon(region.map(([x, y]) => new PIXI.Point(x, y)));
+            node.region2.endFill();
+            node.region2.visible = true;
+          } 
+        }
       }
 
       leafClusters.forEach((node, i) => {
-        addClusterPolygons(node, i, 1 - zoomDecimalToNextZoom, zoomLevel)
-        addClusterPolygons(node, i, zoomDecimalToNextZoom, zoomLevel + 1)
+        addClusterPolygons(node, i, 1 - zoomDecimalToNextZoom, zoomLevel, 0)
+        addClusterPolygons(node, i, zoomDecimalToNextZoom, zoomLevel + 1, 1)
       });
 
       // Current Zoom: Adding the cluster text to viewport, and any in the next 3 layers
@@ -259,7 +298,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             }
 
             // Check for overlaps with existing labels
-            let current_zoom_text_bound = labelBounds(current_centroid_font_size, scaleX(centroid.x), scaleY(centroid.y), multilineSize, current_centroid_text);
+            let current_zoom_text_bound = labelBounds(current_centroid_font_size, centroid.x, centroid.y, multilineSize, current_centroid_text);
 
             for (let bound of addedTextBounds) {
               if (rectIntersectsRect(current_zoom_text_bound, bound)) {
@@ -279,7 +318,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
                 centroid.current_zoom_text.zIndex = 100;
 
                 // Position the text at the centroid of the cluster
-                centroid.current_zoom_text.position.set(scaleX(centroid.x), scaleY(centroid.y));
+                centroid.current_zoom_text.position.set(centroid.x, centroid.y);
                 centroid.current_zoom_text.anchor.set(0.5, 0.5); // center it on the centroid
 
                 // Add the text to the viewport
@@ -292,28 +331,25 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         });
       }     
 
-      // Adding paper nodes circles to viewport by leaf cluster
+      // Adding paper nodes to viewport by leaf cluster: 1 ms
       nodes.forEach(node => {
-        // Later cluster should just be filtered out of nodes before
+        // Add circles to viewport
         let type = node['data'].children ? "cluster" : "paper"
         if (type === "cluster") { return }
 
-        const lambda = (Math.sqrt(node.data.citationCount) - min_scale) / (max_scale - min_scale) / 10;
-        const circleHeight = (2 + (max_font_size - min_font_size / 10) * lambda) / 2;
+        const circleLambda = (Math.sqrt(node.data.citationCount) - min_scale) / (max_scale - min_scale) / 10;
+        const circleHeight = (2 + (max_font_size - min_font_size / 10) * circleLambda) / 2;
 
         if(!node.circle) {
             node.circle = new PIXI.Graphics();
             node.circle.zIndex = 55;
-            // node.circle.beginFill(0xb9f2ff);
-            // node.circle.beginFill(circleColorDiamondSequence[cluster.cluster_id % circleColorDiamondSequence.length]);
             if (type === "cluster") {
               node.circle.beginFill(0x808080);
             } else {
-              // node.circle.beginFill(0x000000); // All black, but makes the text hard to read
               node.circle.beginFill(0xF5F5F0);
             }
             
-            node.circle.drawCircle(scaleX(node.x), scaleY(node.y), circleHeight);
+            node.circle.drawCircle(node.x, node.y, circleHeight);
             node.circleHeight = circleHeight;
             node.circle.endFill();
             viewport.addChild(node.circle);
@@ -321,39 +357,12 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             node.circle.visible = true;
         }
 
-        // For visualizing the topic text of a paper
-        // if(!node.topic_text) {
-        //     node.topic_text = new PIXI.BitmapText(node['data'].classification_id, {
-        //       fontFamily: 'Arial',
-        //       fontSize: 10,
-        //       fontName: "TitleFont",
-        //       fill: 0xffffff,
-        //       align: 'left',
-        //       visible: true,
-        //     });
-        //     node.topic_text.zIndex = 60;
-        //     node.topic_text.anchor.set(0.5, -0.5);
-        //     node.topic_text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) - node.circleHeight - 30);
-        //     viewport.addChild(node.topic_text);
-        // } else {
-        //     node.topic_text.fontSize = 15;
-        //     node.topic_text.visible = true; // make it visible if it already exists
-        // }
-      });
 
-      // Adding paper text labels to viewport by leaf cluster
-      nodes.forEach((node, i) => {
-        let type = node['data'].children ? "cluster" : "paper"
-
+        // Add the text to the viewport
         let fontSize = max_font_size * 0.8
         const multilineSize = 30
-        
-        if (type !== "cluster") {
-          const lambda = (Math.sqrt(node.data.citationCount) - min_scale) / (max_scale - min_scale);
-          fontSize = (min_font_size + (max_font_size - min_font_size) * lambda / 3);
-        } else {
-          return
-        }
+        const lambda = (Math.sqrt(node.data.citationCount) - min_scale) / (max_scale - min_scale);
+        fontSize = (min_font_size + (max_font_size - min_font_size) * lambda / 3);
         
         let multilineTitle = multilineText(node['data'].name, multilineSize)
 
@@ -363,7 +372,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         }
 
         // Check for overlaps with existing labels
-        let current_zoom_text_bound = labelBounds(fontSize, scaleX(node.x), scaleY(node.y), multilineSize, multilineTitle);
+        let current_zoom_text_bound = labelBounds(fontSize, node.x, node.y, multilineSize, multilineTitle);
         for (let bound of addedTextBounds) {
           if (rectIntersectsRect(current_zoom_text_bound, bound)) {
             return
@@ -382,7 +391,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
               });
             node.text.zIndex = 60;
             node.text.anchor.set(0.5, 0);
-            node.text.position.set(scaleX(node.x) + node.circleHeight, scaleY(node.y) + node.circleHeight + 1);
+            node.text.position.set(node.x + node.circleHeight, node.y + node.circleHeight + 1);
             viewport.addChild(node.text);
         } else {
             node.text.fontSize = fontSize;
@@ -412,8 +421,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       //     edge.edge_graphics.clear(); // remove any existing line
       //     edge.edge_graphics.visible = true;
       //     edge.edge_graphics.lineStyle(2, 0xFF0000, edge.weight ); // set the line style (you can customize this)
-      //     edge.edge_graphics.moveTo(scaleX(sourceNode.x), scaleY(sourceNode.y)); // move to the source node's position
-      //     edge.edge_graphics.lineTo(scaleX(targetNode.x), scaleY(targetNode.y)); // draw a line to the target node's position
+      //     edge.edge_graphics.moveTo(sourceNode.x, sourceNode.y); // move to the source node's position
+      //     edge.edge_graphics.lineTo(targetNode.x, targetNode.y); // draw a line to the target node's position
       //     viewport.addChild(edge.edge_graphics)
       // });
 
@@ -430,7 +439,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       //   if(!node.circle) {
       //       node.circle = new PIXI.Graphics();
       //       node.circle.beginFill(0xFFA500);
-      //       node.circle.drawCircle(scaleX(node.x), scaleY(node.y), circleHeight);
+      //       node.circle.drawCircle(node.x, node.y, circleHeight);
       //       node.circle.endFill();
       //       node.circle.zIndex = 55;
       //       viewport.addChild(node.circle);
@@ -449,7 +458,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       //       });
       //       node.cluster_text.zIndex = 60;
       //       node.cluster_text.anchor.set(0.5, -0.5);
-      //       node.cluster_text.position.set(scaleX(node.x), scaleY(node.y));
+      //       node.cluster_text.position.set(node.x, node.y);
       //       viewport.addChild(node.cluster_text);
       //   } else {
       //       node.cluster_text.fontSize = 15;
@@ -489,8 +498,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       //     edge.edge_graphics.clear(); // remove any existing line
       //     edge.edge_graphics.visible = true;
       //     edge.edge_graphics.lineStyle(2, 0x808080, edge.weight); // set the line style (you can customize this)
-      //     edge.edge_graphics.moveTo(scaleX(sourceNode.x), scaleY(sourceNode.y)); // move to the source node's position
-      //     edge.edge_graphics.lineTo(scaleX(targetNode.x), scaleY(targetNode.y)); // draw a line to the target node's position
+      //     edge.edge_graphics.moveTo(sourceNode.x, sourceNode.y); // move to the source node's position
+      //     edge.edge_graphics.lineTo(targetNode.x, targetNode.y); // draw a line to the target node's position
       //     viewport.addChild(edge.edge_graphics)
       //   } else {
       //     const targetNode = paperIdToNode[edge.target];
@@ -510,12 +519,15 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       //     edge.edge_graphics.clear(); // remove any existing line
       //     edge.edge_graphics.visible = true;
       //     edge.edge_graphics.lineStyle(2, 0xFF0000, edge.weight ); // set the line style (you can customize this)
-      //     edge.edge_graphics.moveTo(scaleX(sourceNode.x), scaleY(sourceNode.y)); // move to the source node's position
-      //     edge.edge_graphics.lineTo(scaleX(targetNode.x), scaleY(targetNode.y)); // draw a line to the target node's position
+      //     edge.edge_graphics.moveTo(sourceNode.x, sourceNode.y); // move to the source node's position
+      //     edge.edge_graphics.lineTo(targetNode.x, targetNode.y); // draw a line to the target node's position
       //     viewport.addChild(edge.edge_graphics)
       //   }
       // });
 
+      
+      
+      // No for loops: 1-2 ms (max is 15 ms)
     }
 
     // Update visibility of circles and text based on the current field of view and zoom level
@@ -541,7 +553,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       ) {
         // reset all nodes and labels graphics not in viewport (resetting text globally was messing up the preventing text overlap and deteching text.visible)
         leafClusters.forEach((node, i) => {
-          if (node.region) { polygonContainer.removeChild(node.region); };
+          if (node.region1) { node.region1.visible = false; };
+          if (node.region2) { node.region2.visible = false; };
         })
         clusterCentroids.forEach((centroid, key) => {
           if (centroid.current_zoom_text) { centroid.current_zoom_text.visible = false; };
@@ -549,23 +562,19 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         layoutNodes.forEach((node, i) => {
           if (node.circle) { node.circle.visible = false; };
           if (node.text) { node.text.visible = false; };
-          if (node.graphics) { node.graphics.visible = false; };
         })
         let vis_nodes = layoutNodes.filter((node) =>
-          viewport_bounds.contains(scaleX(node.x), scaleY(node.y))
+          viewport_bounds.contains(node.x, node.y)
         )
         let vis_cluster_centroids = new Map();
         clusterCentroids.forEach((centroid, key) => {
-          if (viewport_bounds.contains(scaleX(centroid.x), scaleY(centroid.y))) {
+          if (viewport_bounds.contains(centroid.x, centroid.y)) {
             vis_cluster_centroids.set(key, centroid);
           }
         });
 
-        // Take the top visible nodes, not yet bc currently removes circles too
-        // vis_nodes.sort((a, b) => {
-        //   return b.data.citationCount - a.data.citationCount;
-        // });
-        // vis_nodes = vis_nodes.slice(0, 25);
+        // Take the top visible nodes (for performance?)
+        vis_nodes = vis_nodes.slice(0, 1000);
 
         prev_viewport_bounds = viewport_bounds.clone(); // clone the rectangle to avoid reference issues
         // drawNodes(vis_nodes, vis_cluster_centroids, viewport);
@@ -587,7 +596,9 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         numUpdates += 1
         totalUpdateTime += updateTime
 
-        console.log("Update time (ms): " + Math.round((t1 - t0)), "avg: ", Math.round(totalUpdateTime / numUpdates));
+        if (Math.round(totalUpdateTime / numUpdates) > 0) {
+          console.log("Update time (ms): " + Math.round((t1 - t0)), "avg: ", Math.round(totalUpdateTime / numUpdates));
+        }
       }
     };
 
