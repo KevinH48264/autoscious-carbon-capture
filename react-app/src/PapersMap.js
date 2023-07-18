@@ -186,9 +186,9 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     layoutNodes.sort((a, b) => b.data.citationCount - a.data.citationCount);
 
     const drawNodes = (nodes, vis_cluster_centroids, viewport) => {
-      let zoomLevelAbsolute = ((viewport.scaled) - 2)
+      let zoomLevelAbsolute = ((viewport.scaled) - 2).toFixed(1)
       let zoomLevel = Math.max(-1, Math.floor(zoomLevelAbsolute))
-      let zoomDecimalToNextZoom = zoomLevelAbsolute - Math.floor(zoomLevelAbsolute);
+      let zoomDecimalToNextZoom = Math.floor(zoomLevelAbsolute) >= -1 ? zoomLevelAbsolute - Math.floor(zoomLevelAbsolute) : 0;
       let originalZoomLevel = zoomLevel;
 
       // Font size
@@ -223,10 +223,8 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       }
 
       leafClusters.forEach((node, i) => {
-        // addClusterPolygons(node, i, 1 - zoomDecimalToNextZoom, zoomLevel)
-        // addClusterPolygons(node, i, zoomDecimalToNextZoom, zoomLevel + 1)
-        
-        addClusterPolygons(node, i, 1, zoomLevel + 1) // above was doubling lag from 7 to 15 so currently just going to display all shades which looks nice when zoomed out too
+        addClusterPolygons(node, i, 1 - zoomDecimalToNextZoom, zoomLevel)
+        addClusterPolygons(node, i, zoomDecimalToNextZoom, zoomLevel + 1)
       });
 
       // Current Zoom: Adding the cluster text to viewport, and any in the next 3 layers
