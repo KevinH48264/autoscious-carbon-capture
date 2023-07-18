@@ -217,6 +217,8 @@ export const traverseCluster = (cluster, clusterMap) => {
 
 export const calculateClusterCentroids = (leafClusters, paperNodes, centroidNodes) => {
   leafClusters.forEach(cluster => {
+    // TODO: Actually just take the centroid for topics of everything.
+
     // Calculate and set the topic for this cluster
     let topicNode = paperNodes.find(node => node.data.classification_id === cluster.classification_id)
 

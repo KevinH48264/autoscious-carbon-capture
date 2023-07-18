@@ -9,10 +9,10 @@ import { cluster } from 'd3';
 const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
   const pixiContainer = useRef();
   PIXI.BitmapFont.from("TitleFont", { fill: 0xFFFBF1 }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
-  PIXI.BitmapFont.from("TopicFont", { fill: 0xFFFBF1 }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
+  PIXI.BitmapFont.from("TopicFont", { fill: 0xFFFBF1, fontWeight: 'bold', }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
 
   useEffect(() => {
-    const logging = true;
+    const logging = false;
     console.log("papersData", papersData, "edgesData", edgesData, "clusterData", clusterData)
 
     // Compute force-directed layout of PaperNodes
@@ -149,17 +149,23 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         });
     }
 
-    // Calculates centroid for each cluster
+    // Calculates centroid for each cluster weighted by paper location
     const clusterCentroids = new Map();
     for (let [[clusterId, zoomLevel], nodes] of clusterGroups) {
-        let sumX = 0, sumY = 0;
+        let sumX = 0, sumY = 0, totalWeight = 0;
         for (let node of nodes) {
-            sumX += node.centroid_x;
-            sumY += node.centroid_y;
+            const weight = node.children.length;
+            sumX += node.centroid_x * weight;
+            sumY += node.centroid_y * weight;
+            totalWeight += weight;
         }
         const key = [clusterId, zoomLevel].toString();
-        clusterCentroids.set(key, {x: sumX / nodes.length, y: sumY / nodes.length, layer: zoomLevel});
+        if (totalWeight > 0) {  // To avoid division by zero
+            clusterCentroids.set(key, {x: sumX / totalWeight, y: sumY / totalWeight, layer: zoomLevel});
+        }
     }
+
+    console.log("leafClusters", leafClusters, "clusterGRoups", clusterGroups, "clusterCentroids", clusterCentroids)
 
     // Map cluster_id to classification_id
     let clusterToClassId = new Map();
@@ -243,9 +249,9 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             let current_centroid_text = multilineText(topCategory, multilineSize);
 
             // Check for font size bounds
-            if (current_centroid_font_size < min_font_size) {
-              return
-            }
+            // if (current_centroid_font_size < min_font_size) {
+            //   return
+            // }
 
             // Not allowing more than 20 labels
             if (addedTextBounds.size > 20) {
@@ -274,7 +280,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
                 // Position the text at the centroid of the cluster
                 centroid.current_zoom_text.position.set(scaleX(centroid.x), scaleY(centroid.y));
-                centroid.current_zoom_text.anchor.set(0.5, 0);
+                centroid.current_zoom_text.anchor.set(0.5, 0.5); // center it on the centroid
 
                 // Add the text to the viewport
                 viewport.addChild(centroid.current_zoom_text);
