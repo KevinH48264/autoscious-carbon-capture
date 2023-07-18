@@ -345,6 +345,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
                 // Add the text to the viewport
                 viewport.addChild(centroid.current_zoom_text);
             } else {
+                centroid.current_zoom_text.alpha = (zoomLayers - zoomLevel) / zoomLayers;
                 centroid.current_zoom_text.fontSize = current_centroid_font_size;
                 centroid.current_zoom_text.visible = true;
             }
