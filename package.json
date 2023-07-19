@@ -1,0 +1,19 @@
+{
+  "name": "autoscious-carbon-capture",
+  "version": "1.0.0",
+  "description": "Research project to use AI to generate experiments for researchers to better tackle carbon capture",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://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@github.com/KevinH48264/autoscious-carbon-capture.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KevinH48264/autoscious-carbon-capture/issues"
+  },
+  "homepage": "https://github.com/KevinH48264/autoscious-carbon-capture#readme"
+}
