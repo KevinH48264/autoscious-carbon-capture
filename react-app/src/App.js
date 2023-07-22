@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ResearchPaperPlot from './PapersMap';
+import SemanticSearchBar from './search';
 
 const App = () => {
   const [papersData, setPapersData] = useState([]);
@@ -31,7 +32,12 @@ const App = () => {
 
   return (
     <div className="App" style={{ padding: "0px", margin: "0", overflow: "hidden" }}>
-      {papersData.length > 0 && edgesData.length > 0 && clusterData.length > 0 && <ResearchPaperPlot papersData={papersData} edgesData={edgesData} clusterData={clusterData} />}
+      {papersData.length > 0 && edgesData.length > 0 && clusterData.length > 0 && (
+      <>
+          <ResearchPaperPlot papersData={papersData} edgesData={edgesData} clusterData={clusterData} />
+          <SemanticSearchBar papersData={papersData} />
+        </>
+        )}
     </div>
   );
 };
