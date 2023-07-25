@@ -25,7 +25,7 @@ export function computeHierarchicalLayout(clusterData, paperNodes, edgesData) {
 
   nodes.forEach(node => {
     if (node.data.value) {
-      let paperNode = paperNodes.find(paper => paper.paperId === node.data.value);
+      let paperNode = paperNodes.find(paper => paper.paperId === node.data.value[0]);
       if (paperNode) {
         node.data.citationCount = paperNode.citationCount;
         node.data.main_class = paperNode.main_class;
@@ -51,14 +51,14 @@ export function computeHierarchicalLayout(clusterData, paperNodes, edgesData) {
       links.push({
           source: nodeById.get(edge.source),
           target: nodeById.get(edge.target),
-          strength: 1,
+          strength: 0,
           distance: 0,
           weight: edge.weight,
       });
   });
 
 
-  // console.log("SIMULATION NODES: ", nodes, "SIMULATION LINKS", links)
+  console.log("SIMULATION NODES: ", nodes, "SIMULATION LINKS", links)
   const simulation = forceSimulation(nodes)
       .force("link", forceLink(links).id(d => d.id).distance(d => d.dstance ? d.distance : 0).strength(d => d.strength ? d.strength : 1.5))
       .force("charge", forceManyBody().strength(d => d['data'].value ? -50 : -10))
@@ -69,7 +69,7 @@ export function computeHierarchicalLayout(clusterData, paperNodes, edgesData) {
 
   // Manually iterate the simulation
   let normalizedRadius = 0;
-  for (var i = 0; i < 300; ++i) {
+  for (var i = 0; i < 250; ++i) {
     simulation.tick();
     normalizedRadius = normalizeDensity(nodes, 0.007);
   }
