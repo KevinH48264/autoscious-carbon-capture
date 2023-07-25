@@ -1,0 +1,24 @@
+/* Sidebar.css */
+aside {
+    position: absolute;
+    left: -300px;
+    top: 0;
+    /* height: 100%; */
+    height: 500px;
+    width: 300px;
+    background-color: var(--color-d-gray-80);
+    opacity: 0.95;
+    box-shadow: 0px 0px 4px var(--color-d-shadow-10);
+    padding: var(--scale-8-3) var(--scale-8-3) 0 var(--scale-8-3);
+    box-sizing: border-box;
+    overflow: visible;
+}
+
+.scrollableContent::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollableContent::-webkit-scrollbar-thumb {
+    background-color: #cccccc;
+    border-radius: 4px;
+}

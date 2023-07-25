@@ -295,6 +295,7 @@ const baseColors = [
 const colorMap = {};
 
 export const getColorForClass = (classId) => {
+  // console.log("Class id: ", classId)
   const parts = classId.split(".");
   const topLevelIndex = parseInt(parts[0], 10) - 1;
   const colorIndex = topLevelIndex % baseColors.length;  // use modulus to wrap around
@@ -303,7 +304,7 @@ export const getColorForClass = (classId) => {
   if (!colorMap[parts[0]]) {
       colorMap[parts[0]] = {
           base: chroma(baseColors[colorIndex]).hex(),
-          scale: chroma.scale([chroma(baseColors[colorIndex]).hex(), 'white']).mode('lch').colors(10)
+          scale: chroma.scale([chroma(baseColors[colorIndex]).hex(), 'white']).mode('lch').colors(20)
       };
   }
 
@@ -430,3 +431,43 @@ export const getColorForClass = (classId) => {
 //   addClusterPolygons(node, i, 1 - zoomDecimalToNextZoom, zoomLevel)
 //   addClusterPolygons(node, i, zoomDecimalToNextZoom, zoomLevel + 1)
 // });
+
+// Manually inspecting edges between topics
+// let nodeById = new Map(layoutNodes.map(node => [node.data.paperId, node]));
+      // let edgeTempLinks = []
+      // edgesData.forEach(edge => {
+      //   edgeTempLinks.push({
+      //           source: nodeById.get(edge.source),
+      //           target: nodeById.get(edge.target),
+      //           strength: 0,
+      //           distance: 0,
+      //           weight: edge.weight,
+      //       });
+      //   });
+      // console.log("nodeById", nodeById, "layoutNodes", layoutNodes)
+      // edgeTempLinks.forEach(edge => {
+      //   // optimize this later!
+      //     // console.log(edge.source)
+      //     const sourceNode = layoutNodes.find(node => node === edge.source);
+      //     const targetNode = layoutNodes.find(node => node === edge.target);
+
+      //     let edgeColor = 0x808080
+      //     let edgeOpacity = 1
+
+      
+      //     // Create a new graphics object for the edge if it doesn't exist
+      //     if (!edge.edge_graphics) {
+      //       edge.edge_graphics = new PIXI.Graphics();
+      //       edge.edge_graphics.zIndex = 50; // set this below node's zIndex to ensure nodes are drawn on top
+      //       viewport.addChild(edge.edge_graphics);
+
+      //       // Draw the line
+      //       edge.edge_graphics.clear(); // remove any existing line
+      //       edge.edge_graphics.lineStyle(1, edgeColor, edgeOpacity); 
+      //       edge.edge_graphics.moveTo(sourceNode.x, sourceNode.y); // move to the source node's position
+      //       edge.edge_graphics.lineTo(targetNode.x, targetNode.y); // draw a line to the target node's position
+      //       viewport.addChild(edge.edge_graphics)
+      //     } else {
+      //       edge.edge_graphics.visible = true;  
+      //     }
+      // });
