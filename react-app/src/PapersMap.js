@@ -5,7 +5,7 @@ import { Delaunay } from 'd3-delaunay';
 import { rectIntersectsRect, flattenClusters, multilineText, labelBounds, traverseCluster, calculateClusterCentroids, getVoronoiNeighbors, getColorForClass } from './util';
 import { computeHierarchicalLayout } from './layout';
 
-const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
+const ResearchPaperPlot = ({ papersData, edgesData, clusterData, setSelectedPaper }) => {
   const pixiContainer = useRef();
   PIXI.BitmapFont.from("TitleFont", { fill: 0xFFFFFF }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
   PIXI.BitmapFont.from("TopicFont", { fill: 0xFFFFFF, fontWeight: 'bold', }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
@@ -378,13 +378,39 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
             node.circleHeight = circleHeight;
             node.circle.endFill();
             viewport.addChild(node.circle);
+
+            // Enable clicking and hovering to view papers
+            node.circle.interactive = true;
+            node.circle.on('pointerdown', () => {
+              if (node.circle.visible) {
+                node.last_click_time = Date.now();
+              }
+            });
+            node.circle.on('pointerup', () => {
+              if (node.circle.visible) {
+                if (Date.now() - node.last_click_time < 200) {
+                  console.log("circle clicked!")
+                  setSelectedPaper(node['data']);
+                }
+              }
+            });
+            node.circle.on('pointerover', () => {
+                if (node.circle.visible) {
+                    node.hoverTimeout = setTimeout(() => {
+                        console.log("PAPER OVER!");
+                        setSelectedPaper(node['data']);
+                    }, 200);
+                }
+            });
+            
+            node.circle.on('pointerout', () => {
+                clearTimeout(node.hoverTimeout);
+            });
         } else {
             node.circle.visible = true;
         }
 
-        // Add the text to the viewport
-        
-        
+        // Add the text to the viewport             
         let multilineTitle = multilineText(node['data'].name, multilineSize)
 
         // Not allowing more than 20 paper labels / a lot of words
@@ -421,16 +447,24 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
       });
 
       // Add layout edges between nodes
+      const hide_topics = true
       vis_links.forEach(edge => {
         // optimize this later!
           // console.log(edge.source)
           const sourceNode = layoutNodes.find(node => node === edge.source);
           const targetNode = layoutNodes.find(node => node === edge.target);
 
+          let edgeColor = 0x808080
+          let edgeOpacity = 0.5 + edge.weight / 2
+
           // hide topic connecting edges
-          if (sourceNode.children || targetNode.children) {
+          if (hide_topics && (sourceNode.children || targetNode.children)) {
             return
+          } else if (sourceNode.children || targetNode.children) {
+            edgeColor = 0xFF0000
+            edgeOpacity = 0.5
           }
+
       
           // Create a new graphics object for the edge if it doesn't exist
           if (!edge.edge_graphics) {
@@ -440,7 +474,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
 
             // Draw the line
             edge.edge_graphics.clear(); // remove any existing line
-            edge.edge_graphics.lineStyle(1, 0x808080, 0.5 + edge.weight / 2); // set the line style (you can customize this)
+            edge.edge_graphics.lineStyle(1, edgeColor, edgeOpacity); 
             edge.edge_graphics.moveTo(sourceNode.x, sourceNode.y); // move to the source node's position
             edge.edge_graphics.lineTo(targetNode.x, targetNode.y); // draw a line to the target node's position
             viewport.addChild(edge.edge_graphics)
@@ -504,7 +538,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
         let vis_links = layoutLinks.filter((edge) => vis_nodes_set.has(edge.source) && vis_nodes_set.has(edge.target));
 
         prev_viewport_bounds = viewport_bounds.clone(); // clone the rectangle to avoid reference issues
-        // drawNodes(vis_nodes, vis_cluster_centroids, viewport);
         drawNodes(vis_nodes, vis_cluster_centroids, viewport, vis_links);
 
         count += 1
@@ -530,7 +563,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData }) => {
     };
 
     // Update nodes based on ticker
-    // updateNodes() // for debugging
     app.ticker.add(updateNodes)
 
   }, [papersData, edgesData, clusterData]);
