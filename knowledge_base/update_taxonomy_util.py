@@ -3,6 +3,39 @@ import json
 import re
 import ast
 import numpy as np
+from datetime import datetime
+import os
+
+def save_taxonomy_papers_note(numbered_taxonomy, df, note):
+    now = datetime.now()
+    date_str = now.strftime('%y-%m-%d')
+    time_str = now.strftime('%H-%M-%S')
+    if not os.path.exists(f'clusters/{date_str}'):
+        os.makedirs(f'clusters/{date_str}')
+    if not os.path.exists(f'papers/{date_str}'):
+        os.makedirs(f'papers/{date_str}')
+
+    # save the taxonomy and df to a txt and csv file
+    with open(f'clusters/{date_str}/{time_str}_{df.shape[0]}_{note}.txt', 'w') as f:
+        f.write(numbered_taxonomy)
+    df.to_json(f'papers/{date_str}/{time_str}_{df.shape[0]}_{note}.json', orient='records')
+    df[['title', 'classification_ids']].to_json(f'papers/{date_str}/{time_str}_{df.shape[0]}_{note}_manual_inspection.json', orient='records', indent=2)
+
+    # save to main
+    with open(f'clusters/latest_taxonomy.txt', 'w') as f:
+        f.write(numbered_taxonomy)
+    df.to_json(f'papers/latest_papers.json', orient='records')
+
+def load_latest_taxonomy_papers():
+    # load the df
+    with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\papers\latest_papers.json', 'r') as f:
+        data = json.load(f)
+    df = pd.DataFrame(data)
+
+    with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\clusters\latest_taxonomy.txt', 'r') as f:
+        numbered_taxonomy = f.read()
+
+    return numbered_taxonomy, df
 
 def extract_valid_json_string(json_str):
     print("EXTRACTING VALID JSONS FROM ", json_str)
@@ -65,8 +98,6 @@ def extract_taxonomy_mapping(chat_output):
     return changed_category_ids_dict
 
 def update_classification_ids(classification_ids, changed_category_ids):
-    print("classification_ids", classification_ids)
-
     # Parse string into actual list if necessary
     if isinstance(classification_ids, str):
         classification_ids = ast.literal_eval(classification_ids)
@@ -75,7 +106,7 @@ def update_classification_ids(classification_ids, changed_category_ids):
     # If classification_ids is NaN, skip over it
     if (classification_ids is np.nan) or (not classification_ids):
         return classification_ids
-    
+
     res = []
     for item in classification_ids:
         if len(item) > 1:
@@ -84,4 +115,6 @@ def update_classification_ids(classification_ids, changed_category_ids):
             else:
                 res.append(item)
 
+    
+    print("classification_ids", classification_ids, "res", res)
     return res

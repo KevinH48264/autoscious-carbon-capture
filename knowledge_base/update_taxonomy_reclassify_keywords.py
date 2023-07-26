@@ -1,11 +1,9 @@
 # Updating taxonomy and extracting and classifying keywords from papers not yet keyword extracted
 import pandas as pd
 import time
-from datetime import datetime
-from update_taxonomy_util import extract_valid_json_string, extract_taxonomy_and_classification, extract_taxonomy_mapping, update_classification_ids
+from update_taxonomy_util import extract_valid_json_string, extract_taxonomy_and_classification, extract_taxonomy_mapping, update_classification_ids, save_taxonomy_papers_note
 from prompts import retrieve_update_taxonomy_extract_keywords_prompt, retrieve_taxonomy_mapping_prompt, retrieve_classify_keywords_prompt
 import json
-import os
 from llm import chat_openai
 
 # TODO: copy path of latest papers df and taxonomy and edit TOTAL_PROMPT_TOKEN appropriately
@@ -16,7 +14,7 @@ df = pd.DataFrame(data)
 with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\clusters\23-07-25\22-53-41_11935_0_39_reclassify_keywords.txt', 'r') as f:
     numbered_taxonomy = f.read()
 
-print("# classification not None: ", len(df[df['classification_ids'].notna()]), "# None: ", len(df[df['classification_ids'].isna()]))
+print("Before classification, # already classified: ", len(df[df['classification_ids'].notna()]), "# not classified (None): ", len(df[df['classification_ids'].isna()]))
 
 def process_keywords(df, numbered_taxonomy):
     try:
@@ -24,14 +22,6 @@ def process_keywords(df, numbered_taxonomy):
         TOTAL_PROMPT_TOKENS = 5000
         CHARS_PER_TEXT = 250
         NUM_BATCHES = TOTAL_PROMPT_TOKENS / CHARS_PER_TEXT # should be more than enough
-
-        now = datetime.now()
-        date_str = now.strftime('%y-%m-%d')
-        time_str = now.strftime('%H-%M-%S')
-        if not os.path.exists(f'clusters/{date_str}'):
-            os.makedirs(f'clusters/{date_str}')
-        if not os.path.exists(f'papers/{date_str}'):
-            os.makedirs(f'papers/{date_str}')
 
         for i in range(0, int(NUM_BATCHES)):
             print(f"--- ITERATION {i} ---")
@@ -81,16 +71,12 @@ def process_keywords(df, numbered_taxonomy):
                 paper_id = index_to_paperId[int(idx)]  # map index back to paperId
                 df.loc[df['paperId'] == paper_id, 'classification_ids'] = df.loc[df['paperId'] == paper_id, 'classification_ids'].apply(lambda x: class_ids)
                 
-            # check and update for any changed paper classification ids because of updated taxonomy
+            # check and update for any changed paper classification ids because of updated 
+            print("applying update classifiation ids")
             df['classification_ids'] = df['classification_ids'].apply(update_classification_ids, args=(changed_category_ids,))
 
             # save the taxonomy and df to a txt and csv file
-            n = len(papers.keys())
-
-            with open(f'clusters/{date_str}/{time_str}_{df.shape[0]}_{min_idx}_{n}_reclassify_keywords.txt', 'w') as f:
-                f.write(updated_taxonomy)
-            df.to_json(f'papers/{date_str}/{time_str}_{df.shape[0]}_{min_idx}_{n}_reclassify_keywords.json', orient='records')
-            df[['title', 'classification_ids']].to_json(f'papers/{date_str}/{time_str}_{df.shape[0]}_{min_idx}_{n}_manual_analysis_reclassify_keywords.json', orient='records', indent=2)
+            save_taxonomy_papers_note(updated_taxonomy, df, f"{df.shape[0]}_{min_idx}_{len(papers.keys())}_reclassify_keywords")
             
             numbered_taxonomy = updated_taxonomy
 
