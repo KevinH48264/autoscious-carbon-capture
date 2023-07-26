@@ -1,69 +1,73 @@
 1. General
-   1.1 Literature Reviews
-   1.2 Updates on Carbon Capture Research
-   1.3 General Carbon Capture Concepts
+   1.1 Literature reviews
+   1.2 Updates and news
 
 2. Carbon Capture Technologies
-   2.1 Pre-combustion Capture
-       2.1.1 Gasification
-       2.1.2 Water-gas Shift Reaction
-       2.1.3 Physical Solvents
-       2.1.4 Chemical Solvents
-   2.2 Post-combustion Capture
-       2.2.1 Chemical Absorption
-       2.2.2 Physical Absorption
-       2.2.3 Membrane Separation
-   2.3 Oxy-fuel Combustion
-       2.3.1 Cryogenic Separation
-       2.3.2 Chemical Looping Combustion
-   2.4 Direct Air Capture
-       2.4.1 Chemical Absorption
-       2.4.2 Physical Absorption
-       2.4.3 Solid Sorbents
-   2.5 Bio-energy with Carbon Capture and Storage (BECCS)
-       2.5.1 Biomass Gasification
-       2.5.2 Biomass Combustion
-   2.6 Carbon Mineralization
-       2.6.1 In-situ Mineralization
-       2.6.2 Ex-situ Mineralization
-   2.7 Underground Coal Gasification (UCG)
-   2.8 Catalytic Carbon Capture
-   2.9 Carbon Capture in Industry
-       2.9.1 Pulp and Paper Industry
-       2.9.2 Natural Gas Purification
+   2.1 Post-combustion capture
+   2.2 Pre-combustion capture
+   2.3 Oxy-fuel combustion capture
+   2.4 Direct air capture
+   2.5 Biological capture
+   2.6 Chemical looping combustion
+   2.7 Membrane-based capture
+   2.8 Cryogenic capture
+   2.9 Adsorption-based capture
+   2.10 Hybrid capture systems
 
-3. Carbon Storage and Utilization
-   3.1 Geological Storage
-       3.1.1 Deep Saline Aquifers
-       3.1.2 Oil and Gas Reservoirs
-       3.1.3 Unmineable Coal Seams
-   3.2 Ocean Storage
-   3.3 Mineral Carbonation
-   3.4 Carbon Utilization
-       3.4.1 Enhanced Oil Recovery (EOR)
-       3.4.2 Carbonate Mineral Production
-       3.4.3 Chemical Feedstock
-   3.5 Porous Aromatic Frameworks (PAFs)
+3. Carbon Capture Materials
+   3.1 Solvents
+   3.2 Sorbents
+   3.3 Membranes
+   3.4 Catalysts
+   3.5 Absorbents
+   3.6 Adsorbents
+   3.7 Zeolites
+   3.8 Metal-organic frameworks (MOFs)
+   3.9 Nanomaterials
 
-4. Policy and Economics
-   4.1 Carbon Pricing
-   4.2 Regulatory Policies
-   4.3 Economic Feasibility Studies
-   4.4 Market Analysis
-   4.5 Climate Change Assessment
+4. Carbon Capture Processes
+   4.1 Absorption
+   4.2 Adsorption
+   4.3 Membrane separation
+   4.4 Cryogenic separation
+   4.5 Chemical looping
+   4.6 Electrochemical capture
+   4.7 Biological capture
+   4.8 Mineralization
 
-5. Environmental Impact and Risk Assessment
-   5.1 Life Cycle Assessment
-   5.2 Risk Assessment of Storage Sites
-   5.3 Impact on Biodiversity
-   5.4 Carbon Leakage
+5. Carbon Capture Storage and Utilization
+   5.1 Geological storage
+   5.2 Ocean storage
+   5.3 Mineral carbonation
+   5.4 Enhanced oil recovery (EOR)
+   5.5 Carbon utilization in building materials
+   5.6 Carbon utilization in fuels and chemicals
+   5.7 Carbon utilization in agriculture and forestry
 
-6. Public Perception and Social Aspects
-   6.1 Public Acceptance Studies
-   6.2 Stakeholder Engagement
-   6.3 Ethical Considerations
+6. Carbon Capture System Integration
+   6.1 Integration with power plants
+   6.2 Integration with industrial processes
+   6.3 Integration with transportation systems
+   6.4 Integration with renewable energy systems
 
-7. Miscellaneous
-   7.1 Emerging Carbon Capture Technologies
-   7.2 Non-carbon Capture Related Concepts
-   7.3 Other Relevant Topics
+7. Carbon Capture Policy and Economics
+   7.1 Policy frameworks and regulations
+   7.2 Carbon pricing mechanisms
+   7.3 Financial incentives and subsidies
+   7.4 Life cycle assessment and cost analysis
+   7.5 Carbon offset markets
+
+8. Carbon Capture Monitoring, Verification, and Risk Assessment
+   8.1 Monitoring technologies and techniques
+   8.2 Verification methodologies
+   8.3 Risk assessment and mitigation strategies
+   8.4 Leakage detection and prevention
+
+9. Carbon Capture Demonstration Projects
+   9.1 Pilot-scale projects
+   9.2 Large-scale projects
+   9.3 Case studies and lessons learned
+
+10. Miscellaneous
+    10.1 Concepts not covered by other categories
+    10.2 Non-carbon capture related concepts
