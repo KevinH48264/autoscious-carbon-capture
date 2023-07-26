@@ -1,20 +1,4 @@
-# classification not None:  11 # None:  11924
---- ITERATION 0 / 20 ---
-Checking rows starting from 11 , num paper tokens to use:  2940
-df: 
- 0     [[numerical pressure-decay method, 2.9], [CO2 ...
-1     [[CO2 adsorption, 2.9], [separation, 2.9], [so...
-2     [[Cobalt-Catalyzed Reductive Carboxylation, 2....
-3     [[Carbon Dioxide Capture, 2.9], [Porous Aromat...
-4     [[process simulation model, 2.10], [energy ana...
-                            ...                        
-56                                                 None
-57                                                 None
-58                                                 None
-59                                                 None
-60                                                 None
-Name: classification_ids, Length: 61, dtype: object numbered_taxonomy: 
- 1. General
+1. General
    1.1 Literature reviews
    1.2 Updates and news
 
