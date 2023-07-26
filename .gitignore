@@ -163,6 +163,7 @@ cython_debug/
 old/
 node_modules/
 checkpoints/
+*/log.txt
 
 # Big files
 data_collection/**/*.json
