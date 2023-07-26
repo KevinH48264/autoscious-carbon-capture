@@ -5,6 +5,7 @@ from datetime import datetime
 import os
 import pandas as pd
 from llm import chat_openai
+from update_taxonomy_util import extract_valid_json_string, extract_taxonomy_and_classification, extract_taxonomy_mapping, update_classification_ids
 
 # TODO: copy path of latest papers df and taxonomy
 with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\papers\23-07-25\23-12-00_11935_reorganize_taxonomy.json', 'r') as f:
@@ -45,7 +46,7 @@ def reorganize_taxonomy(df, numbered_taxonomy):
         print("changed category ids: ", changed_category_ids)
             
         # check and update for any changed paper classification ids
-        df['keyword_classification_ids'] = df['keyword_classification_ids'].apply(update_classification_ids, args=(changed_category_ids,))
+        df['classification_ids'] = df['classification_ids'].apply(update_classification_ids, args=(changed_category_ids,))
 
         # save the taxonomy and df to a txt and csv file
         with open(f'clusters/{date_str}/{time_str}_{df.shape[0]}_reorganize_taxonomy.txt', 'w') as f:

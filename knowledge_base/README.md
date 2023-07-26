@@ -29,9 +29,13 @@
 - Edit and run generate_viz.ipynb Pre-processing step 3 and use process_keywords instead of process_papers or edit and run update_taxonomy_reclassify_keywords.py (under development, currently just reclassifies from the start instead of from lowest confidence score)
 
 ## 7. For reorganizing taxonomy
+- Edit and run reorganize_taxonomy.py
 
 ## 8. For adding confidence scores to classification ids
+- Edit and run add_keyword_class_scores.py
 
-## 8. For generating edges
+## 9. For generating taxonomy JSON
+- TODO
 
-## 9. For adapting taxonomy to be more structured
+## 10. For generating edges
+- TODO
