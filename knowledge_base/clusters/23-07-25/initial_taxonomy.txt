@@ -1,0 +1,62 @@
+1. General
+   1.1 Literature Reviews
+   1.2 Updates on Carbon Capture Research
+   1.3 General Carbon Capture Concepts
+
+2. Carbon Capture Technologies
+   2.1 Pre-combustion Capture
+       2.1.1 Gasification
+       2.1.2 Water-gas Shift Reaction
+       2.1.3 Physical Solvents
+       2.1.4 Chemical Solvents
+   2.2 Post-combustion Capture
+       2.2.1 Chemical Absorption
+       2.2.2 Physical Absorption
+       2.2.3 Membrane Separation
+   2.3 Oxy-fuel Combustion
+       2.3.1 Cryogenic Separation
+       2.3.2 Chemical Looping Combustion
+   2.4 Direct Air Capture
+       2.4.1 Chemical Absorption
+       2.4.2 Physical Absorption
+       2.4.3 Solid Sorbents
+   2.5 Bio-energy with Carbon Capture and Storage (BECCS)
+       2.5.1 Biomass Gasification
+       2.5.2 Biomass Combustion
+   2.6 Carbon Mineralization
+       2.6.1 In-situ Mineralization
+       2.6.2 Ex-situ Mineralization
+
+3. Carbon Storage and Utilization
+   3.1 Geological Storage
+       3.1.1 Deep Saline Aquifers
+       3.1.2 Oil and Gas Reservoirs
+       3.1.3 Unmineable Coal Seams
+   3.2 Ocean Storage
+   3.3 Mineral Carbonation
+   3.4 Carbon Utilization
+       3.4.1 Enhanced Oil Recovery (EOR)
+       3.4.2 Carbonate Mineral Production
+       3.4.3 Chemical Feedstock
+
+4. Policy and Economics
+   4.1 Carbon Pricing
+   4.2 Regulatory Policies
+   4.3 Economic Feasibility Studies
+   4.4 Market Analysis
+
+5. Environmental Impact and Risk Assessment
+   5.1 Life Cycle Assessment
+   5.2 Risk Assessment of Storage Sites
+   5.3 Impact on Biodiversity
+   5.4 Carbon Leakage
+
+6. Public Perception and Social Aspects
+   6.1 Public Acceptance Studies
+   6.2 Stakeholder Engagement
+   6.3 Ethical Considerations
+
+7. Miscellaneous
+   7.1 Emerging Carbon Capture Technologies
+   7.2 Non-carbon Capture Related Concepts
+   7.3 Other Relevant Topics
