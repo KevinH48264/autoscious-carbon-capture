@@ -1,15 +1,19 @@
+'''
+This script 1) retrieves the top num_papers papers from the OpenAlex database for a given search term search_term, 2) ensure that extracted info about ids are not in the latest knowledge base existing_complete_papers_json_path, and 3) exports all new paper ids to openalex/date/time_size_search_term_num_papers.json for checkpointing and openalex/latest_unique_papers_downloaded.json for combining
+'''
+
 import pyalex
 from pyalex import Works
 import os
-from datetime import date
+from datetime import datetime
 import json
 import pandas as pd
 
 # Arguments
 pyalex.config.email = "1kevin.huang@gmail.com"
 search_term = "carbon capture"
-num_papers = 200
-existing_complete_papers_json_path = r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\papers\23-07-25_11935_database_update.json'
+num_papers = 250
+existing_complete_papers_json_path = '../knowledge_base/papers/latest_papers.json'
 disregard_existing_papers = False # If you want to replace existing papers in the knowledge base
 
 # Search by relevance for search term
@@ -25,9 +29,10 @@ for i, page in enumerate(results_pager):
         break
 
 # Get today's date
-today = date.today()
-date_string = today.strftime('%y-%m-%d')
-folder_path = "openalex/" + date_string
+now = datetime.now()
+date_str = now.strftime('%y-%m-%d')
+time_str = now.strftime('%H-%M-%S')
+folder_path = "openalex/" + date_str
 raw_file_name = f'raw_output_relevance_{len(top_results)}.json'
 
 # Check if the folder path exists, create it if it doesn't
@@ -86,9 +91,11 @@ for i, result in enumerate(top_results):
             print(f"Error processing result {i}: {e}")
 
 # Write the list of extracted results to the JSON file
-output_file_path = folder_path + f"/extracted_output_relevance_{len(extracted_data)}.json"
+output_file_path = folder_path + f"/{time_str}_{len(extracted_data)}_new_papers_relevance_ranked_{search_term}_{num_papers}.json"
 
 with open(output_file_path, "w") as output_file:
+    json.dump(extracted_data, output_file)
+with open('openalex/latest_unique_papers_downloaded.json', "w") as output_file:
     json.dump(extracted_data, output_file)
 
 print("Completed extracting results! # of new results: ", len(extracted_data))

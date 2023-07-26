@@ -35,7 +35,7 @@
 - Edit and run add_keyword_class_scores.py
 
 ## 9. For generating taxonomy JSON
-- TODO
+- Edit and run gen_taxonomy_json.py
 
 ## 10. For generating edges
-- TODO
+- Edit and run gen_edges.py

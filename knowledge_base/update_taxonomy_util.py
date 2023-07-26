@@ -28,11 +28,11 @@ def save_taxonomy_papers_note(numbered_taxonomy, df, note):
 
 def load_latest_taxonomy_papers():
     # load the df
-    with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\papers\latest_papers.json', 'r') as f:
+    with open('papers/latest_papers.json', 'r') as f:
         data = json.load(f)
     df = pd.DataFrame(data)
 
-    with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\clusters\latest_taxonomy.txt', 'r') as f:
+    with open('clusters/latest_taxonomy.txt', 'r') as f:
         numbered_taxonomy = f.read()
 
     return numbered_taxonomy, df
