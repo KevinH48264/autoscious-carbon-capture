@@ -1,4 +1,6 @@
-from datetime import date
+'''This file creates an initial seed taxonomy, but only adds it as a checkpoint in clusters/date/time instead of overwriting the latest_taxonomy.json because usually you don't want to replace latest_taxonomy.json'''
+
+from datetime import datetime
 import os
 from llm import chat_openai
 
@@ -13,13 +15,14 @@ def create_initial_taxonomy_prompt(model="gpt-4"):
     print("INITIAL TAXONOMY: ", initial_taxonomy)
 
     # save the taxonomy to a txt file
-    today = date.today()
-    date_string = today.strftime('%y-%m-%d')
-    folder_path = "clusters/" + date_string
+    now = datetime.now()
+    date_str = now.strftime('%y-%m-%d')
+    time_str = now.strftime('%H-%M-%S')
+    folder_path = "clusters/" + date_str
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
 
-    with open(f'clusters/{date_string}/initial_taxonomy.txt', 'w') as f:
+    with open(f'clusters/{date_str}/{time_str}_initial_taxonomy.txt', 'w') as f:
         f.write(initial_taxonomy)
 
-create_initial_taxonomy_prompt("gpt-4")
+create_initial_taxonomy_prompt("gpt-3.5-turbo")
