@@ -6,27 +6,22 @@ import torch
 from scipy.spatial.distance import cosine
 from transformers import AutoTokenizer, AutoModel
 from datetime import datetime
+from update_taxonomy_util import load_latest_taxonomy_papers, save_taxonomy_papers_note
 import os
 
-# TODO: copy path of latest papers df and taxonomy
-with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\papers\latest_papers.json', 'r') as f:
-    data = json.load(f)
-df = pd.DataFrame(data)
+# TODO (optional to load in custom data): copy path of latest papers df and taxonomy
+# with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\papers\latest_papers.json', 'r') as f:
+#     data = json.load(f)
+# df = pd.DataFrame(data)
 
-with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\clusters\latest_taxonomy.txt', 'r') as f:
-    numbered_taxonomy = f.read()
+# with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\clusters\latest_taxonomy.txt', 'r') as f:
+#     numbered_taxonomy = f.read()
+
+numbered_taxonomy, df = load_latest_taxonomy_papers()
 
 # Load pretrained model/tokenizer
 tokenizer = AutoTokenizer.from_pretrained("allenai/specter")
 model = AutoModel.from_pretrained("allenai/specter")
-
-now = datetime.now()
-date_str = now.strftime('%y-%m-%d')
-time_str = now.strftime('%H-%M-%S')
-if not os.path.exists(f'clusters/{date_str}'):
-    os.makedirs(f'clusters/{date_str}')
-if not os.path.exists(f'papers/{date_str}'):
-    os.makedirs(f'papers/{date_str}')
 
 # Add keyword classification confidence scores - 1
 # create class_id_to_name dictionary
@@ -81,12 +76,4 @@ for i, (_, row) in enumerate(df.iterrows()):
     df.loc[i, 'classification_ids'] = str(updated_classification_ids)
 
 # save the taxonomy and df to a txt and csv file
-with open(f'clusters/{date_str}/{time_str}_{df.shape[0]}_add_keyword_class_scores.txt', 'w') as f:
-    f.write(numbered_taxonomy)
-df.to_json(f'papers/{date_str}/{time_str}_{df.shape[0]}_add_keyword_class_scores.json', orient='records')
-df[['title', 'classification_ids']].to_json(f'papers/{date_str}/{time_str}_{df.shape[0]}_add_keyword_class_scores_manual_inspection.json', orient='records', indent=2)
-
-# save to main
-with open(f'clusters/latest_taxonomy.txt', 'w') as f:
-    f.write(numbered_taxonomy)
-df.to_json(f'papers/latest_papers.json', orient='records')
+save_taxonomy_papers_note(numbered_taxonomy, df, "add_keyword_class_scores")

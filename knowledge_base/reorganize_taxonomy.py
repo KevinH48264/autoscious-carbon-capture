@@ -21,6 +21,8 @@ def reorganize_taxonomy(df, numbered_taxonomy):
     time_str = now.strftime('%H-%M-%S')
     if not os.path.exists(f'clusters/{date_str}'):
         os.makedirs(f'clusters/{date_str}')
+    if not os.path.exists(f'papers/{date_str}'):
+        os.makedirs(f'papers/{date_str}')
 
     try:
         update_taxonomy_prompt = retrieve_organize_taxonomy(numbered_taxonomy)
@@ -52,7 +54,7 @@ def reorganize_taxonomy(df, numbered_taxonomy):
         with open(f'clusters/{date_str}/{time_str}_{df.shape[0]}_reorganize_taxonomy.txt', 'w') as f:
             f.write(updated_taxonomy)
         df.to_json(f'papers/{date_str}/{time_str}_{df.shape[0]}_reorganize_taxonomy.json', orient='records')
-        df[['title', 'classification_ids']].to_json(f'papers/{date_str}/{time_str}_{df.shape[0]}_reorganize_taxonomy.json', orient='records', indent=2)
+        df[['title', 'classification_ids']].to_json(f'papers/{date_str}/{time_str}_{df.shape[0]}_reorganize_taxonomy_manual_inspection.json', orient='records', indent=2)
 
         # save to main
         with open(f'clusters/latest_taxonomy.txt', 'w') as f:
@@ -60,6 +62,11 @@ def reorganize_taxonomy(df, numbered_taxonomy):
         df.to_json(f'papers/latest_papers.json', orient='records')
     except Exception as e:
         print("An error occurred: ", e)
+
+        # save to main
+        with open(f'clusters/latest_taxonomy.txt', 'w') as f:
+            f.write(numbered_taxonomy)
+        df.to_json(f'papers/latest_papers.json', orient='records')
 
     return df, numbered_taxonomy
 

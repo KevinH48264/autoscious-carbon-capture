@@ -44,10 +44,10 @@ Updated Taxonomy (id : name):
 
 The output should be in the following JSON format: 
 "UPDATED CATEGORY IDS: [
-{{ Input Taxonomy category id : Updated Taxonomy category id}},
-{{ Input Taxonomy category id : Updated Taxonomy category id}},
+{{ "Input Taxonomy category id" : "Updated Taxonomy category id"}},
+{{ "Input Taxonomy category id" : "Updated Taxonomy category id"}},
 etc.]" 
--- List every category id in Input Taxonomy and its closest category id in Updated Taxonomy based on category name.
+-- List every category id in Input Taxonomy and its closest category id in Updated Taxonomy based on category name. Use double quotes around each id.
 '''
     return retrieve_taxonomy_mapping_prompt
 
@@ -55,7 +55,7 @@ etc.]"
 def retrieve_classify_keywords_prompt(taxonomy, keywords):
     classify_keywords_prompt = f'''
 Task:
-The task is to 1) update the taxonomy of all carbon capture research by re-arranging or adding new categories and levels as appropriate and 2)  use paper keywords to classify each paper id below into its top 3 matching categories in the updated taxonomy. 
+The task is to 1) update the taxonomy of all carbon capture research by re-arranging or adding new categories and levels as appropriate and 2) use the list of paper keywords to classify each paper id and keywords below into its keywords matching category ids in the updated taxonomy. 
 
 Rules and Instructions:
 1. For the taxonomy, be as mutually exclusive, completely exhaustive (MECE) and concise as possible. Try to avoid repetition and overlap. 
@@ -74,11 +74,15 @@ The output should be in the format of:
 
 2. "PAPER CLASSIFICATION: 
 [
-    paper id : [[paper keywords, corresponding category id], [paper text keywords, corresponding category id], etc.], 
+    paper id : [[paper keywords, corresponding category id], [paper keywords, corresponding category id], etc.], 
     paper id : [[paper keywords, corresponding category id], etc.], 
     etc.
 ]" 
 -- a JSON of each paper id with a list of its paper keywords and corresponding Updated Taxonomy category id, with everything being strings.
+
+List formatting example (content and assignments are arbitrary):
+Input: 80 : ['carbon capture', 'biology', 'sand']
+Output: 80 : [['carbon capture, 8], ['biology', 10], ['sand', 9.3]]
 '''
 
     return classify_keywords_prompt
