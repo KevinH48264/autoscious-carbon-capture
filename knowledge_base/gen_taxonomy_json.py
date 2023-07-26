@@ -12,6 +12,7 @@ import ast
 import json
 import os
 from datetime import datetime
+import pandas as pd
 
 def generate_taxonomy_nested():
     taxonomy_str, df = load_latest_taxonomy_papers()
@@ -33,7 +34,7 @@ def generate_taxonomy_nested():
         else:
             classification_ids_list = classification_ids
 
-        for id_info in classification_ids_list:
+        for keyword_idx, id_info in enumerate(classification_ids_list):
             # Skip malformed id_info
             if len(id_info) != 3:
                 continue
@@ -45,22 +46,22 @@ def generate_taxonomy_nested():
 
             # Add the paper data to the corresponding classification_id in class_children
             paper_data = {
-                "name": str(row['id']) + "-" + str(i), 
+                "name": str(row['paperId']) + "-" + str(keyword_idx), 
                 "value": [{
-                    "paperId": row['paperId'] if row['paperId'] else None, 
-                    "title": row['title'] if row['title'] else None, 
-                    "abstract": row['abstract'] if row['abstract'] else None,
-                    "authors": row['authors'] if row['authors'] else None,
-                    "citationCount": row['citationCount'] if row['citationCount'] else None,
-                    "doi": row['doi'] if row['doi'] else None,
-                    "isOpenAccess": row['isOpenAccess'] if row['isOpenAccess'] else None,
-                    "language": row['language'] if row['language'] else None,
-                    "publicationDate": row['publication_date'] if row['publication_date'] else None,
-                    "relevance_score": row["relevance_score"] if row["relevance_score"] else None,
-                    "url": row["url"] if row["url"] else None,
-                    "year": row["year"] if row["year"] else None,
-                    "tsne_x": row["x"] if row["x"] else None,
-                    "tsne_y": row["y"] if row["y"] else None,
+                    "paperId": row['paperId'] if pd.notna(row['paperId']) else None, 
+                    "title": row['title'] if pd.notna(row['title']) else None, 
+                    "abstract": row['abstract'] if pd.notna(row['abstract']) else None,
+                    "authors": [[item if pd.notna(item) else None for item in sublist] for sublist in row['authors']] if row['authors'] is not None else None,
+                    "citationCount": row['citationCount'] if pd.notna(row['citationCount']) else None,
+                    "doi": row['doi'] if pd.notna(row['doi']) else None,
+                    "isOpenAccess": row['isOpenAccess'] if pd.notna(row['isOpenAccess']) else None,
+                    "language": row['language'] if pd.notna(row['language']) else None,
+                    "publicationDate": row['publication_date'] if pd.notna(row['publication_date']) else None,
+                    "relevance_score": row["relevance_score"] if pd.notna(row["relevance_score"]) else None,
+                    "url": row["url"] if pd.notna(row["url"]) else None,
+                    "year": row["year"] if pd.notna(row["year"]) else None,
+                    "tsne_x": row["x"] if pd.notna(row["x"]) else None,
+                    "tsne_y": row["y"] if pd.notna(row["y"]) else None,
                     "keywords": keywords if keywords else None, 
                     "score": confidence_score if confidence_score else None
                 }]
