@@ -74,7 +74,7 @@ export function flattenClusters(clusterData) {
       let clusterPapers = []
       children.forEach((child) => {
         if (child.value) {
-          clusterPapers.push(child.value)
+          clusterPapers.push(child)
         }
       })
 
@@ -83,8 +83,9 @@ export function flattenClusters(clusterData) {
       clusterNodes.push({id, layer, classification_id, children, parents, name, papers: clusterPapers});
 
       // If the cluster has child clusters, recurse on them
+      // clusters have classification_id, papers have classification_ids with a 's', it's just a proxy
       children.forEach((child) => {
-        if (child.id) {
+        if (child.classification_id) {
           recurse(child, parentsMap)
         }
       })
@@ -208,8 +209,8 @@ export const traverseCluster = (cluster, clusterMap) => {
 
   // Check if this cluster has child clusters.
     cluster.children.forEach(childCluster => {
-      // only clusters have ids, papers don't have id, they only have name and value
-      if (childCluster.id !== undefined) {
+      // only clusters have classification_id, papers don't have classification_id, they have classification_ids, with a s, it's just a proxy
+      if (childCluster.classification_id !== undefined) {
         traverseCluster(childCluster, clusterMap)
       }
     });

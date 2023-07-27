@@ -19,21 +19,38 @@ function normalizeDensity(nodes, target_density = 0.0007, x0=0, y0=0) {
 
 
 export function computeHierarchicalLayout(clusterData, paperNodes, edgesData) {
+  // Completely based on taxonomy_json, so extra papers not clasified in taxonomy json won't appear
   const root = hierarchy(clusterData[0])
   let links = root.links();
   const nodes = root.descendants()
 
+  console.log("layout debug", "nodes: ", nodes, "paperNodes: ", paperNodes)
+
+  // paper nodes map for faster lookup
+  let paperNodesMap = new Map();
+  paperNodes.forEach(paperNode => paperNodesMap.set(paperNode.paperId, paperNode));
+
   nodes.forEach(node => {
     if (node.data.value) {
-      let paperNode = paperNodes.find(paper => paper.paperId === node.data.value[0]);
+      // TODO: optimize this, this is probably time consuming
+      let paperNode = paperNodesMap.get(node.data.value[0].paperId);
       if (paperNode) {
-        node.data.citationCount = paperNode.citationCount;
-        node.data.main_class = paperNode.main_class;
         node.data.abstract = paperNode.abstract;
+        node.data.authors = paperNode.authors;
+        node.data.citationCount = paperNode.citationCount;
+        node.data.citations = paperNode.citations;
+        node.data.classification_ids = paperNode.classification_ids;
+        node.data.doi = paperNode.doi;
+        node.data.id = paperNode.id;
+        node.data.isOpenAccess = paperNode.isOpenAccess;
+        node.data.language = paperNode.language;
+        node.data.publication_date = paperNode.publication_date;
+        node.data.relevance_score = paperNode.relevance_score;
+        node.data.year = paperNode.year;
         node.data.title = paperNode.title;
         node.data.x = paperNode.x;
         node.data.y = paperNode.y;
-        node.data.citationCount = paperNode.citationCount;
+        node.data.url = paperNode.url;
         node.data.paperId = paperNode.paperId;
       }
     }
@@ -46,7 +63,7 @@ export function computeHierarchicalLayout(clusterData, paperNodes, edgesData) {
   });
 
   // Create links from each paper to their most similar paperIds within the cluster
-  let nodeById = new Map(nodes.map(node => [node.data.paperId, node]));
+  let nodeById = new Map(nodes.map(node => [node.data.id, node]));
   edgesData.forEach(edge => {
       links.push({
           source: nodeById.get(edge.source),

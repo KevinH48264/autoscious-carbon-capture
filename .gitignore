@@ -169,3 +169,4 @@ checkpoints/
 data_collection/**/*.json
 knowledge_base/**/*.json
 paper_evaluation/**/*.json
+react-app/public/latest/**/*.json
