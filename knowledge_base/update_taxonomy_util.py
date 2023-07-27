@@ -26,6 +26,8 @@ def save_taxonomy_papers_note(numbered_taxonomy, df, note):
         f.write(numbered_taxonomy)
     df.to_json(f'papers/latest_papers.json', orient='records')
 
+    print("Saved df and taxonomy to checkpoint and updated latest files!")
+
 def load_latest_taxonomy_papers():
     # load the df
     with open('papers/latest_papers.json', 'r') as f:
