@@ -26,6 +26,8 @@ def traverse_clusters(cluster, classification_to_papers):
         classification_to_papers[cluster['classification_id']] = values
 
 def generate_edges():
+    num_most_similar = 1
+
     # Open the file and load the JSON
     with open('clusters/latest_taxonomy.json', 'r') as f:
         parsed_taxonomy = json.load(f)
@@ -48,8 +50,8 @@ def generate_edges():
     classification_to_graph = defaultdict(nx.Graph)
 
     for classification_id, paper_ids in classification_to_papers.items():
-        print("On classification id: ", classification_id)
         paper_pairs = list(combinations(paper_ids, 2))
+        print("On classification id: ", classification_id, ", # pairs: ", len(paper_pairs))
 
         for paper_id1_obj, paper_id2_obj in paper_pairs:
             # print("paper_id1", paper_id1_obj[0], "paper_id2", paper_id2_obj[0])
@@ -74,7 +76,6 @@ def generate_edges():
             new_edge = {"source": paper_id1, "target": paper_id2, "weight": weight}
             
             # Add the new edge to the list for paper_id1 if it's one of the top num_most_similar
-            num_most_similar = 1
             if len(max_edges[paper_id1]) < num_most_similar or weight > min(edge['weight'] for edge in max_edges[paper_id1]):
                 if len(max_edges[paper_id1]) == num_most_similar:
                     # Remove the edge with the lowest weight

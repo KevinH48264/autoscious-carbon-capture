@@ -1,6 +1,7 @@
 '''
 This file does the bulk of topic modeling. It updates the taxonomy, extracts keywords, and classifies papers. All log outputs are directed to log.txt for debugging.
 '''
+# Note tokens debug statements can be found in terminal. Ctrl+F "completion"
 
 # Updating taxonomy and extracting and classifying keywords from papers not yet keyword extracted
 import pandas as pd
@@ -33,7 +34,16 @@ def process_papers():
     print_and_flush("# classification not None: ", len(df[df['classification_ids'].notna()]), "# None: ", len(df[df['classification_ids'].isna()]))
 
     # Typically 16000 is good for 8K max tokens
-    TOTAL_PROMPT_TOKENS = 5000
+    # TOTAL_PROMPT_TOKENS = 5000
+        # "prompt_tokens": 1700,
+        # "completion_tokens": 1180,
+        # "total_tokens": 2880
+    # TOTAL_PROMPT_TOKENS = 1000
+        # "prompt_tokens": 2782,
+        # "completion_tokens": 1315,
+        # "total_tokens": 4097
+    # TOTAL_PROMPT_TOKENS = 7500 is best (20 prompt papers, 20 paper responses to hit max tokens)
+    TOTAL_PROMPT_TOKENS = 7500
     CHARS_PER_TEXT = 250
     NUM_BATCHES = int(TOTAL_PROMPT_TOKENS / CHARS_PER_TEXT) # should be more than enough
 
@@ -46,7 +56,6 @@ def process_papers():
         os.makedirs(f'papers/{date_str}')
 
     df.reset_index(drop=True, inplace=True)
-
     for iter_idx in range(0, NUM_BATCHES):
         print_and_flush(f"--- ITERATION {iter_idx} / {NUM_BATCHES} ---")
         subset = df.loc[df['classification_ids'].isna(), 'paperId':'text']
@@ -74,6 +83,7 @@ def process_papers():
         # Call OpenAI API to update taxonomy and classify papers
         update_taxonomy_classify_papers_prompt = retrieve_update_taxonomy_extract_keywords_prompt(numbered_taxonomy, papers_processed)
         res = chat_openai(update_taxonomy_classify_papers_prompt)
+        print_and_flush("update_taxonomy_classify_papers_prompt", update_taxonomy_classify_papers_prompt)
         updated_taxonomy, paper_classification = extract_taxonomy_and_classification(res[0])
         print_and_flush("\nupdated taxonomy: ", updated_taxonomy, "\npaper classification: ", paper_classification)
 

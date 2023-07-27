@@ -1,3 +1,7 @@
+'''
+This file adds confidence score to the keyword and classification name based on cosine similarity from the Allen AI SPECTER model. 
+'''
+
 import json
 import pandas as pd
 import re
@@ -10,11 +14,11 @@ from update_taxonomy_util import load_latest_taxonomy_papers, save_taxonomy_pape
 import os
 
 # TODO (optional to load in custom data): copy path of latest papers df and taxonomy
-# with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\papers\latest_papers.json', 'r') as f:
+# with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\papers\23-07-26\19-55-08_11935_11935_0_36_reclassify_keywords.json', 'r') as f:
 #     data = json.load(f)
 # df = pd.DataFrame(data)
 
-# with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\clusters\latest_taxonomy.txt', 'r') as f:
+# with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\clusters\23-07-26\19-55-08_11935_11935_0_36_reclassify_keywords.txt', 'r') as f:
 #     numbered_taxonomy = f.read()
 
 numbered_taxonomy, df = load_latest_taxonomy_papers()
@@ -51,29 +55,37 @@ def get_cosine_similarity(text1, text2):
     return score
 
 # Add keyword classification confidence scores - 3
-for i, (_, row) in enumerate(df.iterrows()):
-    if row['classification_ids'] and row['classification_ids'] != 'nan' and (type(row['classification_ids']) == list or type(row['classification_ids']) == str):
-        # Using ast.literal_eval to convert the string to a list of lists
-        if type(row['classification_ids']) != list:
-            classification_ids = ast.literal_eval(row['classification_ids'])
-        else:
-            classification_ids = row['classification_ids']
 
-        updated_classification_ids = []
-        for item in classification_ids:
-            if item and len(item) == 2:
-                keywords = item[0]
-                class_id = item[1]
-                if class_id in class_id_to_name.keys():
-                    classification = class_id_to_name[class_id]
-                    
-                    # Get cosine similarity score using HuggingFace Semantic Scholar Spectre API embeddings
-                    score = round(get_cosine_similarity(keywords, classification), 2)
-                    updated_classification_ids.append([keywords, item[1], str(score)])
-                else:
-                    print("ROW ", i, " CLASS ID: ", class_id, " WAS NOT FOUND IN CLASS_ID_TO_NAME")
+mask = df['classification_ids'].notna() & df['classification_ids'].apply(lambda x: isinstance(x, (list, str)))
+df_filtered = df.loc[mask].copy()
+
+for i, (_, row) in enumerate(df_filtered.iterrows()):
+    print(f"Checking {i} / {df_filtered.shape[0]}")
+    # Using ast.literal_eval to convert the string to a list of lists
+    if type(row['classification_ids']) != list:
+        classification_ids = ast.literal_eval(row['classification_ids'])
+    else:
+        classification_ids = row['classification_ids']
+
+    updated_classification_ids = []
+    for item in classification_ids:
+        if item and len(item) == 2:
+            keywords = item[0]
+            class_id = item[1]
+            if class_id in class_id_to_name.keys():
+                classification = class_id_to_name[class_id]
+                
+                # Get cosine similarity score using HuggingFace Semantic Scholar Spectre API embeddings
+                score = round(get_cosine_similarity(keywords, classification), 2)
+                updated_classification_ids.append([keywords, item[1], str(score)])
+            else:
+                print(f"ROW {i} CLASS ID: {class_id} WAS NOT FOUND IN CLASS_ID_TO_NAME")
             
-    df.loc[i, 'classification_ids'] = str(updated_classification_ids)
+        df_filtered.loc[i, 'classification_ids'] = str(updated_classification_ids)
+print("finished adding confidence scores!")
+
+# Merge the filtered DataFrame back into the original one
+df.update(df_filtered)
 
 # save the taxonomy and df to a txt and csv file
 save_taxonomy_papers_note(numbered_taxonomy, df, "add_keyword_class_scores")
