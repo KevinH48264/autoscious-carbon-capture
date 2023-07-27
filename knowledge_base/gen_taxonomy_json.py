@@ -23,16 +23,15 @@ def generate_taxonomy_nested():
 
     # Iterate over the DataFrame once
     for i, row in df.iterrows():
+        curr_paperId = row['paperId']
+
         # Skip rows with no classification_ids
         if not row['classification_ids']:
             continue
 
         # Ensure classifications_ids is a list
         classification_ids = row['classification_ids']
-        if type(classification_ids) == str:
-            classification_ids_list = ast.literal_eval(classification_ids)
-        else:
-            classification_ids_list = classification_ids
+        classification_ids_list = classification_ids
 
         for keyword_idx, id_info in enumerate(classification_ids_list):
             # Skip malformed id_info
@@ -44,29 +43,34 @@ def generate_taxonomy_nested():
             paper_classification_id = id_info[1]
             confidence_score = id_info[2]
 
-            # Add the paper data to the corresponding classification_id in class_children
-            paper_data = {
-                "name": str(row['paperId']) + "-" + str(keyword_idx), 
-                "value": [{
-                    "paperId": row['paperId'] if pd.notna(row['paperId']) else None, 
-                    "title": row['title'] if pd.notna(row['title']) else None, 
-                    "abstract": row['abstract'] if pd.notna(row['abstract']) else None,
-                    "authors": [[item if pd.notna(item) else None for item in sublist] for sublist in row['authors']] if row['authors'] is not None else None,
-                    "citationCount": row['citationCount'] if pd.notna(row['citationCount']) else None,
-                    "doi": row['doi'] if pd.notna(row['doi']) else None,
-                    "isOpenAccess": row['isOpenAccess'] if pd.notna(row['isOpenAccess']) else None,
-                    "language": row['language'] if pd.notna(row['language']) else None,
-                    "publicationDate": row['publication_date'] if pd.notna(row['publication_date']) else None,
-                    "relevance_score": row["relevance_score"] if pd.notna(row["relevance_score"]) else None,
-                    "url": row["url"] if pd.notna(row["url"]) else None,
-                    "year": row["year"] if pd.notna(row["year"]) else None,
-                    "tsne_x": row["x"] if pd.notna(row["x"]) else None,
-                    "tsne_y": row["y"] if pd.notna(row["y"]) else None,
-                    "keywords": keywords if keywords else None, 
-                    "score": confidence_score if confidence_score else None
-                }]
-            }
-            class_children[paper_classification_id].append(paper_data)
+            # Check if the paperId already exists in paper_classification_id so then you can just merge them. Because multiple keywords might clasify them as the same class_id
+            existing_paper_data = next((paper for paper in class_children[paper_classification_id] if (paper['value'][0]["paperId"] == curr_paperId) and curr_paperId), None)
+
+            if existing_paper_data:
+                existing_paper_data['value'][0]['keywords_score'].append([keywords if keywords else None, confidence_score if confidence_score else None])
+            else:
+                # Add the paper data to the corresponding classification_id in class_children if it's new in the classification_id
+                paper_data = {
+                    "name": str(row['paperId']) + "-" + str(keyword_idx), 
+                    "value": [{
+                        "paperId": row['paperId'] if pd.notna(row['paperId']) else None, 
+                        "title": row['title'] if pd.notna(row['title']) else None, 
+                        "abstract": row['abstract'] if pd.notna(row['abstract']) else None,
+                        "authors": [[item if pd.notna(item) else None for item in sublist] for sublist in row['authors']] if row['authors'] is not None else None,
+                        "citationCount": row['citationCount'] if pd.notna(row['citationCount']) else None,
+                        "doi": row['doi'] if pd.notna(row['doi']) else None,
+                        "isOpenAccess": row['isOpenAccess'] if pd.notna(row['isOpenAccess']) else None,
+                        "language": row['language'] if pd.notna(row['language']) else None,
+                        "publicationDate": row['publication_date'] if pd.notna(row['publication_date']) else None,
+                        "relevance_score": row["relevance_score"] if pd.notna(row["relevance_score"]) else None,
+                        "url": row["url"] if pd.notna(row["url"]) else None,
+                        "year": row["year"] if pd.notna(row["year"]) else None,
+                        "tsne_x": row["x"] if pd.notna(row["x"]) else None,
+                        "tsne_y": row["y"] if pd.notna(row["y"]) else None,
+                        "keywords_score": [[keywords if keywords else None, confidence_score if confidence_score else None]], 
+                    }]
+                }
+                class_children[paper_classification_id].append(paper_data)
 
     # Now you can use your existing code to generate the taxonomy tree,
     # but replace the paper data generation part with a lookup in class_children.
