@@ -22,7 +22,7 @@ export function computeHierarchicalLayout(clusterData, paperNodes, edgesData) {
   // Completely based on taxonomy_json, so extra papers not clasified in taxonomy json won't appear
   const root = hierarchy(clusterData[0])
   let links = root.links();
-  const nodes = root.descendants()
+  const nodes = root.descendants() // uses a name value where name = id, value is a list of attributes
 
   console.log("layout debug", "nodes: ", nodes, "paperNodes: ", paperNodes)
 
@@ -41,7 +41,6 @@ export function computeHierarchicalLayout(clusterData, paperNodes, edgesData) {
         node.data.citations = paperNode.citations;
         node.data.classification_ids = paperNode.classification_ids;
         node.data.doi = paperNode.doi;
-        node.data.id = paperNode.id;
         node.data.isOpenAccess = paperNode.isOpenAccess;
         node.data.language = paperNode.language;
         node.data.publication_date = paperNode.publication_date;
@@ -63,7 +62,7 @@ export function computeHierarchicalLayout(clusterData, paperNodes, edgesData) {
   });
 
   // Create links from each paper to their most similar paperIds within the cluster
-  let nodeById = new Map(nodes.map(node => [node.data.id, node]));
+  let nodeById = new Map(nodes.map(node => [node.data.name, node]));
   edgesData.forEach(edge => {
       links.push({
           source: nodeById.get(edge.source),

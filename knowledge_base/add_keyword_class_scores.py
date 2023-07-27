@@ -54,18 +54,29 @@ def get_cosine_similarity(text1, text2):
     score = 1 - cosine(embedding1.numpy(), embedding2.numpy())
     return score
 
-# Add keyword classification confidence scores - 3
+# Ensure we're only taking rows where there are keywords not yet scored. 
+# TODO: Improvement, can add other conditions too (if confidence score is 0 or error handling if format is off)
+def filter_rows(lst):
+    # Ensure that there's a list
+    if not lst:
+        return False
 
-mask = df['classification_ids'].notna() & df['classification_ids'].apply(lambda x: isinstance(x, (list, str)))
+    # Take any row where a sublist has length 2 (has yet to be scored)
+    for sub in lst:
+        if len(sub) == 2:
+            return True
+        
+    return False
+
+# Add keyword classification confidence scores - 3
+import itertools
+
+mask = df['classification_ids'].apply(filter_rows)
 df_filtered = df.loc[mask].copy()
 
-for i, (_, row) in enumerate(df_filtered.iterrows()):
-    print(f"Checking {i} / {df_filtered.shape[0]}")
-    # Using ast.literal_eval to convert the string to a list of lists
-    if type(row['classification_ids']) != list:
-        classification_ids = ast.literal_eval(row['classification_ids'])
-    else:
-        classification_ids = row['classification_ids']
+for count, (index, row) in enumerate(df_filtered.iterrows()):
+    print(f"Scoring row {count} / {df_filtered.shape[0]}")
+    classification_ids = row['classification_ids']
 
     updated_classification_ids = []
     for item in classification_ids:
@@ -77,11 +88,12 @@ for i, (_, row) in enumerate(df_filtered.iterrows()):
                 
                 # Get cosine similarity score using HuggingFace Semantic Scholar Spectre API embeddings
                 score = round(get_cosine_similarity(keywords, classification), 2)
-                updated_classification_ids.append([keywords, item[1], str(score)])
+                updated_classification_ids.append([keywords, item[1], score])
             else:
-                print(f"ROW {i} CLASS ID: {class_id} WAS NOT FOUND IN CLASS_ID_TO_NAME")
-            
-        df_filtered.loc[i, 'classification_ids'] = str(updated_classification_ids)
+                print(f"ROW {index} CLASS ID: {class_id} WAS NOT FOUND IN CLASS_ID_TO_NAME")
+                updated_classification_ids.append([keywords, item[1], -1]) # Just mark it as not found with -1 flag
+    
+    df_filtered.at[index, 'classification_ids'] = updated_classification_ids
 print("finished adding confidence scores!")
 
 # Merge the filtered DataFrame back into the original one

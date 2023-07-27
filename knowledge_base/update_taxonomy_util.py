@@ -6,6 +6,25 @@ import numpy as np
 from datetime import datetime
 import os
 
+def load_latest_taxonomy_papers():
+    # Uncomment for custom loading
+    # with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\papers\23-07-26\22-35-55_11935_1155_23_update_taxonomy_new_classify.json', 'r') as f:
+    #     data = json.load(f)
+    # df = pd.DataFrame(data)
+
+    # with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\clusters\23-07-26\22-35-55_11935_1155_23_update_taxonomy_new_classify.txt', 'r') as f:
+    #     numbered_taxonomy = f.read()
+
+    # load the df
+    with open('papers/latest_papers.json', 'r') as f:
+        data = json.load(f)
+    df = pd.DataFrame(data)
+
+    with open('clusters/latest_taxonomy.txt', 'r') as f:
+        numbered_taxonomy = f.read()
+
+    return numbered_taxonomy, df
+
 def save_taxonomy_papers_note(numbered_taxonomy, df, note):
     now = datetime.now()
     date_str = now.strftime('%y-%m-%d')
@@ -27,17 +46,6 @@ def save_taxonomy_papers_note(numbered_taxonomy, df, note):
     df.to_json(f'papers/latest_papers.json', orient='records')
 
     print("Saved df and taxonomy to checkpoint and updated latest files!")
-
-def load_latest_taxonomy_papers():
-    # load the df
-    with open('papers/latest_papers.json', 'r') as f:
-        data = json.load(f)
-    df = pd.DataFrame(data)
-
-    with open('clusters/latest_taxonomy.txt', 'r') as f:
-        numbered_taxonomy = f.read()
-
-    return numbered_taxonomy, df
 
 def extract_valid_json_string(json_str):
     print("EXTRACTING VALID JSONS FROM ", json_str)
