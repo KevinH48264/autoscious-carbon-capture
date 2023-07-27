@@ -16,7 +16,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData, setSelectedPape
 
     // Compute force-directed layout of PaperNodes
     let paperNodes = papersData
-      .map(({title, x, y, citationCount, paperId, abstract, classification_ids}) => ({title, x: x, y: y, citationCount, paperId, abstract, classification_ids, main_class: classification_ids[0]}))
+      .map(({abstract, authors, citationCount, citations, classification_ids, doi, id, isOpenAccess, language, paperId, publication_date, relevance_score, title, url, x, y, year}) => ({abstract, authors, citationCount, citations, classification_ids, doi, id, isOpenAccess, language, paperId, publication_date, relevance_score, title, url, x, y, year}))
     let leafClusters = flattenClusters(clusterData);
     let centroidNodes = []
 
@@ -410,8 +410,11 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData, setSelectedPape
             node.circle.visible = true;
         }
 
-        // Add the text to the viewport             
-        let multilineTitle = multilineText(node['data'].name, multilineSize)
+        // Add the text to the viewport 
+        let multilineTitle = "Unknown Title"    
+        if (node['data'].title) {
+          multilineTitle = multilineText(node['data'].title, multilineSize)
+        }
 
         // Not allowing more than 20 paper labels / a lot of words
         if (addedTextBounds.size > 20) {

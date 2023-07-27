@@ -9,21 +9,21 @@ const App = () => {
   const [selectedPaper, setSelectedPaper] = useState(null);
 
   useEffect(() => {
-    fetch('1000/papers_gpt4_1000_reorganized.json')
+    fetch('latest/latest_papers.json')
       .then(response => response.json())
       .then(json => {
         setPapersData(json);
           console.log("Papers data:", json);
       })
 
-    fetch('1000/edges_gpt4_1000_reorganized.json')
+    fetch('latest/latest_edges.json')
       .then(response => response.json())
       .then(json => {
         setEdgesData(json);
           console.log("Edges data:", json);
       })
 
-    fetch('1000/taxonomy_gpt4_1000_reorganized.json')
+    fetch('latest/latest_taxonomy.json')
       .then(response => response.json())
       .then(json => {
         setClusterData(json);
