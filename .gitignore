@@ -163,8 +163,10 @@ cython_debug/
 old/
 node_modules/
 checkpoints/
+*/log.txt
 
 # Big files
 data_collection/**/*.json
 knowledge_base/**/*.json
 paper_evaluation/**/*.json
+react-app/public/latest/**/*.json
