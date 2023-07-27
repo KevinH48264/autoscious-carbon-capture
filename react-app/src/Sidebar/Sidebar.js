@@ -89,15 +89,38 @@ export const Sidebar = ({ selectedPaper }) => {
             paddingRight: '10px',
             fontSize: '1rem'
           }}>
-            <div style={{ marginBottom: '20px', fontWeight: 'bold' }}>Title: {selectedPaper && selectedPaper.title}</div>
-            <div style={{ marginBottom: '20px' }}>Authors</div>
-            <div style={{ marginBottom: '20px' }}>Year, Topic</div>
-            <div style={{ marginBottom: '20px' }}># Citations: {selectedPaper && selectedPaper.citationCount}</div>
-            <div style={{ marginBottom: '20px' }}>Abstract: {selectedPaper && selectedPaper.abstract}</div>
+            {selectedPaper ? (
+            <>
+              <div className="title" style={{ marginBottom: '10px', fontWeight: 'bold' }}>{selectedPaper.title}</div>
+              <div className="authors" style={{ marginBottom: '5px', color: '#D3D3D3', fontSize: '0.8rem' }}>
+                {selectedPaper.authors && selectedPaper.authors.map(function(author) {
+                  return author[1];
+                }).join(', ')}
+              </div>
+              <div className="year, keywords" style={{ marginBottom: '5px', color: '#D3D3D3', fontSize: '0.8rem' }}>
+                  {selectedPaper.year}
+                  {selectedPaper.classification_ids && selectedPaper.classification_ids.length > 0 && `, ${selectedPaper.classification_ids.map(classificationId => classificationId[0]).join(', ')}`}
+              </div>
+              <div className="citations" style={{ marginBottom: '5px', color: '#D3D3D3', fontSize: '0.8rem' }}>{selectedPaper.citationCount} Citations</div>
+              <div className="url" style={{ marginBottom: '5px', fontSize: '0.8rem' }}>
+              {selectedPaper && 
+                <a href={selectedPaper.url} style={{ color: '#D3D3D3' }} target="_blank" rel="noopener noreferrer">
+                  {selectedPaper.url}
+                </a>
+              }
+              <div className="abstract" style={{ marginTop: '15px', marginBottom: '20px', fontSize: '0.9rem' }}>
+                {selectedPaper.abstract}</div>
+              </div>
+            </>
+            ) : (
+              <div style={{ fontSize: '1rem' }}>
+                <p>This is a Map of Carbon Capture Research, powered by OpenAlex and Large Language Models.</p>
+                <p>Find and zoom into research topics and papers most relevant to your interests.</p>
+                <p>Hover or click on a circle for more information.</p>
+              </div>
+            )}
           </div>
         </div>
-
-        
       </aside>
     </div>
   );

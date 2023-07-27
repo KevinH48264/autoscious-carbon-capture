@@ -42,9 +42,7 @@
 - Alternatively, edit and run generate_viz.ipynb
 
 ### Improvements:
-1. A column in df to signal if a row has already had their confidence score calculated could decrease runtime drastically by filtering. 
-2. This could be an error catching step where if classification id was not found, then the format was likely wrong and the keywords need to be reclassified. It could be set to None, and then this script and work with update_taxonomy_reclassify_keywords to just filter and rank based on where 1) classification_id = None and then 2) confidence_score is low.
-3. Currently slow because of ast.literal_eval. Could be improved by using a different method to convert string to list. Perhaps regex.
+1. Improve filter_rows function. Can add other conditions too (if confidence score is 0 or error handling if format is off). This could be an error catching step where if classification id was not found, then the format was likely wrong and the keywords need to be reclassified. It could be set to None, and then this script and work with update_taxonomy_reclassify_keywords to just filter and rank based on where 1) classification_id = None and then 2) confidence_score is low.
 
 ## 9. For generating taxonomy JSON (O(# papers))
 - Edit and run gen_taxonomy_json.py
@@ -57,3 +55,6 @@
 Improvements:
 1. Currently unscalable if there are too many papers in one subcluster.
 1.1 Improvement 1: Restrict amount of papers in one subcluster by updating the taxonomg and reclassifying as appropriate.
+
+## To transfer latest files to frontend
+- Run write_to_frontend.py
