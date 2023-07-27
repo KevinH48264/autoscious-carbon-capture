@@ -1,16 +1,20 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as PIXI from 'pixi.js';
 import { Viewport } from 'pixi-viewport';
 import { Delaunay } from 'd3-delaunay';
 import { rectIntersectsRect, flattenClusters, multilineText, labelBounds, traverseCluster, calculateClusterCentroids, getVoronoiNeighbors, getColorForClass } from './util';
 import { computeHierarchicalLayout } from './layout';
 
-const ResearchPaperPlot = ({ papersData, edgesData, clusterData, setSelectedPaper }) => {
+const ResearchPaperPlot = ({ papersData, edgesData, clusterData, setSelectedPaper, isPlotReady, setIsPlotReady }) => {
   const pixiContainer = useRef();
   PIXI.BitmapFont.from("TitleFont", { fill: 0xFFFFFF }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
   PIXI.BitmapFont.from("TopicFont", { fill: 0xFFFFFF, fontWeight: 'bold', }, { chars: PIXI.BitmapFont.ASCII.concat(['∀']) });
 
   useEffect(() => {
+    if (!papersData.length || !edgesData.length || !clusterData.length) {
+      return;
+    }
+
     const logging = false;
     console.log("papersData", papersData, "edgesData", edgesData, "clusterData", clusterData)
 
@@ -48,7 +52,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData, setSelectedPape
     } else {
       pixiContainer.current.appendChild(app.view);
     }
-
     // For now, make the world square and even for better circle parsing
     const minWorldSize = Math.min(window.innerWidth, window.innerHeight);
     const viewport = new Viewport({
@@ -501,7 +504,7 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData, setSelectedPape
 
       // get the current field of view
       const viewport_bounds = viewport.getVisibleBounds();
-			viewport_bounds.pad(viewport_bounds.width * 0.1);
+      viewport_bounds.pad(viewport_bounds.width * 0.1);
 
       // Update visibility of nodes and labels
       if (
@@ -544,6 +547,9 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData, setSelectedPape
         drawNodes(vis_nodes, vis_cluster_centroids, viewport, vis_links);
 
         count += 1
+
+        // Render after first drawing is out
+        if (!isPlotReady) { setIsPlotReady(true) }
       }
 
       // Performance debugger: Stop the timer and print the time taken, 15 ms is the threshold for smooth animation (60 fps)
@@ -567,10 +573,32 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData, setSelectedPape
 
     // Update nodes based on ticker
     app.ticker.add(updateNodes)
+  }, [papersData, edgesData, clusterData, isPlotReady, setIsPlotReady]);
 
-  }, [papersData, edgesData, clusterData]);
+  return (
+    <div>
+      <div style={{
+        display: !isPlotReady ? "flex" : "none",
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: !isPlotReady ? '100vh' : '0vh',
+        backgroundColor: '#5D4D3E', // You can convert your hex color to regular CSS hex
+        color: '#ffffff', // White text
+        fontSize: '2em', // Increase or decrease this to your liking
+      }}>
+        Building the Map of Carbon Capture Research...
+      </div>
 
-  return <div className="pixiContainer" style={{ display: "flex" }} ref={pixiContainer} />;
+      <div 
+        className="pixiContainer" 
+        style={{ 
+          display: isPlotReady ? "flex" : "none",
+          height: '100vh',
+        }} 
+        ref={pixiContainer} 
+      />
+    </div>
+  );
 };
 
 export default ResearchPaperPlot;
