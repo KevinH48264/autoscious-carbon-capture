@@ -62,12 +62,12 @@ export const Sidebar = ({ selectedPaper }) => {
         color: "white",
         transition: "all 0.5s"
       }}>
-        <div class="sidebarWrapper" style={{
+        <div className="sidebarWrapper" style={{
           height: "100%",
           width: "100%",
           paddingRight: "4px",
         }}>
-          <button class="close-button" onClick={closeSidebar} style={{ 
+          <button className="close-button" onClick={closeSidebar} style={{ 
             position: "absolute",
             height: "40px", 
             width: "40px",
