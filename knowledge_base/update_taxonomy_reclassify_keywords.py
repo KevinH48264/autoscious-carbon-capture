@@ -1,4 +1,5 @@
 # Updating taxonomy and extracting and classifying keywords from papers not yet keyword extracted
+# TODO: needs to be updated with similar code changes to update_taxonomy_new_classify!!
 # TODO: add titles as context to keywords for better classification!
 
 import pandas as pd

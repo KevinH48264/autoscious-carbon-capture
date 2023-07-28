@@ -1,0 +1,84 @@
+1. General
+   1.1 Literature reviews
+   1.2 Updates and news
+
+2. Carbon Capture Technologies
+   2.1 Post-combustion capture
+   2.2 Pre-combustion capture
+   2.3 Oxy-fuel combustion capture
+   2.4 Direct air capture
+   2.5 Biological capture
+   2.6 Chemical looping combustion
+   2.7 Membrane-based capture
+   2.8 Cryogenic capture
+   2.9 Adsorption-based capture
+   2.10 Hybrid capture systems
+
+3. Carbon Capture Materials
+   3.1 Solvents
+   3.2 Sorbents
+   3.3 Membranes
+   3.4 Catalysts
+   3.5 Absorbents
+   3.6 Adsorbents
+   3.7 Zeolites
+   3.8 Metal-organic frameworks (MOFs)
+   3.9 Nanomaterials
+
+4. Carbon Capture Processes
+   4.1 Absorption
+   4.2 Adsorption
+   4.3 Membrane separation
+   4.4 Cryogenic separation
+   4.5 Chemical looping
+   4.6 Electrochemical capture
+   4.7 Biological capture
+   4.8 Mineralization
+
+5. Carbon Capture Storage and Utilization
+   5.1 Geological storage
+   5.2 Ocean storage
+   5.3 Mineral carbonation
+   5.4 Enhanced oil recovery (EOR)
+   5.5 Carbon utilization in building materials
+   5.6 Carbon utilization in fuels and chemicals
+   5.7 Carbon utilization in agriculture and forestry
+
+6. Carbon Capture System Integration
+   6.1 Integration with power plants
+   6.2 Integration with industrial processes
+   6.3 Integration with transportation systems
+   6.4 Integration with renewable energy systems
+
+7. Carbon Capture Policy and Economics
+   7.1 Policy frameworks and regulations
+   7.2 Carbon pricing mechanisms
+   7.3 Financial incentives and subsidies
+   7.4 Life cycle assessment and cost analysis
+   7.5 Carbon offset markets
+
+8. Carbon Capture Monitoring, Verification, and Risk Assessment
+   8.1 Monitoring technologies and techniques
+   8.2 Verification methodologies
+   8.3 Risk assessment and mitigation strategies
+   8.4 Leakage detection and prevention
+
+9. Carbon Capture Demonstration Projects
+   9.1 Pilot-scale projects
+   9.2 Large-scale projects
+   9.3 Case studies and lessons learned
+
+10. Miscellaneous
+    10.1 Concepts not covered by other categories
+    10.2 Non-carbon capture related concepts
+
+11. Carbon Capture Research
+    11.1 Fatty Acid Synthesis
+    11.2 Metabolic Pathways
+    11.3 Genetic Disorders
+    11.4 Enzyme Regulation
+    11.5 Carbon Dioxide Assimilation
+    11.6 Hydrocarbon Degradation
+    11.7 Fatty Acid Synthesis Inhibitors
+    11.8 Cuticular Wax Biosynthesis
+    11.9 Bacterial Polymers

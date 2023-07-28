@@ -6,7 +6,7 @@ import numpy as np
 from datetime import datetime
 import os
 
-def load_latest_taxonomy_papers(search_term_filter=""):
+def load_latest_taxonomy_papers(search_term_filter="", custom_df_path="", custom_taxonomy_path=""):
     # Uncomment for custom loading
     # with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\papers\23-07-26\22-35-55_11935_1155_23_update_taxonomy_new_classify.json', 'r') as f:
     #     data = json.load(f)
@@ -16,11 +16,11 @@ def load_latest_taxonomy_papers(search_term_filter=""):
     #     numbered_taxonomy = f.read()
 
     # load the df
-    with open('papers/latest_papers.json', 'r') as f:
+    with open(custom_df_path or 'papers/latest_papers.json', 'r') as f:
         data = json.load(f)
     df = pd.DataFrame(data)
 
-    with open('clusters/latest_taxonomy.txt', 'r') as f:
+    with open(custom_taxonomy_path or 'clusters/latest_taxonomy.txt', 'r') as f:
         numbered_taxonomy = f.read()
 
     # accomodate for search_term_filters
@@ -111,14 +111,19 @@ def extract_taxonomy_and_classification(chat_output):
     classification_dict = {}
     for line in classification_str.splitlines():
         print("Line: ", line)
-        if line.strip().endswith(']],'):
-            key, value = line.split(":", 1)
-            end_line_index = value.rfind(',')
-            classification_dict[key.strip().strip('"')] = value[:end_line_index].strip()
-        elif line.strip().endswith(']]'):
+        if line.strip().endswith(']],') or line.strip().endswith(']]'):
             key, value = line.split(":", 1)
             end_line_index = value.rfind(']')
-            classification_dict[key.strip().strip('"')] = value[:end_line_index+1].strip()
+            list_value = ast.literal_eval(value[:end_line_index + 1].strip())
+            classification_dict[key.strip().strip('"').strip("'")] = list_value
+        # if line.strip().endswith(']],'):
+        #     key, value = line.split(":", 1)
+        #     end_line_index = value.rfind(']')
+        #     classification_dict[key.strip().strip('"')] = value[:end_line_index + 1].strip()
+        # elif line.strip().endswith(']]'):
+        #     key, value = line.split(":", 1)
+        #     end_line_index = value.rfind(']')
+        #     classification_dict[key.strip().strip('"')] = value[:end_line_index+1].strip()
     
     print("classification_dict", classification_dict)
     return updated_taxonomy, classification_dict
@@ -142,24 +147,31 @@ def extract_taxonomy_mapping(chat_output):
     print("\nchanged changed_category_ids_dict: ", changed_category_ids_dict)
     return changed_category_ids_dict
 
-def update_classification_ids(classification_ids, changed_category_ids):
-    # Parse string into actual list if necessary
-    if isinstance(classification_ids, str):
-        classification_ids = ast.literal_eval(classification_ids)
+def update_classification_ids(changed_category_ids, filtered_df, search_term_filter=""):
+    numbered_taxonomy, df = load_latest_taxonomy_papers()
 
-    # Check if the classification id exists in changed_category_ids. If it does, replace it
-    # If classification_ids is NaN, skip over it
-    if (classification_ids is np.nan) or (not classification_ids):
-        return classification_ids
+    df.update(filtered_df)
 
-    res = []
-    for item in classification_ids:
-        if len(item) > 1:
-            if item[1] in changed_category_ids:
-                res.append([item[0], changed_category_ids[item[1]]])
-            else:
-                res.append(item)
+    def update_ids(row):
+        if isinstance(row, list):
+            res = []
+            for item in row:
+                if len(item) > 1:
+                    if item[1]:
+                        category_id = item[1].split(' ', 1)[0]
+                        if category_id in changed_category_ids:
+                            res.append([item[0], changed_category_ids[category_id]])
+                        else:
+                            print("WARNING: ", category_id, " not found in changed_category_ids_dict, setting item[1] to None")
+                            res.append([item[0], None])
+            return res
+        else:
+            return row
 
-    
-    print("classification_ids", classification_ids, "res", res)
-    return res
+    df['classification_ids'] = df['classification_ids'].apply(update_ids)
+
+    save_taxonomy_papers_note(numbered_taxonomy, df, "updated classification ids")
+
+    # Return the filtered df if there was a search term
+    _, new_df = load_latest_taxonomy_papers(search_term_filter)
+    return new_df
