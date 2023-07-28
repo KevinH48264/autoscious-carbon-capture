@@ -44,8 +44,8 @@ def process_papers():
         # "prompt_tokens": 2782,
         # "completion_tokens": 1315,
         # "total_tokens": 4097
-    # TOTAL_PROMPT_TOKENS = 7500 is best (20 prompt papers, 20 paper responses to hit max tokens)
-    TOTAL_PROMPT_TOKENS = 7500
+    # TOTAL_PROMPT_TOKENS = 7500 is best for gpt3.5 (20 prompt papers, 20 paper responses to hit max tokens)
+    TOTAL_PROMPT_TOKENS = 15000
     CHARS_PER_TEXT = 250
     NUM_BATCHES = int(TOTAL_PROMPT_TOKENS / CHARS_PER_TEXT) # should be more than enough
 
@@ -57,13 +57,16 @@ def process_papers():
     if not os.path.exists(f'papers/{date_str}'):
         os.makedirs(f'papers/{date_str}')
 
-    df.reset_index(drop=True, inplace=True)
     for iter_idx in range(0, NUM_BATCHES):
         print_and_flush(f"--- ITERATION {iter_idx} / {NUM_BATCHES} ---")
         subset = df.loc[df['classification_ids'].isna(), 'paperId':'text']
         if subset.empty:
             print_and_flush("subset was all classified!")
             return
+        
+        # Ensure the index is reset to integer and not id
+        df.reset_index(drop=True, inplace=True)
+        
         min_idx = int(subset.index.min())
         print_and_flush("Checking rows starting from", min_idx, ", num paper tokens to use: ", TOTAL_PROMPT_TOKENS - len(numbered_taxonomy))
         print_and_flush("df: \n", df['classification_ids'][max(min_idx-50, 0):min_idx + 50], "numbered_taxonomy: \n", numbered_taxonomy)
