@@ -6,17 +6,13 @@ import ast
 from datetime import datetime
 import numpy as np
 import os
+from update_taxonomy_util import load_latest_taxonomy_papers, save_taxonomy_papers_note
 
-# NOTE: Only need to edit this with latest papers JSON for pre-processing steps 1 and 2
-# Load in latest JSON files
-papers_json_path = 'papers/latest_papers.json'
 
-# load the data from your JSON file
-with open(papers_json_path, 'r') as f:
-    data = json.load(f)
+search_term_filter = "" # "" to just process all rows, which you generally want to do for t-SNE visualization
 
 # convert the data into a pandas DataFrame
-df = pd.DataFrame(data)
+numbered_taxonomy, df = load_latest_taxonomy_papers(search_term_filter)
 
 print("Before # x not None: ", len(df[df['x'].notna()]), "# None: ", len(df[df['x'].isna()]))
 
@@ -47,17 +43,6 @@ plt.figure(figsize=(10, 10))
 plt.scatter(df['x'], df['y'], alpha=0.5, label='All papers')
 plt.show()
 
-# Get today's date
-now = datetime.now()
-date_str = now.strftime('%y-%m-%d')
-time_str = now.strftime('%H-%M-%S')
-folder_path = f'papers/{date_str}'
-if not os.path.exists(folder_path):
-    os.makedirs(folder_path)
-
-df.to_json(f'{folder_path}/{time_str}_{df.shape[0]}_tsne_output.json', indent=2)
-
-# save to main
-df.to_json(papers_json_path)
+save_taxonomy_papers_note(numbered_taxonomy, df, "tsne_output", search_term_filter)
 
 print("# x not None: ", len(df[df['x'].notna()]), "# None: ", len(df[df['x'].isna()]))

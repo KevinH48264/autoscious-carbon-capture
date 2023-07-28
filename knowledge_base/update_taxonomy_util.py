@@ -6,7 +6,7 @@ import numpy as np
 from datetime import datetime
 import os
 
-def load_latest_taxonomy_papers():
+def load_latest_taxonomy_papers(search_term_filter=""):
     # Uncomment for custom loading
     # with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\knowledge_base\papers\23-07-26\22-35-55_11935_1155_23_update_taxonomy_new_classify.json', 'r') as f:
     #     data = json.load(f)
@@ -23,9 +23,20 @@ def load_latest_taxonomy_papers():
     with open('clusters/latest_taxonomy.txt', 'r') as f:
         numbered_taxonomy = f.read()
 
+    # accomodate for search_term_filters
+    if search_term_filter:
+        # Step 1: Filter out NaN rows
+        filtered_df = df[df['search_score'].notna()]
+
+        filtered_search_term_df = filtered_df[filtered_df['search_score'].apply(lambda x: any(search_term_filter in sublist for sublist in x))].copy()
+
+        print("Loading a filtered df and numbered taxonomy for this search", search_term_filter)
+        return numbered_taxonomy, filtered_search_term_df
+    
+    print("Loading a complete df and numbered taxonomy")
     return numbered_taxonomy, df
 
-def save_taxonomy_papers_note(numbered_taxonomy, df, note):
+def save_taxonomy_papers_note(numbered_taxonomy=None, df=None, note="", search_term_filter=""):
     now = datetime.now()
     date_str = now.strftime('%y-%m-%d')
     time_str = now.strftime('%H-%M-%S')
@@ -34,16 +45,44 @@ def save_taxonomy_papers_note(numbered_taxonomy, df, note):
     if not os.path.exists(f'papers/{date_str}'):
         os.makedirs(f'papers/{date_str}')
 
-    # save the taxonomy and df to a txt and csv file
-    with open(f'clusters/{date_str}/{time_str}_{df.shape[0]}_{note}.txt', 'w') as f:
-        f.write(numbered_taxonomy)
-    df.to_json(f'papers/{date_str}/{time_str}_{df.shape[0]}_{note}.json', orient='records')
-    df[['title', 'classification_ids']].to_json(f'papers/{date_str}/{time_str}_{df.shape[0]}_{note}_manual_inspection.json', orient='records', indent=2)
+    # save taxonomy
+    if numbered_taxonomy:
+        # save to checkpoints
+        with open(f'clusters/{date_str}/{time_str}_{df.shape[0]}_{note}.txt', 'w') as f:
+            f.write(numbered_taxonomy)
+        
+        # save to main
+        with open(f'clusters/latest_taxonomy.txt', 'w') as f:
+            f.write(numbered_taxonomy)
 
-    # save to main
-    with open(f'clusters/latest_taxonomy.txt', 'w') as f:
-        f.write(numbered_taxonomy)
-    df.to_json(f'papers/latest_papers.json', orient='records')
+    # save papers df
+    if df is not None and not df.empty:
+        if search_term_filter:
+            # load the df
+            with open('papers/latest_papers.json', 'r') as f:
+                data = json.load(f)
+            existing_complete_df = pd.DataFrame(data)
+
+            # Set the DataFrame indices
+            existing_complete_df.set_index('id', inplace=True)
+            df.set_index('id', inplace=True)
+
+            # Update the existing dataframe
+            existing_complete_df.update(df)
+
+            # Reset the index if desired
+            existing_complete_df.reset_index(inplace=True)
+
+            df = existing_complete_df
+
+            print("Merged filtered df with latest papers df")
+
+        # save to checkpoints
+        df.to_json(f'papers/{date_str}/{time_str}_{df.shape[0]}_{note}.json', orient='records')
+        df[['title', 'classification_ids']].to_json(f'papers/{date_str}/{time_str}_{df.shape[0]}_{note}_manual_inspection.json', orient='records', indent=2)
+
+        # save to main
+        df.to_json(f'papers/latest_papers.json', orient='records')
 
     print("Saved df and taxonomy to checkpoint and updated latest files!")
 
