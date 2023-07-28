@@ -10,11 +10,6 @@
    2.5 Microbial Carbon Capture
    2.6 Lipid Synthesis and Metabolism
    2.7 Biofuel Production
-   2.8 Fatty Acid Oxidation
-   2.9 Fatty Acid Elongation
-   2.10 Anaerobic Microbial Degradation
-   2.11 Plant-Based Carbon Capture
-   2.12 Bacterial Carbon Capture
 
 3. Carbon Capture Technologies
    3.1 Post-combustion capture
@@ -26,7 +21,6 @@
    3.7 Cryogenic capture
    3.8 Adsorption-based capture
    3.9 Hybrid capture systems
-   3.10 Biocatalytic Carboxylation
 
 4. Carbon Capture Materials
    4.1 Solvents
@@ -38,7 +32,6 @@
    4.7 Zeolites
    4.8 Metal-organic frameworks (MOFs)
    4.9 Nanomaterials
-   4.10 Polyhydroxyalkanoates
 
 5. Carbon Capture Processes
    5.1 Absorption
@@ -48,7 +41,6 @@
    5.5 Chemical looping
    5.6 Electrochemical capture
    5.7 Mineralization
-   5.8 CO2 Fixation
 
 6. Carbon Capture Storage and Utilization
    6.1 Geological storage

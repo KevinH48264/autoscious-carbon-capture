@@ -63,15 +63,11 @@ def save_taxonomy_papers_note(numbered_taxonomy=None, df=None, note="", search_t
                 data = json.load(f)
             existing_complete_df = pd.DataFrame(data)
 
-            # Set the DataFrame indices
-            existing_complete_df.set_index('id', inplace=True)
-            df.set_index('id', inplace=True)
-
             # Update the existing dataframe
             existing_complete_df.update(df)
 
-            # Reset the index if desired
-            existing_complete_df.reset_index(inplace=True)
+            # Reset the index so it's not just aligned on id but the unique index for other code that requires min index for debugging
+            existing_complete_df.reset_index(drop=True, inplace=True)
 
             df = existing_complete_df
 
