@@ -7,13 +7,13 @@ import os
 import openai
 
 dotenv.load_dotenv()
-# openai.api_key = os.getenv("OPENAI_GPT4_API_KEY")
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv("OPENAI_GPT4_API_KEY")
+# openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # models
 EMBEDDING_MODEL = "text-embedding-ada-003"
-GPT_MODEL = "gpt-3.5-turbo"
-# GPT_MODEL = "gpt-4"
+# GPT_MODEL = "gpt-3.5-turbo"
+GPT_MODEL = "gpt-4"
 
 # for bulk openai message, no stream
 def chat_openai(prompt="Tell me to ask you a prompt", model=GPT_MODEL, chat_history=[]):

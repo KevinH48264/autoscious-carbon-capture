@@ -20,6 +20,8 @@
 ## 3. For generating latest t-SNE x and y coordinates:
 - Edit and run get_tsne.py
 - Alternatively, edit and run generate_viz.ipynb Pre-processing step 2
+### Improvements:
+1. df['embeddings'] should probably be stored as a list instead of a string so that ast.literal_eval() doesn't need to be slow in processing all embeddings
 
 ## 4. For generating a seeded initial taxonomy
 - Edit the prompt and run "python seed_initial_taxonomy.py"

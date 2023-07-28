@@ -14,6 +14,8 @@ import os
 from llm import chat_openai
 import sys
 
+search_term_filter = "Enoyl-CoA carboxylase/reductase enzymes" # "" to just process all rows
+
 def clear_log():
     open('log.txt', 'w').close()
 
@@ -26,7 +28,7 @@ def print_and_flush(*args, **kwargs):
 def process_papers():
     clear_log()
 
-    numbered_taxonomy, df = load_latest_taxonomy_papers()
+    numbered_taxonomy, df = load_latest_taxonomy_papers(search_term_filter)
 
     # IMPORTANT: Uncomment this only if you want to clear all classification_ids and restart.
     # df['classification_ids'] = pd.Series(dtype='object')
@@ -104,7 +106,7 @@ def process_papers():
 
         # save the taxonomy and df to a txt and csv file
         n = len(papers.keys())
-        save_taxonomy_papers_note(updated_taxonomy, df, f"{min_idx}_{n}_update_taxonomy_new_classify")
+        save_taxonomy_papers_note(updated_taxonomy, df, f"{min_idx}_{n}_update_taxonomy_new_classify", search_term_filter)
         
         # TODO: perhaps need to double check this is actually being updated?
         print_and_flush("numbered == updated taxonomy", numbered_taxonomy == updated_taxonomy)
