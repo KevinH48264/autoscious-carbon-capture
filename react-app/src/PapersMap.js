@@ -172,7 +172,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData, setSelectedPape
     })
     
     // Hardcoding (zoomLayers) a parent cluster mapping for voronois coloring
-    console.log("SETTING COLOR MAP", "leafClusters", leafClusters)
     let classColorMap = new Map();
     for (let zoomLevel = 0; zoomLevel < zoomLayers; ++zoomLevel) {
       // Setting parent cluster colors by cluster_id
@@ -181,7 +180,6 @@ const ResearchPaperPlot = ({ papersData, edgesData, clusterData, setSelectedPape
         if (parentId !== undefined) {
           let classId = clusterToClassId.get(parentId);
           if (!classColorMap.has(classId)) {
-            console.log("classId", classId)
             classColorMap.set(classId, getColorForClass(classId));
           }
         }
