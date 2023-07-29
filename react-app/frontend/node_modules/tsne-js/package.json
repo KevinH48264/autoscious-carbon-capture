@@ -1,0 +1,52 @@
+{
+  "name": "tsne-js",
+  "version": "1.0.3",
+  "description": "t-SNE implementation in JavaScript",
+  "main": "dist/index.js",
+  "scripts": {
+    "build-browser": "rm -rf build && mkdir build && browserify src/index.js -t [ babelify --presets [ es2015 ] --plugins [ add-module-exports ] ] -p [minifyify --no-map] --standalone TSNE -o build/tsne.min.js",
+    "build-node": "rm -rf dist && node_modules/.bin/babel src --out-dir dist",
+    "build": "npm run build-node && npm run build-browser",
+    "prepublish": "npm run build",
+    "test": "mocha --reporter spec --compilers js:babel-core/register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scienceai/tsne-js.git"
+  },
+  "keywords": [
+    "Barnes-Hut",
+    "t-SNE",
+    "tSNE",
+    "tsne",
+    "t-distributed",
+    "stochastic",
+    "neighbor",
+    "embedding"
+  ],
+  "author": "Leon Chen <lchen3@gmail.com> (@transcranial)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/scienceai/tsne-js/issues"
+  },
+  "homepage": "https://github.com/scienceai/tsne-js#readme",
+  "devDependencies": {
+    "babel-cli": "^6.5.1",
+    "babel-core": "^6.5.2",
+    "babel-eslint": "^5.0.0",
+    "babel-plugin-add-module-exports": "^0.1.2",
+    "babel-preset-es2015": "^6.5.0",
+    "babelify": "^7.2.0",
+    "browserify": "^13.0.0",
+    "eslint": "^2.2.0",
+    "minifyify": "^7.3.1",
+    "mocha": "^2.4.5"
+  },
+  "dependencies": {
+    "cwise": "^1.0.9",
+    "ndarray": "^1.0.18",
+    "ndarray-ops": "^1.2.2",
+    "ndarray-pack": "^1.2.0",
+    "ndarray-unpack": "^1.0.0"
+  }
+}
