@@ -173,4 +173,4 @@ paper_evaluation/**/*.json
 data_collection/**/*.txt
 knowledge_base/**/*.txt
 paper_evaluation/**/*.txt
-react-app/public/latest/**/*.json
+react-app/public/latest/*.json
