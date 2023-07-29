@@ -12,24 +12,24 @@ const App = () => {
 
   useEffect(() => {
     Promise.all([
-      fetch('latest/latest_papers.json')
+      fetch(process.env.REACT_APP_PAPERS_JSON_URL)
           .then(response => response.ok ? response.json() : [])
           .catch(error => {
-              console.log('Fetch papers failed:', error);
+              console.log('Fetch papers failed:', error, process.env.REACT_APP_PAPERS_JSON_URL);
               return [];
           }),
 
-      fetch('latest/latest_edges.json')
+      fetch(process.env.REACT_APP_EDGES_JSON_URL)
           .then(response => response.ok ? response.json() : [])
           .catch(error => {
-              console.log('Fetch edges failed:', error);
+              console.log('Fetch edges failed:', error, process.env.REACT_APP_EDGES_JSON_URL);
               return [];
           }),
 
-      fetch('latest/latest_taxonomy.json')
+      fetch(process.env.REACT_APP_TAXONOMY_JSON_URL)
           .then(response => response.ok ? response.json() : [])
           .catch(error => {
-              console.log('Fetch taxonomy failed:', error);
+              console.log('Fetch taxonomy failed:', error, process.env.REACT_APP_TAXONOMY_JSON_URL);
               return [];
           })
     ])
