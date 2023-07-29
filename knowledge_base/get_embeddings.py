@@ -9,9 +9,11 @@ import torch
 from transformers import AutoTokenizer, AutoModel
 from datetime import datetime
 import os
+from update_taxonomy_util import load_latest_taxonomy_papers, save_taxonomy_papers_note
 
 MODEL = "allenai/specter"
 MODEL_NAME_SAVE_SAFE = MODEL.replace("/", "_")  # replace the slash with underscore
+search_term_filter = "Enoyl-CoA carboxylase/reductase enzymes" # "" to just process all rows
 
 
 # Function to get SPECTER embedding
@@ -29,18 +31,11 @@ def get_specter_embedding(text, tokenizer, model):
     return str(embedding_np.tolist())
 
 def get_embeddings():
-    # Load in existing knowledge base from papers or custom papers JSON
-    papers_json_path = 'papers/latest_papers.json'
-
     tokenizer = AutoTokenizer.from_pretrained(MODEL)
     model = AutoModel.from_pretrained(MODEL)
 
-    # load the data from your JSON file
-    with open(papers_json_path, 'r') as f:
-        data = json.load(f)
-
     # convert the data into a pandas DataFrame
-    df = pd.DataFrame(data)
+    numbered_taxonomy, df = load_latest_taxonomy_papers(search_term_filter)
 
     print("Before calculating text, # text not None: ", len(df[df['text'].notna()]), "# None: ", len(df[df['text'].isna()]))
 
@@ -69,24 +64,16 @@ def get_embeddings():
     max_index = embedding_isna_indices.max()
 
     # Compute SPECTER embeddings for these rows and store in 'embedding' column
-    now = datetime.now()
-    date_str = now.strftime('%y-%m-%d')
-    time_str = now.strftime('%H-%M-%S')
-    folder_path = f'papers/{date_str}'
-    if not os.path.exists(folder_path):
-        os.makedirs(folder_path)
-
     for i, idx in enumerate(embedding_isna_indices):
-        print(f"i {i} idx {idx} / {max_index}")
+        print(f"i {i} / {len(embedding_isna_indices)}, latest papers row index {idx}")
         df.loc[idx, 'embedding'] = get_specter_embedding(df.loc[idx, 'text'], tokenizer, model)
 
         # save to json in papers and date, labeled by time every 500 iterations
         if (i + 1) % 500 == 0:
-            df.to_json(f'{folder_path}/{time_str}_{df.shape[0]}_get_embeddings_{i}_{MODEL_NAME_SAVE_SAFE}.json', indent=2)
-
-            # save to main
-            df.to_json(papers_json_path)
+            save_taxonomy_papers_note(numbered_taxonomy, df, f"get_embeddings_{i}_{MODEL_NAME_SAVE_SAFE}", search_term_filter)
 
     print("# embedding not None: ", len(df[df['embedding'].notna()]), "# None: ", len(df[df['embedding'].isna()]))
+
+    save_taxonomy_papers_note(numbered_taxonomy, df, f"get_embeddings_complete_{MODEL_NAME_SAVE_SAFE}", search_term_filter)
 
 get_embeddings()

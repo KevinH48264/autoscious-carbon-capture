@@ -14,6 +14,8 @@ import os
 from llm import chat_openai
 import sys
 
+search_term_filter = "Enoyl-CoA carboxylase/reductase enzymes" # "" to just process all rows
+
 def clear_log():
     open('log.txt', 'w').close()
 
@@ -24,14 +26,19 @@ def print_and_flush(*args, **kwargs):
         f.flush()
 
 def process_papers():
-    clear_log()
+    now = datetime.now()
+    date_str = now.strftime('%y-%m-%d')
+    time_str = now.strftime('%H-%M-%S')
 
-    numbered_taxonomy, df = load_latest_taxonomy_papers()
+    # clear_log()
+    print_and_flush(f"\nStarting process_papers() on {date_str} at {time_str}...\n")
+
+    numbered_taxonomy, df = load_latest_taxonomy_papers(search_term_filter)
 
     # IMPORTANT: Uncomment this only if you want to clear all classification_ids and restart.
     # df['classification_ids'] = pd.Series(dtype='object')
 
-    print_and_flush("# classification not None: ", len(df[df['classification_ids'].notna()]), "# None: ", len(df[df['classification_ids'].isna()]))
+    print_and_flush("# classification not None: ", len(df[df['classification_ids'].notna()]), "# None: ", len(df[df['classification_ids'].isna()]), "# total: ", len(df))
 
     # Typically 16000 is good for 8K max tokens
     # TOTAL_PROMPT_TOKENS = 5000
@@ -42,8 +49,8 @@ def process_papers():
         # "prompt_tokens": 2782,
         # "completion_tokens": 1315,
         # "total_tokens": 4097
-    # TOTAL_PROMPT_TOKENS = 7500 is best (20 prompt papers, 20 paper responses to hit max tokens)
-    TOTAL_PROMPT_TOKENS = 7500
+    # TOTAL_PROMPT_TOKENS = 7500 is best for gpt3.5 (20 prompt papers, 20 paper responses to hit max tokens)
+    TOTAL_PROMPT_TOKENS = 15000
     CHARS_PER_TEXT = 250
     NUM_BATCHES = int(TOTAL_PROMPT_TOKENS / CHARS_PER_TEXT) # should be more than enough
 
@@ -55,15 +62,15 @@ def process_papers():
     if not os.path.exists(f'papers/{date_str}'):
         os.makedirs(f'papers/{date_str}')
 
-    df.reset_index(drop=True, inplace=True)
     for iter_idx in range(0, NUM_BATCHES):
         print_and_flush(f"--- ITERATION {iter_idx} / {NUM_BATCHES} ---")
         subset = df.loc[df['classification_ids'].isna(), 'paperId':'text']
         if subset.empty:
             print_and_flush("subset was all classified!")
             return
+        
         min_idx = int(subset.index.min())
-        print_and_flush("Checking rows starting from", min_idx, ", num paper tokens to use: ", TOTAL_PROMPT_TOKENS - len(numbered_taxonomy))
+        print_and_flush("Checking rows starting from", min_idx, ", num paper tokens to use: ", TOTAL_PROMPT_TOKENS - len(numbered_taxonomy), "# of rows left: ", len(subset))
         print_and_flush("df: \n", df['classification_ids'][max(min_idx-50, 0):min_idx + 50], "numbered_taxonomy: \n", numbered_taxonomy)
         
         # Create dictionary mapping index to paperId and add as many papers up to TOTAL_PROMPT_TOKENS
@@ -94,22 +101,21 @@ def process_papers():
         changed_category_ids = extract_taxonomy_mapping(res[0])
         print_and_flush("changed category ids: ", changed_category_ids)
     
+        # check and update for any old changed paper classification ids because of updated taxonomy for all papers
+        df = update_classification_ids(changed_category_ids, df, search_term_filter)
+
         # update classification_ids from paper_classification using index_to_paperId
         for idx, class_ids in paper_classification.items():
             paper_id = index_to_paperId[int(idx)]
             df.loc[df['paperId'] == paper_id, 'classification_ids'] = df.loc[df['paperId'] == paper_id, 'classification_ids'].apply(lambda x: class_ids)
             
-        # check and update for any changed paper classification ids because of updated taxonomy
-        df['classification_ids'] = df['classification_ids'].apply(update_classification_ids, args=(changed_category_ids,))
+        
 
         # save the taxonomy and df to a txt and csv file
         n = len(papers.keys())
-        save_taxonomy_papers_note(updated_taxonomy, df, f"{min_idx}_{n}_update_taxonomy_new_classify")
+        save_taxonomy_papers_note(updated_taxonomy, df, f"{min_idx}_{n}_update_taxonomy_new_classify", search_term_filter)
         
-        # TODO: perhaps need to double check this is actually being updated?
-        print_and_flush("numbered == updated taxonomy", numbered_taxonomy == updated_taxonomy)
         numbered_taxonomy = updated_taxonomy
-        print_and_flush("numbered == updated taxonomy", numbered_taxonomy == updated_taxonomy)
 
     return
 

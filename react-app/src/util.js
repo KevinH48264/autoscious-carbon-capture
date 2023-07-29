@@ -296,23 +296,35 @@ const baseColors = [
 const colorMap = {};
 
 export const getColorForClass = (classId) => {
+  const numShades = 7
+
   // console.log("Class id: ", classId)
   const parts = classId.split(".");
-  const topLevelIndex = parseInt(parts[0], 10) - 1;
+  const topLevelIndex = parseInt(parts[0]) - 1;
   const colorIndex = topLevelIndex % baseColors.length;  // use modulus to wrap around
 
   // If we haven't seen this top level before, assign it a base color and create a scale
   if (!colorMap[parts[0]]) {
-      colorMap[parts[0]] = {
-          base: chroma(baseColors[colorIndex]).hex(),
-          scale: chroma.scale([chroma(baseColors[colorIndex]).hex(), 'white']).mode('lch').colors(20)
-      };
-  }
+    let baseColor = chroma(baseColors[colorIndex]).darken(1.5); // Adjust this value to get the right darkness
+    let scale = chroma.scale([baseColor.hex(), '#111111']).mode('lch').colors(numShades);
+    
+    for (let i = 0; i < scale.length; i++) {
+      let color = chroma(scale[i]);
+      if (color.luminance() > 0.7) { // if color is too light
+        scale[i] = color.darken().hex(); // darken it
+      }
+    }
+  
+    colorMap[parts[0]] = {
+      base: baseColor.hex(),
+      scale: scale
+    };
+  }  
 
   // Now get a specific hue for the subtopic based on the subcategory index
   let color = colorMap[parts[0]].scale[0];
   for (let i = 1; i < parts.length; i++) {
-      const subcategoryIndex = parseInt(parts[i], 10);
+      const subcategoryIndex = parseInt(parts[i]) % numShades;
       color = chroma.mix(color, colorMap[parts[0]].scale[subcategoryIndex], 0.5, 'lch').hex();
   }
   
