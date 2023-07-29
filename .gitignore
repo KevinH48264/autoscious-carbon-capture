@@ -169,4 +169,7 @@ checkpoints/
 data_collection/**/*.json
 knowledge_base/**/*.json
 paper_evaluation/**/*.json
+data_collection/**/*.txt
+knowledge_base/**/*.txt
+paper_evaluation/**/*.txt
 react-app/public/latest/**/*.json

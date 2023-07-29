@@ -305,19 +305,19 @@ export const getColorForClass = (classId) => {
 
   // If we haven't seen this top level before, assign it a base color and create a scale
   if (!colorMap[parts[0]]) {
-    let baseColor = chroma(baseColors[colorIndex]);
-    let scale = chroma.scale([baseColor.hex(), 'black']).mode('lch').colors(numShades);
+    let baseColor = chroma(baseColors[colorIndex]).darken(1.5); // Adjust this value to get the right darkness
+    let scale = chroma.scale([baseColor.hex(), '#111111']).mode('lch').colors(numShades);
     
     for (let i = 0; i < scale.length; i++) {
-        let color = chroma(scale[i]);
-        if (color.luminance() > 0.7) { // if color is too light
-            scale[i] = color.darken().hex(); // darken it
-        }
+      let color = chroma(scale[i]);
+      if (color.luminance() > 0.7) { // if color is too light
+        scale[i] = color.darken().hex(); // darken it
+      }
     }
   
     colorMap[parts[0]] = {
-        base: baseColor.hex(),
-        scale: scale
+      base: baseColor.hex(),
+      scale: scale
     };
   }  
 
