@@ -164,6 +164,7 @@ old/
 node_modules/
 checkpoints/
 */log.txt
+cors.json
 
 # Big files
 data_collection/**/*.json
