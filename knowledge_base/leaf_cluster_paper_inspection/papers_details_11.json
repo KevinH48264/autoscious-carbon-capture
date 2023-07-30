@@ -1,0 +1,47 @@
+[
+    {
+        "paperId":"65edec1eed534fb0b88c5d1a9f829bf00303b454",
+        "title":"Atmospheric CO2 mitigation technologies: carbon capture utilization and storage",
+        "abstract":null,
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"816a28470df9ea3e60ba8f6924e9b2eeee20e654",
+        "title":"Wastewater treatment for carbon capture and utilization",
+        "abstract":null,
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Engineering",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"9540c80c6eeb9b602e95b1b8b43f186029f84b5a",
+        "title":"Carbon Capture and Utilization Update",
+        "abstract":"In recent years, carbon capture and utilization (CCU) has been proposed as a potential technological solution to the problems of greenhouse-gas emissions and the ever-growing energy demand. To combat climate change and ocean acidification as a result of anthropogenic CO2 emissions, efforts have already been put forth to capture and sequester CO2 from large point sources, especially power plants; however, the utilization of CO2 as a feedstock to make valuable chemicals, materials, and transportation fuels is potentially more desirable and provides a better and long-term solution than sequestration. The products of CO2 utilization can supplement or replace chemical feedstocks in the fine chemicals, pharmaceutical, and polymer industries. In this review, we first provide an overview of the current status of CO2-capture technologies and their associated challenges and opportunities with respect to efficiency and economy followed by an overview of various carbon-utilization approaches. The current status of combined CO2 capture and utilization, as a novel efficient and cost-effective approach, is also briefly discussed. We summarize the main challenges associated with the design, development, and large-scale deployment of CO2 capture and utilization processes to provide a perspective and roadmap for the development of new technologies and opportunities to accelerate their scale-up in the near future.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Engineering",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    }
+]

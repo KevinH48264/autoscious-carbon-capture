@@ -1,0 +1,55 @@
+[
+    {
+        "paperId":"054fa9dd6cd640002c9ffcd1292ac14b9840db6b",
+        "title":"Carbon Capture and Utilization by mineralization of cement pastes derived from recycled concrete",
+        "abstract":null,
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Medicine",
+                "source":"external"
+            },
+            {
+                "category":"Materials Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"76a20bec8e313ced0faf8010e6ecbe3965a9e305",
+        "title":"Mineralization Technology for Carbon Capture, Utilization, and Storage",
+        "abstract":"Carbon capture, utilization, and storage (CCUS) is a technology approach to the management of anthropogenic carbon dioxide gas emissions to the atmosphere. By injecting CO2 into host rocks, or by employing a an ex situ application step, geological formations can react with and store huge volumes of CO2 as carbonate minerals. An alternative mineral feedstock material is the Gt of industrial process wastes that are often disposed to landfill. By applying an accelerated carbonation step to solid waste, there is potential to sequestrate meaningful quantities of CO2 in carbonate-cemented products that have reuse potential. The manufacture of carbonated aggregates is commercially established in Europe, and recent advances in technology include a mobile plant that directly utilizes flue-gas derived CO2 in the mineralisation process. The present work discusses the basis for mineralization in geologically derived minerals and industrial wastes, with a focus being on the manufacture of products with value. An assessment of mineralized construction aggregates suggests that carbon capture, utilization, and storage technology can manage significant quantities of this CO2.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Geology",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"3cbf9a8b2e11afa3656c5507db0c33f59bec54b1",
+        "title":"Biomass-based carbon capture and utilization in kraft pulp mills",
+        "abstract":null,
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            },
+            {
+                "category":"Engineering",
+                "source":"s2-fos-model"
+            }
+        ]
+    }
+]

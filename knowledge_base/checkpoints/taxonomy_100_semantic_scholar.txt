@@ -1,0 +1,57 @@
+1. General
+1.1 Literature reviews
+1.2 Updates and news
+2. Carbon Capture Technologies
+2.1 Post-combustion capture
+2.2 Pre-combustion capture
+2.3 Oxy-fuel combustion capture
+2.4 Direct air capture
+2.5 Biological capture
+2.6 Mineralization and carbonation
+3. Carbon Capture Materials
+3.1 Solvents and sorbents
+3.2 Membranes
+3.3 Adsorbents
+3.4 Catalysts
+3.5 Solid sorbents
+3.6 Ionic liquids
+4. Carbon Capture Processes
+4.1 Absorption
+4.2 Adsorption
+4.3 Membrane separation
+4.4 Cryogenic separation
+4.5 Chemical looping
+4.6 Electrochemical capture
+5. Carbon Capture Integration
+5.1 Power plants
+5.2 Industrial processes
+5.3 Transportation
+5.4 Buildings and infrastructure
+5.5 Carbon capture and utilization/storage (CCU/CCS)
+6. Carbon Capture Storage
+6.1 Geological storage
+6.2 Ocean storage
+6.3 Mineral storage
+6.4 Enhanced oil recovery (EOR)
+6.5 Carbon capture and utilization/storage (CCU/CCS)
+7. Carbon Capture Policy and Economics
+7.1 Policy frameworks and regulations
+7.2 Economic feasibility and cost analysis
+7.3 Carbon pricing mechanisms
+7.4 Incentives and subsidies
+7.5 International collaboration and agreements
+8. Carbon Capture Monitoring and Verification
+8.1 Monitoring technologies
+8.2 Leakage detection and prevention
+8.3 Environmental impact assessment
+8.4 Life cycle analysis
+8.5 Verification and certification
+9. Miscellaneous
+9.1 Concepts not covered by other categories
+9.2 Emerging technologies and ideas
+9.3 Cross-disciplinary research
+10. Non-Carbon Capture Related Concepts
+10.1 Other environmental technologies
+10.2 Energy generation and storage
+10.3 Climate change mitigation strategies
+10.4 Sustainable development

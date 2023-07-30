@@ -1,0 +1,720 @@
+[
+  {
+    "paperId": "ecacc2f192e4b881ca95749821b9d8595a81477b",
+    "url": "https://www.semanticscholar.org/paper/ecacc2f192e4b881ca95749821b9d8595a81477b",
+    "title": "Atmospheric Carbon Capture",
+    "abstract": null,
+    "year": 2022,
+    "citationCount": 0,
+    "isOpenAccess": false,
+    "fieldsOfStudy": null,
+    "tldr": null
+  },
+  {
+    "paperId": "a4830bc41a88ee369f08c0556360c12cf887f564",
+    "url": "https://www.semanticscholar.org/paper/a4830bc41a88ee369f08c0556360c12cf887f564",
+    "title": "Recent advances in carbon capture storage and utilisation technologies: a review",
+    "abstract": null,
+    "year": 2020,
+    "citationCount": 204,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Materials Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "9a722f9ec3bca95b5f86b501706d040dc968472d",
+    "url": "https://www.semanticscholar.org/paper/9a722f9ec3bca95b5f86b501706d040dc968472d",
+    "title": "Carbon mineralization pathways for carbon capture, storage and utilization",
+    "abstract": null,
+    "year": 2021,
+    "citationCount": 27,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Medicine"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "5b190c555003e154bb9038844899014425236273",
+    "url": "https://www.semanticscholar.org/paper/5b190c555003e154bb9038844899014425236273",
+    "title": "Carbon capture and conversion using metal-organic frameworks and MOF-based materials.",
+    "abstract": "Rapidly increasing atmospheric CO2 concentrations threaten human society, the natural environment, and the synergy between the two. In order to ameliorate the CO2 problem, carbon capture and conversion techniques have been proposed. Metal-organic framework (MOF)-based materials, a relatively new class of porous materials with unique structural features, high surface areas, chemical tunability and stability, have been extensively studied with respect to their applicability to such techniques. Recently, it has become apparent that the CO2 capture capabilities of MOF-based materials significantly boost their potential toward CO2 conversion. Furthermore, MOF-based materials' well-defined structures greatly facilitate the understanding of structure-property relationships and their roles in CO2 capture and conversion. In this review, we provide a comprehensive account of significant progress in the design and synthesis of MOF-based materials, including MOFs, MOF composites and MOF derivatives, and their application to carbon capture and conversion. Special emphases on the relationships between CO2 capture capacities of MOF-based materials and their catalytic CO2 conversion performances are discussed.",
+    "year": 2019,
+    "citationCount": 801,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Materials Science",
+      "Medicine"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": "This review provides a comprehensive account of significant progress in the design and synthesis of MOF-based materials, including MOFs, MOF composites and MOF derivatives, and their application to carbon capture and conversion."
+    }
+  },
+  {
+    "paperId": "e24d6d882c78389a9c356b87ac46e065087549cf",
+    "url": "https://www.semanticscholar.org/paper/e24d6d882c78389a9c356b87ac46e065087549cf",
+    "title": "Climate change mitigation potential of carbon capture and utilization in the chemical industry",
+    "abstract": "Significance Carbon dioxide (CO2) drives climate change when released to the atmosphere. Alternatively, CO2 could be captured and utilized as carbon source for chemicals. Here, we provide a global assessment of the technical climate change mitigation potential of carbon capture and utilization (CCU) in the chemical industry. We develop an engineering-level model of the global chemical industry representing 75% of current greenhouse gas (GHG) emissions. The model allows us to analyze the potential disruptive changes through large-scale CO2 utilization and resulting emission reductions. Our study shows that CCU has the technical potential to lead to a carbon-neutral chemical industry and decouple chemical production from fossil resources. This transition, however, would cause largely increased mass flows and demand for low-carbon electricity. Chemical production is set to become the single largest driver of global oil consumption by 2030. To reduce oil consumption and resulting greenhouse gas (GHG) emissions, carbon dioxide can be captured from stacks or air and utilized as alternative carbon source for chemicals. Here, we show that carbon capture and utilization (CCU) has the technical potential to decouple chemical production from fossil resources, reducing annual GHG emissions by up to 3.5 Gt CO2-eq in 2030. Exploiting this potential, however, requires more than 18.1 PWh of low-carbon electricity, corresponding to 55% of the projected global electricity production in 2030. Most large-scale CCU technologies are found to be less efficient in reducing GHG emissions per unit low-carbon electricity when benchmarked to power-to-X efficiencies reported for other large-scale applications including electro-mobility (e-mobility) and heat pumps. Once and where these other demands are satisfied, CCU in the chemical industry could efficiently contribute to climate change mitigation.",
+    "year": 2019,
+    "citationCount": 286,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Medicine",
+      "Environmental Science"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": "This study shows that CCU has the technical potential to lead to a carbon-neutral chemical industry and decouple chemical production from fossil resources, reducing annual GHG emissions by up to 3.5 Gt CO2-eq in 2030."
+    }
+  },
+  {
+    "paperId": "c5d58c42f6af877a3b99a98114c1c633674928af",
+    "url": "https://www.semanticscholar.org/paper/c5d58c42f6af877a3b99a98114c1c633674928af",
+    "title": "The climate change mitigation potential of bioenergy with carbon capture and storage",
+    "abstract": null,
+    "year": 2020,
+    "citationCount": 95,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "9496966a27c7a9176ec0a8ff6a04781caa42b7bb",
+    "url": "https://www.semanticscholar.org/paper/9496966a27c7a9176ec0a8ff6a04781caa42b7bb",
+    "title": "Cooperative carbon capture and steam regeneration with tetraamine-appended metal\u2013organic frameworks",
+    "abstract": "Steaming out captured CO2 Although natural gas is less carbon dioxide (CO2)\u2013intensive than coal, capturing its emitted CO2 can be more challenging because combined-cycle natural gas combustion has a CO2 concentration that is only one-third of that of coal combustion and contains high concentrations of oxygen and water. Kim et al. report on a tetraamine-functionalized magnesium metal\u2013organic framework that displays two-step cooperative CO2 adsorption that leads to a high CO2 capacity and adsorption enthalpy (see the Perspective by Peh and Zhao). This material could capture CO2from humid air and could be regenerated with steam, a method that is more economical than temperature or pressure swing methods. Science, this issue p. 392; see also p. 372 Tetraamine-functionalized metal\u2013organic frameworks enable CO2 capture from humid streams, as well as steam regeneration. Natural gas has become the dominant source of electricity in the United States, and technologies capable of efficiently removing carbon dioxide (CO2) from the flue emissions of natural gas\u2013fired power plants could reduce their carbon intensity. However, given the low partial pressure of CO2 in the flue stream, separation of CO2 is particularly challenging. Taking inspiration from the crystal structures of diamine-appended metal\u2013organic frameworks exhibiting two-step cooperative CO2 adsorption, we report a family of robust tetraamine-functionalized frameworks that retain cooperativity, leading to the potential for exceptional efficiency in capturing CO2 under the extreme conditions relevant to natural gas flue emissions. The ordered, multimetal coordination of the tetraamines imparts the materials with extraordinary stability to adsorption-desorption cycling with simulated humid flue gas and enables regeneration using low-temperature steam in lieu of costly pressure or temperature swings.",
+    "year": 2020,
+    "citationCount": 145,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Environmental Science",
+      "Medicine"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": "A family of robust tetraamine-functionalized frameworks that retain cooperativity are reported, leading to the potential for exceptional efficiency in capturing CO2 under the extreme conditions relevant to natural gas flue emissions."
+    }
+  },
+  {
+    "paperId": "154b9fd69570539e90f51e1b19db944713d3bfdc",
+    "url": "https://www.semanticscholar.org/paper/154b9fd69570539e90f51e1b19db944713d3bfdc",
+    "title": "A Guideline for Life Cycle Assessment of Carbon Capture and Utilization",
+    "abstract": "Carbon Capture and Utilization (CCU) is an emerging field proposed for emissions mitigation and even negative emissions. These potential benefits need to be assessed by the holistic method of Life Cycle Assessment (LCA) that accounts for multiple environmental impact categories over the entire life cycle of products or services. However, even though LCA is a standardized method, current LCA practice differs widely in methodological choices. The resulting LCA studies show large variability which limits their value for decision support. Applying LCA to CCU technologies leads to further specific methodological issues, e.g., due to the double role of CO2 as emission and feedstock. In this work, we therefore present a comprehensive guideline for LCA of CCU technologies. The guideline has been development in a collaborative process involving over 40 experts and builds upon existing LCA standards and guidelines. The presented guidelines should improve comparability of LCA studies through clear methodological guidance and predefined assumptions on feedstock and utilities. Transparency is increased through interpretation and reporting guidance. Improved comparability should help to strengthen knowledge-based decision-making. Consequently, research funds and time can be allocated more efficiently for the development of technologies for climate change mitigation and negative emissions.",
+    "year": 2020,
+    "citationCount": 80,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Business"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "e3e850fb87909bd91aab7ecb8260417ccfcb383b",
+    "url": "https://www.semanticscholar.org/paper/e3e850fb87909bd91aab7ecb8260417ccfcb383b",
+    "title": "The Role of Carbon Capture and Utilization, Carbon Capture and Storage, and Biomass to Enable a Net-Zero-CO2 Emissions Chemical Industry",
+    "abstract": "This contribution provides a conceptual analysis and a quantitative comparative assessment of three technology chains that enable a carbon neutral chemical industry in a net-zero-CO2 world. These a...",
+    "year": 2020,
+    "citationCount": 171,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "19b604c4e00c43cfd916603d20b2532ccb2896ea",
+    "url": "https://www.semanticscholar.org/paper/19b604c4e00c43cfd916603d20b2532ccb2896ea",
+    "title": "Carbon Capture From Flue Gas and the Atmosphere: A Perspective",
+    "abstract": "Climate change has become a worldwide concern with the rapid rise of the atmospheric Co2 concentration. To mitigate Co2 emissions, the research and development efforts in Co2 capture and separation both from the stationary sources with high Co2 concentrations (e.g., coal-fired power plant flue gas) and directly from the atmosphere have grown significantly. Much progress has been achieved, especially within the last twenty years. In this perspective, we first briefly review the current status of carbon capture technologies including absorption, adsorption, membrane, biological capture, and cryogenic separation, and compare their advantages and disadvantages. Then, we focus mainly on the recent advances in the absorption, adsorption, and membrane technologies. Even though numerous optimizations in materials and processes have been pursued, implementing a single separation process is still quite energy-intensive or costly. To address the challenges, we provide our perspectives on future directions of Co2 capture research and development, that is, the combination of flue gas recycling and hybrid capture system, and one-step integrated Co2 capture and conversion system, as they have the potential to overcome the technical bottlenecks of single capture technologies, offering significant improvement in energy efficiency and cost-effectiveness.",
+    "year": 2020,
+    "citationCount": 83,
+    "isOpenAccess": true,
+    "fieldsOfStudy": null,
+    "tldr": null
+  },
+  {
+    "paperId": "054fa9dd6cd640002c9ffcd1292ac14b9840db6b",
+    "url": "https://www.semanticscholar.org/paper/054fa9dd6cd640002c9ffcd1292ac14b9840db6b",
+    "title": "Carbon Capture and Utilization by mineralization of cement pastes derived from recycled concrete",
+    "abstract": null,
+    "year": 2020,
+    "citationCount": 69,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Environmental Science",
+      "Medicine"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": "It is shown that all CO 2 originally released by limestone calcination during clinker production can be sequestered by the full carbonation of the fines within a short time and have specific CO 2 savings more than 30% higher than the simple clinker replacement by limestone."
+    }
+  },
+  {
+    "paperId": "d3b50f8169f7a2316eacd443038e916fb5bb0193",
+    "url": "https://www.semanticscholar.org/paper/d3b50f8169f7a2316eacd443038e916fb5bb0193",
+    "title": "Ionic liquids, deep eutectic solvents and liquid polymers as green solvents in carbon capture technologies: a review",
+    "abstract": null,
+    "year": 2020,
+    "citationCount": 72,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Materials Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "cfa569019717301c352aabec292a8f4d3a261553",
+    "url": "https://www.semanticscholar.org/paper/cfa569019717301c352aabec292a8f4d3a261553",
+    "title": "Performance-Based Screening of Porous Materials for Carbon Capture",
+    "abstract": "Computational screening methods have changed the way new materials and processes are discovered and designed. For adsorption-based gas separations and carbon capture, recent efforts have been directed toward the development of multiscale and performance-based screening workflows where we can go from the atomistic structure of an adsorbent to its equilibrium and transport properties at different scales, and eventually to its separation performance at the process level. The objective of this work is to review the current status of this new approach, discuss its potential and impact on the field of materials screening, and highlight the challenges that limit its application. We compile and introduce all the elements required for the development, implementation, and operation of multiscale workflows, hence providing a useful practical guide and a comprehensive source of reference to the scientific communities who work in this area. Our review includes information about available materials databases, state-of-the-art molecular simulation and process modeling tools, and a complete catalogue of data and parameters that are required at each stage of the multiscale screening. We thoroughly discuss the challenges associated with data availability, consistency of the models, and reproducibility of the data and, finally, propose new directions for the future of the field.",
+    "year": 2020,
+    "citationCount": 67,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Medicine",
+      "Physics",
+      "Materials Science"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": "The objective of this work is to review the current status of this new approach to multiscale screening, discuss its potential and impact on the field of materials screening, and highlight the challenges that limit its application."
+    }
+  },
+  {
+    "paperId": "7cb3034e94dce60304b7890b0e47786f1f1538e0",
+    "url": "https://www.semanticscholar.org/paper/7cb3034e94dce60304b7890b0e47786f1f1538e0",
+    "title": "Progress in carbon capture technologies.",
+    "abstract": null,
+    "year": 2020,
+    "citationCount": 190,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Medicine",
+      "Environmental Science"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": "This review presents a thorough investigation of the various technologies that can be harnessed to capture carbon dioxide and the cost associated with the capture, transport, and storage of the carbon dioxide."
+    }
+  },
+  {
+    "paperId": "620999ecca4608a89bd69cbe97ab752ce1e62161",
+    "url": "https://www.semanticscholar.org/paper/620999ecca4608a89bd69cbe97ab752ce1e62161",
+    "title": "Hydrogen production from natural gas and biomethane with carbon capture and storage \u2013 A techno-environmental analysis",
+    "abstract": "This study presents an integrated techno-environmental assessment of hydrogen production from natural gas and biomethane, combined with CO2 capture and storage (CCS). We have included steam methane reforming (SMR) and autothermal reforming (ATR) for syngas production. CO2 is captured from the syngas with a novel vacuum pressure swing adsorption (VPSA) process, that combines hydrogen purification and CO2 separation in one cycle. As comparison, we have included cases with conventional amine-based technology. We have extended standard attributional Life Cycle Assessment (LCA) following ISO standards with a detailed carbon balance of the biogas production process (via digestion) and its by-products. The results show that the life-cycle greenhouse gas (GHG) performance of the VPSA and amine-based CO2 capture technologies is very similar as a result of comparable energy consumption. The configuration with the highest plant-wide CO2 capture rate (almost 100% of produced CO2 captured) is autothermal reforming with a two-stage water-gas shift and VPSA CO2 capture \u2013 because the latter has an inherently high CO2 capture rate of 98% or more for the investigated syngas. Depending on the configuration, the addition of CCS to natural gas reforming-based hydrogen production reduces its life-cycle Global Warming Potential by 45\u201385 percent, while the other environmental life-cycle impacts slightly increase. This brings natural gas-based hydrogen on par with renewable electricity-based hydrogen regarding impacts on climate change. When biomethane is used instead of natural gas, our study shows potential for net negative greenhouse gas emissions, i.e. the net removal of CO2 over the life cycle of biowaste-based hydrogen production. In the special case where the biogas digestate is used as agricultural fertiliser, and where a substantial amount of the carbon in the digestate remains in the soil, the biowaste-based hydrogen reaches net-negative life cycle greenhouse gas emissions even without the application of CCS. Addition of CCS to biomethane-based hydrogen production leads to net-negative emissions in all investigated cases.",
+    "year": 2020,
+    "citationCount": 88,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "eff38e9fd207de2256d78aa3a1a8bfba019095c5",
+    "url": "https://www.semanticscholar.org/paper/eff38e9fd207de2256d78aa3a1a8bfba019095c5",
+    "title": "Hydrological limits to carbon capture and storage",
+    "abstract": null,
+    "year": 2020,
+    "citationCount": 43,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "65edec1eed534fb0b88c5d1a9f829bf00303b454",
+    "url": "https://www.semanticscholar.org/paper/65edec1eed534fb0b88c5d1a9f829bf00303b454",
+    "title": "Atmospheric CO2 mitigation technologies: carbon capture utilization and storage",
+    "abstract": null,
+    "year": 2020,
+    "citationCount": 117,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "032b4c8ab4fed659a272afa49b821b4c6e6c19b1",
+    "url": "https://www.semanticscholar.org/paper/032b4c8ab4fed659a272afa49b821b4c6e6c19b1",
+    "title": "China's carbon capture, utilization and storage (CCUS) policy: A critical review",
+    "abstract": null,
+    "year": 2020,
+    "citationCount": 113,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Business"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "76a20bec8e313ced0faf8010e6ecbe3965a9e305",
+    "url": "https://www.semanticscholar.org/paper/76a20bec8e313ced0faf8010e6ecbe3965a9e305",
+    "title": "Mineralization Technology for Carbon Capture, Utilization, and Storage",
+    "abstract": "Carbon capture, utilization, and storage (CCUS) is a technology approach to the management of anthropogenic carbon dioxide gas emissions to the atmosphere. By injecting CO2 into host rocks, or by employing a an ex situ application step, geological formations can react with and store huge volumes of CO2 as carbonate minerals. An alternative mineral feedstock material is the Gt of industrial process wastes that are often disposed to landfill. By applying an accelerated carbonation step to solid waste, there is potential to sequestrate meaningful quantities of CO2 in carbonate-cemented products that have reuse potential. The manufacture of carbonated aggregates is commercially established in Europe, and recent advances in technology include a mobile plant that directly utilizes flue-gas derived CO2 in the mineralisation process. The present work discusses the basis for mineralization in geologically derived minerals and industrial wastes, with a focus being on the manufacture of products with value. An assessment of mineralized construction aggregates suggests that carbon capture, utilization, and storage technology can manage significant quantities of this CO2.",
+    "year": 2020,
+    "citationCount": 30,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "cb6524d36de77775de630af0541f1d2b1291d449",
+    "url": "https://www.semanticscholar.org/paper/cb6524d36de77775de630af0541f1d2b1291d449",
+    "title": "Post-combustion carbon capture",
+    "abstract": null,
+    "year": 2020,
+    "citationCount": 99,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Materials Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "7a2197144b3a1567e814ea35fd73bd85a698681f",
+    "url": "https://www.semanticscholar.org/paper/7a2197144b3a1567e814ea35fd73bd85a698681f",
+    "title": "In silico discovery of covalent organic frameworks for carbon capture.",
+    "abstract": "We screen a database of more than 69,000 hypothetical covalent organic frameworks (COFs) for carbon capture, using parasitic energy as a metric. In order to compute CO2-framework interactions in molecular simulations, we develop a genetic algorithm to tune the charge equilibration method and derive accurate framework partial charges. Nearly 400 COFs are identified with parasitic energy lower than that of an amine scrubbing process using monoethanolamine; over 70 are better performers than the best experimental COFs; and several perform similarly to Mg-MOF-74. We analyze the effect of pore topology on carbon capture performance in order to guide development of improved carbon capture materials.",
+    "year": 2020,
+    "citationCount": 29,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Medicine",
+      "Materials Science"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": "A genetic algorithm is developed to tune the charge equilibration method and derive accurate framework partial charges and the effect of pore topology on carbon capture performance in order to guide development of improved carbon capture materials."
+    }
+  },
+  {
+    "paperId": "507d14b47be91a28768c5359149d7b335ddaa38a",
+    "url": "https://www.semanticscholar.org/paper/507d14b47be91a28768c5359149d7b335ddaa38a",
+    "title": "Advances in carbon capture, utilization and storage",
+    "abstract": null,
+    "year": 2020,
+    "citationCount": 77,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "62519425cbe4ca9578c88b21c57553b3fd5783bb",
+    "url": "https://www.semanticscholar.org/paper/62519425cbe4ca9578c88b21c57553b3fd5783bb",
+    "title": "Comparative Economic Analysis of Physical, Chemical, and Hybrid Absorption Processes for Carbon Capture",
+    "abstract": "Due to the variability of CO\u2082 emission sources, proper selection of viable and cost-effective technology for carbon capture is highly critical. In this work, a comparative economic analysis of physical, chemical, and hybrid physical\u2013chemical absorption processes is performed to guide the selection of appropriate carbon capture technologies for different types of CO\u2082 sources. First, three different absorption processes are designed and simulated for treating various industrial CO\u2082-containing gases with distinct pressures and CO\u2082 concentrations. Then, the total annualized costs of the processes are calculated and compared. It is found that for carbon capture at atmospheric pressure, chemical absorption exhibits the highest performance for low CO\u2082 concentrations ( 59.3%). For treating high-pressure CO\u2082-containing gases (e.g., precombustion carbon capture), the hybrid physical\u2013chemical absorption process is economically preferred.",
+    "year": 2020,
+    "citationCount": 27,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "57eec80dc233eb48b42b6ef4299acbc565a32f72",
+    "url": "https://www.semanticscholar.org/paper/57eec80dc233eb48b42b6ef4299acbc565a32f72",
+    "title": "Overview of Carbon Capture Technology: Microalgal Biorefinery Concept and State-of-the-Art",
+    "abstract": "The impending danger of climate change and pollution can now be seen on the world panorama. The concentration of CO2, the most important Green House Gas (GHG), has reached to formidable levels. Although carbon capture and storage (CCS) methods have been largely worked upon, they are cumbersome in terms of economy and their long term environmental safety raises a concern. Alternatively, bio-sequestration of CO2 using microalgal cell factories has emerged as a promising way of recycling CO2 into biomass via photosynthesis which in turn could be used for the production of bioenergy and other value-added products. Despite enormous potential, the production of microalgae for low-value bulk products and bulk products such as biofuels, is heretofore, not feasible. To achieve economic viability and sustainability, major hurdles in both, the upstream and downstream processes have to be overcome. Recent technoeconomic analyses and life-cycle assessments of microalgae-based production systems have suggested that the only possible way for scaling up the production is to completely use the biomass in an integrated biorefinery set-up wherein every valuable component is extracted, processed and valorized. This article provides a brief yet comprehensive review of the present carbon sequestration and utilization technologies, focusing primarily on biological CO2 capture by microalgae in the context of bio-refinery. The paper discusses various products of microalgal biorefinery and aims to assess the opportunities, challenges and current state-of-the-art of microalgae-based CO2 bioconversion, which are essential to the sustainability of this approach in terms of the environment as well as the economy.",
+    "year": 2019,
+    "citationCount": 123,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "13a8a32757a48d099c2c69a75224e86d44dc3432",
+    "url": "https://www.semanticscholar.org/paper/13a8a32757a48d099c2c69a75224e86d44dc3432",
+    "title": "Evolution in the membrane-based materials and comprehensive review on carbon capture and storage in industries",
+    "abstract": null,
+    "year": 2020,
+    "citationCount": 21,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "fce8b7e6cd86d8a8dfe1b9d1b409d7e4c25e0edc",
+    "url": "https://www.semanticscholar.org/paper/fce8b7e6cd86d8a8dfe1b9d1b409d7e4c25e0edc",
+    "title": "Post-combustion carbon capture by membrane separation, Review",
+    "abstract": null,
+    "year": 2020,
+    "citationCount": 76,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "9b35675931af8a9b56d0403a3971a667c7e5575b",
+    "url": "https://www.semanticscholar.org/paper/9b35675931af8a9b56d0403a3971a667c7e5575b",
+    "title": "Fuel cells for carbon capture applications.",
+    "abstract": null,
+    "year": 2020,
+    "citationCount": 69,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Medicine"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": "This review present a brief background about carbon capture and storage techniques and the technological advancement related to carbon dioxide captured by differentfuel cells, including molten carbonate fuel cells, solid oxide fuel cells), and algae-based fuel cells."
+    }
+  },
+  {
+    "paperId": "e1e15aa932ac61efa8bb0c5cc99cfe6521458861",
+    "url": "https://www.semanticscholar.org/paper/e1e15aa932ac61efa8bb0c5cc99cfe6521458861",
+    "title": "Carbon capture and storage update",
+    "abstract": "In recent years, Carbon Capture and Storage (Sequestration) (CCS) has been proposed as a potential method to allow the continued use of fossil-fuelled power stations whilst preventing emissions of CO2 from reaching the atmosphere. Gas, coal (and biomass)-fired power stations can respond to changes in demand more readily than many other sources of electricity production, hence the importance of retaining them as an option in the energy mix. Here, we review the leading CO2 capture technologies, available in the short and long term, and their technological maturity, before discussing CO2 transport and storage. Current pilot plants and demonstrations are highlighted, as is the importance of optimising the CCS system as a whole. Other topics briefly discussed include the viability of both the capture of CO2 from the air and CO2 reutilisation as climate change mitigation strategies. Finally, we discuss the economic and legal aspects of CCS.",
+    "year": 2014,
+    "citationCount": 1552,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "1f61df1af871412b52c5fc38902854fbede1a703",
+    "url": "https://www.semanticscholar.org/paper/1f61df1af871412b52c5fc38902854fbede1a703",
+    "title": "Forest Contribution to Climate Change Mitigation: Management Oriented to Carbon Capture and Storage",
+    "abstract": "Today, climate change is assumed by many researchers and scholars as a certainty and is presented as the biggest challenge humanity has ever faced. It is commonly accepted that anthropogenic greenhouse gas emissions are the main cause that is accelerating the process. Therefore, it is urgent to find solutions to mitigate climate change, mainly because the intense effects have already been felt, in many cases in the form of the occurrence of extremely violent weather events. Forests are undoubtedly one of the most effective and easiest ways to provide the function of carbon sinks. However, it is essential and convenient to analyze the permanence time of this carbon in forests, because this permanence time depends directly on the forest management model used. This article aims to analyze forest management models from the perspective of carbon residence time in temperate forests, dividing the models into three types, namely carbon conservation models, carbon storage models, and carbon substitution models, according to their ability to contribute to functioning as carbon sinks, thereby contributing to the mitigation of climate change.",
+    "year": 2020,
+    "citationCount": 46,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "3f5bb3499d220af8edd68577d6a5272176a5cda1",
+    "url": "https://www.semanticscholar.org/paper/3f5bb3499d220af8edd68577d6a5272176a5cda1",
+    "title": "Carbon Capture and Conversion.",
+    "abstract": null,
+    "year": 2020,
+    "citationCount": 57,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Chemistry",
+      "Medicine"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "a3d62edc456aa7352bd271cba83aca0edf241111",
+    "url": "https://www.semanticscholar.org/paper/a3d62edc456aa7352bd271cba83aca0edf241111",
+    "title": "Comparative net energy analysis of renewable electricity and carbon capture and storage",
+    "abstract": null,
+    "year": 2019,
+    "citationCount": 108,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "6901beee29fd0c97005ff92a7aefc5c70d19aab5",
+    "url": "https://www.semanticscholar.org/paper/6901beee29fd0c97005ff92a7aefc5c70d19aab5",
+    "title": "Negative emissions technologies and carbon capture and storage to achieve the Paris Agreement commitments",
+    "abstract": "How will the global atmosphere and climate be protected? Achieving net-zero CO2 emissions will require carbon capture and storage (CCS) to reduce current GHG emission rates, and negative emissions technology (NET) to recapture previously emitted greenhouse gases. Delivering NET requires radical cost and regulatory innovation to impact on climate mitigation. Present NET exemplars are few, are at small-scale and not deployable within a decade, with the exception of rock weathering, or direct injection of CO2 into selected ocean water masses. To keep warming less than 2\u00b0C, bioenergy with CCS (BECCS) has been modelled but does not yet exist at industrial scale. CCS already exists in many forms and at low cost. However, CCS has no political drivers to enforce its deployment. We make a new analysis of all global CCS projects and model the build rate out to 2050, deducing this is 100 times too slow. Our projection to 2050 captures just 700 Mt CO2\u2009yr\u22121, not the minimum 6000 Mt CO2\u2009yr\u22121 required to meet the 2\u00b0C target. Hence new policies are needed to incentivize commercial CCS. A first urgent action for all countries is to commercially assess their CO2 storage. A second simple action is to assign a Certificate of CO2 Storage onto producers of fossil carbon, mandating a progressively increasing proportion of CO2 to be stored. No CCS means no 2\u00b0C. This article is part of the theme issue \u2018The Paris Agreement: understanding the physical and social challenges for a warming world of 1.5\u00b0C above pre-industrial levels'.",
+    "year": 2018,
+    "citationCount": 188,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Environmental Science",
+      "Medicine"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": "A new analysis of all global CCS projects and model the build rate out to 2050, deducing this is 100 times too slow, which means no CCS means no 2\u00b0C, and a first urgent action for all countries is to commercially assess their CO2 storage."
+    }
+  },
+  {
+    "paperId": "816a28470df9ea3e60ba8f6924e9b2eeee20e654",
+    "url": "https://www.semanticscholar.org/paper/816a28470df9ea3e60ba8f6924e9b2eeee20e654",
+    "title": "Wastewater treatment for carbon capture and utilization",
+    "abstract": null,
+    "year": 2018,
+    "citationCount": 184,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "9308b1d5019588e96d23b401d2f9df01df00d393",
+    "url": "https://www.semanticscholar.org/paper/9308b1d5019588e96d23b401d2f9df01df00d393",
+    "title": "Restricting Lattice Flexibility in Polycrystalline Metal\u2013Organic Framework Membranes for Carbon Capture",
+    "abstract": "Although polycrystalline metal\u2010organic framework (MOF) membranes offer several advantages over other nanoporous membranes, thus far they have not yielded good CO2 separation performance, crucial for energy\u2010efficient carbon capture. ZIF\u20108, one of the most popular MOFs, has a crystallographically determined pore aperture of 0.34 nm, ideal for CO2/N2 and CO2/CH4 separation; however, its flexible lattice restricts the corresponding separation selectivities to below 5. A novel postsynthetic rapid heat treatment (RHT), implemented in a few seconds at 360 \u00b0C, which drastically improves the carbon capture performance of the ZIF\u20108 membranes, is reported. Lattice stiffening is confirmed by the appearance of a temperature\u2010activated transport, attributed to a stronger interaction of gas molecules with the pore aperture, with activation energy increasing with the molecular size (CH4 > CO2 > H2). Unprecedented CO2/CH4, CO2/N2, and H2/CH4 selectivities exceeding 30, 30, and 175, respectively, and complete blockage of C3H6, are achieved. Spectroscopic and X\u2010ray diffraction studies confirm that while the coordination environment and crystallinity are unaffected, lattice distortion and strain are incorporated in the ZIF\u20108 lattice, increasing the lattice stiffness. Overall, RHT treatment is a facile and versatile technique that can vastly improve the gas\u2010separation performance of the MOF membranes.",
+    "year": 2019,
+    "citationCount": 81,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Medicine",
+      "Materials Science"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": "A novel postsynthetic rapid heat treatment (RHT), implemented in a few seconds at 360 \u00b0C, which drastically improves the carbon capture performance of the ZIF-8 membranes, is reported."
+    }
+  },
+  {
+    "paperId": "7bb530adabf37316089b13690cf060c1b156b787",
+    "url": "https://www.semanticscholar.org/paper/7bb530adabf37316089b13690cf060c1b156b787",
+    "title": "Framing effects on public support for carbon capture and storage",
+    "abstract": null,
+    "year": 2019,
+    "citationCount": 70,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Business"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "522986777b3989c34f0ea37a35e1c4f4fb3d65c8",
+    "url": "https://www.semanticscholar.org/paper/522986777b3989c34f0ea37a35e1c4f4fb3d65c8",
+    "title": "Carbon Capture and Utilization Technology without Carbon Dioxide Purification and Pressurization: A Review on Its Necessity and Available Technologies",
+    "abstract": "Carbon capture and utilization (CCU) has attracted increased attention as a means to mitigate and adapt to climate change. CCU technology regards CO2 as a raw material and reduces CO2 emissions. However, purity and pressurization requirements in most CCU technologies are high. Flue gas that is emitted from industries and transportation requires advanced purification and pressurization, which limits the development and decreases the feasibility of CCU application. Hence, a new approach to CCU technology without CO2 purification and pressurization is desirable. This study reviews differences between the CO2 purity and pressure of waste CO2 and feedstock CO2, reviews difficulties of CO2 purification and pressurization in recent developments of CCU, and provides several promising examples of CCU technologies without CO2 pressurization and/or purification. Various promising CCU technologies and their future research prospects are discussed. Mineral carbonation and biological conversion appear to be possible so...",
+    "year": 2019,
+    "citationCount": 73,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Chemistry",
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "3c87b0e4d3d93128fb6d425da491a7fea528b587",
+    "url": "https://www.semanticscholar.org/paper/3c87b0e4d3d93128fb6d425da491a7fea528b587",
+    "title": "Carbon capture and utilization technologies: a literature review and recent advances",
+    "abstract": "ABSTRACT This paper presents a comprehensive list of Carbon Capture and Utilization technologies and applications, ranging from lab-scale R&D activities reported in academic papers to commercially established uses of carbon dioxide. Carbon dioxide, as a source of carbon, has the potential to be used as a solvent, as a raw material in the manufacturing of fuels, carbonates, polymers, and chemicals, or as a recovery agent in techniques such as enhanced oil recovery or enhanced coal bed methane. In this paper, a literature review and recent advances of each technology are explained. To finish, most relevant Life Cycle Assessment studies carried out by experts in this field are included. Among the different alternatives studied for the use of carbon dioxide, the processes of carboxylation, consisting the synthesis of carbonates and carboxylates, have stood out. Both the production of salicylic acid as well as that of dimethyl carbonate and mineral carbonation are presented as the most likely applications of carbon dioxide, at least, in the short term.",
+    "year": 2018,
+    "citationCount": 174,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Engineering"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "0ffa1b15908277b77ad7382c7b28f2e63226aabc",
+    "url": "https://www.semanticscholar.org/paper/0ffa1b15908277b77ad7382c7b28f2e63226aabc",
+    "title": "Consequential life cycle assessment of carbon capture and utilization technologies within the chemical industry",
+    "abstract": "Carbon capture and utilization is recommendable within the chemical industry from an environmental perspective.",
+    "year": 2019,
+    "citationCount": 60,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "12a27df31fd069ab0db9abcbd7776de7a6fee0eb",
+    "url": "https://www.semanticscholar.org/paper/12a27df31fd069ab0db9abcbd7776de7a6fee0eb",
+    "title": "The health and climate impacts of carbon capture and direct air capture",
+    "abstract": "Data from a coal with carbon capture and use (CCU) plant and a synthetic direct air carbon capture and use (SDACCU) plant are analyzed for the equipment's ability, alone, to reduce CO2.",
+    "year": 2019,
+    "citationCount": 58,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "0d3587d6d71cf7ae8e6dbfce01c29adc5cbcd569",
+    "url": "https://www.semanticscholar.org/paper/0d3587d6d71cf7ae8e6dbfce01c29adc5cbcd569",
+    "title": "Perceptions of bioenergy with carbon capture and storage in different policy scenarios",
+    "abstract": null,
+    "year": 2019,
+    "citationCount": 55,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Business",
+      "Medicine"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": "It is found that public support for BECCS is inextricably linked to attitudes towards the policies through which it is incentivised, and the type of policy instrument used to incentivise BEC CS significantly affects perceptions of the technology itself."
+    }
+  },
+  {
+    "paperId": "2b9bbadce98265af96d4e12f920a4891397040a9",
+    "url": "https://www.semanticscholar.org/paper/2b9bbadce98265af96d4e12f920a4891397040a9",
+    "title": "Outlook of carbon capture technology and challenges.",
+    "abstract": null,
+    "year": 2019,
+    "citationCount": 206,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Environmental Science",
+      "Medicine"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": "An evaluation of state-of-the-art technologies used in the capturing CO2 including post-combustion, pre-combUSTion, and oxy - combustion are reviewed and compared."
+    }
+  },
+  {
+    "paperId": "7fd50091d43cf35198cb0533a7dd3595cec7f1a7",
+    "url": "https://www.semanticscholar.org/paper/7fd50091d43cf35198cb0533a7dd3595cec7f1a7",
+    "title": "2D Transition Metal Carbides (MXenes) for Carbon Capture",
+    "abstract": "Global warming caused by burning of fossil fuels is indisputably one of mankind's greatest challenges in the 21st century. To reduce the ever\u2010increasing CO2 emissions released into the atmosphere, dry solid adsorbents with large surface\u2010to\u2010volume ratio such as carbonaceous materials, zeolites, and metal\u2013organic frameworks have emerged as promising material candidates for capturing CO2. However, challenges remain because of limited CO2/N2 selectivity and long\u2010term stability. The effective adsorption of CO2 gas (\u224812 mol kg\u22121) on individual sheets of 2D transition metal carbides (referred to as MXenes) is reported here. It is shown that exposure to N2 gas results in no adsorption, consistent with first\u2010principles calculations. The adsorption efficiency combined with the CO2/N2 selectivity, together with a chemical and thermal stability, identifies the archetype Ti3C2 MXene as a new material for carbon capture (CC) applications.",
+    "year": 2018,
+    "citationCount": 126,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Materials Science",
+      "Medicine"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": "The adsorption efficiency combined with the CO2 /N2 selectivity, together with a chemical and thermal stability, identifies the archetype Ti3 C2 MXene as a new material for carbon capture (CC) applications."
+    }
+  },
+  {
+    "paperId": "2366c402cf265deb94ed2e6e80375b3d9bf7004c",
+    "url": "https://www.semanticscholar.org/paper/2366c402cf265deb94ed2e6e80375b3d9bf7004c",
+    "title": "Penetrating chains mimicking plant root branching to build mechanically robust, ultra-stable CO2-philic membranes for superior carbon capture",
+    "abstract": "Branched plant root mimicking PEO chains can simultaneously increase the gas separation performance, membrane stability and mechanical strength of CO2-philic membranes for superior carbon capture.",
+    "year": 2019,
+    "citationCount": 53,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Materials Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "fa71f477a4f42d0dd2b5e3b1d36d35108654ecb7",
+    "url": "https://www.semanticscholar.org/paper/fa71f477a4f42d0dd2b5e3b1d36d35108654ecb7",
+    "title": "Near-term deployment of carbon capture and sequestration from biorefineries in the United States",
+    "abstract": "Significance Carbon dioxide removal through the permanent sequestration of biogenic CO2 is a critical technique for climate change mitigation, but most bioenergy with carbon capture and sequestration (CCS) technologies are technically immature or commercially unavailable. In contrast, examples of CCS of biogenic CO2 resulting from fermentation emissions already exist at scale. Here, we evaluate low-cost, commercially ready sequestration opportunities for existing biorefineries in the United States. We find that existing and proposed financial incentives suggest a substantial near-term opportunity to catalyze the growth of CCS infrastructure, improve the impacts of conventional biofuels, support development of carbon-negative biofuels, and satisfy low-carbon fuel policies. Capture and permanent geologic sequestration of biogenic CO2 emissions may provide critical flexibility in ambitious climate change mitigation. However, most bioenergy with carbon capture and sequestration (BECCS) technologies are technically immature or commercially unavailable. Here, we evaluate low-cost, commercially ready CO2 capture opportunities for existing ethanol biorefineries in the United States. The analysis combines process engineering, spatial optimization, and lifecycle assessment to consider the technical, economic, and institutional feasibility of near-term carbon capture and sequestration (CCS). Our modeling framework evaluates least cost source\u2013sink relationships and aggregation opportunities for pipeline transport, which can cost-effectively transport small CO2 volumes to suitable sequestration sites; 216 existing US biorefineries emit 45 Mt CO2 annually from fermentation, of which 60% could be captured and compressed for pipeline transport for under $25/tCO2. A sequestration credit, analogous to existing CCS tax credits, of $60/tCO2 could incent 30 Mt of sequestration and 6,900 km of pipeline infrastructure across the United States. Similarly, a carbon abatement credit, analogous to existing tradeable CO2 credits, of $90/tCO2 can incent 38 Mt of abatement. Aggregation of CO2 sources enables cost-effective long-distance pipeline transport to distant sequestration sites. Financial incentives under the low-carbon fuel standard in California and recent revisions to existing federal tax credits suggest a substantial near-term opportunity to permanently sequester biogenic CO2. This financial opportunity could catalyze the growth of carbon capture, transport, and sequestration; improve the lifecycle impacts of conventional biofuels; support development of carbon-negative fuels; and help fulfill the mandates of low-carbon fuel policies across the United States.",
+    "year": 2018,
+    "citationCount": 91,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Environmental Science",
+      "Medicine"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": "Evaluating low-cost, commercially ready CO2 capture opportunities for existing ethanol biorefineries in the United States finds that existing and proposed financial incentives suggest a substantial near-term opportunity to catalyze the growth of CCS infrastructure, improve the impacts of conventional biofuels, support development of carbon-negative fuels, and satisfy low-carbon fuel policies."
+    }
+  },
+  {
+    "paperId": "e02f812df3cd677ec931b0ce47e10640f16968fa",
+    "url": "https://www.semanticscholar.org/paper/e02f812df3cd677ec931b0ce47e10640f16968fa",
+    "title": "Carbon dioxide capture in metal-organic frameworks.",
+    "abstract": "Kenji Sumida, David L. Rogow, Jarad A. Mason, Thomas M. McDonald, Eric D. Bloch, Zoey R. Herm, Tae-Hyun Bae, Jeffrey R. Long",
+    "year": 2012,
+    "citationCount": 5130,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Chemistry",
+      "Medicine"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": null
+    }
+  },
+  {
+    "paperId": "1aeced2070a2e23757d95aac9ebddf2e0a9d0e09",
+    "url": "https://www.semanticscholar.org/paper/1aeced2070a2e23757d95aac9ebddf2e0a9d0e09",
+    "title": "A scalable metal-organic framework as a durable physisorbent for carbon dioxide capture",
+    "abstract": "Description A hydrophobic CO2 physisorbent Most materials for carbon dioxide (CO2) capture of fossil fuel combustion, such as amines, rely on strong chemisorption interactions that are highly selective but can incur a large energy penalty to release CO2. Lin et al. show that a zinc-based metal organic framework material can physisorb CO2 and incurs a lower regeneration penalty. Its binding site at the center of the pores precludes the formation of hydrogen-bonding networks between water molecules. This durable material can preferentially adsorb CO2 at 40% relative humidity and maintains its performance under flue gas conditions of 150\u00b0C. \u2014PDS A metal-organic framework captures CO2 with high capacity and selectivity over steam with only a modest regeneration penalty. Metal-organic frameworks (MOFs) as solid sorbents for carbon dioxide (CO2) capture face the challenge of merging efficient capture with economical regeneration in a durable, scalable material. Zinc-based Calgary Framework 20 (CALF-20) physisorbs CO2 with high capacity but is also selective over water. Competitive separations on structured CALF-20 show not just preferential CO2 physisorption below 40% relative humidity but also suppression of water sorption by CO2, which was corroborated by computational modeling. CALF-20 has a low enthalpic regeneration penalty and shows durability to steam (>450,000 cycles) and wet acid gases. It can be prepared in one step, formed as composite materials, and its synthesis can be scaled to multikilogram batches.",
+    "year": 2021,
+    "citationCount": 97,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Medicine"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": "Competitive separations on structured CALF-20 show not just preferential CO2 physisorption below 40% relative humidity but also suppression of water sorption by CO2, which was corroborated by computational modeling."
+    }
+  },
+  {
+    "paperId": "deff0e3386caac160ecf968815a2938a542e34f0",
+    "url": "https://www.semanticscholar.org/paper/deff0e3386caac160ecf968815a2938a542e34f0",
+    "title": "Postcombustion Carbon Capture Using Thin-Film Composite Membranes.",
+    "abstract": "Climate change due to anthropogenic carbon dioxide emissions (e.g., combustion of fossil fuels) represents one of the most profound environmental disasters of this century. Equipping power plants with carbon capture and storage (CCS) technology has the potential to reduce current worldwide CO2 emissions. However, existing CCS schemes (i.e., amine scrubbing) are highly energy-intensive. The urgent abatement of CO2 emissions relies on the development of new, efficient technologies to capture CO2 from existing power plants. Membrane-based CO2 separation is an attractive technology that meets many of the requirements for energy-efficient industrial carbon capture. Within this domain, thin-film composite (TFC) membranes are particularly attractive, providing high gas permeance in comparison with conventional thicker (\u223c50 \u03bcm) dense membranes. TFC membranes are usually composed of three layers: (1) a bottom porous support layer; (2) a highly permeable intermediate gutter layer; and (3) a thin (<1 \u03bcm) species-selective top layer. A key challenge in the development of TFC membranes has been to simultaneously maximize the transmembrane gas permeance of the assembled membrane (by minimizing the gas resistance of each layer) while maintaining high gas-specific selectivity. In this Account, we provide an overview of our recent development of high-performance TFC membrane materials as well as insights into the unique fabrication strategies employed for the selective layer and gutter layer. Optimization of each layer of the membrane assembly individually results in significant improvements in overall membrane performance. First, incorporating nanosized fillers into the selective layer (poly(ethylene glycol)-based polymers) and reducing its thickness (to ca. 50 nm) through continuous assembly of polymers technology yields\u00a0major improvements in CO2 permeance without loss of selectivity. Second, we focus on optimization of the middle gutter layer of TFC membranes. The development of enhanced gutter layers employing two- and three-dimensional metal-organic framework materials leads to considerable improvements in both CO2 permeance and selectivity compared with traditional poly(dimethylsiloxane) materials. Third, incorporation of a porous, flexible support layer culminates in a mechanically robust high-performance TFC membrane design that exhibits unprecedented CO2 separation performance and holds significant potential for industrial CO2 capture. Alternative strategies are also emerging, whereby the selective layer and gutter layer may be combined for enhanced membrane efficiency. This Account highlights the CO2 capture performance, current challenges, and future research directions in designing high-performance TFC membranes.",
+    "year": 2019,
+    "citationCount": 42,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Medicine"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": "The development of enhanced gutter layers employing two- and three-dimensional metal-organic framework materials leads to considerable improvements in both CO2 permeance and selectivity compared with traditional poly(dimethylsiloxane) materials."
+    }
+  },
+  {
+    "paperId": "df275f0b3dca8552250d569db1bf18de8463c9e9",
+    "url": "https://www.semanticscholar.org/paper/df275f0b3dca8552250d569db1bf18de8463c9e9",
+    "title": "High-throughput computational prediction of the cost of carbon capture using mixed matrix membranes",
+    "abstract": "Mixed matrix membranes are being studied for their potential use in post-combustion carbon capture on the premise that they could dramatically lower costs relative to mature technologies available today.",
+    "year": 2019,
+    "citationCount": 43,
+    "isOpenAccess": false,
+    "fieldsOfStudy": [
+      "Materials Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "24bd758dbdb9ce0ea8e913b56a8224c0389c83fe",
+    "url": "https://www.semanticscholar.org/paper/24bd758dbdb9ce0ea8e913b56a8224c0389c83fe",
+    "title": "Pyrogenic carbon capture and storage",
+    "abstract": "The growth of biomass is considered the most efficient method currently available to extract carbon dioxide from the atmosphere. However, biomass carbon is easily degraded by microorganisms releasing it in the form of greenhouse gases back to the atmosphere. If biomass is pyrolyzed, the organic carbon is converted into solid (biochar), liquid (bio\u2010oil), and gaseous (permanent pyrogas) carbonaceous products. During the last decade, biochar has been discussed as a promising option to improve soil fertility and sequester carbon, although the carbon efficiency of the thermal conversion of biomass into biochar is in the range of 30%\u201350% only. So far, the liquid and gaseous pyrolysis products were mainly considered for combustion, though they can equally be processed into recalcitrant forms suitable for carbon sequestration. In this review, we show that pyrolytic carbon capture and storage (PyCCS) can aspire for carbon sequestration efficiencies of >70%, which is shown to be an important threshold to allow PyCCS to become a relevant negative emission technology. Prolonged residence times of pyrogenic carbon can be generated (a) within the terrestrial biosphere including the agricultural use of biochar; (b) within advanced bio\u2010based materials as long as they are not oxidized (biochar, bio\u2010oil); and (c) within suitable geological deposits (bio\u2010oil and CO2 from permanent pyrogas oxidation). While pathway (c) would need major carbon taxes or similar governmental incentives to become a realistic option, pathways (a) and (b) create added economic value and could at least partly be implemented without other financial incentives. Pyrolysis technology is already well established, biochar sequestration and bio\u2010oil sequestration in soils, respectively biomaterials, do not present ecological hazards, and global scale\u2010up appears feasible within a time frame of 10\u201330 years. Thus, PyCCS could evolve into a decisive tool for global carbon governance, serving climate change mitigation and the sustainable development goals simultaneously.",
+    "year": 2018,
+    "citationCount": 76,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Environmental Science"
+    ],
+    "tldr": null
+  },
+  {
+    "paperId": "be026181508eca3fc0ce54bb3571f4fdbc014a8b",
+    "url": "https://www.semanticscholar.org/paper/be026181508eca3fc0ce54bb3571f4fdbc014a8b",
+    "title": "Infrastructure to enable deployment of carbon capture, utilization, and storage in the United States",
+    "abstract": "Significance Carbon capture, utilization, and storage (CCUS) is a crucial technology needed to limit warming to the 2 \u00b0C target of the Paris Agreement. However, deployment is lagging far behind estimates of what is required. We demonstrate an opportunity to significantly expand CCUS in the United States in the near-term, spurred by new financial incentives enacted in February 2018, by targeting the lowest-cost capture opportunities and by deploying only commercially proven technologies. The carbon dioxide pipeline transport network would serve near-term oil industry demand for carbon dioxide while also connecting multiple prospective long-term dedicated geological storage resources. This would be a flexible long-term infrastructure asset for carbon management in the United States that would enable and accelerate future CCUS deployment. In February 2018, the United States enacted significant financial incentives for carbon capture, utilization, and storage (CCUS) that will make capture from the lowest-capture-cost sources economically viable. The largest existing low-capture-cost opportunity is from ethanol fermentation at biorefineries in the Midwest. An impediment to deployment of carbon capture at ethanol biorefineries is that most are not close to enhanced oil recovery (EOR) fields or other suitable geological formations in which the carbon dioxide could be stored. Therefore, we analyze the viability of a pipeline network to transport carbon dioxide from Midwest ethanol biorefineries to the Permian Basin in Texas, which has the greatest current carbon dioxide demand for EOR and large potential for expansion. We estimate capture and transport costs and perform economic analysis for networks under three pipeline financing scenarios representing different combinations of commercial and government finance. Without government finance, we find that a network earning commercial rates of return would not be viable. With 50% government financing for pipelines, 19 million tons of carbon dioxide per year could be captured and transported profitably. Thirty million tons per year could be captured with full government pipeline financing, which would double global anthropogenic carbon capture and increase the United States\u2019 carbon dioxide EOR industry by 50%. Such a development would face challenges, including coordination between governments and industries, pressing timelines, and policy uncertainties, but is not unprecedented. This represents an opportunity to considerably increase CCUS in the near-term and develop long-term transport infrastructure facilitating future growth.",
+    "year": 2018,
+    "citationCount": 74,
+    "isOpenAccess": true,
+    "fieldsOfStudy": [
+      "Environmental Science",
+      "Medicine"
+    ],
+    "tldr": {
+      "model": "tldr@v2.0.0",
+      "text": "An opportunity to significantly expand CCUS in the United States in the near-term is demonstrated, spurred by new financial incentives enacted in February 2018, by targeting the lowest-cost capture opportunities and by deploying only commercially proven technologies."
+    }
+  }
+]

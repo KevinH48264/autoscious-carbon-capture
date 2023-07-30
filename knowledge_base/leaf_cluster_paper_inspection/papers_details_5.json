@@ -1,0 +1,138 @@
+[
+    {
+        "paperId":"620999ecca4608a89bd69cbe97ab752ce1e62161",
+        "title":"Hydrogen production from natural gas and biomethane with carbon capture and storage \u2013 A techno-environmental analysis",
+        "abstract":"This study presents an integrated techno-environmental assessment of hydrogen production from natural gas and biomethane, combined with CO2 capture and storage (CCS). We have included steam methane reforming (SMR) and autothermal reforming (ATR) for syngas production. CO2 is captured from the syngas with a novel vacuum pressure swing adsorption (VPSA) process, that combines hydrogen purification and CO2 separation in one cycle. As comparison, we have included cases with conventional amine-based technology. We have extended standard attributional Life Cycle Assessment (LCA) following ISO standards with a detailed carbon balance of the biogas production process (via digestion) and its by-products. The results show that the life-cycle greenhouse gas (GHG) performance of the VPSA and amine-based CO2 capture technologies is very similar as a result of comparable energy consumption. The configuration with the highest plant-wide CO2 capture rate (almost 100% of produced CO2 captured) is autothermal reforming with a two-stage water-gas shift and VPSA CO2 capture \u2013 because the latter has an inherently high CO2 capture rate of 98% or more for the investigated syngas. Depending on the configuration, the addition of CCS to natural gas reforming-based hydrogen production reduces its life-cycle Global Warming Potential by 45\u201385 percent, while the other environmental life-cycle impacts slightly increase. This brings natural gas-based hydrogen on par with renewable electricity-based hydrogen regarding impacts on climate change. When biomethane is used instead of natural gas, our study shows potential for net negative greenhouse gas emissions, i.e. the net removal of CO2 over the life cycle of biowaste-based hydrogen production. In the special case where the biogas digestate is used as agricultural fertiliser, and where a substantial amount of the carbon in the digestate remains in the soil, the biowaste-based hydrogen reaches net-negative life cycle greenhouse gas emissions even without the application of CCS. Addition of CCS to biomethane-based hydrogen production leads to net-negative emissions in all investigated cases.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Engineering",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"57eec80dc233eb48b42b6ef4299acbc565a32f72",
+        "title":"Overview of Carbon Capture Technology: Microalgal Biorefinery Concept and State-of-the-Art",
+        "abstract":"The impending danger of climate change and pollution can now be seen on the world panorama. The concentration of CO2, the most important Green House Gas (GHG), has reached to formidable levels. Although carbon capture and storage (CCS) methods have been largely worked upon, they are cumbersome in terms of economy and their long term environmental safety raises a concern. Alternatively, bio-sequestration of CO2 using microalgal cell factories has emerged as a promising way of recycling CO2 into biomass via photosynthesis which in turn could be used for the production of bioenergy and other value-added products. Despite enormous potential, the production of microalgae for low-value bulk products and bulk products such as biofuels, is heretofore, not feasible. To achieve economic viability and sustainability, major hurdles in both, the upstream and downstream processes have to be overcome. Recent technoeconomic analyses and life-cycle assessments of microalgae-based production systems have suggested that the only possible way for scaling up the production is to completely use the biomass in an integrated biorefinery set-up wherein every valuable component is extracted, processed and valorized. This article provides a brief yet comprehensive review of the present carbon sequestration and utilization technologies, focusing primarily on biological CO2 capture by microalgae in the context of bio-refinery. The paper discusses various products of microalgal biorefinery and aims to assess the opportunities, challenges and current state-of-the-art of microalgae-based CO2 bioconversion, which are essential to the sustainability of this approach in terms of the environment as well as the economy.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Engineering",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"9b35675931af8a9b56d0403a3971a667c7e5575b",
+        "title":"Fuel cells for carbon capture applications.",
+        "abstract":null,
+        "s2FieldsOfStudy":[
+            {
+                "category":"Medicine",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            },
+            {
+                "category":"Engineering",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"24bd758dbdb9ce0ea8e913b56a8224c0389c83fe",
+        "title":"Pyrogenic carbon capture and storage",
+        "abstract":"The growth of biomass is considered the most efficient method currently available to extract carbon dioxide from the atmosphere. However, biomass carbon is easily degraded by microorganisms releasing it in the form of greenhouse gases back to the atmosphere. If biomass is pyrolyzed, the organic carbon is converted into solid (biochar), liquid (bio\u2010oil), and gaseous (permanent pyrogas) carbonaceous products. During the last decade, biochar has been discussed as a promising option to improve soil fertility and sequester carbon, although the carbon efficiency of the thermal conversion of biomass into biochar is in the range of 30%\u201350% only. So far, the liquid and gaseous pyrolysis products were mainly considered for combustion, though they can equally be processed into recalcitrant forms suitable for carbon sequestration. In this review, we show that pyrolytic carbon capture and storage (PyCCS) can aspire for carbon sequestration efficiencies of >70%, which is shown to be an important threshold to allow PyCCS to become a relevant negative emission technology. Prolonged residence times of pyrogenic carbon can be generated (a) within the terrestrial biosphere including the agricultural use of biochar; (b) within advanced bio\u2010based materials as long as they are not oxidized (biochar, bio\u2010oil); and (c) within suitable geological deposits (bio\u2010oil and CO2 from permanent pyrogas oxidation). While pathway (c) would need major carbon taxes or similar governmental incentives to become a realistic option, pathways (a) and (b) create added economic value and could at least partly be implemented without other financial incentives. Pyrolysis technology is already well established, biochar sequestration and bio\u2010oil sequestration in soils, respectively biomaterials, do not present ecological hazards, and global scale\u2010up appears feasible within a time frame of 10\u201330 years. Thus, PyCCS could evolve into a decisive tool for global carbon governance, serving climate change mitigation and the sustainable development goals simultaneously.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"ada11ce9143d6c18b8c01dedbbf29e80b3417eb6",
+        "title":"Ulva rigida in the future ocean: potential for carbon capture, bioremediation and biomethane production",
+        "abstract":"Ulva species have been considered as ideal candidates for carbon capture, bioremediation and biofuel production. However, little is known regarding the effects of simultaneous ocean warming, acidification and eutrophication on these capacities. In this study, Ulva rigida was cultivated under two levels of: temperature (14 \u00b0C (LT) and 18 \u00b0C (HT)); pH (8.10 and 7.70) by controlling pCO2 (LC, HC respectively); and nutrients (low (LN) \u2013 50 \u03bcm N and 2.5 \u03bcm P and high (HN) \u2013 1000 \u03bcm N and 50 \u03bcm P) for 6 weeks. During the first week of cultivation, HT, HC and HN increased biomass by 38.1%, 17.1% and 20.8%, respectively, while the higher temperature led to negative growth in weeks 2, 4 and 6 due to reproductive events. By the end of the cultivation, biomass under HTHCHN was 130.4% higher than the control (LTLCLN), contributing to a higher carbon capture capacity. Although the thalli at HT released nutrients to seawater in weeks 2, 4 and 6, the HTHCHN treatment increased the overall nitrate uptake rate over the cultivation period by 489.0%. The HTHCHN treatment also had an increased biochemical methane potential and methane yield (47.3% and 254.6%, respectively). Our findings demonstrate that the capacities for carbon and nutrient capture, and biomethane production of U. rigida in the future ocean may be enhanced, providing important insight into the interactions between global change and seaweeds.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Biology",
+                "source":"external"
+            },
+            {
+                "category":"Biology",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"5110e9f5d3a48a407d1f4492935f7b12ee385b2a",
+        "title":"Integrating Algae with Bioenergy Carbon Capture and Storage (ABECCS) Increases Sustainability",
+        "abstract":"Bioenergy carbon capture and storage (BECCS) has been proposed to reduce atmospheric CO2 concentrations, but concerns remain about competition for arable land and freshwater. The synergistic integration of algae production, which does not require arable land or freshwater, with BECCS (called \u201cABECCS\u201d) can reduce CO2 emissions without competing with agriculture. This study presents a technoeconomic and life\u2010cycle assessment for colocating a 121\u2010ha algae facility with a 2,680\u2010ha eucalyptus forest for BECCS. The eucalyptus biomass fuels combined heat and power (CHP) generation with subsequent amine\u2010based carbon capture and storage (CCS). A portion of the captured CO2 is used for growing algae and the remainder is sequestered. Biomass combustion supplies CO2, heat, and electricity, thus increasing the range of sites suitable for algae cultivation. Economic, energetic, and environmental impacts are considered. The system yields as much protein as soybeans while generating 61.5 TJ of electricity and sequestering 29,600\u2009t of CO2 per year. More energy is generated than consumed and the freshwater footprint is roughly equal to that for soybeans. Financial break\u2010even is achieved for product value combinations that include 1) algal biomass sold for $1,400\/t (fishmeal replacement) with a $68\/t carbon credit and 2) algal biomass sold for $600\/t (soymeal replacement) with a $278\/t carbon credit. Sensitivity analysis shows significant reductions to the cost of carbon sequestration are possible. The ABECCS system represents a unique technology for negative emissions without reducing protein production or increasing water demand, and should therefore be included in the suite of technologies being considered to address global sustainability.",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"b52a5ccf2c3f1b35b5ce36b70adbb8935031a598",
+        "title":"Production of biodiesel from microalgae through biological carbon capture: a review",
+        "abstract":null,
+        "s2FieldsOfStudy":[
+            {
+                "category":"Medicine",
+                "source":"external"
+            },
+            {
+                "category":"Engineering",
+                "source":"external"
+            },
+            {
+                "category":"Environmental Science",
+                "source":"s2-fos-model"
+            },
+            {
+                "category":"Engineering",
+                "source":"s2-fos-model"
+            },
+            {
+                "category":"Biology",
+                "source":"s2-fos-model"
+            }
+        ]
+    },
+    {
+        "paperId":"8c7713041aac686527043900f1c88c03542bf5dc",
+        "title":"Design of Ionic Liquid as Carbon Capture Solvent for a Bioenergy System: Integration of Bioenergy and Carbon Capture Systems",
+        "abstract":"Current atmospheric carbon dioxide (CO2) concentration has exceeded the safe limit of 350 ppm. One potential technology to remove CO2 from the atmosphere is the integrated bioenergy production and carbon capture system. A bioenergy production system produces multiple energy products from biomass, resulting in zero net increment of CO2 amount in the atmosphere. Meanwhile, CO2 produced from bioenergy production is separated for other purposes through carbon capture. To ensure the entire system is environmental friendly, an efficient and green carbon capture solvent should be utilized. Ionic liquids (ILs) are the potential solvents for this purpose, as they have negligible vapor pressure and high thermal stability. However, there are up to a million possible combinations of cations and anions that may make up ILs. This work presents a systematic approach to identify an optimal IL solvent to separate CO2 produced from a bioenergy system at the optimal conditions of carbon capture process. Following that, the ...",
+        "s2FieldsOfStudy":[
+            {
+                "category":"Environmental Science",
+                "source":"external"
+            },
+            {
+                "category":"Engineering",
+                "source":"s2-fos-model"
+            }
+        ]
+    }
+]

@@ -1,0 +1,401 @@
+[
+    {
+        "unique_id": 0,
+        "classification_id": "1.",
+        "name": "General",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 1,
+        "classification_id": "1.1",
+        "name": "Literature reviews",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 2,
+        "classification_id": "1.2",
+        "name": "Updates and news",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 3,
+        "classification_id": "2.",
+        "name": "Carbon Capture Technologies",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 4,
+        "classification_id": "2.1",
+        "name": "Post-combustion capture",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 5,
+        "classification_id": "2.2",
+        "name": "Pre-combustion capture",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 6,
+        "classification_id": "2.3",
+        "name": "Oxy-fuel combustion capture",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 7,
+        "classification_id": "2.4",
+        "name": "Direct air capture",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 8,
+        "classification_id": "2.5",
+        "name": "Biological capture",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 9,
+        "classification_id": "2.6",
+        "name": "Mineralization and carbonation",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 10,
+        "classification_id": "3.",
+        "name": "Carbon Capture Materials",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 11,
+        "classification_id": "3.1",
+        "name": "Solvents and sorbents",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 12,
+        "classification_id": "3.2",
+        "name": "Membranes",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 13,
+        "classification_id": "3.3",
+        "name": "Adsorbents",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 14,
+        "classification_id": "3.4",
+        "name": "Catalysts",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 15,
+        "classification_id": "3.5",
+        "name": "Solid sorbents",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 16,
+        "classification_id": "3.6",
+        "name": "Ionic liquids",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 17,
+        "classification_id": "4.",
+        "name": "Carbon Capture Processes",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 18,
+        "classification_id": "4.1",
+        "name": "Absorption",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 19,
+        "classification_id": "4.2",
+        "name": "Adsorption",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 20,
+        "classification_id": "4.3",
+        "name": "Membrane separation",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 21,
+        "classification_id": "4.4",
+        "name": "Cryogenic separation",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 22,
+        "classification_id": "4.5",
+        "name": "Chemical looping",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 23,
+        "classification_id": "4.6",
+        "name": "Electrochemical capture",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 24,
+        "classification_id": "5.",
+        "name": "Carbon Capture Integration",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 25,
+        "classification_id": "5.1",
+        "name": "Power plants",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 26,
+        "classification_id": "5.2",
+        "name": "Industrial processes",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 27,
+        "classification_id": "5.3",
+        "name": "Transportation",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 28,
+        "classification_id": "5.4",
+        "name": "Buildings and infrastructure",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 29,
+        "classification_id": "5.5",
+        "name": "Carbon capture and utilization/storage (CCU/CCS)",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 30,
+        "classification_id": "6.",
+        "name": "Carbon Capture Storage",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 31,
+        "classification_id": "6.1",
+        "name": "Geological storage",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 32,
+        "classification_id": "6.2",
+        "name": "Ocean storage",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 33,
+        "classification_id": "6.3",
+        "name": "Mineral storage",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 34,
+        "classification_id": "6.4",
+        "name": "Enhanced oil recovery (EOR)",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 35,
+        "classification_id": "6.5",
+        "name": "Carbon capture and utilization/storage (CCU/CCS)",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 36,
+        "classification_id": "7.",
+        "name": "Carbon Capture Policy and Economics",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 37,
+        "classification_id": "7.1",
+        "name": "Policy frameworks and regulations",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 38,
+        "classification_id": "7.2",
+        "name": "Economic feasibility and cost analysis",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 39,
+        "classification_id": "7.3",
+        "name": "Carbon pricing mechanisms",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 40,
+        "classification_id": "7.4",
+        "name": "Incentives and subsidies",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 41,
+        "classification_id": "7.5",
+        "name": "International collaboration and agreements",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 42,
+        "classification_id": "8.",
+        "name": "Carbon Capture Monitoring and Verification",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 43,
+        "classification_id": "8.1",
+        "name": "Monitoring technologies",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 44,
+        "classification_id": "8.2",
+        "name": "Leakage detection and prevention",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 45,
+        "classification_id": "8.3",
+        "name": "Environmental impact assessment",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 46,
+        "classification_id": "8.4",
+        "name": "Life cycle analysis",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 47,
+        "classification_id": "8.5",
+        "name": "Verification and certification",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 48,
+        "classification_id": "9.",
+        "name": "Miscellaneous",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 49,
+        "classification_id": "9.1",
+        "name": "Concepts not covered by other categories",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 50,
+        "classification_id": "9.2",
+        "name": "Emerging technologies and ideas",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 51,
+        "classification_id": "9.3",
+        "name": "Cross-disciplinary research",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 52,
+        "classification_id": "10.",
+        "name": "Non-Carbon Capture Related Concepts",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 53,
+        "classification_id": "10.1",
+        "name": "Other environmental technologies",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 54,
+        "classification_id": "10.2",
+        "name": "Energy generation and storage",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 55,
+        "classification_id": "10.3",
+        "name": "Climate change mitigation strategies",
+        "layer": 2,
+        "content": []
+    },
+    {
+        "unique_id": 56,
+        "classification_id": "10.4",
+        "name": "Sustainable development",
+        "layer": 2,
+        "content": []
+    }
+]

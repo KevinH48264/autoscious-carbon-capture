@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ResearchPaperPlot from './PapersMap';
 import { Sidebar } from './Sidebar/Sidebar';
+import SemanticSearchBar from './search';
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -60,7 +61,9 @@ const App = () => {
   return (
     <div className="App" style={{ padding: "0px", margin: "0", overflow: "hidden", position: "relative" }}>
       {papersData.length > 0 && edgesData.length > 0 && clusterData.length > 0 && <ResearchPaperPlot papersData={papersData} edgesData={edgesData} clusterData={clusterData} setSelectedPaper={setSelectedPaper} isPlotReady={isPlotReady} setIsPlotReady={setIsPlotReady}/>}
+
       <Sidebar selectedPaper={selectedPaper}/>
+      <SemanticSearchBar papersData={papersData} />
     </div>
   );
 };
