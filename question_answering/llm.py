@@ -22,7 +22,7 @@ def chat_openai(prompt="Tell me to ask you a prompt", model=GPT_MODEL, chat_hist
         messages = chat_history
     else:
         messages = [
-            {"role": "system", "content": "You are an educated carbon capture research consultant and a generally educated and helpful researcher and programmer. Answer as correctly, clearly, and concisely as possible."},
+            {"role": "system", "content": "You are a helpful and educated carbon capture research consultant and an educated and helpful researcher and programmer. Answer as correctly, clearly, and concisely as possible."},
         ]
     messages.append({"role": "user", "content": prompt})
 
@@ -31,7 +31,7 @@ def chat_openai(prompt="Tell me to ask you a prompt", model=GPT_MODEL, chat_hist
     completion = openai.ChatCompletion.create(
         model=model,
         messages=messages,
-        temperature=0
+        temperature=0,
     )
     print("Completion info: ", completion)
     text_answer = completion["choices"][0]["message"]["content"]
