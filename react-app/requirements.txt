@@ -1,0 +1,3 @@
+uvicorn
+fastapi
+sentence-transformers
