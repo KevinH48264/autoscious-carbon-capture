@@ -27,10 +27,10 @@ from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager as EdgeDriverManager
 
-from autogpt.agents.agent import Agent
+# from autogpt.agents.agent import Agent
 from autogpt.command_decorator import command
 from autogpt.logs import logger
-from autogpt.memory.vector import MemoryItem, get_memory
+# from autogpt.memory.vector import MemoryItem, get_memory
 from autogpt.processing.html import extract_hyperlinks, format_hyperlinks
 from autogpt.url_utils.validators import validate_url
 
@@ -159,7 +159,71 @@ def scrape_text_with_selenium(url: str, agent: Agent) -> tuple[WebDriver, str]:
     text = "\n".join(chunk for chunk in chunks if chunk)
     return driver, text
 
-def scrape_text_with_selenium_no_agent(url: str) -> tuple[WebDriver, str]:
+def scrape_text_with_selenium_no_agent(url: str, driver: WebDriver) -> str:
+    print("Going through url: ", url)
+
+    """Scrape text from a website using selenium
+
+    Args:
+        url (str): The url of the website to scrape
+        driver (WebDriver, optional): The webdriver to use for scraping. If None, a new webdriver will be created.
+
+    Returns:
+        str: The text scraped from the website
+    """
+    if driver is None:
+        print("select chrome options!")
+        options: BrowserOptions = ChromeOptions()
+        options.add_argument(
+            "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.49 Safari/537.36"
+        )
+
+        # Hard coding Chrome for now
+        print("hard coding chrome")
+        if platform == "linux" or platform == "linux2":
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--remote-debugging-port=9222")
+
+        options.add_argument("--no-sandbox")
+        options.add_argument("--headless=new")
+        options.add_argument("--disable-gpu")
+
+        chromium_driver_path = Path("/usr/bin/chromedriver")
+
+        print("setting up chrome driver")
+        driver = ChromeDriver(
+            service=ChromeDriverService(str(chromium_driver_path))
+            if chromium_driver_path.exists()
+            else ChromeDriverService(ChromeDriverManager().install()),
+            options=options,
+        )
+
+    print("Driver is getting url")
+    driver.get(url)
+    print("Driver got url")
+
+    WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.TAG_NAME, "body"))
+    )
+
+    print("Driver has found page source")
+    # Get the HTML content directly from the browser's DOM
+    page_source = driver.execute_script("return document.body.outerHTML;")
+    print("Handing off to Beautiful Soup!")
+    soup = BeautifulSoup(page_source, "html.parser")
+
+    for script in soup(['style', 'script', 'head', 'title', 'meta', '[document]']):
+        script.extract()
+    print("done extractin")
+
+    text = soup.get_text()
+    lines = (line.strip() for line in text.splitlines())
+    chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+    text = "\n".join(chunk for chunk in chunks if chunk)
+    return driver, text
+
+# Selenium currently takes a long time to load the page so I'll either add timeout or just currently use BeautifulSoup and pdf parser
+def scrape_text_with_bs_no_agent(url: str) -> tuple[WebDriver, str]:
     print("Going through url: ", url)
 
     """Scrape text from a website using selenium
@@ -201,14 +265,18 @@ def scrape_text_with_selenium_no_agent(url: str) -> tuple[WebDriver, str]:
         else ChromeDriverService(ChromeDriverManager().install()),
         options=options,
     )
+    print("Driver is getting url")
     driver.get(url)
+    print("Driver got url")
 
     WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.TAG_NAME, "body"))
     )
 
+    print("Driver has found page source")
     # Get the HTML content directly from the browser's DOM
     page_source = driver.execute_script("return document.body.outerHTML;")
+    print("Handing off to Beautiful Soup!")
     soup = BeautifulSoup(page_source, "html.parser")
 
     for script in soup(["script", "style"]):
