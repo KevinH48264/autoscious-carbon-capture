@@ -1,0 +1,11 @@
+run.bat --continuous
+run.bat = python -m autogpt
+
+main script: autogpt/app/cli.py
+
+seems like I want to use autogpt/commands
+"autogpt.commands.file_operations",
+    "autogpt.commands.web_search",
+    "autogpt.commands.web_selenium",
+
+Just use the functions, not need for decorators for now

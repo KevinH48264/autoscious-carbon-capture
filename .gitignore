@@ -170,7 +170,11 @@ cors.json
 data_collection/**/*.json
 knowledge_base/**/*.json
 paper_evaluation/**/*.json
+question_answering/autoscious_logs/**/*.json
+
 data_collection/**/*.txt
 knowledge_base/**/*.txt
 paper_evaluation/**/*.txt
+question_answering/autoscious_logs/**/*.txt
+
 react-app/public/latest/**/*.json
