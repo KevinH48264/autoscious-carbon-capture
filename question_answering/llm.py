@@ -16,7 +16,7 @@ GPT_MODEL = "gpt-3.5-turbo"
 # GPT_MODEL = "gpt-4"
 
 # for bulk openai message, no stream
-def chat_openai(prompt="Tell me to ask you a prompt", model=GPT_MODEL, chat_history=[]):
+def chat_openai(prompt="Tell me to ask you a prompt", model=GPT_MODEL, chat_history=[], temperature=0):
     # define message conversation for model
     if chat_history:
         messages = chat_history
@@ -31,7 +31,7 @@ def chat_openai(prompt="Tell me to ask you a prompt", model=GPT_MODEL, chat_hist
     completion = openai.ChatCompletion.create(
         model=model,
         messages=messages,
-        temperature=0,
+        temperature=temperature,
     )
     print("Completion info: ", completion)
     text_answer = completion["choices"][0]["message"]["content"]

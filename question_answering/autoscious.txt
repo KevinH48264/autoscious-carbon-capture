@@ -1,0 +1,2 @@
+1. To decompose a question with verifiers, edit and run "decompose.py"
+- The outputs will be found in autoscious_logs/decompositions
