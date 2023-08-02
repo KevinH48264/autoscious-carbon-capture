@@ -114,9 +114,9 @@ Based on the facts, report your findings on the current answer to the key questi
 The output should be of the JSON format: 
 ```json
 {{
-    "relevant_facts": "",
-    "key_question_answer": "",
-    "hypothesis_finding": "",
+    "relevant_facts": "<insert relevant facts with urls>",
+    "key_question_answer": "<insert answer to key question>",
+    "hypothesis_finding": "<insert hypothesis>",
 }}
 ```
 '''

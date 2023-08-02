@@ -79,7 +79,7 @@ def get_hypothesis_inference_findings_from_facts(search_query):
 
     # Go through each key question and make inferences on how its findings on the hypothesis.
     for i, kq_decomposition in enumerate(key_question_decomposition_list):
-        with open(f'autoscious_logs/kd_1/h_1/f_{i}.txt', 'r', encoding='utf-8') as f:
+        with open(f'autoscious_logs/{sanitize_filename(search_query)}/facts/kq{i}/facts.txt', 'r', encoding='utf-8') as f:
             kq_facts = f.read()
         inference, inference_verifier_feedback = inference_with_verifiers(search_query, kq_decomposition, kq_facts, i)
 

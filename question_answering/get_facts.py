@@ -102,7 +102,7 @@ for kq_idx in key_questions_dict:
     folder_path = f'autoscious_logs/{sanitize_filename(search_query)}/facts/kq{int(kq_idx)-1}'
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
-    with open(f'{folder_path}/facts.txt', 'w') as f:
+    with open(f'{folder_path}/facts.txt', 'a') as f:
         pass
 
 # 3) Go through each key question and search for facts
