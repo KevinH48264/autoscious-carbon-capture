@@ -64,7 +64,7 @@ Research project question: {search_query}
 
 Previous Task: Decompose this research question into 1) project objective: what should be the outcome of the project, 2) key drivers: what are the key problem drivers to achieve the project objective, 3) hypotheses: what can already be hypothesized about the key drivers, 4) key questions: what analyses need to be conducted to verify, falsify, or change the hypotheses?
 
-Decomposition
+Decomposition:
 {response_1}
 
 Feedback:
@@ -99,4 +99,77 @@ Rules: Be as mutually exclusive, completely exhaustive (MECE) as possible. The o
 }}
 ```
 Respond only with the output, with no explanation or conversation.
+'''
+
+def get_initial_inference_prompt(decomposition, facts_text, max_tokens):
+    return f'''
+Decomposed research question:
+{decomposition}
+
+Facts: {facts_text[:max_tokens]}
+
+Task: 
+Based on the facts, report your findings on the current answer to the key question and how this verifies, falsifies, or changes the hypothesis. Be sure to use accurate direct quotes and their urls from the the facts used in each reasoning step. Think step by step.
+
+The output should be of the JSON format: 
+```json
+{{
+    "relevant_facts": "",
+    "key_question_answer": "",
+    "hypothesis_finding": "",
+}}
+```
+'''
+
+def get_inference_verifiers_prompt(inference):
+    return f'''
+Inference
+{inference}
+
+Task:
+You are well trained in logical reasoning and verification and understand JSON format. Based on the facts and assuming all the facts are true, use the following logical verification checks to ensure that the inference is valid.
+
+1. Deductive consistency: Based on the premises and assuming all the premises are true, is the conclusion also true, partially true, or false? Does the conclusion contradict any of the premises or does it logically follow from them? And what percentage degree of support do the premises provide for the truth of the conclusion?
+2. Coherence with background knowledge: True, partially true, or false, and to what percentage degree: does the conclusion align with what is generally accepted or known about the subject? Generate background knowledge about the conclusion.
+3. Biases or fallacies: True or Fale: Are there any biases or logical fallacies present that might undermine the argument? Common ones to look for include hasty generalization, or appeal to ignorance.
+4. Inference feedback: Provide feedback on the inference content itself.
+
+Your response should be in this format:
+1. Deductive consistency: 
+Reasoning: 
+Label: 
+Score: 
+2. Coherence with background knowledge: 
+Background knowledge: 
+Reasoning: 
+Label: 
+Score: 
+3. Consistency: 
+Reasoning: 
+Label:
+4. Inference feedback: 
+Feedback: 
+
+Be as critical, thorough, and specific in your responses as possible.
+'''
+
+def get_inference_improved_prompt(initial_inference, inference_verifiers_res):
+    return f'''
+Inference
+{initial_inference}
+
+Feedback
+{inference_verifiers_res}
+
+Current Task: 
+You are well trained in logical reasoning and verification and understand JSON format.  Based on the inference and feedback provieded, improve the soundness of the inference.
+
+The output should be of the JSON format: 
+```json
+{{
+    "relevant_facts": "",
+    "key_question_answer": "",
+    "hypothesis_finding": "",
+}}
+```
 '''

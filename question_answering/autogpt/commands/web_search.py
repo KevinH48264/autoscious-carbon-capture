@@ -7,7 +7,7 @@ from itertools import islice
 
 from duckduckgo_search import DDGS
 
-from autogpt.agents.agent import Agent
+# from autogpt.agents.agent import Agent
 from autogpt.command_decorator import command
 
 DUCKDUCKGO_MAX_ATTEMPTS = 3
@@ -54,6 +54,35 @@ def web_search(query: str, agent: Agent, num_results: int = 8) -> str:
     results = json.dumps(search_results, ensure_ascii=False, indent=4)
     return safe_google_results(results)
 
+
+def web_search_ddg(query: str, num_results: int = 8) -> str:
+    """Return the results of a Google search
+
+    Args:
+        query (str): The search query.
+        num_results (int): The number of results to return.
+
+    Returns:
+        str: The results of the search.
+    """
+    search_results = []
+    attempts = 0
+
+    while attempts < DUCKDUCKGO_MAX_ATTEMPTS:
+        if not query:
+            return json.dumps(search_results)
+
+        results = DDGS().text(query)
+        search_results = list(islice(results, num_results))
+
+        if search_results:
+            break
+
+        time.sleep(1)
+        attempts += 1
+
+    results = json.dumps(search_results, ensure_ascii=False, indent=4)
+    return safe_google_results(results)
 
 @command(
     "google",

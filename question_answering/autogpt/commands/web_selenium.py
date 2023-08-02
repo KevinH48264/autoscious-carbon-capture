@@ -26,6 +26,11 @@ from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from webdriver_manager.microsoft import EdgeChromiumDriverManager as EdgeDriverManager
+from selenium.common.exceptions import TimeoutException
+
+import os
+import signal
+import subprocess
 
 # from autogpt.agents.agent import Agent
 from autogpt.command_decorator import command
@@ -37,7 +42,6 @@ from autogpt.url_utils.validators import validate_url
 BrowserOptions = ChromeOptions | EdgeOptions | FirefoxOptions | SafariOptions
 
 FILE_DIR = Path(__file__).parent.parent
-
 
 @command(
     "browse_website",
@@ -171,35 +175,55 @@ def scrape_text_with_selenium_no_agent(url: str, driver: WebDriver) -> str:
     Returns:
         str: The text scraped from the website
     """
-    if driver is None:
-        print("select chrome options!")
-        options: BrowserOptions = ChromeOptions()
-        options.add_argument(
-            "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.49 Safari/537.36"
-        )
+    # Timeouts are really buggy with passing in and out driver so I'm going going to reuse drivers.
+    # if driver is None:
+    print("select chrome options!")
+    options: BrowserOptions = ChromeOptions()
+    options.add_argument(
+        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.49 Safari/537.36"
+    )
 
-        # Hard coding Chrome for now
-        print("hard coding chrome")
-        if platform == "linux" or platform == "linux2":
-            options.add_argument("--disable-dev-shm-usage")
-            options.add_argument("--remote-debugging-port=9222")
+    # Hard coding Chrome for now
+    print("hard coding chrome")
+    if platform == "linux" or platform == "linux2":
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--remote-debugging-port=9222")
 
-        options.add_argument("--no-sandbox")
-        options.add_argument("--headless=new")
-        options.add_argument("--disable-gpu")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--headless=new")
+    options.add_argument("--disable-gpu")
+    options.add_argument("--incognito")
+    
+    options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
-        chromium_driver_path = Path("/usr/bin/chromedriver")
+    chromium_driver_path = Path("/usr/bin/chromedriver")
 
-        print("setting up chrome driver")
-        driver = ChromeDriver(
-            service=ChromeDriverService(str(chromium_driver_path))
-            if chromium_driver_path.exists()
-            else ChromeDriverService(ChromeDriverManager().install()),
-            options=options,
-        )
+    print("setting up chrome driver")
+    driver = ChromeDriver(
+        service=ChromeDriverService(str(chromium_driver_path))
+        if chromium_driver_path.exists()
+        else ChromeDriverService(ChromeDriverManager().install()),
+        options=options,
+    )
 
     print("Driver is getting url")
-    driver.get(url)
+
+    # Set the timeout to 10 seconds, doesn't work on higher numbers for some reason, probably because certificate errors keep showing up
+    driver.set_page_load_timeout(10)
+    driver.implicitly_wait(10)
+    print("set timeout!")
+
+    try:
+        driver.get(url)
+        print('Page loaded within 10 seconds')
+    except TimeoutException:
+        print('Page did not load within 10 seconds')
+        return driver, "No information found"
+    except Exception as e:
+        print('An unexpected error occurred:', e)
+        return driver, "No information found"
+    except: 
+        print("there was an error")
     print("Driver got url")
 
     WebDriverWait(driver, 10).until(
@@ -220,6 +244,10 @@ def scrape_text_with_selenium_no_agent(url: str, driver: WebDriver) -> str:
     lines = (line.strip() for line in text.splitlines())
     chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
     text = "\n".join(chunk for chunk in chunks if chunk)
+    print("Text: ", text[:500])
+
+    driver.quit()
+
     return driver, text
 
 # Selenium currently takes a long time to load the page so I'll either add timeout or just currently use BeautifulSoup and pdf parser

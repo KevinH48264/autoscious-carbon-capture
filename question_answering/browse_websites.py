@@ -2,6 +2,13 @@ from autogpt.commands.web_selenium import browse_website, scrape_text_with_selen
 from autogpt.app.main import run_auto_gpt
 from autogpt.app.cli import main
 import json
+from util import sanitize_filename
+import os
+
+search_query = "How efficiently do the ECR enzymes work, especially in Kitsatospor setae bacteria?"
+folder_path = f'autoscious_logs/{sanitize_filename(search_query)}/inferences'
+if not os.path.exists(folder_path):
+    os.makedirs(folder_path)
 
 with open(r'C:\Users\1kevi\Desktop\projects\Research\autoscious-carbon-capture\question_answering\autoscious_logs\web_search\What_is_the_level_of_ECR_enzyme_activity_in_Kitsatospor_setae_bacteria_.json', 'r') as f:
     web_search_res = json.loads(json.loads(f.read()))
