@@ -34,11 +34,4 @@ for res in web_search_res:
     with open(f'autoscious_logs/web_search/What_is_the_level_of_ECR_enzyme_activity_in_Kitsatospor_setae_bacteria_/{sanitize_filename(res["title"])}_complete_text.txt', 'w', encoding='utf-8') as f:
         f.write(text)
 
-    # TODO: Extract relevant quoted text to key questions from web search results, chrome selenium
-
-
-
     driver.quit()
-
-
-    # break

@@ -1,2 +1,11 @@
 1. To decompose a question with verifiers, edit and run "decompose.py"
 - The outputs will be found in autoscious_logs/decompositions
+
+2. To get facts for a decomposition, edit and run "get_facts.py"
+- The outputs will be found in autoscious_logs/facts
+
+3. To get inferences for a decomposition, edit and run "get_inferences.py"
+- The outputs will be found in autoscious_logs/inferences
+
+4. For inferences about key driver conclusions and project question best answer, go to problem_solving.ipynb and the final section "Giving a conclusion and best answer based on hypothesis findings".
+- The outputs will be found in autoscious_logs/inferences
