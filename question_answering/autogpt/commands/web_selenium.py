@@ -177,13 +177,21 @@ def scrape_text_with_selenium_no_agent(url: str, driver: WebDriver) -> str:
     """
     # Timeouts are really buggy with passing in and out driver so I'm going going to reuse drivers.
     # if driver is None:
-    print("select chrome options!")
-    options: BrowserOptions = ChromeOptions()
-    options.add_argument(
-        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.49 Safari/537.36"
-    )
 
-    # Hard coding Chrome for now
+    print("select firefox options!")
+    options: BrowserOptions = ChromeOptions()
+    # options.add_argument(
+    #     "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.49 Safari/537.36"
+    # )
+
+    # options.headless = True
+    # options.add_argument("--disable-gpu")
+    # driver = FirefoxDriver(
+    #     service=GeckoDriverService(GeckoDriverManager().install()), options=options
+    # )
+
+    # Turns out Chrome actually hangs on some websites but Firefox might now
+    # # Hard coding Chrome for now
     print("hard coding chrome")
     if platform == "linux" or platform == "linux2":
         options.add_argument("--disable-dev-shm-usage")
@@ -208,20 +216,20 @@ def scrape_text_with_selenium_no_agent(url: str, driver: WebDriver) -> str:
 
     print("Driver is getting url")
 
-    # Set the timeout to 10 seconds, doesn't work on higher numbers for some reason, probably because certificate errors keep showing up
-    driver.set_page_load_timeout(10)
-    driver.implicitly_wait(10)
+    # Set the timeout to 15 seconds, doesn't work on higher numbers for some reason, probably because certificate errors keep showing up
+    driver.set_page_load_timeout(15)
+    driver.implicitly_wait(15)
     print("set timeout!")
 
     try:
         driver.get(url)
-        print('Page loaded within 10 seconds')
+        print('Page loaded within 15 seconds')
     except TimeoutException:
-        print('Page did not load within 10 seconds')
-        return driver, "No information found"
+        print('Page did not load within 15 seconds')
+        return "No information found"
     except Exception as e:
         print('An unexpected error occurred:', e)
-        return driver, "No information found"
+        return "No information found"
     except: 
         print("there was an error")
     print("Driver got url")
@@ -236,7 +244,7 @@ def scrape_text_with_selenium_no_agent(url: str, driver: WebDriver) -> str:
     print("Handing off to Beautiful Soup!")
     soup = BeautifulSoup(page_source, "html.parser")
 
-    for script in soup(['style', 'script', 'head', 'title', 'meta', '[document]']):
+    for script in soup(['style', 'script', 'head', 'title', 'meta', '[document]', 'header', 'footer', 'iframe']):
         script.extract()
     print("done extractin")
 
@@ -248,7 +256,7 @@ def scrape_text_with_selenium_no_agent(url: str, driver: WebDriver) -> str:
 
     driver.quit()
 
-    return driver, text
+    return text
 
 # Selenium currently takes a long time to load the page so I'll either add timeout or just currently use BeautifulSoup and pdf parser
 def scrape_text_with_bs_no_agent(url: str) -> tuple[WebDriver, str]:

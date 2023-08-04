@@ -1,3 +1,20 @@
+New -- with efficient reading of sources
+1. To decompose a question with verifiers, edit and run "decompose.py"
+- The outputs will be found in autoscious_logs/decompositions
+
+2. To search for useful sources efficiently, edit and run "search.ipynb"
+- The outputs will be found in autoscious_logs/sources
+
+3. To extract facts from sources, edit and run "extract_facts.ipynb"
+- The outputs will be found in autoscious_logs/facts
+
+4. To get inferences for a decomposition, edit and run "get_inferences.py"
+- The outputs will be found in autoscious_logs/inferences
+
+5. For inferences about key driver conclusions and project question best answer, go to problem_solving.ipynb and the final section "Giving a conclusion and best answer based on hypothesis findings".
+- The outputs will be found in autoscious_logs/inferences
+
+(Old -- only verifiers)
 1. To decompose a question with verifiers, edit and run "decompose.py"
 - The outputs will be found in autoscious_logs/decompositions
 

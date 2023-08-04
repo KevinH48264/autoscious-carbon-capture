@@ -173,3 +173,31 @@ The output should be of the JSON format:
 }}
 ```
 '''
+
+# Need to determine how useful the text is likely to be for answering the key questions
+def get_predicted_usefulness_of_text_prompt(context, decomposition, sample_text_chunks):
+    return f'''
+Task: 
+Based on the research question decomposition key questions and the sample text chunks of the source text, the goal is to identify how useful reading the full source text would be to extract direct quoted facts and determine the best answer to any of the key questions. 
+
+Context:
+{context}
+
+Research question decomposition:
+{decomposition}
+
+Sample text chunks from the source text:
+{sample_text_chunks}
+
+Deliverables:
+For each key question, assign a predicted usefulness score of the full source text using a 5-point Likert scale, with 1 being very unlikely to be usefulness to 5 being very likely useful and containing facts that answer the key question.
+
+The output should be of the following JSON format
+{{
+    <insert key question index>: <insert predicted usefulness>,
+   etc.
+}}
+
+
+Respond only with the output, with no explanation or conversation.
+'''
