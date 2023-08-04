@@ -1,6 +1,4 @@
 from autogpt.commands.web_selenium import browse_website, scrape_text_with_selenium_no_agent
-from autogpt.app.main import run_auto_gpt
-from autogpt.app.cli import main
 import json
 from util import sanitize_filename
 import os

@@ -163,7 +163,7 @@ def scrape_text_with_selenium(url: str, agent: Agent) -> tuple[WebDriver, str]:
     text = "\n".join(chunk for chunk in chunks if chunk)
     return driver, text
 
-def scrape_text_with_selenium_no_agent(url: str, driver: WebDriver) -> str:
+def scrape_text_with_selenium_no_agent(url: str, driver: WebDriver, search_engine = 'firefox') -> str:
     print("Going through url: ", url)
 
     """Scrape text from a website using selenium
@@ -179,40 +179,42 @@ def scrape_text_with_selenium_no_agent(url: str, driver: WebDriver) -> str:
     # if driver is None:
 
     print("select firefox options!")
-    options: BrowserOptions = ChromeOptions()
-    # options.add_argument(
-    #     "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.49 Safari/537.36"
-    # )
+    if search_engine == 'firefox':
+        options: BrowserOptions = FirefoxOptions()
+        options.add_argument(
+            "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.5615.49 Safari/537.36"
+        )
 
-    # options.headless = True
-    # options.add_argument("--disable-gpu")
-    # driver = FirefoxDriver(
-    #     service=GeckoDriverService(GeckoDriverManager().install()), options=options
-    # )
+        options.headless = True
+        options.add_argument("--disable-gpu")
+        driver = FirefoxDriver(
+            service=GeckoDriverService(GeckoDriverManager().install()), options=options
+        )
+    else:
+        # Turns out Chrome actually hangs on some websites but Firefox might now
+        # Hard coding Chrome for now
+        options: BrowserOptions = ChromeOptions()
+        print("hard coding chrome")
+        if platform == "linux" or platform == "linux2":
+            options.add_argument("--disable-dev-shm-usage")
+            options.add_argument("--remote-debugging-port=9222")
 
-    # Turns out Chrome actually hangs on some websites but Firefox might now
-    # # Hard coding Chrome for now
-    print("hard coding chrome")
-    if platform == "linux" or platform == "linux2":
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--remote-debugging-port=9222")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--headless=new")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--incognito")
+        
+        options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
-    options.add_argument("--no-sandbox")
-    options.add_argument("--headless=new")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--incognito")
-    
-    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+        chromium_driver_path = Path("/usr/bin/chromedriver")
 
-    chromium_driver_path = Path("/usr/bin/chromedriver")
-
-    print("setting up chrome driver")
-    driver = ChromeDriver(
-        service=ChromeDriverService(str(chromium_driver_path))
-        if chromium_driver_path.exists()
-        else ChromeDriverService(ChromeDriverManager().install()),
-        options=options,
-    )
+        print("setting up chrome driver")
+        driver = ChromeDriver(
+            service=ChromeDriverService(str(chromium_driver_path))
+            if chromium_driver_path.exists()
+            else ChromeDriverService(ChromeDriverManager().install()),
+            options=options,
+        )
 
     print("Driver is getting url")
 
