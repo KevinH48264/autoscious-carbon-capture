@@ -1,5 +1,5 @@
 # Using LLM to generate topics
-# Improvement: add rate limiting error handling so you don't hardcode the wait time
+# Improvement: add rate limiting error handling so you don't hardcode the wait time. To catch errors, use these catch exceptions from BabyAGI: https://github.com/yoheinakajima/babyagi/blob/main/babyagi.py
 
 # imports
 import dotenv
