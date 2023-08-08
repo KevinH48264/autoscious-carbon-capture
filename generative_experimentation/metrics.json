@@ -1,0 +1,10 @@
+{
+    "CO2 capture rate": "The rate at which CO2 is captured and removed from the atmosphere, measured in metric tons per year.",
+    "Feasibility": "The evaluation of the technical and economic feasibility of implementing the carbon capture process at the desired scale.",
+    "Cost per metric ton of CO2 captured": "The cost incurred for capturing and storing one metric ton of CO2, measured in currency (e.g., USD) per metric ton of CO2 captured.",
+    "Storage capacity": "The total amount of CO2 that can be stored in the chosen storage method, measured in metric tons.",
+    "Permanence": "The long-term stability and durability of the stored CO2, ensuring it remains securely stored and does not re-enter the atmosphere.",
+    "Energy consumption": "The amount of energy required for the carbon capture process, measured in kilowatt-hours per metric ton of CO2 captured.",
+    "Environmental impact": "The assessment of the carbon capture process on the environment, including factors such as water usage, land requirements, and potential leakage risks.",
+    "Measurability": "The ease and accuracy of measuring and monitoring the captured CO2, ensuring reliable data for tracking progress."
+}

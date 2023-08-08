@@ -1,5 +1,8 @@
 Notes:
-- Enure that you activate venv
+- Ensure that you activate venv
+
+Research Machine v2
+1. research_machine_v2.ipynb, and then extract_facts_v2.ipynb, and then planner.ipynb. This is meant to retrieve answers from text, but does not support iteration yet, which is crucial.
 
 New -- with efficient reading of sources
 1. To decompose a question with verifiers, edit and run "decompose.py"
