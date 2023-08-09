@@ -1,0 +1,435 @@
+Carbon capture and storage - Wikipedia
+https://en.wikipedia.org/wiki/Carbon_capture_and_storage
+Jump to content
+Contents
+move to sidebar
+hide
+(Top)
+1Terminology
+2Purpose
+Toggle Purpose subsection
+2.1Role in climate change mitigation
+3Technology components
+Toggle Technology components subsection
+3.1Capture
+3.1.1Separation technologies
+3.2Compression
+3.3Transport
+3.3.1Leakage during transport
+3.4Sequestration (storage)
+3.4.1Enhanced oil recovery
+3.4.2Leakage risks during storage
+3.4.2.1Long-term retention
+3.4.2.2Sudden leakage hazards
+4Cost
+Toggle Cost subsection
+4.1Business models
+4.1.1Clean Development Mechanism
+5Environmental effects
+Toggle Environmental effects subsection
+5.1Alkaline solvents
+5.2Natural gas processing and enhanced oil recovery
+5.3Gas and coal-fired power plants
+6Monitoring
+Toggle Monitoring subsection
+6.1Subsurface
+6.1.1Seismic
+6.2Tracer
+6.3Surface
+6.3.1InSAR
+7Society and culture
+Toggle Society and culture subsection
+7.1Social acceptance
+7.2Political debate
+7.2.1Carbon emission status-quo
+7.2.2Environmental NGOs
+8Example projects
+9Related concepts
+Toggle Related concepts subsection
+9.1Carbon capture and utilization (CCU)
+9.2Bioenergy with carbon capture and storage (BCCS)
+9.3Direct air carbon capture and sequestration (DACCS)
+10See also
+11References
+12External links
+ArticleTalk
+English
+ReadEditView history
+Tools
+Tools
+move to sidebar
+hide
+Actions
+ReadEditView history
+General
+What links hereRelated changesUpload fileSpecial pagesPermanent linkPage informationCite this pageWikidata item
+Edit interlanguage links
+Print/export
+Download as PDFPrintable version
+In other projects
+Wikimedia CommonsWikiversity
+From Wikipedia, the free encyclopedia
+Collecting carbon dioxide from industrial emissions
+This article is about removing CO2 from industrial flue gas. For removing and sequestering CO2 from the atmosphere, see carbon sequestration.
+Global proposed (grey bars) vs. implemented (blue bars) annual CO2 sequestration. More than 75% of proposed gas processing projects have been implemented, with corresponding figures for other industrial projects and power plant projects being about 60% and 10%, respectively.[1]
+Carbon capture and storage (CCS)
+is a process in which a relatively pure stream of carbon dioxide (CO2) from industrial sources is separated, treated and transported to a long-term storage location.[2]: 2221  For example, the carbon dioxide stream that is to be captured can result from burning fossil fuels or biomass. Usually the CO2 is captured from large point sources, such as a chemical plant or biomass plant, and then stored in an underground geological formation. The aim is to reduce greenhouse gas emissions and thus mitigate climate change.
+CO2 can be captured directly from an industrial source, such as a cement kiln, using a variety of technologies; including adsorption, chemical looping, membrane gas separation or gas hydration.[3][4][5] As of 2022[update], about one thousandth of global CO2 emissions are captured by CCS, and most projects are for fossil gas processing.[6]: 32  The technology generally has a success rate of between 50 and 68% of captured carbon,[7] but some projects have exceeded 95 percent efficiency.[8]
+Opponents point out that many CCS projects have failed to deliver on promised emissions reductions.[9] Additionally, opponents argue that carbon capture and storage is only a justification for indefinite fossil fuel usage disguised as marginal emission reductions.
+Carbon capture and utilization (CCU) and CCS are sometimes discussed collectively as "carbon capture, utilization, and sequestration" (CCUS). This is because CCS is a relatively expensive process yielding a product which is often too cheap.[10] Hence, carbon capture makes economically more sense where the carbon price is high enough, such as in much of Europe,[6] or when combined with a utilization process where the cheap CO2 can be used to produce high-value chemicals to offset the high costs of capture operations.[11]
+Storage of the CO2 is either in deep geological formations, or in the form of mineral carbonates. Pyrogenic carbon capture and storage (PyCCS) is also being researched.[12] Geological formations are currently considered the most promising sequestration sites. The US National Energy Technology Laboratory (NETL) reported that North America has enough storage capacity for more than 900 years worth of CO2 at current production rates.[13] A general problem is that long-term predictions about submarine or underground storage security are very difficult and uncertain, and there is still the risk that some CO2 might leak into the atmosphere.[14][15][16] Despite this, a recent evaluation estimates the risk of substantial leakage to be fairly low.[17][18][when?]
+Terminology[edit]
+The term carbon capture and storage is also known as carbon dioxide capture and storage, which is the terminology recommended by ISO (International Organization for Standardization), see ISO 27917, because it is more accurate: the objective is to capture the carbon dioxide, not the carbon. The definition for this term is: "A process in which a relatively pure stream of carbon dioxide (CO2) from industrial and energy-related sources is separated (captured), conditioned, compressed and transported to a storage location for long-term isolation from the atmosphere."[2]: 2221  The term and concept is related to bioenergy with carbon capture and storage (BECCS), carbon sequestration, and carbon dioxide removal (also called negative emissions).
+The terms CCS and CCUS (Carbon Capture, Utilization, and Storage) are often used interchangeably. The difference between the two is the specified 'utilization' of the captured carbon and refers to its use for other applications, such as enhanced oil recovery (EOR), potentially making liquid fuel, or the manufacturing of useful consumer goods, such as plastics. Since both approaches capture emitted CO2 and effectively store it, whether that be under-ground in geological formations or long-term trapping in material products, the two terms are often treated the same.[citation needed]
+Carbon capture and utilization is the process of capturing carbon dioxide (CO2) to be recycled for further usage.[19]
+Purpose[edit]
+Carbon capture and storage technologies capture carbon dioxide that is emitted from power plants, factories, fuel burning industries, and new generation livestock production facilities as they transition into restorative farming techniques to reduce carbon emissions.
+Role in climate change mitigation[edit]
+Main articles: Climate change scenario and Shared Socioeconomic Pathways
+Part of a series onClimate change mitigation
+Climate change
+Co-benefits of mitigation
+Greenhouse gas emissions
+Energy
+Carbon capture and storage
+Coal phase-out
+Energy transition
+Fossil fuel phase-out
+Sustainable energy
+Low-carbon power
+Renewable energy
+Nuclear power
+Solar power
+Wind power
+Economics
+Carbon credit
+Carbon offset
+Carbon tax
+Climate debt
+Climate risk insurance
+Emissions trading
+Fossil fuel divestment
+Low-carbon economy
+Carbon sinks
+Blue carbon
+Carbon dioxide removal
+Carbon sequestration
+Direct air capture
+Climate-smart agriculture
+Land use, land-use change, and forestry
+Nature-based solutions
+Reforestation
+Other sectors
+Green building
+Sustainable agriculture
+Sustainable transport
+Portal
+Glossary
+Indexvte
+CCS is employed to contribute to climate change mitigation. Large-scale CCS plays a crucial role in reaching climate change stabilization. CCS' primary role is to delay the shift from fossil fuels and thereby reduce transition costs. The implementation of default technology assumptions would cost 29-297% more over the century than efforts without CCS for a 430-480 ppm CO2/yr scenario.[20][unreliable source?][21] The Paris agreement upholds a goal to reach no more than a 2.0 °C increase above pre-industrial temperatures. If the 2.0 °C goal is to be reached in time, CCS must be utilized to achieve net zero emissions by 2060–2070. After 2060–2070, negative emissions will need to be achieved to remain below the 2.0 °C target. The variations in methods depend heavily on the climate change model being used and the anticipated energy consumption patterns. It is widely agreed upon, however, that CCS would need to be utilized if there is to be any negative climate change mitigation.[22]
+A change below 1 °C with respect to the pre-industrial era is now inconceivable. As of 2017 global temperatures have already
+increased by 1 °C.[23] Because of the immediate inability to control the temperature at the 1 °C target, the next realistic target is 1.5 °C. Scenarios where the degree change is maintained below 1.5 °C are challenging but not impossible.[24]
+For a below 2.0 °C target, Shared socioeconomic pathways (SSPs) had been developed adding a socio-economic dimension to the integrative work started by RCPs models. All SSPs scenarios show a shift away from unabated fossil fuels, that is processes without CCS.[24]
+To achieve a 1.5 °C target before 2100, the following assumptions have to be considered; emissions have to peak by 2020 and decline after that, it will be necessary to reduce net CO2 emissions to zero and negative emissions have to be a reality by the second half of the 21st century. For these assumptions to take place, CCS has to be implemented in factories that accompany the use of fossil fuels. Because emissions reduction has to be implemented more rigorously for a 1.5 °C target, methods such as BECCS, and natural climate solutions such as afforestation can be used to aim for the reduction of global emissions.[25] BECCS is necessary to achieve a 1.5 °C. The models estimate that with the help of BECCS, between 150 and 12000 GtCO2 still have to be removed from the atmosphere.[24]
+Technology components[edit]
+Capture[edit]
+Capturing CO2 is most cost-effective at point sources, such as large carbon-based energy facilities, industries with major CO2 emissions (e.g. cement production, steelmaking[26]), natural gas processing, synthetic fuel plants and fossil fuel-based hydrogen production plants. Extracting CO2 from air is possible,[27] although the lower concentration of CO2 in air compared to combustion sources complicates the engineering and makes the process therefore more expensive.[28]
+The net storage efficiency of carbon capture projects is maximally 6–56%.[29]
+Impurities in CO2 streams, like sulfurs and water, can have a significant effect on their phase behavior and could pose a significant threat of increased pipeline and well corrosion. In instances where CO2 impurities exist, especially with air capture, a scrubbing separation process is needed to initially clean the flue gas.[30]
+A wide variety of separation techniques are being pursued, including gas phase separation, absorption into a liquid, and adsorption on a solid, as well as hybrid processes, such as adsorption/membrane systems.[31] There are three ways that this capturing can be carried out: post-combustion capture, pre-combustion capture, and oxy-combustion:[32]
+In post combustion capture, the CO2 is removed after combustion of the fossil fuel—this is the scheme that would apply to fossil-fuel power plants. CO2 is captured from flue gases at power stations or other point sources. The technology is well understood and is currently used in other industrial applications, although at smaller scale than required in a commercial scale station. Post combustion capture is most popular in research because fossil fuel power plants can be retrofitted to include CCS technology in this configuration.[33]
+The technology for pre-combustion is widely applied in fertilizer, chemical, gaseous fuel (H2, CH4), and power production.[34] In these cases, the fossil fuel is partially oxidized, for instance in a gasifier. The CO from the resulting syngas (CO and H2) reacts with added steam (H2O) and is shifted into CO2 and H2. The resulting CO2 can be captured from a relatively pure exhaust stream. The H2 can be used as fuel; the CO2 is removed before combustion. Several advantages and disadvantages apply versus post combustion capture.[35][36] The CO2 is removed after combustion, but before the flue gas expands to atmospheric pressure. The capture before expansion, i.e. from pressurized gas, is standard in almost all industrial CO2 capture processes, at the same scale as required for power plants.[37][38]
+In oxy-fuel combustion[39] the fuel is burned in pure oxygen instead of air. To limit the resulting flame temperatures to levels common during conventional combustion, cooled flue gas is recirculated and injected into the combustion chamber. The flue gas consists of mainly CO2 and water vapour, the latter of which is condensed through cooling. The result is an almost pure CO2 stream. Power plant processes based on oxyfuel combustion are sometimes referred to as "zero emission" cycles, because the CO2 stored is not a fraction removed from the flue gas stream (as in the cases of pre- and post-combustion capture) but the flue gas stream itself. A certain fraction of the CO2 inevitably end up in the condensed water. To warrant the label "zero emission" the water would thus have to be treated or disposed of appropriately.
+Separation technologies[edit]
+Main articles: Carbon dioxide scrubber, Direct air capture, Clean coal, Amine gas treating, Membrane gas separation, and Metal-organic framework
+The major technologies proposed for carbon capture are:[3][40][41]
+Membrane
+Oxyfuel combustion
+Absorption
+Multiphase absorption
+Adsorption
+Chemical looping combustion
+Calcium looping
+Cryogenic
+Absorption, or carbon scrubbing with amines is the dominant capture technology. It is the only carbon capture technology so far that has been used industrially.[42] Monoethanolamine (MEA) solutions, the leading amine for capturing CO2 , have a heat capacity between 3–4 J/g K since they are mostly water.[43][44] Higher heat capacities add to the energy penalty in the solvent regeneration step.
+About two thirds of CCS cost is attributed to capture, making it the limit to CCS deployment. Optimizing capture would significantly increase CCS feasibility since the transport and storage steps of CCS are rather mature.[45]
+An alternate method is chemical looping combustion (CLC). Looping uses a metal oxide as a solid oxygen carrier. Metal oxide particles react with a solid, liquid or gaseous fuel in a fluidized bed combustor, producing solid metal particles and a mixture of CO2 and water vapor. The water vapor is condensed, leaving pure CO2 , which can then be sequestered. The solid metal particles are circulated to another fluidized bed where they react with air, producing heat and regenerating metal oxide particles for return to the combustor. A variant of chemical looping is calcium looping, which uses the alternating carbonation and then calcination of a calcium oxide based carrier.[46]
+Under significant study is also adsorption based carbon capture on highly porous materials such as activated carbons, zeolites, or MOFs. Such a process is divided into physical and chemical adsorption or physisorption and chemisorption respectively. The former mitigates the issue of CO2 regeneration as most of the CO2 can be regenerated by simply decreasing the pressure. Physisorption capacity is principally determined by the porosity of the adsorbate.[5][47]
+A 2019 study found CCS plants to be less effective than renewable electricity. The electrical energy returned on energy invested (EROEI) ratios of both production methods were estimated, accounting for their operational and infrastructural energy costs. Renewable electricity production included solar and wind with sufficient energy storage, plus dispatchable electricity production. Thus, rapid expansion of scalable renewable electricity and storage would be preferable over fossil-fuel with CCS. The study did not consider whether both options could be pursued in parallel.[48]
+In sorption enhanced water gas shift (SEWGS) technology a pre-combustion carbon capture process, based on solid adsorption, is combined with the water gas shift reaction (WGS) in order to produce a high pressure hydrogen stream.[49] The CO2 stream produced can be stored or used for other industrial processes.[50]
+Compression[edit]
+After the CO2 has been captured, it is usually compressed into a supercritical fluid. The CO2 is compressed so that it can be more easily transported. Compression is done at the capture site. This process requires its own energy source. Like the capture stage, compression is achieved by increasing the parasitic load. Compression of CO2 is an energy intensive procedure that involves multi-stage complex compressors and a power-generated cooling process.[51]
+Transport[edit]
+Large volumes of highly pressurized CO2 are transported via pipelines.
+For example, approximately 5,800 km of CO2 pipelines operated in the US in 2008, and a 160 km pipeline in Norway,[52] used to transport CO2 to oil production sites where it is injected into older fields to extract oil. This injection is called enhanced oil recovery. Pilot programs are in development to test long-term storage in non-oil producing geologic formations. In the United Kingdom, the Parliamentary Office of Science and Technology envisages pipelines as the main UK transport.[52]
+In 2021, two companies, namely Navigator CO2 Ventures and Summit Carbon Solutions were planning pipelines through the Midwestern US from North Dakota to Illinois to connect ethanol companies to sites where liquefied CO2 is injected into porous rock.[53]
+Leakage during transport[edit]
+Transmission pipelines may leak or rupture. Pipelines can be fitted with remotely controlled valves that can limit the release quantity to one pipe section. For example, a severed 19" pipeline section 8 km long could release its 1,300 tonnes in about 3–4 min.[54]
+Sequestration (storage)[edit]
+Main article: Carbon sequestration
+Various approaches have been conceived for permanent storage. These include gaseous storage in deep geological formations (including saline formations and exhausted gas fields), and solid storage by reaction of CO2 with metal oxides to produce stable carbonates.
+Storage capacity, containment efficiency and injectivity are the three factors that require major pre-assessment to decide the feasibility of CO2 storage in a candidate geological formation.[55]
+Geo-sequestration, involves injecting CO2 , generally in supercritical form, into underground geological formations. Oil fields, gas fields, saline formations, unmineable coal seams, and saline-filled basalt formations have been suggested as alternatives. At the molecular level, carbon dioxide is shown to affect the mechanical properties of the formation where it has been injected.[56] Physical (e.g., highly impermeable caprock) and geochemical trapping mechanisms prevent the CO2 from escaping to the surface.[57]
+Unmineable coal seams can be used because CO2 molecules attach to the coal surface. Technical feasibility depends on the coal bed's permeability. In the process of absorption the coal releases previously absorbed methane, and the methane can be recovered (enhanced coal bed methane recovery). Methane revenues can offset a portion of the cost, although burning the resultant methane, however, produces another stream of CO2 to be sequestered.[citation needed]
+Saline formations contain mineralized brines and have yet to produce benefit to humans. Saline aquifers have occasionally been used for storage of chemical waste in a few cases. The main advantage of saline aquifers is their large potential storage volume and their ubiquity. The major disadvantage of saline aquifers is that relatively little is known about them. To keep the cost of storage acceptable, geophysical exploration may be limited, resulting in larger uncertainty about the aquifer structure. Unlike storage in oil fields or coal beds, no side product offsets the storage cost. Trapping mechanisms such as structural trapping, residual trapping, solubility trapping and mineral trapping may immobilize the CO2 underground and reduce leakage risks.[57]
+[58]
+Enhanced oil recovery[edit]
+CO2 is occasionally injected into an oil field as an enhanced oil recovery technique,[59] but because CO2 is released when the oil is burned,[60] it is not carbon neutral.[61][failed verification]
+CO2 has been injected into geological formations for several decades for enhanced oil recovery and after separation from natural gas, but this has been criticised for producing more emissions when the gas or oil is burned.[6]
+Leakage risks during storage[edit]
+Long-term retention[edit]
+IPCC estimates that leakage risks at properly managed sites are comparable to those associated with current hydrocarbon activity. It recommends that limits be set to the amount of leakage that can take place.[62] However, this finding is contested given the lack of experience.[63][64] CO2 could be trapped for millions of years, and although some leakage may occur, appropriate storage sites are likely to retain over 99% for over 1000 years.[65]
+Mineral storage is not regarded as presenting any leakage risks.[66]
+Norway's Sleipner gas field is the oldest industrial scale retention project. An environmental assessment conducted after ten years of operation concluded that geosequestration was the most definite form of permanent geological storage method:
+Available geological information shows absence of major tectonic events after the deposition of the Utsira formation [saline reservoir]. This implies that the geological environment is tectonically stable and a site suitable for CO2 storage. The solubility trapping [is] the most permanent and secure form of geological storage.[67]
+In March 2009, StatoilHydro issued a study documenting the slow spread of CO2 in the formation after more than 10 years operation.[68]
+Gas leakage into the atmosphere may be detected via atmospheric gas monitoring, and can be quantified directly via eddy covariance flux measurements.[69][70][71]
+Sudden leakage hazards[edit]
+At the storage site, the injection pipe can be fitted with non-return valves to prevent an uncontrolled release from the reservoir in case of upstream pipeline damage.
+Large-scale CO2 releases present asphyxiation risks. For example, in the 1953 Menzengraben mining accident, several thousand tonnes were released and asphyxiated a person 300 meters away.[54][better source needed] Malfunction of a CO2 industrial fire suppression system in a large warehouse released 50 t CO2 after which 14 people collapsed on the nearby public road.[54]
+Cost[edit]
+Cost is a significant factor affecting CCS. The cost of CCS, plus any subsidies, must be less than the expected cost of emitting CO2 for a project to be considered economically favorable.
+CCS technology is expected to use between 10 and 40 percent of the energy produced by a power station.[72][73] Energy for CCS is called an energy penalty. It has been estimated that about 60% of the penalty originates from the capture process, 30% comes from compression of CO2 , while the remaining 10% comes from pumps and fans.[74] CCS would increase the fuel requirement of a plant with CCS by about 15% (gas plant).[75] The cost of this extra fuel, as well as storage and other system costs, are estimated to increase the costs of energy from a power plant with CCS by 30–60%.
+Constructing CCS units is capital intensive. The additional costs of a large-scale CCS demonstration project are estimated to be €0.5–1.1 billion per project over the project lifetime. Other applications are possible. CCS trials for coal-fired plants in the early 21st century were
+economically unviable in most countries,[76] including China,[77] in part because revenue from enhanced oil recovery collapsed with the 2020 oil price collapse.[78] A carbon price of at least 100 euros per tonne CO2 is estimated to be needed to make industrial CCS viable,[79] together with carbon tariffs.[80] But, as of mid-2022, the EU Allowance had never reached that price and the Carbon Border Adjustment Mechanism had not yet been implemented.[81] However a company making small modules claims it can get well below that price by mass production by 2022.[82]
+According to UK government estimates made in the late 2010s, carbon capture (without storage) is estimated to add 7 GBP per MWh by 2025 to the cost of electricity from a gas-fired power plant: however most CO2 will need to be stored so in total the increase in cost for gas or biomass generated electricity is around 50%.[83]
+Business models[edit]
+Possible business models for industrial carbon capture include:[84]
+Contract for Difference CfDC CO2 certificate strike price
+Cost Plus open book
+Regulated Asset Base (RAB)
+Tradeable tax credits for CCS
+Tradeable CCS certificates + obligation
+Creation of low carbon market
+Governments have provided various types of funding for CCS demonstration projects, including tax credits, allocations and grants.[85]
+Clean Development Mechanism[edit]
+One alternative could be through the Clean Development Mechanism of the Kyoto Protocol. At COP16 in 2010, The Subsidiary Body for Scientific and Technological Advice, at its thirty-third session, issued a draft document recommending the inclusion of CCS in geological formations in Clean Development Mechanism project activities.[86] At COP17 in Durban, a final agreement was reached enabling CCS projects to receive support through the Clean Development Mechanism.[87]
+Environmental effects[edit]
+Alkaline solvents[edit]
+This section may be too technical for most readers to understand. Please help improve it to make it understandable to non-experts, without removing the technical details. (October 2022) (Learn how and when to remove this template message)
+CO2 can be captured with alkaline solvents at low temperatures in the absorber and released CO2 at higher temperatures in a desorber. Chilled ammonia CCS plants emit ammonia. "Functionalized Ammonia" emits less ammonia, but amines may form secondary amines that emit volatile nitrosamines[88] by a side reaction with nitrogen dioxide, which is present in any flue gas. Alternative amines with little to no vapor pressure can avoid these emissions. Nevertheless, practically 100% of remaining sulfur dioxide from the plant is washed out of the flue gas, along with dust/ash.[clarification needed]
+Natural gas processing and enhanced oil recovery[edit]
+The Institute for Energy Economics & Financial Analysis has criticised companies for not reporting greenhouse gas emissions from the use of their
+products.[6]: 33  CO2 from natural-gas processing is often used for EOR.[6] It has been suggested that enhanced oil recovery only be allowed to use anthropogenic CO2 and should only receive financial incentives such as tax credits when carbon negative, which is generally only in the early years of a project.[89]
+Gas and coal-fired power plants[edit]
+Although the global total volume of CO2 emitted by fossil fuel power plants is very large, coal plant flue gas typically contains 10–14% CO2, and gas power plants 4–5% CO2.[6]: 37  Cost per tonne CO2 increases as the capacity factor decreases (the plant is used less - for example only for times of highest demand or in emergencies).[6]: 42
+The extra energy requirements deriving from CCS for natural gas combined cycle (NGCC) plants range from 11 to 22%.[90] Fuel use and environmental problems (e.g., methane emissions) arising from gas extraction increase accordingly. Plants equipped with selective catalytic reduction systems for nitrogen oxides produced during combustion[91] require proportionally greater amounts of ammonia.
+A 2020 study concluded that half as much CCS might be installed in coal-fired plants as in gas-fired: these would be mainly in China and India.[92] However a 2022 study concluded that it would be too expensive for coal power in China.[93]
+For super-critical pulverized coal (PC) plants, CCS' energy requirements range from 24 to 40%, while for coal-based gasification combined cycle (IGCC) systems it is 14–25%.[90] Fuel use and environmental problems arising from coal extraction increase accordingly. Plants equipped with flue-gas desulfurization (FGD) systems for sulfur dioxide control require proportionally greater amounts of limestone, and systems equipped with selective catalytic reduction systems for nitrogen oxides produced during combustion require proportionally greater amounts of ammonia. As of 2022[update] Boundary Dam is the only coal-fired power station which uses post-combustion CCS.[6]: 42
+Monitoring[edit]
+Monitoring allows leak detection with enough warning to minimize the amount lost, and to quantify the leak size. Monitoring can be done at both the surface and subsurface levels.[94]
+Subsurface[edit]
+Subsurface monitoring can directly and/or indirectly track the reservoir's status. One direct method involves drilling deep enough to collect a sample. This drilling can be expensive due to the rock's physical properties. It also provides data only at a specific location.
+One indirect method sends sound or electromagnetic waves into the reservoir which reflects back for interpretation. This approach provides data over a much larger region; although with less precision.
+Both direct and indirect monitoring can be done intermittently or continuously.[94]
+Seismic[edit]
+Seismic monitoring is a type of indirect monitoring. It is done by creating seismic waves either at the surface using a seismic vibrator, or inside a well using a spinning eccentric mass. These waves propagate through geological layers and reflect back, creating patterns that are recorded by seismic sensors placed on the surface or in boreholes.[95] It can identify migration pathways of the CO2 plume.[96]
+Examples of seismic monitoring of geological sequestration are the Sleipner sequestration project, the Frio CO2 injection test and the CO2CRC Otway Project.[97] Seismic monitoring can confirm the presence of CO2 in a given region and map its lateral distribution, but is not sensitive to the concentration.
+Tracer[edit]
+Organic chemical tracers, using no radioactive or Cadmium components, can be used during the injection phase in a CCS project where CO2 is injected into an existing oil or gas field, either for EOR, pressure support or storage. Tracers and methodologies are compatible with CO2 – and at the same time unique and distinguishable from the CO2 itself or other molecules present in the sub-surface. Using laboratory methodology with an extreme detectability for tracer, regular samples at the producing wells will detect if injected CO2 has migrated from the injection point to the producing well. Therefore, a small tracer amount is sufficient to monitor large scale subsurface flow patterns. For this reason, tracer methodology is well-suited to monitor the state and possible movements of CO2 in CCS projects. Tracers can therefore be an aid in CCS projects by acting as an assurance that CO2 is contained in the desired location sub-surface. In the past, this technology has been used to monitor and study movements in CCS projects in Algeria,[98] the Netherlands[99] and Norway (Snøhvit).
+Surface[edit]
+Eddy covariance is a surface monitoring technique that measures the flux of CO2 from the ground's surface. It involves measuring CO2 concentrations as well as vertical wind velocities using an anemometer.[100] This provides a measure of the vertical CO2 flux. Eddy covariance towers could potentially detect leaks, after accounting for the natural carbon cycle, such as photosynthesis and plant respiration. An example of eddy covariance techniques is the Shallow Release test.[101] Another similar approach is to use accumulation chambers for spot monitoring. These chambers are sealed to the ground with an inlet and outlet flow stream connected to a gas analyzer.[94] They also measure vertical flux. Monitoring a large site would require a network of
+chambers.
+InSAR[edit]
+InSAR monitoring involves a satellite sending signals down to the Earth's surface where it is reflected back to the satellite's receiver. The satellite is thereby able to measure the distance to that point.[102] CO2 injection into deep sublayers of geological sites creates high pressures. These layers affect layers above and below them, change the surface landscape. In areas of stored CO2 , the ground's surface often rises due to the high pressures. These changes correspond to a measurable change in the distance from the satellite.[102]
+Society and culture[edit]
+Social acceptance[edit]
+Protest against Carbon Capture and Storage in 2021 (an action initiated by the Otway Climate Emergency Action Network (OCEAN) at the CO2CRC AGM and Symposium (Carbon Capture and Storage Conference) in Torquay)
+Protest Against Carbon Capture and Storage at the same event as above.
+Multiple studies indicate that risk and benefit perception are the most essential components of social acceptance.[103]
+Risk perception is mostly related to the concerns on its safety issues in terms of hazards from its operations and the possibility of CO2 leakage which may endanger communities, commodities, and the environment in the vicinity of the infrastructure.[104] Other perceived risks relate to tourism and property values.[103] CCS public perceptions appear among other controversial technologies to tackle climate change such as nuclear power, wind, and geoengineering [105]
+People who are already affected by climate change, such as drought,[106] tend to be more supportive of CCS. Locally, communities are sensitive to economic factors, including job creation, tourism or related investment.[103]
+Experience is another relevant feature. Several field studies concluded that people already involved or used to industry are likely to accept the technology. In the same way, communities who have been negatively affected by any industrial activity are also less supportive of CCS.[103]
+Few members of the public know about CCS. This can allow misconceptions that lead to less approval. No strong evidence links knowledge of CCS and public acceptance. However, one study
+found that communicating information about monitoring tends to have a negative impact on attitudes.[107] Conversely, approval seems to be reinforced when CCS is compared to natural phenomena.[103]
+Due to the lack of knowledge, people rely on organizations that they trust.[citation needed] In general, non-governmental organizations and researchers experience higher trust than stakeholders and governments. Opinions amongst NGOs are mixed.[108][109] Moreover, the link between trust and acceptance is at best indirect. Instead, trust has an influence on the perception of risks and benefits.[103]
+CCS is embraced by the Shallow ecology worldview,[110] which promotes the search for solutions to the effects of climate change in lieu of/in addition to addressing the causes. This involves the use of advancing technology and CCS acceptance is common among techno-optimists. CCS is an "end-of-pipe" solution[103] that reduces atmospheric CO2, instead of minimizing the use of fossil fuel.[103][110]
+On 21 January 2021, Elon Musk announced he was donating $100m for a prize for best carbon capture technology.[111]
+Political debate[edit]
+CCS has been discussed by political actors at least since the start of the UNFCCC[112] negotiations in the beginning of the 1990s, and remains a very divisive issue.[citation needed]
+Some environmental groups raised concerns over leakage given the long storage time required, comparing CCS to storing radioactive waste from nuclear power stations.[113]
+Other controversies arose from the use of CCS by policy makers as a tool to fight climate change.[citation needed] In the IPCC's Sixth Assessment Report in 2022, most pathways to keep the increase of global temperature below 2 °C include the use of negative emission technologies (NETs).[114]
+Some environmental activists and politicians have criticized CCS as a false solution to the climate crisis. They cite the role of the fossil fuel industry in origins of the technology and in lobbying for CCS focused legislation and argue that it would allow the industry to "greenwash" itself by funding and engaging in things such as tree planting campaigns without significantly cutting their carbon emissions.[115][116]
+Carbon emission status-quo[edit]
+Opponents claimed that CCS could legitimize the continued use of fossil fuels, as well obviate commitments on emission reduction.[citation needed]
+Some examples such as in Norway shows that CCS and other carbon removal technologies gained traction because it allowed the country to pursue its interests regarding the petroleum industry. Norway was a pioneer in emission mitigation, and established a CO2 tax in 1991.[117]
+Environmental NGOs[edit]
+Environmental NGOs are not in widespread agreement about CCS as a potential climate mitigation tool. The main disagreement amid NGOs is whether CCS will reduce CO2 emissions or just perpetuate the use of fossil fuels.[118][better source needed]
+For instance, Greenpeace is strongly against CCS. According to the organization, the use of the technology will keep the world dependent on fossil fuels.[119][better source needed]
+On the other hand, BECCS is used in some IPCC scenarios to help meet mitigation targets.[120] Adopting the IPCC argument that CO2 emissions need to be reduced by 2050 to avoid dramatic consequences, the Bellona Foundation justified CCS as a mitigation action.[119] They claimed fossil fuels are unavoidable for the near term and consequently, CCS is the quickest way to reduce CO2 emissions.[104]
+Example projects[edit]
+Main article: List of carbon capture and storage projects
+According to the Global CCS Institute, in 2020 there was about 40 million tons CO2 per year capacity of CCS in operation and 50 million tons per year in development.[121] In contrast, the world emits about 38 billion tonnes of CO2 every year,[122] so CCS captured about one thousandth of the 2020 CO2 emissions. Iron and steel is expected to dominate industrial CCS in Europe,[10] although there are alternative ways of decarbonizing steel.[123]
+One of the most well-known failures is the FutureGen program, partnerships between the US federal government and coal energy production companies which were intended to demonstrate "clean coal", but never succeeded in producing any carbon-free electricity from coal.[124][125]
+Related concepts[edit]
+Carbon capture and utilization (CCU)[edit]
+This section is an excerpt from Carbon capture and utilization.[edit]
+Carbon capture and utilization (CCU) is the process of capturing carbon dioxide (CO2) to be recycled for further usage.[126] Carbon capture and utilization may offer a response to the global challenge of significantly reducing greenhouse gas emissions from major stationary (industrial) emitters.[127]
+Bioenergy with carbon capture and storage (BCCS)[edit]
+This section is an excerpt from Bioenergy with carbon capture and storage.[edit]
+Bioenergy with carbon capture and storage (BECCS) is the process of extracting bioenergy from biomass and capturing and storing the carbon, thereby removing it from the atmosphere.[128] BECCS can be a "negative emissions technology" (NET).[129] The carbon in the biomass comes from the greenhouse gas carbon dioxide (CO2) which is extracted from the atmosphere by the biomass when it grows. Energy ("bioenergy") is extracted in useful forms (electricity, heat, biofuels, etc.) as the biomass is utilized through combustion, fermentation, pyrolysis or other conversion methods.
+Direct air carbon capture and sequestration (DACCS)[edit]
+This section is an excerpt from Direct air capture.[edit]
+Direct air capture (DAC) is the use of chemical or physical processes to extract carbon dioxide directly from the ambient air.[130] If the extracted CO2 is then sequestered in safe long-term storage (called direct air carbon capture and sequestration (DACCS)), the overall process will achieve carbon dioxide removal and be a "negative emissions technology" (NET). As of 2022, DAC has yet to become profitable because the cost of using DAC to sequester carbon dioxide is several times the carbon price.
+The carbon dioxide (CO2) is captured directly from the ambient air; this is contrast to carbon capture and storage (CCS) which captures CO2 from point sources, such as a cement factory or a bioenergy plant. After the capture, DAC generates a concentrated stream of CO2 for sequestration or utilization or production of carbon-neutral fuel and windgas. Carbon dioxide removal is achieved when ambient air makes contact with chemical media, typically an aqueous alkaline solvent[131] or sorbents.[132] These chemical media are subsequently stripped of CO2 through the application of energy (namely heat), resulting in a CO2 stream that can undergo dehydration and compression, while simultaneously regenerating the chemical media for reuse.
+See also[edit]
+Energy portal
+Timeline of carbon capture and storage
+Carbon sink
+Carbon storage in the North Sea
+Climate engineering
+Life-cycle greenhouse gas emissions of energy sources
+Low-carbon economy
+Methane pyrolysis
+Oceanic carbon cycle
+Solid sorbents for carbon capture
+References[edit]
+^ Abdulla, Ahmed; Hanna, Ryan; Schell, Kristen R.; Babacan, Oytun;
+et al. (29 December 2020). "Explaining successful and failed investments in U.S. carbon capture and storage using empirical and expert assessments". Environmental Research Letters. 16 (1): 014036. Bibcode:2021ERL....16a4036A. doi:10.1088/1748-9326/abd19e.
+^ Jump up to: a b IPCC, 2021: Annex VII: Glossary [Matthews, J.B.R., V. Möller, R. van Diemen, J.S. Fuglestvedt, V. Masson-Delmotte, C.  Méndez, S. Semenov, A. Reisinger (eds.)]. In Climate Change 2021: The Physical Science Basis. Contribution of Working Group I to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change [Masson-Delmotte, V., P. Zhai, A. Pirani, S.L. Connors, C. Péan, S. Berger, N. Caud, Y. Chen, L. Goldfarb, M.I. Gomis, M. Huang, K. Leitzell, E. Lonnoy, J.B.R. Matthews, T.K. Maycock, T. Waterfield, O. Yelekçi, R. Yu, and B. Zhou (eds.)]. Cambridge University Press, Cambridge, United Kingdom and New York, NY, USA, pp. 2215–2256, doi:10.1017/9781009157896.022.
+^ Jump up to: a b Bui, Mai; Adjiman, Claire S.; Bardow, André; Anthony, Edward J.; Boston, Andy; Brown, Solomon; Fennell, Paul S.; Fuss, Sabine; Galindo, Amparo; Hackett, Leigh A.; Hallett, Jason P.; Herzog, Howard J.; Jackson, George; Kemper, Jasmin; Krevor, Samuel; Maitland, Geoffrey C.; Matuszewski, Michael; Metcalfe, Ian S.; Petit, Camille; Puxty, Graeme; Reimer, Jeffrey; Reiner, David M.; Rubin, Edward S.; Scott, Stuart A.; Shah, Nilay; Smit, Berend; Trusler, J. P. Martin; Webley, Paul; Wilcox, Jennifer; Mac Dowell, Niall (2018). "Carbon capture and storage (CCS): the way forward". Energy & Environmental Science. 11 (5): 1062–1176. doi:10.1039/C7EE02342A.
+^ D'Alessandro, Deanna M.; Smit, Berend; Long, Jeffrey R. (16 August 2010). "Carbon Dioxide Capture: Prospects for New Materials". Angewandte Chemie International Edition. 49 (35): 6058–6082. doi:10.1002/anie.201000431. PMID 20652916.
+^ Jump up to: a b Blankenship, L. Scott; Mokaya, Robert (21 February 2022). "Modulating the porosity of carbons for improved adsorption of hydrogen, carbon dioxide, and methane: a review". Materials Advances. 3 (4): 1905–1930. doi:10.1039/D1MA00911G. ISSN 2633-5409.
+^ Jump up to: a b c d e f g h "The carbon capture crux: Lessons learned". ieefa.org. Retrieved 1 October 2022.
+^ A Vaughan, 'Most major carbon capture and storage projects haven't met targets' (1 September 2022) New Scientist
+^ A Moseman, 'How efficient is carbon capture and storage?' (21 February 2021) MIT Climate Portal
+^ Groom, Nichola (7 August 2020). "Problems plagued U.S. CO2 capture project before shutdown: document". Reuters. Retrieved 19 July 2021.
+^ Jump up to: a b Ghilotti, Davide (26 September 2022). "High carbon prices spurring Europe's CCS drive | Upstream Online". Upstream Online | Latest oil and gas news. Retrieved 1 October 2022.
+^ "Dream or Reality? Electrification of the Chemical Process Industries". www.aiche-cep.com. Retrieved 22 August 2021.
+^ Werner, C; Schmidt, H-P; Gerten, D; Lucht, W; Kammann, C (1 April 2018). "Biogeochemical potential of biomass pyrolysis systems for limiting global warming to 1.5 °C". Environmental Research Letters. 13 (4): 044036. Bibcode:2018ERL....13d4036W. doi:10.1088/1748-9326/aabb0e.
+^ "Carbon Storage Program". netl.doe.gov. Archived from the original on 29 December 2021. Retrieved 30 December 2021.
+^ Phelps, Jack J.C.; Blackford, Jerry C.; Holt, Jason T.; Polton, Jeff A. (July 2015). "Modelling large-scale CO2 leakages in the North Sea". International Journal of Greenhouse Gas Control. 38: 210–220. doi:10.1016/j.ijggc.2014.10.013.
+^ Climatewire, Christa Marshall. "Can Stored Carbon Dioxide Leak?". Scientific American. Retrieved 20 May 2022.
+^ Vinca, Adriano; Emmerling, Johannes; Tavoni, Massimo (2018). "Bearing the Cost of Stored Carbon Leakage". Frontiers in Energy Research. 6. doi:10.3389/fenrg.2018.00040.
+^ Alcalde, Juan; Flude, Stephanie; Wilkinson, Mark; Johnson, Gareth; Edlmann, Katriona; Bond, Clare E.; Scott, Vivian; Gilfillan, Stuart M. V.; Ogaya, Xènia; Haszeldine, R. Stuart (12 June 2018). "Estimating geological CO2 storage security to deliver on climate mitigation". Nature Communications. 9 (1): 2201. Bibcode:2018NatCo...9.2201A. doi:10.1038/s41467-018-04423-1. PMC 5997736. PMID 29895846. S2CID 48354961.
+^ Alcade, Juan; Flude, Stephanie. "Carbon capture and storage has stalled needlessly – three reasons why fears of CO2 leakage are overblown". The Conversation. Retrieved 20 May 2022.
+^ Cuéllar-Franca, Rosa M.; Azapagic, Adisa (March 2015). "Carbon capture, storage and utilisation technologies: A critical analysis and comparison of their life cycle environmental impacts". Journal of CO2 Utilization. 9: 82–102. doi:10.1016/j.jcou.2014.12.001.
+^ "DOE - Carbon Capture Utilization and Storage_2016!09!07 | Carbon Capture And Storage | Climate Change Mitigation". Scribd. Retrieved 3 December 2018.
+^ Pye, Steve; Li, Francis G. N.; Price, James; Fais, Birgit (March 2017). "Achieving net-zero emissions through the reframing of UK national targets in the post-Paris Agreement era" (PDF). Nature Energy. 2 (3): 17024. Bibcode:2017NatEn...217024P. doi:10.1038/nenergy.2017.24. ISSN 2058-7546. S2CID 53506508.
+^ Rogelj, Joeri; Schaeffer, Michiel; Meinshausen, Malte; Knutti, Reto; Alcamo, Joseph; Riahi, Keywan; Hare, William (2015). "Zero emission targets as long-term global goals for climate protection". Environmental Research Letters. 10 (10): 105007. Bibcode:2015ERL....10j5007R. doi:10.1088/1748-9326/10/10/105007. ISSN 1748-9326.
+^ M. R. Allen, O. P. Dube, W. Solecki, F. Aragón–Durand, W. Cramer, S. Humphreys, M. Kainuma, J. Kala, N. Mahowald, Y. Mulugetta, R. Perez, M. Wairiu, K. Zickfeld, 2018, Framing and Context. In: Global warming of 1.5°C. An IPCC Special Report on the impacts of global warming of 1.5°C above pre-industrial levels and related global greenhouse gas emission pathways, in the context of strengthening the global response to the threat of climate change, sustainable development, and efforts to eradicate poverty [V. Masson-Delmotte, P. Zhai, H. O. Pörtner, D. Roberts, J. Skea, P.R. Shukla, A. Pirani, W. Moufouma-Okia, C. Péan, R. Pidcock, S. Connors, J. B. R. Matthews, Y. Chen, X. Zhou, M. I. Gomis, E. Lonnoy, T. Maycock, M. Tignor, T. Waterfield (eds.)]. In Press.
+^ Jump up to: a b c Tavoni, Massimo; Stehfest, Elke; Humpenöder, Florian; Havlík, Petr; Harmsen, Mathijs; Fricko, Oliver; Edmonds, Jae; Drouet, Laurent; Doelman, Jonathan (April 2018). "Scenarios towards limiting global mean temperature increase below 1.5 °C" (PDF). Nature Climate Change. 8 (4): 325–332. Bibcode:2018NatCC...8..325R. doi:10.1038/s41558-018-0091-3. hdl:1874/372779. ISSN 1758-6798. S2CID 56238230.
+^ "New scenarios show how the world could limit warming to 1.5C in 2100". Carbon Brief. 5 March 2018. Retrieved 6 December 2018.
+^ De Ras, Kevin; Van de Vijver, Ruben; Galvita, Vladimir V; Marin, Guy B; Van Geem, Kevin M (1 December 2019). "Carbon capture and utilization in the steel industry: challenges and opportunities for chemical engineering". Current Opinion in Chemical Engineering. 26: 81–87. doi:10.1016/j.coche.2019.09.001. S2CID 210619173.
+^ "Capturing CO2 From Air" (PDF). Archived from the original (PDF) on 5 March 2016. Retrieved 29 March 2011.
+^ "Direct Air Capture Technology (Technology Fact Sheet), Geoengineering Monitor". May 2018. Archived from the original on 26 August 2019. Retrieved 1 July 2018.
+^ On the sustainability of CO2 storage through CO2 – Enhanced oil recovery.https://www.sciencedirect.com/science/article/pii/S0306261919321555
+^ "Good plant design and operation for onshore carbon capture installations and onshore pipelines - 5 CO2 plant design". Energy Institute. Archived from the original on 15 October 2013. Retrieved 13 March 2012.
+^ Badiei, Marzieh; Asim, Nilofar; Yarmo, Mohd Ambar; Jahim, Jamaliah Md; Sopian, Kamaruzzaman (2012). "Overview of Carbon Dioxide Separation Technology". Power and Energy Systems and Applications. Las Vegas, USA: ACTAPRESS. doi:10.2316/P.2012.788-067. ISBN 978-0-88986-939-4.
+^ Kanniche, Mohamed; Gros-Bonnivard, René; Jaud, Philippe; Valle-Marcos, Jose; Amann, Jean-Marc; Bouallou, Chakib (1 January 2010). "Pre-combustion, post-combustion and oxy-combustion in thermal power plant for CO2 capture". Applied Thermal Engineering. Selected Papers from the 11th Conference on Process Integration, Modelling and Optimisation for Energy Saving and Pollution Reduction. 30 (1): 53–62. doi:10.1016/j.applthermaleng.2009.05.005. ISSN 1359-4311.
+^ Sumida, Kenji; Rogow, David L.; Mason, Jarad A.; McDonald, Thomas M.; Bloch, Eric D.; Herm, Zoey R.; Bae, Tae-Hyun; Long, Jeffrey R. (28 December 2011). "CO2 Capture in Metal–Organic Frameworks". Chemical Reviews. 112 (2): 724–781. doi:10.1021/cr2003272. PMID 22204561.
+^ "Gasification Body" (PDF). Archived from the original (PDF) on 27 May 2008. Retrieved 2 April 2010.
+^ "(IGCC) Integrated Gasification Combined Cycle for Carbon Capture & Storage". Claverton Energy Group. (conference, 24 October, Bath)
+^ "Carbon Capture and Storage at Imperial College London". Imperial College London.
+^ Bryngelsson, Mårten; Westermark, Mats (2005). Feasibility study of CO2 removal from pressurized flue gas in a fully fired combined cycle: the Sargas project. Proceedings of the 18th International Conference on Efficiency, Cost, Optimization, Simulation and Environmental Impact of Energy Systems. pp. 703–10.
+^ Bryngelsson, Mårten; Westermark, Mats (2009). "CO2 capture pilot test at a pressurized coal fired CHP plant". Energy Procedia. 1: 1403–10. doi:10.1016/j.egypro.2009.01.184.
+^ Sweet, William (2008). "Winner: Clean Coal - Restoring Coal's Sheen". IEEE Spectrum. 45: 57–60. doi:10.1109/MSPEC.2008.4428318. S2CID 27311899.
+^ Jensen, Mark J.; Russell, Christopher S.; Bergeson, David; Hoeger, Christopher D.; Frankman, David J.; Bence, Christopher S.; Baxter, Larry L. (November 2015). "Prediction and validation of external cooling loop cryogenic carbon capture (CCC-ECL) for full-scale coal-fired power plant retrofit". International Journal of Greenhouse Gas Control. 42: 200–212. doi:10.1016/j.ijggc.2015.04.009.
+^ Baxter, Larry L; Baxter, Andrew; Bever, Ethan; Burt, Stephanie; Chamberlain, Skyler; Frankman, David; Hoeger, Christopher; Mansfield, Eric; Parkinson, Dallin; Sayre, Aaron; Stitt, Kyler (28 September 2019). Cryogenic Carbon Capture Development Final/Technical Report (Technical report). pp. DOE–SES–28697, 1572908. doi:10.2172/1572908. OSTI 1572908. S2CID 213628936.
+^ "Facility Data - Global CCS Institute". co2re.co. Retrieved 17 November 2020.
+^ Herm, Zoey R.; Swisher, Joseph A.; Smit, Berend; Krishna, Rajamani; Long, Jeffrey R. (20 April 2011). "Metal−Organic Frameworks as Adsorbents for Hydrogen Purification and Precombustion CO2 Capture" (PDF). Journal of the American Chemical Society. 133 (15): 5664–5667. doi:10.1021/ja111411q. PMID 21438585.
+^ Kulkarni, Ambarish R.; Sholl, David S. (18 June 2012). "Analysis of Equilibrium-Based TSA Processes for Direct Capture of CO2 from Air". Industrial & Engineering Chemistry Research. 51 (25): 8631–8645. doi:10.1021/ie300691c.
+^ McDonald, Thomas M.; Mason, Jarad A.; Kong, Xueqian; Bloch, Eric D.; Gygi, David; Dani, Alessandro; Crocellà, Valentina; Giordanino, Filippo; Odoh, Samuel O.; Drisdell, Walter S.; Vlaisavljevich, Bess; Dzubak, Allison L.; Poloni, Roberta; Schnell, Sondre K.; Planas, Nora; Lee, Kyuho; Pascal, Tod; Wan, Liwen F.; Prendergast, David; Neaton, Jeffrey B.; Smit, Berend; Kortright, Jeffrey B.; Gagliardi, Laura; Bordiga, Silvia; Reimer, Jeffrey A.; Long, Jeffrey R. (11 March 2015). "Cooperative insertion of CO2 in diamine-appended metal-organic frameworks" (PDF). Nature. 519 (7543): 303–308. Bibcode:2015Natur.519..303M. doi:10.1038/nature14327. hdl:11250/2458220. PMID 25762144. S2CID 4447122.
+^ "The Global Status of CCS: 2011 - Capture". The Global CCS Institute. Archived from the original on 6 February 2013. Retrieved 26 March 2012.
+^ Blankenship, L. Scott; Albeladi, Nawaf; Alkhaldi, Thria; Madkhali, Asma; Mokaya, Robert (2022). "Brute force determination of the optimum pore sizes for CO 2 uptake in turbostratic carbons". Energy Advances. 1 (12): 1009–1020. doi:10.1039/D2YA00149G. ISSN 2753-1457.
+^ Sgouridis, Sgouris; Carbajales-Dale, Michael; Csala, Denes; Chiesa, Matteo; Bardi, Ugo (June 2019). "Comparative net energy analysis of renewable electricity and carbon capture and storage" (PDF). Nature Energy. 4 (6): 456–465. Bibcode:2019NatEn...4..456S. doi:10.1038/s41560-019-0365-7. S2CID 134169612.
+^ Jansen, Daniel; van Selow, Edward; Cobden, Paul; Manzolini, Giampaolo; Macchi, Ennio; Gazzani, Matteo; Blom, Richard; Heriksen, Partow Pakdel; Beavis, Rich; Wright, Andrew (1 January 2013). "SEWGS Technology is Now Ready for Scale-up!". Energy Procedia. 37: 2265–2273. doi:10.1016/j.egypro.2013.06.107.
+^ (Eric) van Dijk, H. A. J.; Cobden, Paul D.; Lukashuk, Liliana; de Water, Leon van; Lundqvist, Magnus; Manzolini, Giampaolo; Cormos, Calin-Cristian; van Dijk, Camiel; Mancuso, Luca; Johns, Jeremy; Bellqvist, David (1 October 2018). "STEPWISE Project: Sorption-Enhanced Water-Gas Shift Technology to Reduce Carbon Footprint in the Iron and Steel Industry". Johnson Matthey Technology Review. 62 (4): 395–402. doi:10.1595/205651318X15268923666410. hdl:11311/1079169. S2CID 139928989.
+^ Jackson, S; Brodal, E (23 July 2018). "A comparison of the energy consumption for CO2 compression process alternatives". IOP Conference Series: Earth and Environmental Science. 167 (1): 012031. Bibcode:2018E&ES..167a2031J. doi:10.1088/1755-1315/167/1/012031. ISSN 1755-1307. S2CID 149934234.
+^ Jump up to: a b "CO2 Capture, transport and storage" (PDF). Postnote. Parliamentary Office of Science and Technology. 335. June 2009. Retrieved 10 August 2019. Since 2008 Norway's Statoil has been transporting CO2 (obtained from natural gas extraction) through a 160 km seabed pipeline
+^ STEPHEN GROVES (24 July 2021). "Carbon-capture pipelines offer climate aid; activists wary". ABC News. Retrieved 17 February 2022.
+^ Jump up to: a b c Hedlund, Frank Huess (2012). "The extreme CO2 outburst at the Menzengraben potash mine 7 July 1953" (PDF). Safety Science. 50 (3): 537–53. doi:10.1016/j.ssci.2011.10.004. S2CID 49313927.
+^ Salt precipitation during CO2storage—A review,International Journal of Greenhouse Gas Control, 2016: 136-147.
+^ Simeski, Filip; Ihme, Matthias (13 January 2023). "Corrosive Influence of Carbon Dioxide on Crack Initiation in Quartz: Comparison with Liquid Water and Vacuum Environments". Journal of Geophysical Research: Solid Earth. 128 (1). Bibcode:2023JGRB..12825624S. doi:10.1029/2022JB025624. S2CID 255922362.
+^ Jump up to: a b "Good plant design and operation for onshore carbon capture installations and onshore pipelines - Storage". Energy Institute. Archived from the original on 18 September 2012. Retrieved 11 December 2012.
+^ Edward Hinton and Andrew Woods (2021). "Capillary trapping in a vertically heterogeneous porous layer". J. Fluid Mech. 910: A44. Bibcode:2021JFM...910A..44H. doi:10.1017/jfm.2020.972. S2CID 231636769.
+^ "November: Whatever happened to enhanced oil recovery?". www.iea.org. Retrieved 17 June 2019.
+^ Porter, Kathryn (20 July 2018). "Smoke & mirrors: a new report into the viability of CCS". Watt-Logic. Retrieved 17 June 2019.
+^ "Occidental To Remove CO2 From Air, Use It To Boost Oil Recovery In The Permian". OilPrice.com. Retrieved 17 June 2019.
+^ "IPCC Special Report: CO2 Capture and Storage Technical Summary" (PDF). Intergovernmental Panel on Climate Change. Archived from the original (PDF) on 5 October 2011. Retrieved 5 October 2011.
+^ Viebahn, Peter; Nitsch, Joachim; Fischedick, Manfred; Esken, Andrea; Schüwer, Dietmar; Supersberger, Nikolaus; Zuberbühler, Ulrich; Edenhofer, Ottmar (April 2007). "Comparison of carbon capture and storage with renewable energy technologies regarding structural, economic, and ecological aspects in Germany". International Journal of Greenhouse Gas Control. 1 (1): 121–133. doi:10.1016/S1750-5836(07)00024-2.
+^ "University of Sydney: Global warming effect of leakage from CO2 storage" (PDF). March 2013.
+^ "Global Status of BECCS Projects 2010 - Storage Security". Archived from the original on 19 May 2013. Retrieved 5 April 2012.
+^ "Making Minerals-How Growing Rocks Can Help Reduce Carbon Emissions". www.usgs.gov. Retrieved 31 October 2021.
+^ Wagner, Leonard (2007). "Carbon Capture and Storage" (PDF). Moraassociates.com. Archived from the original (PDF) on 21 March 2012.
+^ "Norway: StatoilHydro's Sleipner carbon capture and storage project proceeding successfully". Energy-pedia. 8 March 2009. Retrieved 19 December 2009.
+^ US DOE, 2012. Best Practices for Monitoring, Verification and Accounting of CO2 Stored in Deep Geologic Formations - 2012 Update.
+^ Holloway, S., A. Karimjee, M. Akai, R. Pipatti, and K. Rypdal, 2006–2011. CO2 Transport, Injection and Geological Storage, in Eggleston H.S., Buendia L., Miwa K., Ngara T., and Tanabe K. (Eds.), IPCC Guidelines for National Greenhouse Gas Inventories, IPCC National Greenhouse Gas Inventories Programme, WMO/UNEP
+^ Miles, Natasha L.; Davis, Kenneth J.; Wyngaard, John C. (2005). "Detecting Leaks from Belowground CO2 Reservoirs Using Eddy Covariance". CO2 Capture for Storage in Deep Geologic Formations. Elsevier Science. pp. 1031–1044. doi:10.1016/B978-008044570-0/50149-5. ISBN 978-0-08-044570-0.
+^ Rochon, Emily et al. False Hope: Why carbon capture and storage won't save the climate Archived 4 May 2009 at the Wayback Machine Greenpeace, May 2008, p. 5.
+^ Thorbjörnsson, Anders; Wachtmeister, Henrik; Wang, Jianliang; Höök, Mikael (April 2015). "Carbon capture and coal consumption: Implications of energy penalties and large scale deployment". Energy Strategy Reviews. 7: 18–28. doi:10.1016/j.esr.2014.12.001.
+^ Rubin, Edward S.; Mantripragada, Hari; Marks, Aaron; Versteeg, Peter; Kitchin, John (October 2012). "The outlook for improved carbon capture technology". Progress in Energy and Combustion Science. 38 (5): 630–671. doi:10.1016/j.pecs.2012.03.003.
+^ [IPCC, 2005] IPCC special report on CO2 Capture and Storage. Prepared by working group III of the Intergovernmental Panel on Climate Change. Metz, B., O. Davidson, H. C. de Coninck, M. Loos, and L.A. Meyer (eds.). Cambridge University Press, Cambridge, United Kingdom and New York, NY, USA, 442 pp. Available in full at www.ipcc.ch Archived 10 February 2010 at the Wayback Machine (PDF - 22.8MB)
+^ Keating, Dave (18 September 2019). "'We need this dinosaur': EU lifts veil on gas decarbonisation strategy". euractiv.com. Retrieved 27 September 2019.
+^ "Carbon Capture, Storage and Utilization to the Rescue of Coal? Global Perspectives and Focus on China and the United States". www.ifri.org. Retrieved 27 September 2019.
+^ "CCUS in Power – Analysis". IEA. Retrieved 20 November 2020.
+^ "Call for open debate on CCU and CCS to save industry emissions". Clean Energy Wire. 27 September 2018. Retrieved 17 June 2019.
+^ Butler, Clark (July 2020). "Carbon Capture and Storage Is About Reputation, Not Economics" (PDF). IEEFA.
+^ Twidale, Susanna (14 October 2021). "Analysts raise EU carbon price forecasts as gas rally drives up coal power". Reuters. Retrieved 1 November 2021.
+^ "Scaling Carbon Capture Might Mean Thinking Small, Not Big". Bloomberg.com. 30 October 2021. Retrieved 1 November 2021.
+^ "Energy" (PDF).
+^ "Industrial carbon capture business models" (PDF).
+^ "Global Status of CCS Report:2011". Global CCS Institute. Archived from the original on 12 January 2012. Retrieved 14 December 2011.
+^ "SBSTA Presents Global CO2 Capture and Storage Data at COP16". Archived from the original on 28 July 2011.
+^ Bonner, Mark. "CCS enters the CDM at CMP 7". Global CCS Institute. Archived from the original on 24 January 2013. Retrieved 7 May 2012.
+^ "CCS - Norway: Amines, nitrosamines and nitramines released in Carbon Capture Processes should not exceed 0.3 ng/m3 air (The Norwegian Institute of Public Health) - ekopolitan". www.ekopolitan.com. Archived from the original on 23 September 2015. Retrieved 19 December 2012.
+^ Roberts, David (2 October 2019). "Could squeezing more oil out of the ground help fight climate change?". Vox. Retrieved 1 October 2022.
+^ Jump up to: a b "IPCC Special Report: Carbon Capture and Storage Technical Summary. IPCC. p. 27" (PDF). Archived from the original (PDF) on 1 November 2013. Retrieved 6 October 2013.
+^ "No, Natural Gas Power Plants Are Not Clean". Union of Concerned Scientists. 9 November 2018. Retrieved 3 October 2020.
+^ "Powering through the coming energy transition". MIT News | Massachusetts Institute of Technology. Retrieved 20 November 2020.
+^ Zhuo, Zhenyu; Du, Ershun; Zhang, Ning; Nielsen, Chris P.; Lu, Xi; Xiao, Jinyu; Wu, Jiawei; Kang, Chongqing (December 2022). "Cost increase in the electricity supply to achieve carbon neutrality in China". Nature Communications. 13 (1): 3172. Bibcode:2022NatCo..13.3172Z. doi:10.1038/s41467-022-30747-0. PMC 9177843. PMID 35676273. S2CID 249521236.
+^ Jump up to: a b c Smit, Berend; Reimer, Jeffery A.; Oldenburg, Curtis M.; Bourg, Ian C. Introduction to Carbon Capture and Sequestration (The Berkeley Lectures on Energy - Vol. 1 ed.). Imperial College Press.
+^ Biondi, Biondo; de Ridder, Sjoerd; Chang, Jason (2013). 5.2 Continuous passive-seismic monitoring of CO2 geologic sequestration projects (PDF). Stanford University Global Climate and Energy Project 2013 Technical Report (Report). Retrieved 6 May 2016.
+^ "Review of Offshore Monitoring for CCS Projects". IEAGHG. IEA Greenhouse Gas R&D Programme. Archived from the original on 3 June 2016. Retrieved 6 May 2016.
+^ Pevzner, Roman; Urosevic, Milovan; Popik, Dmitry; Shulakova, Valeriya; Tertyshnikov, Konstantin; Caspari, Eva; Correa, Julia; Dance, Tess; Kepic, Anton; Glubokovskikh, Stanislav; Ziramov, Sasha; Gurevich, Boris; Singh, Rajindar; Raab, Matthias; Watson, Max; Daley, Tom; Robertson, Michelle; Freifeld, Barry (August 2017). "4D surface seismic tracks small supercritical CO2 injection into the subsurface: CO2CRC Otway Project". International Journal of Greenhouse Gas Control. 63: 150–157. doi:10.1016/j.ijggc.2017.05.008.
+^ Mathieson, Allan; Midgely, John; Wright, Iain; Saoula, Nabil; Ringrose, Philip (2011). "In Salah CO2 Storage JIP: CO2 sequestration monitoring and verification technologies applied at Krechba, Algeria". Energy Procedia. 4: 3596–3603. doi:10.1016/j.egypro.2011.02.289.
+^ Vandeweijer, Vincent; van der Meer, Bert; Hofstee, Cor; Mulders, Frans; D'Hoore, Daan; Graven, Hilbrand (1 January 2011). "Monitoring the CO2 injection site: K12-B". Energy Procedia. 10th International Conference on Greenhouse Gas Control Technologies. 4: 5471–5478. doi:10.1016/j.egypro.2011.02.532. ISSN 1876-6102.
+^ Madsen, Rod; Xu, Liukang; Claassen, Brent; McDermitt, Dayle (February 2009). "Surface Monitoring Method for Carbon Capture and Storage Projects". Energy Procedia. 1 (1): 2161–2168. doi:10.1016/j.egypro.2009.01.281.
+^ Trautz, Robert C.; Pugh, John D.; Varadharajan, Charuleka; Zheng, Liange; Bianchi, Marco; Nico, Peter S.; Spycher, Nicolas F.; Newell, Dennis L.; Esposito, Richard A.; Wu, Yuxin; Dafflon, Baptiste; Hubbard, Susan S.; Birkholzer, Jens T. (20 September 2012). "Effect of Dissolved CO2 on a Shallow Groundwater System: A Controlled Release Field Experiment". Environmental Science & Technology. 47 (1): 298–305. doi:10.1021/es301280t. PMID 22950750. S2CID 7382685.
+^ Jump up to: a b "InSAR—Satellite-based technique captures overall deformation "picture"". USGS Science for a Changing World. US Geological Survey. Retrieved 6 May 2016.
+^ Jump up to: a b c d e f g h L׳Orange Seigo, Selma; Dohle, Simone; Siegrist, Michael (October 2014). "Public perception of carbon capture and storage (CCS): A review". Renewable and Sustainable Energy Reviews. 38: 848–863. doi:10.1016/j.rser.2014.07.017.
+^ Jump up to: a b Agaton, Casper Boongaling (November 2021). "Application of real options in carbon capture and storage literature: Valuation techniques and research hotspots". Science of the Total Environment. 795: 148683. Bibcode:2021ScTEn.795n8683A. doi:10.1016/j.scitotenv.2021.148683. PMID 34246146.
+^ Poumadère, Marc; Bertoldo, Raquel; Samadi, Jaleh (September 2011). "Public perceptions and governance of controversial technologies to tackle climate change: nuclear power, carbon capture and storage, wind, and geoengineering: Public perceptions and governance of controversial technologies to tackle CC". Wiley Interdisciplinary Reviews: Climate Change. 2 (5): 712–727. doi:10.1002/wcc.134. S2CID 153185757.
+^ Anderson, Carmel; Schirmer, Jacki; Abjorensen, Norman (August 2012). "Exploring CCS community acceptance and public participation from a human and social capital perspective". Mitigation and Adaptation Strategies for Global Change. 17 (6): 687–706. doi:10.1007/s11027-011-9312-z. S2CID 153912327.
+^ L'Orange Seigo, Selma; Wallquist, Lasse; Dohle, Simone; Siegrist, Michael (November 2011). "Communication of CCS monitoring activities may not have a reassuring effect on the public". International Journal of Greenhouse Gas Control. 5 (6): 1674–1679. doi:10.1016/j.ijggc.2011.05.040.
+^ Anderson, Jason; Chiavari, Joana (February 2009). "Understanding and improving NGO position on CCS". Energy Procedia. 1 (1): 4811–4817. doi:10.1016/j.egypro.2009.02.308.
+^ Wong-Parodi, Gabrielle; Ray, Isha; Farrell, Alexander E (April 2008). "Environmental non-government organizations' perceptions of geologic sequestration". Environmental Research Letters. 3 (2): 024007. Bibcode:2008ERL.....3b4007W. doi:10.1088/1748-9326/3/2/024007.
+^ Jump up to: a b Mulkens, J. (2018). Carbon Capture and Storage in the Netherlands: protecting the growth paradigm?. Localhost (Thesis). hdl:1874/368133.
+^ @elonmusk (21 January 2021). "Am donating $100M towards a prize for best carbon capture technology" (Tweet) – via Twitter.
+^ Carton, Wim; Asiyanbi, Adeniyi; Beck, Silke; Buck, Holly J.; Lund, Jens F. (November 2020). "Negative emissions and the long history of carbon removal". WIREs Climate Change. 11 (6). doi:10.1002/wcc.671.
+^ Simon Robinson (22 January 2012). "Cutting Carbon: Should We Capture and Store It?". Time. Archived from the original on 24 January 2010.
+^ Hunt, Kara (20 April 2022). "What does the latest IPCC report say about carbon capture?". Clean Air Task Force. Retrieved 1 October 2022.
+^ Volcovici, Timothy Gardner, Valerie (9 March 2020). "Where Biden and Sanders diverge on climate change". Reuters. Archived from the original on 18 April 2021. Retrieved 28 April 2021.
+^ Stone, Maddie (16 September 2019). "Why Are Progressives Wary of Technologies That Pull Carbon From the Air?". Rolling Stone. Archived from the original on 28 April 2021. Retrieved 28 April 2021.
+^ Røttereng, Jo-Kristian S. (May 2018). "When climate policy meets foreign policy: Pioneering and national interest in Norway's mitigation strategy". Energy Research & Social Science. 39: 216–225. doi:10.1016/j.erss.2017.11.024.
+^ Corry, Olaf; Reiner, David (2011). "Evaluating global Carbon Capture and Storage (CCS) communication materials: A survey of global CCS communications" (PDF). CSIRO: 1–46 – via Global CCS Institute.
+^ Jump up to: a b Corry, Olaf; Riesch, Hauke (2012). "Beyond 'For Or Against': Environmental NGO-evaluations of CCS as a climate change solution".
+In Markusson, Nils; Shackley, Simon; Evar, Benjamin (eds.). The Social Dynamics of Carbon Capture and Storage: Understanding CCS Representations, Governance and Innovation. Routledge. pp. 91–110. ISBN 978-1-84971-315-3.
+^ "Summary for Policymakers — Global Warming of 1.5 °C". Archived from the original on 31 May 2019. Retrieved 1 June 2019.
+^ "Global Status Report". Global CCS Institute. Archived from the original on 13 January 2021. Retrieved 31 May 2021.
+^ "Carbon Capture, Utilisation and Storage: Effects on Climate Change". actionaidrecycling.org.uk. 17 March 2021. Retrieved 31 May 2021.
+^ "What is net-zero steel and why do we need it?". World Economic Forum. Retrieved 1 October 2022.
+^ Natter, Ari (4 February 2015). "DOE Suspends $1 Billion in FutureGen Funds, Killing Carbon Capture Demonstration Project". Energy and Climate Report. Bloomberg BNA. Archived from the original on 12 February 2015. Retrieved 10 February 2015.
+^ Folger, Peter (10 February 2014). The FutureGen Carbon Capture and Sequestration Project: A Brief History and Issues for Congress (PDF) (Report). Congressional Research Service. Retrieved 21 July 2014.
+^ Cuéllar-Franca, Rosa M.; Azapagic, Adisa (March 2015). "Carbon capture, storage and utilisation technologies: A critical analysis and comparison of their life cycle environmental impacts". Journal of CO2 Utilization. 9: 82–102. doi:10.1016/j.jcou.2014.12.001.
+^ "Carbon Capture". Center for Climate and Energy Solutions. Retrieved 22 April 2020.
+^ Obersteiner, M. (2001). "Managing Climate Risk". Science. 294 (5543): 786–7. doi:10.1126/science.294.5543.786b. PMID 11681318. S2CID 34722068.
+^ National Academies of Sciences, Engineering (24 October 2018). Negative Emissions Technologies and Reliable Sequestration: A Research Agenda. doi:10.17226/25259. ISBN 978-0-309-48452-7. PMID 31120708. S2CID 134196575. Archived from the original on 25 May 2020. Retrieved 22 February 2020.
+^ "SAPEA, Science Advice for Policy by European Academies. (2018). Novel carbon capture and utilisation technologies: research and climate aspects Berlin" (PDF). SAPEA. 2018. doi:10.26356/carboncapture. {{cite journal}}: Cite journal requires |journal= (help)
+^ Keith, David W.; Holmes, Geoffrey; St. Angelo, David; Heide, Kenton (7 June 2018). "A Process for Capturing CO2 from the Atmosphere". Joule. 2 (8): 1573–1594. doi:10.1016/j.joule.2018.05.006.
+^ Beuttler, Christoph; Charles, Louise; Wurzbacher, Jan (21 November 2019). "The Role of Direct Air Capture in Mitigation of Anthropogenic Greenhouse Gas Emissions". Frontiers in Climate. 1: 10. doi:10.3389/fclim.2019.00010.
+External links[edit]
+Media related to Carbon capture and storage at Wikimedia Commons
+DOE Fossil Energy Department of Energy programs in CO2 capture and storage
+US Department of Energy
+US Gulf coast
+Zero Emissions Platform - technical adviser to the EU Commission on the deployment of CCS and CCU
+National Assessment of Geologic CO2 Storage Resources: Results United States Geological Survey
+Carbon Capture and Sequestration Technologies Program at MIT
+Authority control: National
+Germany
+Israel
+United States
+Retrieved from "https://en.wikipedia.org/w/index.php?title=Carbon_capture_and_storage&oldid=1169158981"
+Categories: Carbon capture and storageBright green environmentalismEmissions reductionGas technologiesClimate change and the environmentClimate change mitigationHidden categories: Webarchive template wayback linksCS1 errors: missing periodicalArticles with short descriptionShort description is different from WikidataUse dmy dates from May 2022Articles containing potentially dated statements from 2022All articles containing potentially dated statementsAll articles with vague or ambiguous timeVague or ambiguous time from November 2022All articles with unsourced statementsArticles with unsourced statements from February 2023All articles lacking reliable referencesArticles lacking reliable references from October 2022Articles with unsourced statements from October 2022All articles with failed verificationArticles with failed verification from October 2022Articles lacking reliable references from October 2021Wikipedia articles that are too technical from October 2022All articles that are too technicalWikipedia articles needing clarification from December 2021Articles with unsourced statements from May 2021Articles with excerptsCommons category link from WikidataArticles with GND identifiersArticles with J9U identifiersArticles with LCCN identifiers
+Toggle limited content width

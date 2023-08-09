@@ -1,0 +1,4 @@
+The major technologies proposed for carbon capture are: Absorption, or carbon scrubbing with amines is the dominant capture technology.
+About two thirds of CCS cost is attributed to capture, making it the limit to CCS deployment.
+The biggest weakness of DAC with carbon storage is its high cost per metric ton of CO2 captured. The energy consumption is also significant, requiring a substantial amount of electricity. Additionally, the storage capacity of certain methods may be limited, requiring frequent transportation and storage infrastructure.
+The ideal approach should focus on improving the efficiency of the carbon capture process to reduce the cost per metric ton of CO2 captured. This can be achieved by optimizing the design and operation of the capture technology, minimizing energy requirements, and maximizing the utilization of captured CO2.
