@@ -178,3 +178,5 @@ paper_evaluation/**/*.txt
 question_answering/autoscious_logs/**/*.txt
 
 react-app/public/latest/**/*.json
+
+chroma/
