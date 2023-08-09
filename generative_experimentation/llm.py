@@ -41,7 +41,7 @@ def chat_openai_high_temp(prompt="Tell me to ask you a prompt", model=GPT_MODEL,
 
     return text_answer, messages
 
-def chat_openai(prompt="Tell me to ask you a prompt", model=GPT_MODEL, chat_history=[], temperature=0):
+def chat_openai(prompt="Tell me to ask you a prompt", model=GPT_MODEL, chat_history=[], temperature=0, verbose=False):
     # define message conversation for model
     messages = [
         {"role": "system", "content": "You are a helpful and educated carbon capture research consultant and an educated and helpful researcher and programmer. Answer as correctly, clearly, and concisely as possible."},
@@ -51,13 +51,15 @@ def chat_openai(prompt="Tell me to ask you a prompt", model=GPT_MODEL, chat_hist
     messages.append({"role": "user", "content": prompt})
 
     # create the chat completion
-    print("Prompt messages: ", messages)
+    if verbose:
+        print("Prompt messages: ", messages)
     completion = openai.ChatCompletion.create(
         model=model,
         messages=messages,
         temperature=temperature,
     )
-    print("Completion info: ", completion)
+    if verbose:
+        print("Completion info: ", completion)
     text_answer = completion["choices"][0]["message"]["content"]
 
     # updated conversation history
