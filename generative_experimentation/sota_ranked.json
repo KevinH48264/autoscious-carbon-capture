@@ -1,0 +1,35 @@
+{
+    "1": {
+        "approach": "Bioenergy with Carbon Capture and Storage (BECCS)",
+        "CO2 capture rate": "9",
+        "Feasibility": "7",
+        "Cost per metric ton of CO2 captured": "5",
+        "Storage capacity": "6",
+        "Permanence": "8",
+        "Energy consumption": "7",
+        "Environmental impact": "7",
+        "Easily measurable": "9"
+    },
+    "2": {
+        "approach": "Direct Air Capture (DAC) with Carbon Storage",
+        "CO2 capture rate": "8",
+        "Feasibility": "6",
+        "Cost per metric ton of CO2 captured": "2",
+        "Storage capacity": "7",
+        "Permanence": "9",
+        "Energy consumption": "3",
+        "Environmental impact": "5",
+        "Easily measurable": "8"
+    },
+    "3": {
+        "approach": "Enhanced Weathering",
+        "CO2 capture rate": "7",
+        "Feasibility": "5",
+        "Cost per metric ton of CO2 captured": "4",
+        "Storage capacity": "6",
+        "Permanence": "7",
+        "Energy consumption": "6",
+        "Environmental impact": "6",
+        "Easily measurable": "7"
+    }
+}
