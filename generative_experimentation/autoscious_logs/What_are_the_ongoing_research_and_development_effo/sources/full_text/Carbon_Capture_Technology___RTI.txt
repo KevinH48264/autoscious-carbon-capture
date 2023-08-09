@@ -1,0 +1,38 @@
+Carbon Capture Technology | RTI
+https://www.rti.org/impact/carbon-capture-technology
+Skip to Main Content
+RTI uses cookies to offer you the best experience online. By clicking “accept” on this website, you opt in and you agree to the use of cookies. If you would like to know more about how RTI uses cookies and how to manage them please view our Privacy Policy here. You can “opt out” or change your mind by visiting: http://optout.aboutads.info/. Click “accept” to agree.
+Accept
+Impact Exploring New Carbon Capture Technology to Confront the Climate Crisis
+Home Impact Exploring New Carbon Capture Technology to Confront the Climate Crisis
+Over more than a decade of work, we have reduced the cost and increased the effective scale of a solvent that prevents carbon emissions
+Project Summary
+Objective
+To find a cost-effective technology for capturing and storing carbon dioxide emitted from fossil fuel power plants.
+Approach
+We have developed a water-lean solvent that can absorb carbon dioxide before it reaches the atmosphere. We tested this technology in our lab and at the pilot plant scale at SINTEF and have scaled up 200,000X to a 12-megawatt demonstration facility in Norway.
+Impact
+Our solvent allows carbon to be captured at a cost of approximately $42 per ton, close to the Department of Energy’s target of between $30 and $40 per ton.
+Levels of carbon dioxide in the earth’s atmosphere have been increasing steadily since the Industrial Revolution, and are now higher than at any time in the geological record. This change in the atmosphere raises global temperatures and makes the climate more extreme and unpredictable. While people around the world search for long-term solutions, we continue to produce carbon emissions.
+RTI is helping address the threat of climate change from multiple scientific angles. One of our ongoing efforts in this area relates to carbon capture—the process of preventing carbon dioxide from entering the atmosphere in the first place, then storing it deep under the earth’s surface, where it eventually returns to mineral form.
+Since 2009, with funding from the U.S. Department of Energy, RTI scientists have been working on a solvent to capture carbon dioxide from power plants that burn fossil fuels. First demonstrated in our Energy Technology Development Facility (ETDF) at RTI, the technology has been scaled up for use at a 12-megawatt demonstration facility run by our partners in Norway. Norway has led the world in CO2 capture and sequestration for several decades in oil and gas production activities in the North Sea. To support this interest, Norway built the world’s largest CO2 capture technology demonstration facility named Technology Centre Mongstad.  Steady progress over the years has enabled us to bring the cost of carbon capture down dramatically, from almost $100 per ton to $42 per ton. Our success, as well as the successes of others in the CO2 capture community, has prompted our client, the U.S. Department of Energy, to lower the target price for carbon capture to $30 per ton by 2035, at which it would become much more attractive to industry and keep the overall increase in cost of electricity to consumers affordable.
+How Does Carbon Capture Work?
+The first step in the process is to flow a solvent down an absorber column which has been added to the exhaust train of a power plant. As it flows down the absorber column, the solvent absorbs the carbon dioxide, leaving mainly water and nitrogen to be emitted from the plant.
+Next, the solvent (now saturated with CO2) is pumped over to a regeneration unit where it is heated to remove the carbon dioxide. This takes a lot of energy, and it is the main reason carbon capture has been prohibitively expensive. Our solvent, known as NAS, is not water-based, so it requires much less energy at this step, contributing to the substantial cost savings we have achieved.
+After the carbon dioxide is removed, the solvent can be reused. The pure carbon dioxide is then available for other uses. In the oil industry, carbon dioxide is used to repressurize wells. It can also be combined with other minerals above ground, creating carbonates in which the CO2 is permanently stored, although this process is still too expensive to be practical.
+Another outlet involves adding the carbon dioxide to products such as concrete, polymers, other higher-value chemicals, or even converting it back into a fuel through integration with renewable energy. But the most likely destination for captured carbon is far below the earth’s surface. We can inject carbon dioxide gas into porous rock formations, where it naturally solidifies. This is known as sequestration.
+In the Response to Climate Change, Every Bit Helps
+2020 was an eventful year for our work in carbon capture. In addition to demonstrating our process at the largest scale so far, we embarked on a new partnership with the Pacific Northwest National Laboratory to develop even more advanced solvents. And in the policy arena, Congress discussed extending tax incentives for companies investing in carbon capture and sequestration under section 45Q of the internal revenue code. If this trend continues, we could see even more interest in our technology and carbon capture in general. Some evidence for this emerged in just the third week of 2021 with an announcement by Elon Musk of the $100 million carbon capture technology prize.
+Carbon capture alone will not solve the climate crisis. It will take a multifaceted, worldwide effort to reduce carbon emissions while meeting the energy needs of a growing population. If we are able to prevent carbon from reaching the atmosphere, our existing power plants can continue working while doing less harm. After more than a decade of research, we have demonstrated that water-lean solvents are more effective and affordable. We are confident that further developments will result in a technology that can be widely used to help protect the planet for future generations.
+Share
+Clients
+U.S. Department of Energy (DOE)
+Our Experts
+Marty Lail
+Senior Director, Carbon Capture and Conversion
+Practice Areas
+Energy Efficiency
+Energy Research
+Carbon Capture and Utilization
+Services
+Process Engineering and Technology Development

@@ -1,0 +1,74 @@
+How efficient is carbon capture and storage? | MIT Climate Portal
+https://climate.mit.edu/ask-mit/how-efficient-carbon-capture-and-storage
+Skip to main content
+Close
+Main navigation
+Climate 101
+What We Know
+What Can Be Done
+Climate Primer
+Explore
+Explainers
+Ask MIT Climate
+Podcast
+For Educators
+MIT Action
+News
+Events
+Resources
+Search
+Have a question?
+Ask us!
+Ask MIT ClimateHow efficient is carbon capture and storage?
+Most carbon capture technologies aim to stop at least 90% of the CO2 in smokestacks from reaching the atmosphere. But as the technology approaches 100% efficiency, it gets more expensive and takes more energy to capture additional CO2.
+February 23, 2021
+Carbon capture and storage (CCS) is any of several technologies that trap carbon dioxide (CO2) emitted from large industrial plants before this greenhouse gas can enter the atmosphere. CCS projects typically target 90 percent efficiency, meaning that 90 percent of the carbon dioxide from the power plant will be captured and stored. However, CCS could capture more CO2, and thus do more to combat climate change, if industries and governments decide not only to invest in CCS at a large scale but also to pay extra to maximize its potential.
+As good as it gets?
+Howard Herzog, a Senior Research Engineer in the MIT Energy Initiative, says that CCS projects have used 90 percent efficiency as a baseline target1 for decades because a system needs to remove at least that much CO2 to be worth the investment to build and install it, and also because 90 percent is an achievable goal. “Thirty years ago, people were still learning about the climate and how much CO2 we needed to get out. So getting 90 percent of the CO2 out of a coal plant was pretty good,” Herzog says.
+Yet meeting ambitious climate targets with this technology will require a leap forward in CCS efficiency. Consider that untreated exhaust from a coal-fired power plant can contain 300 times as much CO2 as the Earth’s atmosphere, which means capturing 90 percent of the CO2 still leaves a lot behind. Even if CCS could remove 99 percent of the CO2 from coal plant exhaust, what is left would still have a CO2 concentration equal to or higher than the atmosphere.
+Diminishing returns
+There are multiple ways to capture carbon dioxide from fossil fuel-burning plants, such as coal power plants or factories that make cement. In the most common process, the exhaust gas is cooled and pumped into a chamber containing chemical “scrubbers” that bind to CO2 molecules. The carbon-free exhaust is then released into the air while the captured carbon is concentrated and stored. CCS has been implemented at two coal power plants (though one shuttered in 2020) and at about two dozen other locations so far.2
+To catch the last remainders of CO2 once a system passes 90 percent efficiency is equal parts engineering puzzle and economics problem, Herzog says. The closer a CCS system gets to 100 percent efficiency, the harder and more expensive it becomes to capture additional carbon dioxide. From an engineering perspective, it is easier to capture carbon from a gas with a higher concentration of CO2 because more molecules of carbon dioxide are flowing past the scrubbers. Grabbing even more CO2 once most of it is gone requires larger equipment, more time, more energy, and a bigger investment.
+While there are only a few dozen CCS projects in the world, some of them have exceeded 95 percent efficiency. Herzog says it is possible to envision the technology capturing even 98 or 99 percent of a power plant’s CO2. To realize that goal, however, power plants will have to pay a lot more for every extra molecule of CO2 they capture—which means they need stronger financial incentives to cut their carbon emissions. A carbon price would be one way to create those incentives, by taxing plants on whatever CO2 enters the atmosphere. “If you now start looking at carbon prices and you have a pretty high price, that will make it more affordable to go to higher capture percentages,” Herzog says.
+Thank you to Howland Larsen of Gig Harbor, Washington, for the question. You can submit your own question to Ask MIT Climate here.
+Read more Ask MIT Climate
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license (CC BY-NC-SA 4.0).
+Footnotes
+1 Brandl, Patrick et al. "Beyond 90% capture: possible, but at what cost?" International Journal of Greenhouse Gas Control 105, Feb. 2021. doi:10.1016/j.ijggc.2020.103239.
+2 Global CCS Institute: "Global Status of CCS 2020."
+by Andrew Moseman, MIT Climate Portal Writing Team
+featuring guest expert Howard Herzog, Senior Research Engineer at the MIT Energy Initiative
+Related MIT Groups
+MIT Energy Initiative
+More Resources for Learning
+MIT Climate Portal: "Carbon capture"
+International Energy Agency: "Towards Zero Emissions CCS in Power Plants Using Higher Capture Rates or Biomass" (Report)
+TILclimate Educator Guide: Carbon Capture and Climate Change
+TopicsCarbon CaptureFossil FuelsFinance & EconomicsIndustry & Manufacturing
+Want to learn more?
+Listen to this episode of MIT's "Today I Learned: Climate" podcast featuring Howard Herzog.
+Want to learn more?
+Check out these related Explainers, written by scientists and experts from MIT and beyond.
+ExplainerCarbon Capture
+Carbon capture and storage is a technology that captures the carbon dioxide from burning fossil fuels before it is released to the atmosphere.
+ExplainerCarbon Pricing
+Carbon pricing is a policy tool to lower emissions of carbon dioxide and other greenhouse gases, by putting a tax or other price on them.
+ExplainerConcrete
+Concrete is among the world’s most consumed materials—second only to water. It also produces large amounts of heat-trapping greenhouse gases.
+View All
+Related Pieces
+What are some major employment opportunities in the climate space?
+Rapid action to adapt to climate change and build a clean energy economy will create huge numbers of jobs—only some of which will require new skills or advanced education.
+Keep Reading
+How much does natural gas contribute to climate change through CO2 emissions when the fuel is burned, and how much through methane leaks?
+Today, this is still somewhat unclear—CO2 emissions are probably the bigger factor, but methane leaks are still important, and recent studies suggest they are likely undercounted.
+Keep Reading
+What are the health and environmental impacts of mining and enriching uranium?
+Exposure to more than trace amounts of uranium can cause cancer and other diseases, which is why uranium mining has some of the world's strictest regulations.
+Keep Reading
+How does the climate impact of cross-laminated timber compare to steel or concrete?
+Some research has shown that cross-laminated timber—which can store carbon—could be a big improvement over steel and concrete, but the benefits depend on where the wood comes from.
+Keep Reading
+MIT Climate News in Your Inbox
+Cancel
+Search

@@ -1,0 +1,93 @@
+PDF The Cost of Carbon Capture - Massachusetts Institute of Technology
+https://sequestration.mit.edu/pdf/David_and_Herzog.pdf
+Thumbnails
+Document Outline
+Attachments
+Layers
+Current Outline Item
+Previous
+Next
+Highlight All
+Match Case
+Match Diacritics
+Whole Words
+Color
+Size
+Color
+Thickness
+Opacity
+Print
+Save
+Presentation Mode
+Current Page
+Go to First Page
+Go to Last Page
+Rotate Clockwise
+Rotate Counterclockwise
+Text Selection Tool
+Hand Tool
+Page Scrolling
+Vertical Scrolling
+Horizontal Scrolling
+Wrapped Scrolling
+No Spreads
+Odd Spreads
+Even Spreads
+Document Properties…
+Toggle Sidebar
+Find
+Previous
+Next
+of 6
+Print
+Save
+Text
+Draw
+Tools
+Zoom Out
+Zoom In
+Automatic Zoom
+Actual Size
+Page Fit
+Page Width
+50%
+75%
+100%
+125%
+150%
+200%
+300%
+400%
+THE COST OF CARBON CAPTUREJeremy David and Howard HerzogMassachusetts Institute of Technology (MIT), Cambridge, MA, USAABSTRACTWe have conducted a detailed analysis of costs associated with today’s technology for CO2separation and capture at three types of power plants: integrated coal gasification combined cycles(IGCC), pulverized coal-fired simple cycles (PC), and natural gas-fired combined cycles (NGCC).The analysis was based on studies from the literature that analyzed the economics of capturingCO2 emitted at power plants. In this paper, we present a composite cost model and perform asensitivity analysis to identify the cost-drivers for capture. We conclude that with newdevelopments, CO2 capture and sequestration can become a cost-effective mitigation pathway.INTRODUCTIONFossil fuels currently supply over 85% of the world’s energy needs and will remain in abundantsupply well into the 21st century. They have been a major contributor to the high standard of livingenjoyed by the industrialized world. However, their future is clouded because of the environmentaland economic threat posed by possible climate change, commonly referred to as the “greenhouseeffect”. The major greenhouse gas is carbon dioxide (CO2) and the major source of anthropogenicCO2 is the combustion of fossil fuels. If we can develop technology to capture and sequester thefossil fuel CO2 in a cost-effective and environmentally sound manner, we will be able to enjoy thebenefits of fossil fuel use throughout the next century.We have conducted a comparison of published studies from the past several years that analyzed theeconomics of capturing CO2 at Integrated coal Gasification Combined Cycle (IGCC) power plants(six studies), Pulverized Coal (PC) power plants (four studies), and Natural Gas Combined Cycle(NGCC) power plants (four studies). MEA scrubbing of flue gas was used to capture the CO2 inthe PC and NGCC plants, but IGCC plants allow the use of more energy efficient scrubbingprocesses involving physical absorption to capture CO2 from the high pressure synthesis gas. Allstudies were made using commercially available technology and include the cost of compressingthe captured CO2 to about 100 atm for pipeline transportation. The results do not include cost ofCO2 transportation and injection, which will add about $10/tonne of CO2 avoided. Initial resultswere presented at GHGT-4 (Herzog, 1999), while detailed results of this analysis are presented inDavid (2000).COMPOSITE COST MODEL OF CO2 CAPTUREBased on our analysis of the literature studies, we developed a composite cost model for CO2capture. The cost model developed uses six independent inputs, which were extracted from theliterature studies we analyzed. Three first inputs characterize the reference (no capture) plant:• Capital cost, in $/kW;• Cost of electricity due to operation and maintenance, in mills/kWh;• Heat rate, in Btu/kWh, defined on the lower heating value (LHV) basis.We correlated the quantity of CO2 emitted (E), in kg/kWh, as a function of heat rate for a giventype of power plant (IGCC, PC or NGCC).
+Enter the password to open this PDF file.
+Cancel
+OK
+File name:
+-
+File size:
+-
+Title:
+-
+Author:
+-
+Subject:
+-
+Keywords:
+-
+Creation Date:
+-
+Modification Date:
+-
+Creator:
+-
+PDF Producer:
+-
+PDF Version:
+-
+Page Count:
+-
+Page Size:
+-
+Fast Web View:
+-
+Close

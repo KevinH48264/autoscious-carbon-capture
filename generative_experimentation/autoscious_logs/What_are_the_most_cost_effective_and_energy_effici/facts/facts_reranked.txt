@@ -1,0 +1,9 @@
+The most cost-effective and energy-efficient carbon capture technologies currently available include direct air capture (DAC) and carbon capture and storage (CCS) technologies.
+The most cost-effective and energy-efficient carbon capture technologies currently available include amine-based absorption, membrane separation, and cryogenic separation.
+The most cost-effective and energy-efficient carbon capture technologies currently available are post-combustion capture and pre-combustion capture.
+The most cost-effective and energy-efficient carbon capture technologies currently available are MEA scrubbing of flue gas in Pulverized Coal (PC) power plants and Natural Gas Combined Cycle (NGCC) power plants.
+The cost of carbon capture varies depending on the source of the carbon captured, the distance to the storage site, and the nature of the storage site itself. However, the Carbon Capture & Storage Association (CCSA) estimated that earlier CCS projects in the power sector would cost between €60–€90 per tonne of carbon dioxide abated, equivalent to around $69-$103 per tonne. The association also predicted that these costs will decline to €35–€50 ($40-$57) in the early 2020s, thanks to technological advancements.
+CCUS is currently the cheapest option for reducing emissions in the production of some important chemicals such as ammonia, which is widely used in fertilisers.
+CCUS can be retrofitted to power and industrial plants that may otherwise still be emitting 8 billion tonnes of CO2 in 2050 – around one-quarter of today’s annual energy-sector emissions.
+CCUS is currently the least-cost or only practical option for deep emissions reductions in some sectors, including heavy industry.
+The most cost-effective and energy-efficient carbon capture technologies currently available aim to stop at least 90% of the CO2 in smokestacks from reaching the atmosphere.

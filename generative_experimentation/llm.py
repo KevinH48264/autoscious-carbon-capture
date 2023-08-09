@@ -22,7 +22,7 @@ def chat_openai_high_temp(prompt="Tell me to ask you a prompt", model=GPT_MODEL,
         messages = chat_history
     else:
         messages = [
-            {"role": "system", "content": "You are a helpful and educated carbon capture research consultant and an educated and helpful researcher and programmer. Answer as correctly, clearly, and concisely as possible."},
+            {"role": "system", "content": "You are a helpful and educated carbon capture research consultant and an educated and helpful researcher and programmer. Answer as correctly, clearly, and concisely as possible. You give first-rate answers."},
         ]
     messages.append({"role": "user", "content": prompt})
 
@@ -44,7 +44,7 @@ def chat_openai_high_temp(prompt="Tell me to ask you a prompt", model=GPT_MODEL,
 def chat_openai(prompt="Tell me to ask you a prompt", model=GPT_MODEL, chat_history=[], temperature=0, verbose=False):
     # define message conversation for model
     messages = [
-        {"role": "system", "content": "You are a helpful and educated carbon capture research consultant and an educated and helpful researcher and programmer. Answer as correctly, clearly, and concisely as possible."},
+        {"role": "system", "content": "You are a helpful and educated carbon capture research consultant and an educated and helpful researcher and programmer. Answer as correctly, clearly, and concisely as possible. You give first-rate answers."},
     ]
     if chat_history:
         messages += chat_history

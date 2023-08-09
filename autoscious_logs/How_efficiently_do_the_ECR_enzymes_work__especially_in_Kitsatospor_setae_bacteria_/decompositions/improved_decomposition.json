@@ -1,0 +1,19 @@
+{
+  "project_question": "How efficiently do the ECR enzymes work, especially in Kitsatospor setae bacteria?",
+  "project_objective": "To determine the efficiency of ECR enzymes in Kitsatospor setae bacteria",
+  "key_drivers": {
+    "1": {
+      "driver": "ECR enzyme activity",
+      "hypotheses": {
+        "1": {
+          "hypothesis": "ECR enzyme activity is high in Kitsatospor setae bacteria",
+          "key_questions": {
+            "1": "What is the level of ECR enzyme activity in Kitsatospor setae bacteria?",
+            "2": "How does ECR enzyme activity vary under different conditions?",
+            "3": "Are there any factors that enhance or inhibit ECR enzyme activity?"
+          }
+        }
+      }
+    }
+  }
+}
