@@ -167,7 +167,7 @@ def search_web_for_facts(search_query):
                             print("PDF found!")
                             text = try_getting_pdf_content(url)
                         else:
-                            text = scrape_text_with_selenium_no_agent(url, None, search_engine='firefox')
+                            text = scrape_text_with_selenium_no_agent(url, None, search_engine='chrome')
 
                         # Only evaluate websites you're able to scrape
                         if text and text != "No information found":
@@ -264,3 +264,5 @@ def search_web_for_facts(search_query):
     # Improvement: we can also include the code for the evaluation too if the agent doesn't work well with the facts list
     # Improvemnet: Add years, source urls that the agent can use
     return reranked_facts_list
+
+search_web_for_facts("best materials that can selectively and efficiently capture CO2")
