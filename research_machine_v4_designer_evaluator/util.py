@@ -369,12 +369,12 @@ Key question:
 {key_question}
 
 Task:
-What's the best answer based on the source text? Give me as specific and correct of an answer as possible. Then, quote the section of the source text that supports your answer. 
+What's the most useful answer based on the source text? Give me as specific and correct of an answer as possible. Then, quote the section of the source text that supports your answer. 
 
 The output should be in JSON format: 
 ```json
 {{
-  "best_answer": "<insert best answer>",
+  "best_answer": "<insert most useful answer>",
   "quote": "<insert quote>",
 }}
 ```
@@ -458,7 +458,7 @@ Key question:
 {search_query}
 
 Task:
-Rerank the following facts based on how well they answer the key question. The more useful, specific, and correct, the better. The best answer should be at the top, and the worst answer should be at the bottom of the list. Use direct quotes and do not change the wording of the facts. Leave out facts that are not relevant to the key question.
+Rerank the following facts based on how useful they are and well they answer the key question. The more useful, specific, and correct, the better. The best answer should be at the top, and the worst answer should be at the bottom of the list. Use direct quotes and do not change the wording of the facts. Leave out facts that are not relevant to the key question.
 
 The output should be a JSON list of facts:
 ```json

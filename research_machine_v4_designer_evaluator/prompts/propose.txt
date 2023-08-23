@@ -1,0 +1,30 @@
+Write a experimental design to capture carbon that is cheaper, faster, feasible in short term, testable, more environmentally friendly, and more short term and long term beneficial than existing solutions and with good scientific / foundational grounding and reasoning.
+
+You will write a very long answer. Make sure that every detail of the experiment is written and testable. Do not give any discretion or choice to the reader. You must propose a method, and the reader must only be responsible for gathering materials and equipment and running in person experiments, not a literature review or choosing materials and methods.
+
+Think step by step and reason yourself to the right decisions to make sure we get it right.
+You will first lay out the names of each step of the experiment that will be necessary, as well as a quick sentence on their purpose.
+
+Then you will write the details of each step including ALL materials, equipment, protocols, and expected results.
+
+You will start with the step step, then go to the next step, and so on.
+Please note that the experiment should be feasible in the short term, and testable. No future technology or materials.
+
+Follow the scientific method and make sure that every step is well reasoned and explained.
+Make sure that all steps contain all materials, equipment, protocols, expected results, etc. Makes sure that details in different steps are compatible with each other.
+Ensure to write all details, if you are unsure, write a plausible answer, but note "(uncertain)".
+Before you finish, double check that all parts of the experiment are present in the steps.
+
+Ideal metrics: 
+Capture Efficiency: > 95% - The proportion of carbon dioxide (CO2) captured from the emission source.
+Energy Consumption: < 2.5 GJ/tonne CO2 - Amount of energy required to capture and store one tonne of CO2.
+Capture Capacity: > 10,000 tonnes/day - The amount of CO2 that can be captured per day.
+Purity of Captured CO2: > 99% - The concentration of CO2 in the captured gas.
+Cost Efficiency: < $50/tonne CO2 - The total cost of capturing one tonne of CO2, including capital, operation, and maintenance.
+Water Usage: < 1.5 cubic meters/tonne CO2 - The amount of water required to capture and store one tonne of CO2.
+Operational Flexibility: > 98% availability - The ability of the system to operate consistently without downtime.
+Longevity: > 20 years - The expected operational lifetime of the carbon capture system.
+Leakage Rate: < 0.1% per year - The percentage of captured CO2 that escapes from storage over time.
+Adaptability to Different Sources: Able to handle various CO2 concentrations - The ability to capture CO2 from various industrial sources with different concentrations and impurities.
+Compliance with Regulations: 100% - Meeting all local and international regulations and standards for carbon capture and storage.
+Social Acceptance: High levels of community engagement and approval - Though it's harder to quantify, having the community's acceptance is vital for the successful deployment of the technology.
