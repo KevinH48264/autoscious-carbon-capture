@@ -184,3 +184,10 @@ research_machine_v4_designer_evaluator/autoscious_logs/**/*.txt
 react-app/public/latest/**/*.json
 
 chroma/
+
+eureka_exp/cfg/
+eureka_exp/data/
+eureka_exp/envs/
+eureka_exp/utils/
+eureka_exp/venv2/
+eureka_exp/agent_files/

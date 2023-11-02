@@ -1,0 +1,10 @@
+python-dotenv
+openai
+PyPDF2
+selenium
+webdriver-manager
+duckduckgo-search
+bs4
+rank-bm25
+google-api-python-client
+matplotlib
