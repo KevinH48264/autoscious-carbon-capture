@@ -85,7 +85,9 @@ def chat_openai(prompt="Tell me to ask you a prompt", model=GPT_MODEL, chat_hist
         function_response = function_to_call(**function_args)
 
         # Step 4: send the info on the function call and function response to GPT
-        messages.append(response_message)  # extend conversation with assistant's reply
+        # TODO: potentially fix this because there's some funky conversation here.
+        # Commenting out below to potentially address this
+        # messages.append(response_message)  # extend conversation with assistant's reply
 
         if verbose:
             print("Function call output: ", function_response)

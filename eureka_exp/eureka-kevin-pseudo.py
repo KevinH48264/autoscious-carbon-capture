@@ -34,14 +34,14 @@ def gen_eureka(
                 critique,
                 skills
             ) # if the agent thinks that it can't do it with the existing actions, then it should generate subtasks (task decomposition)
-            execution_feedback, execution_errors = execution_agent.function_call(methods_prompt)
+            execution_feedback, execution_errors = execution_agent.function_call(methods_prompt) # TODO: handle execution errors to route back
             success, critique = critic_agent.check_task_success(
                 task, execution_feedback
-            )
+            ) # The critic can check 1) is the method sound and 2) does the execution feedback actually answer the task / question
             if success:
                 break
         if success:
-            skill_manager.add_skill(methods_prompt)
+            skill_manager.add_skill(methods_prompt) # LLM can make a function name based on task/question, final answer (extracted from ExecutionAgent) can go in description, and method prompt can be returned if the LLM wants to figure out more information on how something was figured out
             curriculum_agent.add_completed_task(task)
         else:
             curriculum_agent.add_failed_task(task)
