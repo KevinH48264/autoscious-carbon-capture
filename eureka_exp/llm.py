@@ -78,7 +78,8 @@ def chat_openai(prompt="Tell me to ask you a prompt", model=GPT_MODEL, chat_hist
             response_message = completion["choices"][0]["message"]
 
             # Handle function calls if there are any
-            while "function_call" in response_message and response_message.get("function_call"):
+            count = 0
+            while "function_call" in response_message and response_message.get("function_call") and count < 3:
                 if verbose: 
                     print("Entering function call: ", response_message.get("function_call"))
                 # Step 3: call the function
@@ -96,11 +97,13 @@ def chat_openai(prompt="Tell me to ask you a prompt", model=GPT_MODEL, chat_hist
                 if verbose:
                     print("Function call output: ", function_response) # Note: This returns the answer and the full reasoning in skill agent
 
+                # TODO: You need to let the agent know what function was called.
+                # print("\n\nresponse_message", response_message, "\n\nfunction_name", function_name, "\n\nfunction_args", function_args, "\n\nfunction_response", function_response)
                 messages.append(
                     {
                         "role": "function",
                         "name": function_name,
-                        "content": function_response,
+                        "content": f"Response from running function {function_name} with arguments {function_args}: {function_response}"
                     }
                 )  # extend conversation with function response
 
@@ -115,6 +118,7 @@ def chat_openai(prompt="Tell me to ask you a prompt", model=GPT_MODEL, chat_hist
                 )["choices"][0]["message"]  # get a new response from GPT where it can see the function response
 
                 # Repeat if there's still a function call
+                count += 1
 
             if verbose:
                 print("Function calling response: ", response_message)
