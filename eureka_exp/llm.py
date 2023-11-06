@@ -45,16 +45,23 @@ def chat_openai_high_temp(prompt="Tell me to ask you a prompt", model=GPT_MODEL,
 
 def chat_openai(prompt="Tell me to ask you a prompt", model=GPT_MODEL, chat_history=[], temperature=0, verbose=False, system_prompt="You are a helpful assistant. Answer as correctly, clearly, and concisely as possible.", functions=[], function_call="auto", available_functions={}):
     # To deal with rate limits, just wait
-    while True:
-        try:
-            # define message conversation for model
-            messages = [
-                {"role": "system", "content": system_prompt},
-            ]
-            if chat_history:
-                messages += chat_history
-            messages.append({"role": "user", "content": prompt})
 
+    # define message conversation for model
+    messages = [
+        {"role": "system", "content": system_prompt},
+    ]
+    if chat_history:
+        messages += chat_history
+    messages.append({"role": "user", "content": prompt})
+
+    count = 0
+    while True:
+        if count > 2:
+            print("Retry happened 3 times! Kicking in to save you tokens.")
+            break
+
+        try:
+            count += 1
             # create the chat completion
             if verbose:
                 print("Prompt messages: ", messages)
