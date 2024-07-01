@@ -13,7 +13,7 @@ def gen_eureka(
             ) # this should contain inventory of where we're at now and what files we have / memory stream
         )
         task = curriculum_agent.propose_next_task(
-            skill_manager.get_most_relevant_skills(), exploration_progress
+            skill_manager.get_most_relevant_skills(), skill_manager.get_info_blocks(), exploration_progress
         ) # Assuming that the curriculum agent will come up with a task to look for more info. OR, if it can't propose a reasonable new task and needs more info, it can NOT set a new task and instead focus on using existing skills to gather more information (thinking, writing, reading, searching). I guess the outcome can become summarized as a new skill as learnings if significant, and then the content is the output. Trust that there will be enough info and the recency score will help add some randomness to the propose_new_task function.
         methods_prompt = None
         execution_feedback = None
@@ -25,7 +25,7 @@ def gen_eureka(
         for i in range (4) :
             skills = skill_manager.retrieve_skills(
                 task, execution_feedback
-            )
+            ) # skills are information blocks (Q&A, and reading the file will reveal the reasoning)
             methods_prompt = action_agent.generate_function_callable_prompt(
                 task,
                 methods_prompt,
