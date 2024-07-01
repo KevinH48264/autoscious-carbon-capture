@@ -167,10 +167,11 @@ checkpoints/
 cors.json
 
 # Big files
-data_collection/**/*.json
-knowledge_base/**/*.json
-paper_evaluation/**/*.json
-data_collection/**/*.txt
-knowledge_base/**/*.txt
-paper_evaluation/**/*.txt
-react-app/public/latest/**/*.json
+1_projects/map_of_carbon_capture/data_collection/**/*.json
+1_projects/map_of_carbon_capture/knowledge_base/**/*.json
+1_projects/map_of_carbon_capture/paper_evaluation/**/*.json
+1_projects/map_of_carbon_capture/data_collection/**/*.txt
+1_projects/map_of_carbon_capture/knowledge_base/**/*.txt
+1_projects/map_of_carbon_capture/paper_evaluation/**/*.txt
+1_projects/map_of_carbon_capture/react-app/public/latest/**/*.json
+1_projects/map_of_carbon_capture/eureka_exp/
