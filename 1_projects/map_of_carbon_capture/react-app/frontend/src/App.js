@@ -35,7 +35,7 @@ const App = () => {
       {papersData.length > 0 && edgesData.length > 0 && clusterData.length > 0 && (
       <>
           <ResearchPaperPlot papersData={papersData} edgesData={edgesData} clusterData={clusterData} />
-          <SemanticSearchBar papersData={papersData} />
+          {/* <SemanticSearchBar papersData={papersData} /> */}
         </>
         )}
     </div>

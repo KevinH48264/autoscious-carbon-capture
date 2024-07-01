@@ -63,7 +63,7 @@ const App = () => {
       {papersData.length > 0 && edgesData.length > 0 && clusterData.length > 0 && <ResearchPaperPlot papersData={papersData} edgesData={edgesData} clusterData={clusterData} setSelectedPaper={setSelectedPaper} isPlotReady={isPlotReady} setIsPlotReady={setIsPlotReady}/>}
 
       <Sidebar selectedPaper={selectedPaper}/>
-      <SemanticSearchBar papersData={papersData} />
+      {/* <SemanticSearchBar papersData={papersData} /> */}
     </div>
   );
 };
