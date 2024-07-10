@@ -1,1 +1,0 @@
-This is an attempt to evaluate GPT's ability to evaluate the results and significance of papers
