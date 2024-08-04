@@ -7,6 +7,9 @@ import torch.nn as nn
 from transformers import AutoModelForCausalLM, GenerationConfig
 from peft import get_peft_model, LoraConfig
 import torch.nn.functional as F
+import matplotlib.pyplot as plt
+import os
+import json
 
 torch.manual_seed(42)
 
@@ -81,3 +84,63 @@ class AutoModelForCausalLMWithValueHead(nn.Module):
             last_hidden_state = outputs.hidden_states[-1] # shape = [1, seq_len, hidden_size]
             value = self.value_head(last_hidden_state) # shape = [1, seq_len, 1]
             return value[:, -1, :].item() # Return the value of the last token
+        
+
+def plot_validation_metrics(save_version):
+    '''Validation helper function'''
+    generation_indices = []
+    percent_correct = []
+    percent_incorrect = []
+    percent_blank = []
+
+    for subdir in os.listdir(save_version):
+        if subdir.endswith('_training'):
+            generation_index = int(subdir.split('_')[0])
+            metrics_file = os.path.join(save_version, subdir, 'validation_metrics.json')
+
+            if os.path.exists(metrics_file):
+                with open(metrics_file, 'r') as file:
+                    metrics = json.load(file)
+                    generation_indices.append(generation_index)
+                    percent_correct.append(metrics.get('percent_correct', 0.0))
+                    percent_incorrect.append(metrics.get('percent_incorrect', 0.0))
+                    percent_blank.append(metrics.get('percent_blank', 0.0))
+    
+    # Sort by generation index
+    sorted_indices = sorted(range(len(generation_indices)), key=lambda k: generation_indices[k])
+    generation_indices = [generation_indices[i] for i in sorted_indices]
+    percent_correct = [percent_correct[i] for i in sorted_indices]
+    percent_incorrect = [percent_incorrect[i] for i in sorted_indices]
+    percent_blank = [percent_blank[i] for i in sorted_indices]
+
+    # Save metrics to training_metrics.json
+    metrics_data = {
+        'generation_indices': generation_indices,
+        'percent_correct': percent_correct,
+        'percent_incorrect': percent_incorrect,
+        'percent_blank': percent_blank
+    }
+
+    metrics_file_path = os.path.join(save_version, 'training_metrics.json')
+    with open(metrics_file_path, 'w') as file:
+        json.dump(metrics_data, file, indent=4)
+    print(f"Metrics saved to {metrics_file_path}")
+
+    # Plotting the metrics
+    plt.figure(figsize=(10, 6))
+    plt.plot(generation_indices, percent_correct, label='Correct', marker='o', color='green')
+    plt.plot(generation_indices, percent_incorrect, label='Incorrect', marker='x', color='red')
+    plt.plot(generation_indices, percent_blank, label='Blank', marker='s', color='gray')
+
+    plt.xlabel('Generation')
+    plt.ylabel('Validation Answer Percentage')
+    plt.title('Training')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+
+    # Save the plot
+    output_file = os.path.join(save_version, 'training.png')
+    plt.savefig(output_file)
+    plt.close()
+    print(f"Plot saved to {output_file}")

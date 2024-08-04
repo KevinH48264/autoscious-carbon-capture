@@ -358,7 +358,7 @@ def generate_problem(num_digits=-1):
         index = num_digits
     a = random.randint(10**(index-1), 10**index - 1)
     b = random.randint(10**(index-1), 10**index - 1)
-    prompt = f"{a} + {b} = " + "\nPlease reason step by step, and put your final answer within \\boxed{}."
+    prompt = f"{a} + {b} = ?" + "\nPlease reason step by step, and put your final answer within \\boxed{}." # Needed for evaluation to parse from boxed
     true_answer = a + b
     return prompt, str(true_answer)
 

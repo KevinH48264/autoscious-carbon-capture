@@ -1,7 +1,10 @@
 '''Main self-play and training program for MCTS
 
 How to run:
-1) Run "python 3_0__small_scale__self_play__training.py"
+1) Run "python 3_0__small_scale__self_play__training.py &> log.txt &"
+
+Optional:
+1) Preload a pre-trained value head / checkpoint by creating <SAVE_VERSION>/latest_checkpoint.pt
 '''
 
 # libraries
@@ -13,9 +16,11 @@ from transformers import AutoTokenizer
 import os
 import wandb
 from tqdm import tqdm
+import json
+import shutil
 
 # classes and functions
-from v3_0_policy_value_model import AutoModelForCausalLMWithValueHead
+from v3_0_policy_value_model import AutoModelForCausalLMWithValueHead, plot_validation_metrics
 from v3_0_search_tree import Node, generate_problem, p_ucb_select, expand_seq_node_children_only, calculate_reward, collect_training_examples, get_latest_game_index
 from v3_0_dataset import PolicyValueDataset, collate_fn, get_latest_game_index, make_datasets
 
@@ -30,9 +35,14 @@ BRANCHING_FACTOR = 2 # DEBUG: 20 # Number of children to expand per node during 
 TOTAL_GAMES = 2 # DEBUG: ? # Number of games to play during self-play
 MODEL_GENERATIONS = 2 # DEBUG: 20 # Number of model generations from self-play + training
 BATCH_SIZE = 2 # DEBUG: 4 # Batch size for training and validation
-SAVE_VERSION = "v3_0__small_scale__self_play__training" # for saving the filename
+INITIAL_CHECKPOINT_PATH = './v2_012_value_head_training_v2.011__50_epochs__80000_train_20000_val__5e-4_lr__1e-4_wd__32_batch_size__8_gpus/model_checkpoint_30.pt' # Pretrained value head or previous checkpoint
+
+# initialization
+SAVE_VERSION = f"v3_0__addition__tokens_{MAX_TOKENS}__rollouts_{NUM_ROLLOUTS}__branch_{BRANCHING_FACTOR}__games_{TOTAL_GAMES}__gen_{MODEL_GENERATIONS}__batch_{BATCH_SIZE}" # for saving the filename
 os.makedirs(SAVE_VERSION, exist_ok=True)
 full_program_start_time = time.time()
+with open(f"{SAVE_VERSION}/info", "a") as file:
+    file.write(f"Evaluations are for first 10 digits only for now.\n")
 
 # load model for both self-play and training
 print("Is CUDA available:", torch.cuda.is_available())
@@ -43,11 +53,18 @@ tokenizer = AutoTokenizer.from_pretrained(model_name)
 tokenizer.pad_token = tokenizer.eos_token
 model = AutoModelForCausalLMWithValueHead(model_name, tokenizer).to(device)
 
+# Copy initial checkpoint to checkpoint_path
+checkpoint_path =  f'{SAVE_VERSION}/latest_checkpoint.pt'
+if os.path.exists(INITIAL_CHECKPOINT_PATH):
+    shutil.copy(INITIAL_CHECKPOINT_PATH, checkpoint_path)
+    with open(f"{SAVE_VERSION}/info", "a") as file:
+        file.write(f"Initial checkpoint path: {INITIAL_CHECKPOINT_PATH}")
+
+
 # --- MAIN LOOP ---
 for model_generation_idx in range(MODEL_GENERATIONS):
     # load model checkpoint for self-play and training
     print("Loading model checkpoint...")
-    checkpoint_path =  f'{SAVE_VERSION}/latest_checkpoint.pt'
     if os.path.exists(checkpoint_path):
         state_dict = torch.load(checkpoint_path, map_location=device)
         model.load_state_dict(state_dict, strict=True)  # strict=False to allow missing keys if any. 
@@ -180,7 +197,7 @@ for model_generation_idx in range(MODEL_GENERATIONS):
 
     '''2. TRAINING'''
     print(f"\n--- TRAINING {model_generation_idx} ---")
-    start_time = time.time()
+    training_start_time = time.time()
 
     # data setup
     curr_training_dir, latest_game_index = make_datasets(SAVE_VERSION)
@@ -265,7 +282,7 @@ for model_generation_idx in range(MODEL_GENERATIONS):
 
     # Save checkpoint after 2 epochs
     print("Saving model checkpoint...")
-    torch.save(model.state_dict(), f'{save_path}/checkpoint.pt') # save locally for evaluation in the future
+    # torch.save(model.state_dict(), f'{save_path}/checkpoint.pt') # save locally for evaluation in the future # Uncomment when ready for full test evaluation (more than validation evaluation) otherwise it's too memory intensive
     torch.save(model.state_dict(), f'{SAVE_VERSION}/latest_checkpoint.pt')
     torch.cuda.empty_cache()
 
@@ -273,8 +290,157 @@ for model_generation_idx in range(MODEL_GENERATIONS):
     wandb.finish()
 
     # Record time taken
-    with open(f"{save_path}/time.txt", "w") as file:
-        file.write(f"Time taken: {time.time() - start_time:.2f} seconds")
+    with open(f"{save_path}/training_time.txt", "w") as file:
+        file.write(f"Time taken: {time.time() - training_start_time:.2f} seconds")
+
+    
+    '''3. VALIDATION''' # necessary than training validation because this one doesn't use ground truth reward during self-play / simulations
+    print(f"\n--- VALIDATION {model_generation_idx} ---")
+    # --- VALIDATION EVALUATION --- 
+    validation_time_start = time.time()
+
+    # Load validation / test dataset
+    with open("100_digit_addition_testset.json", "r") as file:
+        data = json.load(file)
+    data = data[:2] # DEBUG: 10 # only grab the first 10 examples for initial validation. Full test set will be for final evaluation
+    TOTAL_GAMES = len(data)
+
+    model.eval() # Set the model to evaluation mode, no training
+
+    # Logging # save_path = _training/
+    correct_answers, incorrect_answers, blank_answers = [], [], []
+    game_time = []
+
+    for game_number in tqdm(range(TOTAL_GAMES)):
+        # pull the problem from data
+        prompt = data[game_number]['question'] + "?" + "\nPlease reason step by step, and put your final answer within \\boxed{}." # Needed for evaluation to parse from boxed
+        true_answer = data[game_number]['answer']
+        print(f"\nQuestion: {data[game_number]['index']}\nPrompt: {prompt}\nTrue Answer: {true_answer}\n")
+
+        # initialize tree with addition prompt
+        os.makedirs(f"{save_path}/", exist_ok=True)
+        tree_save_dir = f"{save_path}/validation_game_{game_number}"
+        node_id = 0
+        root = Node(id = str(node_id), 
+                    prob = 0.0, # this is log_prob --> prob = e^log_prob 
+                    state = prompt, 
+                    parent = None, 
+                    token = prompt, 
+                    depth = 0)
+        node_id += 1
+        print(f"\nCreated new root node:\n{root}")
+
+        # START ITERATIONS HERE
+        player_node = root
+        num_actions = 0
+        while not player_node.is_terminal: # Continue selecting player nodes with the highest Q value
+            print(f"\n--- player_node {num_actions} ---\n{player_node}")
+
+            # Start MCTS rollouts
+            total_rollouts = num_actions * NUM_ROLLOUTS
+            for rollout_idx in range(total_rollouts, total_rollouts + NUM_ROLLOUTS):
+
+                # begin first rollout
+                print(f"\n--- Starting rollout {rollout_idx}, with node_id {node_id} ---")
+                curr_node = player_node
+                curr_node.player_node = True
+                curr_node.visits += 1
+                print(f"\ncurr_node:\n{curr_node}")
+
+                # selection
+                print(f"\n--- Selection {rollout_idx} ---")
+                while len(curr_node._children) > 0:
+                    curr_node = p_ucb_select(curr_node, curr_node._children)
+                    curr_node.visits += 1
+                curr_node.selected = True
+                print(f"Selected Node: \n{curr_node}")
+
+                # EXPANSION
+                print(f"\n--- Expansion {rollout_idx} ---")
+                leaf_nodes = []
+                if not curr_node.is_terminal: # only expand if not terminal
+                    leaf_nodes, node_id = expand_seq_node_children_only(curr_node, branching_factor = BRANCHING_FACTOR, node_idx = node_id, threshold = 0.35, model = model, tokenizer = tokenizer, MAX_TOKENS = MAX_TOKENS) # Empirically seems to not be word level (0.4) and not full answer level (0.3) but somewhere in between
+                print(f"\nNumber of expanded nodes: {len(leaf_nodes)}")
+
+                # Evaluation
+                print(f"\n--- Evaluation {rollout_idx} ---")
+                if leaf_nodes:
+                    for node_idx, node in enumerate(leaf_nodes):
+                        node.Q = model.evaluate(node.state) # NEW: only use model predictions for evaluation
+                        node.updated = True
+                        print(f"Reward for child {node_idx}: {node.Q}")
+                else: # No leaf nodes, we should just calculate the reward for the current node as a terminal state
+                    curr_node.Q = model.evaluate(curr_node.state) # NEW: only use model predictions for evaluation
+                    curr_node.updated = True
+                    print(f"Reward for current node: {curr_node.Q}")
+
+                # Backpropagation
+                print(f"\n--- Backpropagation {rollout_idx} ---")
+                if leaf_nodes:
+                    curr_node.backprop()
+                else:
+                    curr_node._parent.backprop()
+
+                # visualize and save the tree
+                os.makedirs(tree_save_dir, exist_ok=True)
+                root.visualize_tree(f"{tree_save_dir}/tree_{rollout_idx}")
+                print(f"Tree visualization saved as {tree_save_dir}/tree_{rollout_idx}.png")
+
+                # input(f"\nFinished round {rollout_idx}. Press Enter to continue...\n") # DEBUG
+
+            # Select the child node with the highest Q value and your next action
+            if not player_node._children:
+                print("\nPlayer node is a terminal node", player_node)
+                break
+            player_node = max(player_node._children, key=lambda node: (node.Q, node.visits, node.P))
+            num_actions += 1
+
+            print(f"\nnew player_node: \n{player_node}")
+
+        # visualize and save the tree
+        os.makedirs(tree_save_dir, exist_ok=True)
+        player_node.player_node = True
+        root.visualize_tree(f"{tree_save_dir}/tree_final")
+        print(f"Tree visualization saved as {tree_save_dir}/tree_final.png")
+
+        with open(f"{tree_save_dir}/time.txt", "w") as file:
+            file.write(f"Time taken: {time.time() - start_time:.2f} seconds")
+            
+
+        # Record predictions and log time
+        reward = calculate_reward(node, true_answer, root, model=model, tokenizer=tokenizer, MAX_TOKENS=MAX_TOKENS) # Calculate knowing true answer
+        if reward == 1:
+            correct_answers.append(game_number)
+        elif reward == -1:
+            incorrect_answers.append(game_number)
+        else:
+            blank_answers.append(game_number)
+
+        game_time.append(time.time() - start_time)
+
+
+        # Compute average game time and overall correct/blank/incorrect
+        average_game_time = sum(game_time) / len(game_time)
+        total = len(correct_answers) + len(incorrect_answers) + len(blank_answers)
+
+        metrics = {
+            "correct_answers": correct_answers,
+            "incorrect_answers": incorrect_answers,
+            "blank_answers": blank_answers,
+            "average_game_time": average_game_time,
+            "percent_correct": len(correct_answers) / total,
+            "percent_incorrect": len(incorrect_answers) / total,
+            "percent_blank": len(blank_answers) / total
+        }
+
+        # Save these metrics into metrics.json under trees_{SAVE_VERSION.replace('.', '_')}/
+        with open(f"{save_path}/validation_metrics.json", "w") as file:
+            json.dump(metrics, file, indent=4)
+
+        with open(f"{save_path}/validation_time.txt", "w") as file:
+            file.write(f"Time taken: {time.time() - validation_time_start:.2f} seconds")
+
+    plot_validation_metrics(SAVE_VERSION)
 
 
 # Record total time taken and completion
