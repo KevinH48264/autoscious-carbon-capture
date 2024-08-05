@@ -220,7 +220,7 @@ def generate_seqs_under_sim_threshold(model, tokenizer, prompt, similarity_thres
         new_tokens = []
         token_log_probs = []
 
-        similarity = 0
+        similarity = torch.tensor(0.0).to(model.device)
         while True and generated_tokens.shape[1] < MAX_TOKENS: # Only break if >= MAX_TOKENs, or if the generated tokens are different enough, or if the sequence is complete (end token or '')
             with torch.no_grad():
                 outputs = model.base_model.generate(
