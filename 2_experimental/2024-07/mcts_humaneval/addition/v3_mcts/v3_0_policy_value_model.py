@@ -30,16 +30,16 @@ class ValueHead(nn.Module):
 
 # Define the policy and value model class
 class AutoModelForCausalLMWithValueHead(nn.Module):
-    def __init__(self, model_name, tokenizer):
+    def __init__(self, model_name, tokenizer, device):
         super().__init__()
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = device
         self.tokenizer = tokenizer
 
         # Base model for policy generation
-        self.base_model = AutoModelForCausalLM.from_pretrained(model_name).to(self.device)
+        self.base_model = AutoModelForCausalLM.from_pretrained(model_name)
         self.base_model.generation_config = GenerationConfig.from_pretrained(model_name)
         self.base_model.generation_config.pad_token_id = self.base_model.generation_config.eos_token_id
-        self.base_model = get_peft_model(self.base_model, LoraConfig(task_type="CAUSAL_LM", r=20, lora_alpha=40, lora_dropout=0.05, bias="none")) # Integrate LoRA for training. Make sure to call merge_lora_weights(model.base_model) before inferencing. Can look at configs here too: https://www.kaggle.com/code/jatinsinghsagoi/aimo-24-finetune-deepseek-math
+        self.base_model = get_peft_model(self.base_model, LoraConfig(task_type="CAUSAL_LM", r=20, lora_alpha=40, lora_dropout=0.05, bias="none")).to(self.device) # Integrate LoRA for training. Call merge_lora_weights(model.base_model) once all training is complete before inferencing to not have to also hold LoRA layers and simplify the model for inference. # TODO: tunable hyperparameter
         self.base_model.print_trainable_parameters() # Print trainable parameters
 
         # Value head for policy evaluation
@@ -53,20 +53,25 @@ class AutoModelForCausalLMWithValueHead(nn.Module):
         if labels is not None: labels = labels.to(self.device)
         if state_values is not None: state_values = state_values.to(self.device).half() # for mixed precision training with deepspeed
 
-        # forward policy and value heads
-        outputs = self.base_model(input_ids=input_ids, attention_mask=attention_mask, output_hidden_states=True)
+        # forward policy head
+        outputs = self.base_model(input_ids=input_ids, attention_mask=attention_mask, output_hidden_states=True) # next token prediction for every token position
         logits = outputs.logits  # [batch_size, seq_len, vocab_size]
-        value_preds = self.value_head(outputs.hidden_states[-1]).half()  # [batch_size, seq_len, 1]
+
+        # forward value head on actual last token hidden states of the each sequence
+        hidden_states = outputs.hidden_states[-1]  # get last hidden state, [batch_size, seq_len, hidden_size]
+        actual_last_token_indices = attention_mask.sum(dim=1) - 1  # [batch_size] - indices of actual last tokens (1s for actual tokens in attention_mask)
+        last_token_hidden_states = hidden_states[torch.arange(hidden_states.size(0)), actual_last_token_indices]  # [batch_size, hidden_size] # Get the hidden states for the actual last tokens
+        value_preds = self.value_head(last_token_hidden_states).half().squeeze(-1)   # [batch_size] # Use last token representation for value prediction and remove the last dimension
 
         # compute loss
         total_loss, ce_loss, mse_loss = None, None, None
-        if labels is not None:
-            ce_loss = F.cross_entropy(logits.view(-1, logits.size(-1)), labels.view(-1), ignore_index=-100) # Cross-entropy loss for next token prediction
+        if labels is not None: # Compute loss only if labels / targets are provided
+            ce_loss = F.cross_entropy(logits.view(-1, logits.size(-1)), labels.view(-1), ignore_index=-100) # Cross-entropy loss for next token prediction. logits are reshaped to [batch_size*seq_len, vocab_size] and labels are reshaped to [batch_size*seq_len]
         if state_values is not None:
-            state_values_pred = value_preds[:, -1, :].squeeze(-1)  # [batch_size] # Use the state values at the last position for each sequence
-            mse_loss = F.mse_loss(state_values_pred, state_values) # Mean squared error loss for state value prediction
+            mse_loss = F.mse_loss(value_preds, state_values) # Mean squared error loss for state value prediction
+            mae_loss = F.l1_loss(value_preds, state_values) # Mean absolute error loss for state value prediction
 
-        # Combine losses
+        # Combine losses # TODO: tunable hyperparameter for weighting
         if ce_loss is not None and mse_loss is not None:
             total_loss = ce_loss + mse_loss
         elif ce_loss is None and mse_loss is not None:
@@ -74,15 +79,14 @@ class AutoModelForCausalLMWithValueHead(nn.Module):
         elif ce_loss is not None and mse_loss is None:
             total_loss = ce_loss
 
-        return logits, value_preds, total_loss, ce_loss, mse_loss
+        return logits, value_preds, total_loss, ce_loss, mse_loss, mae_loss
     
     def evaluate(self, state: str = ""):
         '''Essentially the forward reward function. Use for evaluation step (separate from policy step)'''
         with torch.no_grad():
             inputs = self.tokenizer(state, return_tensors="pt").to(self.device) # input_ids.shape = [1, seq_len]
             outputs = self.base_model.model(**inputs, output_hidden_states=True)
-            last_hidden_state = outputs.hidden_states[-1] # shape = [1, seq_len, hidden_size]
-            value = self.value_head(last_hidden_state) # shape = [1, seq_len, 1]
+            value = self.value_head(outputs.hidden_states[-1]) # shape = [1, seq_len, 1]
             return value[:, -1, :].item() # Return the value of the last token
         
 

@@ -4,6 +4,7 @@ Main Tree Search class and helper functions for MCTS self play
 
 import os
 from math import exp
+import subprocess
 import graphviz
 import pickle
 import numpy as np
@@ -66,11 +67,11 @@ class Node:
         node = self
         while node:
             # Update Q value as a weighted average of the Q values of the children based on the number of visits. visits + 1 because we have visited it, we just don't consider it a selected_visit
-            total_visits = sum((child.visits + 1) for child in node._children)
-            if total_visits > 0:
+            if node._children:
+                total_visits = sum((child.visits + 1) for child in node._children) # child.visits start off at 0 visits even though their Q value is already updated, so we add 1
                 node.Q = sum(child.Q * (child.visits + 1) for child in node._children) / total_visits         
             
-            node.updated = True  # Mark the node as updated for visualization purposes
+            node.updated = True  # Mark the node as updated Q value for visualization purposes
             node = node._parent
 
 
@@ -78,11 +79,6 @@ class Node:
         """
         Visualize the tree and save it as an PNG file.
         """
-        # dot = graphviz.Digraph(format='png')
-        # dot.attr(dpi=str(dpi))  # Set the resolution
-        # self._add_to_graph(dot)
-        # dot.render(filename, view=False)
-
         dot = graphviz.Digraph(format='png')
         dot.attr(dpi=str(dpi))
         dot.attr(rankdir='TB')  # Change layout direction to top-bottom
@@ -198,114 +194,104 @@ def p_ucb_select(parent_node: Node = None, child_nodes: list = []):
     for node in child_nodes:
         node.p_ucb = node.Q + beta * node.P * np.sqrt(np.log(parent_node.visits)) / (1 + node.visits) # we're not updating child node until it's selected, but its Q value has indeed been updated so we do + 1. parent_node was updated / selected though
     selected_node = max(child_nodes, key=lambda node: node.p_ucb)
-    selected_node.updated = True  # mark the selected node as updated for visualization purposes
 
     return selected_node
 
-# Function to get hidden states from the model. # TODO: can be made more efficient by getting hidden state, recording, then getting the output
+# Function to get hidden states from the model. 
 def get_hidden_states(inputs, model):
     with torch.no_grad():
         outputs = model.base_model(**inputs, output_hidden_states=True)
-    return outputs.hidden_states[-1]  # Return the last layer hidden states
+    return outputs.hidden_states[-1]  # Return the last layer hidden states # Shape: [batch_size, seq_len, hidden_size]
 
 # Function to calculate cosine similarity
 def cosine_similarity(a, b):
     return F.cosine_similarity(a.unsqueeze(0), b.unsqueeze(0), dim=-1)
 
-# Function to generate tokens until the sequence has a cosine similarity less than the threshold
-def generate_until_threshold(model, tokenizer, prompt, threshold, branching_factor, MAX_TOKENS):
+# Function to generate tokens until the sequence has a cosine similarity less than the similarity threshold (that are different enough in state)
+def generate_seqs_under_sim_threshold(model, tokenizer, prompt, similarity_threshold, branching_factor, MAX_TOKENS):
     inputs = tokenizer(prompt, return_tensors="pt").to(model.device) # inputs['input_ids'].shape = [1, seq_len]
-    prompt_hidden_states = get_hidden_states(inputs, model)[0] # shape = [seq_len, hidden_size]
+    parent_hidden_states = get_hidden_states(inputs, model)[0] # shape = [seq_len, hidden_size]
     
     generated_sequences = []
-    
-    for branch_i in range(branching_factor):
+    for branch_i in range(branching_factor): # try to generate up to branching_factor different child sequences
         print("\n\n- Generating child sequence", branch_i)
         generated_tokens = inputs['input_ids'].to(model.device)  # shape = [1, seq_len]
         attention_mask = inputs['attention_mask'].to(model.device) # [batch_size, batch_max_seq_len]
-        current_hidden_states = prompt_hidden_states # we use this for cosime similarity
         new_tokens = []
         token_log_probs = []
 
         similarity = 0
-        while True and generated_tokens.shape[1] <= MAX_TOKENS:
+        while True and generated_tokens.shape[1] < MAX_TOKENS: # Only break if >= MAX_TOKENs, or if the generated tokens are different enough, or if the sequence is complete (end token or '')
             with torch.no_grad():
                 outputs = model.base_model.generate(
-                    input_ids=generated_tokens,
+                    input_ids=generated_tokens, # tokenized
+                    attention_mask=attention_mask,
                     max_new_tokens=1,
                     do_sample=True,
                     temperature=1,
-                    num_return_sequences=1,
+                    num_return_sequences=1, 
                     output_scores=True,
-                    renormalize_logits=True,
-                    return_dict_in_generate=True,
-                    attention_mask=attention_mask
+                    renormalize_logits=True, # softmax of logits / probabilities will sum to 1
+                    return_dict_in_generate=True
                 )
-
             next_token = outputs.sequences[:, -1].unsqueeze(0)  # Get the last token
-            # End if it's the end of the sequence or empty token
-            if next_token.item() == model.base_model.generation_config.eos_token_id or tokenizer.decode([next_token.item()], skip_special_tokens=True) == '':
-                break
 
+            # Add the token to the generated sequence
             generated_tokens = torch.cat((generated_tokens, next_token), dim=1)
             attention_mask = torch.cat((attention_mask, torch.ones((attention_mask.shape[0], 1), device=attention_mask.device)), dim=1)
             new_tokens.append(next_token)
-            token_log_probs.append(outputs.scores[-1][0, next_token.item()].item())
+            token_log_probs.append(outputs.scores[-1][0, next_token.item()].item()) # get the -1 (last) token vocab probabilities, and then get the 0th return_sequence, and then the next_token.item() token's probability
 
-            extended_hidden_states = get_hidden_states({'input_ids': generated_tokens}, model)[0]
-            current_final_hidden_state = current_hidden_states[-1]
-            extended_final_hidden_state = extended_hidden_states[-1]
-            similarity = cosine_similarity(current_final_hidden_state, extended_final_hidden_state)
-
-            if similarity < threshold: # If the similarity is less than the threshold (different from prev state), break
+            if next_token.item() == model.base_model.generation_config.eos_token_id or tokenizer.decode([next_token.item()], skip_special_tokens=True) == '': # End if it's the end of the sequence or empty token
                 break
 
-            current_hidden_states = extended_hidden_states  # Update the current hidden states
+            # Calculate cosine similarity between the prompt hidden states and the extended hidden states using last token representation
+            child_hidden_states = get_hidden_states({'input_ids': generated_tokens}, model)[0]
+            similarity = cosine_similarity(parent_hidden_states[-1], child_hidden_states[-1]) # compare the last hidden states of the parent and child # TODO: tunable hyperparameter of 1) last token representation (current bc value head updates this) or 2) mean pooling
+            if similarity < similarity_threshold: # If the similarity is less than the similarity_threshold (different from prev state), break because the state is now different enough
+                break
+            # if too similar, continue generating tokens to expand the child state
 
-        if len(new_tokens) != 0:
+        if len(new_tokens) != 0: # If we generated tokens, add the sequence to the list
             generated_sequence = torch.cat(new_tokens, dim=1)
             avg_log_prob = sum(token_log_probs) / len(token_log_probs)  # Average log probability
             generated_sequences.append((generated_sequence, avg_log_prob))
 
-            print(f"Similarity: {similarity.item():4f}\nGenerated tokens: '{tokenizer.decode(generated_sequence.squeeze(), skip_special_tokens=True)}'")
+            print(f"Similarity with parent: {similarity.item():4f}\nGenerated tokens: '{tokenizer.decode(generated_sequence.squeeze(), skip_special_tokens=True)}'")
     
     return generated_sequences
 
-def expand_seq_node_children_only(curr_node: Node = None, branching_factor: int = 3, node_idx: int = 0, threshold: float = 0.35, model: AutoModelForCausalLMWithValueHead = None, tokenizer: AutoTokenizer = None, MAX_TOKENS: int = 0): # Cosine similarity threshold for generated tokens, 0.35 from testing what a "distinct" idea / sequence of tokens is. If above this threshold, we merge.
+def expand_seq_node_children_only(curr_node: Node = None, branching_factor: int = 3, node_idx: int = 0, similarity_threshold: float = 0.35, model: AutoModelForCausalLMWithValueHead = None, tokenizer: AutoTokenizer = None, MAX_TOKENS: int = 0): # Cosine similarity threshold for generated tokens, 0.35 from testing what a "distinct" idea / sequence of tokens is. If above this similarity threshold, we merge because they're too similar.
 
     # Generate branching_factor next tokens
     prompt = curr_node.state
-    print("Threshold: ", threshold)
+    print("Similarity threshold to merge: ", similarity_threshold)
     print("Prompt: ", prompt)
-    generated_sequences = generate_until_threshold(model, tokenizer, prompt, threshold, branching_factor, MAX_TOKENS)
+    generated_sequences = generate_seqs_under_sim_threshold(model, tokenizer, prompt, similarity_threshold, branching_factor, MAX_TOKENS) # Generate tokens until the sequence has 1) a cosine similarity less than the similarity threshold (or 2) different enough or complete or 3) too long)
 
     # Create nodes for each generated token
     parent_node = curr_node
     child_nodes = []
-
     print("\n\n--- Printing full generated sequences ---")
     for idx, (generated_sequence, avg_log_prob) in enumerate(generated_sequences):
         generated_tokens = tokenizer.decode(generated_sequence.squeeze(), skip_special_tokens=True)
         new_state = parent_node.state + generated_tokens
         print(f"\nGenerated sequence: {idx}\n'{new_state}'")
 
-        # Check cosine similarity with other child nodes
+        # Check cosine similarity with other child nodes to make sure it's different enough from other child nodes
         add_node = True
-        for existing_node in child_nodes:
-            existing_hidden_states = get_hidden_states(tokenizer(existing_node.state, return_tensors="pt").to(model.device), model)[0]
-            new_hidden_states = get_hidden_states(tokenizer(new_state, return_tensors="pt").to(model.device), model)[0]
-
-            existing_final_hidden_state = existing_hidden_states[-1]
-            new_final_hidden_state = new_hidden_states[-1]
-
-            similarity = cosine_similarity(existing_final_hidden_state, new_final_hidden_state)
-            if similarity >= threshold: # If the similarity is less than the threshold (different enough), add the node
+        for existing_child_node in child_nodes:
+            existing_child_hidden_states = get_hidden_states(tokenizer(existing_child_node.state, return_tensors="pt").to(model.device), model)[0, -1, :] # get the first batch, last token hidden state representation
+            new_child_hidden_states = get_hidden_states(tokenizer(new_state, return_tensors="pt").to(model.device), model)[0, -1, :]
+            similarity = cosine_similarity(existing_child_hidden_states, new_child_hidden_states)
+            
+            if not (similarity < similarity_threshold): # If the similarity is not different enough, do not add the node as a new child
                 add_node = False
                 break
         if not add_node:
-            continue
+            continue # skip adding this child
 
-        # Create a new node
+        # Create a new child node
         new_node = Node(
             id=f"{str(node_idx)}",
             prob=avg_log_prob,
@@ -321,37 +307,59 @@ def expand_seq_node_children_only(curr_node: Node = None, branching_factor: int 
 
     return child_nodes, node_idx
 
-# def llm_generate(prompt: str = "", model: AutoModelForCausalLMWithValueHead = None, tokenizer: AutoTokenizer = None):
-#     '''Greedy decoding from the prompt. Returns the generated text.'''
-#     inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
-#     outputs = model.generate(input_ids = inputs['input_ids'], 
-#                              max_new_tokens=256, # 1024 > 30s, 256 ~ 10s
-#                              top_k=1, 
-#                              do_sample=True) # Greedy decoding
-#     result = tokenizer.decode(outputs[0], skip_special_tokens=True)
-#     return result
+def check_if_terminal(node: Node = None, root: Node = None, model: AutoModelForCausalLMWithValueHead = None, tokenizer: AutoTokenizer = None, MAX_TOKENS: int = 0):
+    '''
+    Terminal node criteria: 
+        1) tokenizer(node.state) >= MAX_TOKENs
+        2) if last_token.item() == model.base_model.generation_config.eos_token_id or tokenizer.decode([last_token.item()], skip_special_tokens=True) == ''
+        3) if it contains a submission (boxed)
+    '''
+    # Criteria 1
+    if len(tokenizer(node.state, return_tensors="pt")['input_ids'][0]) >= MAX_TOKENS:
+        print("Terminal node: max tokens")
+        print(node)
+        return True
+    
+    # Criteria 2
+    last_token = tokenizer(node.state, return_tensors="pt")['input_ids'][0, -1]
+    if last_token.item() == model.base_model.generation_config.eos_token_id or tokenizer.decode([last_token.item()], skip_special_tokens=True) == '':
+        print("Terminal node: EOS token or empty token")
+        print(node)
+        return True
+    
+    # Criteria 3
+    match = re.search(r'\\boxed\{(\d+)\}', node.state[len(root.state):])
+    if match:
+        print("Terminal node: submission")
+        print(node)
+        return True
+
+    return False    
 
 
-def calculate_reward(node: Node = None, true_answer: str = "", root: Node = None, terminal: bool = False, model: AutoModelForCausalLMWithValueHead = None, tokenizer: AutoTokenizer = None, MAX_TOKENS: int = 0):
-    '''Calculate the reward for the generated solution. Returns -1 for incorrect submission, 0 for no submission, 1 for correct submission.'''
-
-    solution = node.state
-    match = re.search(r'\\boxed\{(\d+)\}', solution[len(root.state):]) # If terminal node, return ground truth reward
-    if match or terminal:
-        node.is_terminal = True # for visualization purposes
+def evaluate_state(node: Node = None, true_answer: str = "", root: Node = None, model: AutoModelForCausalLMWithValueHead = None):
+    '''Calculate the reward for the generated solution. 
+    
+    If terminal: Returns -1 for incorrect submission, 0 for no submission, 1 for correct submission.
+    
+    If not terminal: Returns the value head prediction.
+'''    
+    # If node.is_terminal, evaluate the solution according to true answer
+    if node.is_terminal:
+        match = re.search(r'\\boxed\{(\d+)\}', node.state[len(root.state):])
         if match:
             if match.group(1) == true_answer:
                 return 1
             else:
                 return -1
-    if MAX_TOKENS <= len(tokenizer(solution, return_tensors="pt")['input_ids'][0]): # If the solution is too long, return 0
-        return 0
-        
+        else:
+            return 0 # No answer
+    
     # If not terminal, evaluate the solution using the value head
-    return model.evaluate(solution) # Expansion should include a value head prediction
+    return model.evaluate(node.state) # Expansion should include a value head prediction
 
 def generate_problem(num_digits=-1):
-    '''Generate a random addition problem.'''
+    '''Generate a random addition problem. Currently chooses a random digit problem from 1 - 100'''
     if num_digits == -1:
         index = random.randint(1, 100)
     else:
@@ -362,17 +370,10 @@ def generate_problem(num_digits=-1):
     true_answer = a + b
     return prompt, str(true_answer)
 
-def collect_training_examples(root, tokenizer, output_file):
+def collect_training_examples(root: Node = None, output_file: str = ""):
     examples = []
-    
-    def get_generated_sequences(node):
-        """Collect the generated sequences for the node's children."""
-        sequences = []
-        for child in node._children:
-            sequences.append(child.token)
-        return sequences
 
-    def bfs_collect(node):
+    def bfs_collect(node: Node = None):
         """Use BFS to traverse the tree and collect training examples.
         
         Desired format: 
@@ -387,7 +388,6 @@ def collect_training_examples(root, tokenizer, output_file):
         while queue:
             current_node = queue.popleft()
             if current_node._parent:  # if it's not a root node
-                # generated_sequences = get_generated_sequences(current_node)
                 for _ in range(current_node.visits):
                     example = {
                         "state": current_node.state[:-len(current_node.token)], # state before token was generated
@@ -408,12 +408,12 @@ def collect_training_examples(root, tokenizer, output_file):
 
     print(f"Training examples saved to {output_file}")
 
-def get_latest_game_index(save_version):
-    if not os.path.exists(f"{save_version}/latest"):
-        with open(f"{save_version}/latest", "w") as file:
+def get_latest_game_index(save_dir):
+    if not os.path.exists(f"{save_dir}/latest"):
+        with open(f"{save_dir}/latest", "w") as file:
             file.write("0") # initial game index = 0
 
-    with open(f"{save_version}/latest", "r") as file:
+    with open(f"{save_dir}/latest", "r") as file:
         latest_game_index = file.read().strip()
     return latest_game_index
     
@@ -443,3 +443,19 @@ def make_datasets(save_version):
         json.dump(all_examples[split_index:], file, indent=4)
 
     return latest_games_dir, latest_game_index
+
+def get_available_gpu(threshold=1000):
+    '''# Function to find the next available GPU with less than 1GB usage'''
+    try:
+        result = subprocess.check_output(
+            ['nvidia-smi', '--query-gpu=memory.used', '--format=csv,nounits,noheader']
+        ).decode('utf-8')
+        gpu_memory = [int(x) for x in result.strip().split('\n')]
+        available_gpus = [i for i, mem in enumerate(gpu_memory) if mem < threshold]
+        if available_gpus:
+            return available_gpus[0]
+        else:
+            return None
+    except Exception as e:
+        print(f"Error getting GPU memory usage: {e}")
+        return None

@@ -30,11 +30,11 @@ class PolicyValueDataset(Dataset):
         parent_state = self.data[idx]['state']
         child_token_seq = self.data[idx]['generated_sequence']
         q = self.data[idx]['value']
-        input_ids = self.tokenizer(parent_state + child_token_seq, return_tensors='pt', padding=False, add_special_tokens=True) # Tokenize parent_state + child_token_seq for next token prediction # include BOS for deepseekmath
+        input_ids = self.tokenizer(parent_state + child_token_seq, return_tensors='pt', padding=False, add_special_tokens=True) # Tokenize parent_state + child_token_seq for next token prediction for every token position # include special token BOS for deepseekmath
         
         # Tokenize parent_state and child_token_seq separately to get their lengths
         child_length = self.tokenizer(child_token_seq, return_tensors='pt', padding=False, add_special_tokens=True)['input_ids'].size(1) - 1 # exclude BOS
-        labels = -100 * torch.ones_like(input_ids['input_ids'])
+        labels = -100 * torch.ones_like(input_ids['input_ids']) # labels = target predictions. -100 for ignoring during loss calculation
         labels[0, -child_length-1:-1] = input_ids['input_ids'][0, -child_length:] # Copy the child_token_seq to labels, shifted by 1 to the left
 
         return input_ids, labels, q
@@ -70,12 +70,12 @@ def get_latest_game_index(save_version):
         latest_game_index = file.read().strip()
     return latest_game_index
     
-def make_datasets(save_version):
-    latest_game_index = get_latest_game_index(save_version)
+def make_datasets(save_dir):
+    latest_game_index = get_latest_game_index(save_dir)
 
     # define directories
-    latest_games_dir = f"{save_version}/{latest_game_index}_self_play"
-    curr_training_dir = f"{save_version}/{latest_game_index}_training"
+    latest_games_dir = f"{save_dir}/{latest_game_index}_self_play"
+    curr_training_dir = f"{save_dir}/{latest_game_index}_training"
     os.makedirs(curr_training_dir, exist_ok=True)
 
     # collect all examples from the latest self-play game
