@@ -1,0 +1,24 @@
+digraph {
+	node [height=2 shape=record width=2]
+	dpi=300
+	rankdir=TB
+	nodesep=0.5
+	ranksep=1
+	0 [label="{ id 0 | token '9069 + 8618 = ?\nPlease reason step by step, and\nput your final answer within \\boxed\{\}.' | Q -0.9961 | p_ucb 0.0000 | visits 2 | P 1.0000 }" shape=record]
+	1 [label="{ id 1 | token '\nTo' | Q -0.9961 | p_ucb 2.5942 | visits 3 | P 0.9636 }" shape=record]
+	0 -> 1
+	2 [label="{ id 2 | token ' solve this problem, we need to add the two\nnumbers together. The numbers are 9069 and' | Q -0.9961 | p_ucb 1.2246 | visits 4 | P 0.9780 }" shape=record]
+	1 -> 2
+	3 [label="{ id 3 | token '8618.\n\nLet' | Q -0.9961 | p_ucb 0.7185 | visits 5 | P 0.9917 }" shape=record]
+	2 -> 3
+	4 [label="{ id 4 | token ''' | Q -0.9961 | p_ucb 0.4215 | visits 4 | P 0.9999 }" fillcolor=lightgreen shape=record style="filled,bold"]
+	3 -> 4
+	subgraph cluster_legend {
+		node [fontsize=14 height=0.75 shape=record width=1.5]
+		fontname=Helvetica fontsize=16 label=Legend
+		updated [label="Updated Q / P-UCB" fillcolor=lightgrey shape=record style="filled,bold"]
+		terminal [label="Terminal / True Reward" fillcolor=lightcoral shape=record style="filled,bold"]
+		selected [label="Selected from MCTS Selection" fillcolor=lightblue shape=record style="filled,bold"]
+		player [label="Player Node / Current State" fillcolor=lightgreen shape=record style="filled,bold"]
+	}
+}

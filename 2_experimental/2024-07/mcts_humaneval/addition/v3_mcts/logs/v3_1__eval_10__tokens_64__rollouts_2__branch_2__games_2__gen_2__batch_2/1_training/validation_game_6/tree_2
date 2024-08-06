@@ -1,0 +1,22 @@
+digraph {
+	node [height=2 shape=record width=2]
+	dpi=300
+	rankdir=TB
+	nodesep=0.5
+	ranksep=1
+	0 [label="{ id 0 | token '8536882 + 8763781 = ?\nPlease reason step by step,\nand put your final answer within \\boxed\{\}.' | Q -0.8985 | p_ucb 0.0000 | visits 2 | P 1.0000 }" fillcolor=lightgrey shape=record style="filled,bold"]
+	1 [label="{ id 1 | token '\nTo solve this' | Q -0.8985 | p_ucb 1.9770 | visits 2 | P 0.8313 }" fillcolor=lightgreen shape=record style="filled,bold"]
+	0 -> 1
+	2 [label="{ id 2 | token ' problem, we need to add the two given numbers: 85' | Q -0.8985 | p_ucb 2.4341 | visits 1 | P 0.7675 }" fillcolor=lightblue shape=record style="filled,bold"]
+	1 -> 2
+	3 [label="{ id 3 | token '36882 and ' | Q -0.8985 | p_ucb 0.0000 | visits 0 | P 0.9995 }" fillcolor=lightgrey shape=record style="filled,bold"]
+	2 -> 3
+	subgraph cluster_legend {
+		node [fontsize=14 height=0.75 shape=record width=1.5]
+		fontname=Helvetica fontsize=16 label=Legend
+		updated [label="Updated Q / P-UCB" fillcolor=lightgrey shape=record style="filled,bold"]
+		terminal [label="Terminal / True Reward" fillcolor=lightcoral shape=record style="filled,bold"]
+		selected [label="Selected from MCTS Selection" fillcolor=lightblue shape=record style="filled,bold"]
+		player [label="Player Node / Current State" fillcolor=lightgreen shape=record style="filled,bold"]
+	}
+}

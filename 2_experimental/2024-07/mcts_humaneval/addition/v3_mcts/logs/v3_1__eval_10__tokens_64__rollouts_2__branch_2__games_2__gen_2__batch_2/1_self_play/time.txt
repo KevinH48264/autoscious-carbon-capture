@@ -1,0 +1,1 @@
+Time taken: 71.41 seconds = 1.19 minutes = 0.02 hours

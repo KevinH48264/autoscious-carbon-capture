@@ -1,0 +1,26 @@
+digraph {
+	node [height=2 shape=record width=2]
+	dpi=300
+	rankdir=TB
+	nodesep=0.5
+	ranksep=1
+	0 [label="{ id 0 | token '2 + 7 = ?\nPlease reason step by step, and put\nyour final answer within \\boxed\{\}.' | Q 0.0000 | p_ucb 0.0000 | visits 2 | P 1.0000 }" fillcolor=lightgrey shape=record style="filled,bold"]
+	1 [label="{ id 1 | token '\nTo solve this problem, we need to add the two' | Q 0.0000 | p_ucb 2.4918 | visits 3 | P 0.9692 }" fillcolor=lightgrey shape=record style="filled,bold"]
+	0 -> 1
+	2 [label="{ id 2 | token ' numbers together. The numbers are 2 and ' | Q 0.0000 | p_ucb 1.5311 | visits 4 | P 0.9621 }" fillcolor=lightgrey shape=record style="filled,bold"]
+	1 -> 2
+	3 [label="{ id 3 | token '7.\n\nLet' | Q 0.0000 | p_ucb 1.6997 | visits 4 | P 0.9830 }" fillcolor=lightgreen shape=record style="filled,bold"]
+	2 -> 3
+	4 [label="{ id 4 | token ''s add them:\n' | Q 0.0000 | p_ucb 1.7183 | visits 3 | P 0.9938 }" fillcolor=lightgrey shape=record style="filled,bold"]
+	3 -> 4
+	5 [label="{ id 5 | token '\n2 + 7 = ' | Q 0.0000 | p_ucb 2.2568 | visits 2 | P 0.9930 }" fillcolor=lightblue shape=record style="filled,bold"]
+	4 -> 5
+	subgraph cluster_legend {
+		node [fontsize=14 height=0.75 shape=record width=1.5]
+		fontname=Helvetica fontsize=16 label=Legend
+		updated [label="Updated Q / P-UCB" fillcolor=lightgrey shape=record style="filled,bold"]
+		terminal [label="Terminal / True Reward" fillcolor=lightcoral shape=record style="filled,bold"]
+		selected [label="Selected from MCTS Selection" fillcolor=lightblue shape=record style="filled,bold"]
+		player [label="Player Node / Current State" fillcolor=lightgreen shape=record style="filled,bold"]
+	}
+}

@@ -1,0 +1,1 @@
+Total time taken to complete 2 model generations: 724.55 seconds = 12.08 minutes = 0.20 hours

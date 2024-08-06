@@ -1,0 +1,18 @@
+digraph {
+	node [height=2 shape=record width=2]
+	dpi=300
+	rankdir=TB
+	nodesep=0.5
+	ranksep=1
+	0 [label="{ id 0 | token '617726 + 178141 = ?\nPlease reason step by step,\nand put your final answer within \\boxed\{\}.' | Q -0.9439 | p_ucb 0.0000 | visits 1 | P 1.0000 }" fillcolor=lightgreen shape=record style="filled,bold"]
+	1 [label="{ id 1 | token '\nTo solve this' | Q -0.9439 | p_ucb 0.0000 | visits 0 | P 0.8986 }" fillcolor=lightgrey shape=record style="filled,bold"]
+	0 -> 1
+	subgraph cluster_legend {
+		node [fontsize=14 height=0.75 shape=record width=1.5]
+		fontname=Helvetica fontsize=16 label=Legend
+		updated [label="Updated Q / P-UCB" fillcolor=lightgrey shape=record style="filled,bold"]
+		terminal [label="Terminal / True Reward" fillcolor=lightcoral shape=record style="filled,bold"]
+		selected [label="Selected from MCTS Selection" fillcolor=lightblue shape=record style="filled,bold"]
+		player [label="Player Node / Current State" fillcolor=lightgreen shape=record style="filled,bold"]
+	}
+}

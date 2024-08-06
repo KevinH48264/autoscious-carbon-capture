@@ -1,0 +1,82 @@
+[
+  {
+    "state": "2 + 1 = ?\nPlease reason step by step, and put your final answer within \\boxed{}.",
+    "generated_sequence": "\nTo solve this problem, we need to add the",
+    "value": 0.0
+  },
+  {
+    "state": "2 + 1 = ?\nPlease reason step by step, and put your final answer within \\boxed{}.",
+    "generated_sequence": "\nTo solve this problem, we need to add the",
+    "value": 0.0
+  },
+  {
+    "state": "2 + 1 = ?\nPlease reason step by step, and put your final answer within \\boxed{}.",
+    "generated_sequence": "\nTo solve this problem, we need to add the",
+    "value": 0.0
+  },
+  {
+    "state": "2 + 1 = ?\nPlease reason step by step, and put your final answer within \\boxed{}.\nTo solve this problem, we need to add the",
+    "generated_sequence": " numbers together.\n\nThe equation is $2 + ",
+    "value": 0.0
+  },
+  {
+    "state": "2 + 1 = ?\nPlease reason step by step, and put your final answer within \\boxed{}.\nTo solve this problem, we need to add the",
+    "generated_sequence": " numbers together.\n\nThe equation is $2 + ",
+    "value": 0.0
+  },
+  {
+    "state": "2 + 1 = ?\nPlease reason step by step, and put your final answer within \\boxed{}.\nTo solve this problem, we need to add the",
+    "generated_sequence": " numbers together.\n\nThe equation is $2 + ",
+    "value": 0.0
+  },
+  {
+    "state": "2 + 1 = ?\nPlease reason step by step, and put your final answer within \\boxed{}.\nTo solve this problem, we need to add the",
+    "generated_sequence": " numbers together.\n\nThe equation is $2 + ",
+    "value": 0.0
+  },
+  {
+    "state": "2 + 1 = ?\nPlease reason step by step, and put your final answer within \\boxed{}.\nTo solve this problem, we need to add the numbers together.\n\nThe equation is $2 + ",
+    "generated_sequence": "1$.",
+    "value": 0.0
+  },
+  {
+    "state": "2 + 1 = ?\nPlease reason step by step, and put your final answer within \\boxed{}.\nTo solve this problem, we need to add the numbers together.\n\nThe equation is $2 + ",
+    "generated_sequence": "1$.",
+    "value": 0.0
+  },
+  {
+    "state": "2 + 1 = ?\nPlease reason step by step, and put your final answer within \\boxed{}.\nTo solve this problem, we need to add the numbers together.\n\nThe equation is $2 + ",
+    "generated_sequence": "1$.",
+    "value": 0.0
+  },
+  {
+    "state": "2 + 1 = ?\nPlease reason step by step, and put your final answer within \\boxed{}.\nTo solve this problem, we need to add the numbers together.\n\nThe equation is $2 + ",
+    "generated_sequence": "1$.",
+    "value": 0.0
+  },
+  {
+    "state": "2 + 1 = ?\nPlease reason step by step, and put your final answer within \\boxed{}.\nTo solve this problem, we need to add the numbers together.\n\nThe equation is $2 + ",
+    "generated_sequence": "1$.",
+    "value": 0.0
+  },
+  {
+    "state": "2 + 1 = ?\nPlease reason step by step, and put your final answer within \\boxed{}.\nTo solve this problem, we need to add the numbers together.\n\nThe equation is $2 + 1$.",
+    "generated_sequence": "\n\nDoing the addition, we get $3$.\n\nSo,",
+    "value": 0
+  },
+  {
+    "state": "2 + 1 = ?\nPlease reason step by step, and put your final answer within \\boxed{}.\nTo solve this problem, we need to add the numbers together.\n\nThe equation is $2 + 1$.",
+    "generated_sequence": "\n\nDoing the addition, we get $3$.\n\nSo,",
+    "value": 0
+  },
+  {
+    "state": "2 + 1 = ?\nPlease reason step by step, and put your final answer within \\boxed{}.\nTo solve this problem, we need to add the numbers together.\n\nThe equation is $2 + 1$.",
+    "generated_sequence": "\n\nDoing the addition, we get $3$.\n\nSo,",
+    "value": 0
+  },
+  {
+    "state": "2 + 1 = ?\nPlease reason step by step, and put your final answer within \\boxed{}.\nTo solve this problem, we need to add the numbers together.\n\nThe equation is $2 + 1$.",
+    "generated_sequence": "\n\nDoing the addition, we get $3$.\n\nSo,",
+    "value": 0
+  }
+]
