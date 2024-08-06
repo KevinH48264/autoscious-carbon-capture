@@ -1,1 +1,0 @@
-Time taken: 235.66 seconds = 3.93 minutes = 0.07 hours

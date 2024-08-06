@@ -1,1 +1,0 @@
-Time taken: 240.33 seconds = 4.01 minutes = 0.07 hours

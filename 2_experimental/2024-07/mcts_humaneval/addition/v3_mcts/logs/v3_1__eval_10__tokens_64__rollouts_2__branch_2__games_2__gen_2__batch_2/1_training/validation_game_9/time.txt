@@ -1,1 +1,0 @@
-Time taken: 376.77 seconds = 6.28 minutes = 0.10 hours

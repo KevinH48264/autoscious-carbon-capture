@@ -1,1 +1,0 @@
-Time taken: 263.44 seconds = 4.39 minutes = 0.07 hours

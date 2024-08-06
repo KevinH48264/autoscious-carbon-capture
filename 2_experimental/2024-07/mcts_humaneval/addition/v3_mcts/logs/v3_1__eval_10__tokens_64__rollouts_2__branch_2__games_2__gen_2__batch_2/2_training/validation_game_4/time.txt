@@ -1,1 +1,0 @@
-Time taken: 205.43 seconds = 3.42 minutes = 0.06 hours

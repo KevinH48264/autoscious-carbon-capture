@@ -1,1 +1,0 @@
-Time taken: 38.95 seconds = 0.65 minutes = 0.01 hours

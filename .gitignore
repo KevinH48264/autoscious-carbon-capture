@@ -182,3 +182,4 @@ cors.json
 2_experimental/2024-07/mcts_humaneval/.env
 2_experimental/2024-07/mcts_humaneval/llm-mcts
 2_experimental/2024-07/Super_MARIO
+2_experimental/2024-07/mcts_humaneval/addition/v3_mcts/logs/*

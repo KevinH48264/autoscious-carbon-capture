@@ -1,1 +1,0 @@
-Time taken: 70.04 seconds = 1.17 minutes = 0.02 hours

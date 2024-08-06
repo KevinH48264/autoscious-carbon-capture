@@ -1,5 +1,0 @@
-Evaluations are for first 10 digits only for now.
-Initial checkpoint path: ./v2_012_value_head_training_v2.011__50_epochs__80000_train_20000_val__5e-4_lr__1e-4_wd__32_batch_size__8_gpus/model_checkpoint_30.pt
-Self-play Games Generation: 1 - Number of digits: 1
-
-Self-play Games Generation: 2 - Number of digits: 1

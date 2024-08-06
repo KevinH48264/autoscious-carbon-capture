@@ -1,1 +1,0 @@
-Time taken: 193.65 seconds = 3.23 minutes = 0.05 hours
